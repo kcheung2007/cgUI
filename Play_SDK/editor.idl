@@ -1,0 +1,129 @@
+/*===========================================================================*\
+||                                                                           ||
+||  Copyright 1995 by Play Incorporated                                      ||
+||  PLAY CONFIDENTIAL                                                        ||
+||                                                                           ||
+||  All Specifications subject to change.                                    ||
+||                                                                           ||
+||  FILE:           EDITOR.IDL                                               ||
+||                                                                           ||
+||  DESCRIPTION:    Interface description for API used in the Trinity editor ||
+||                                                                           ||
+||  INTERFACES:     IEditorTape                                              ||
+||                  IValidSegmentList                                        ||
+||                  IPlayEditorApp                                           ||
+||                  IPlayEditorInterface                                     ||
+||                                                                           ||
+||  MODIFICATIONS:  8/20/96     T.Sprague       created                      ||
+\*===========================================================================*/
+
+interface IPlayPanel;
+cpp_quote( "interface IPlayPanel;" )
+
+interface IEditorDevice;
+cpp_quote( "interface IEditorDevice;" )
+
+interface IPlayProperties;
+cpp_quote( "interface IPlayProperties;" )
+
+import "gxlate.idl";
+import "unknwn.idl";
+import "wtypes.idl";
+
+// interface for a tape in the editor
+[
+    local,
+    object,
+    uuid(8335e628-ab3b-11ce-8468-0000b468276b)
+]    
+interface IEditorTape : IUnknown
+{
+    // Add controls to a panel to edit this set of properties
+    HRESULT AddEditControls( IPlayPanel *pPanel );
+
+    // have the tape show a properties page in the given window
+    HRESULT GetProperties( IPlayProperties **ppProps );
+
+    // get a copy of this tape's name
+    HRESULT GetName( LPSTR pszName, DWORD dwMaxChars );
+
+    // get the tape's ID, which is basically the index 
+    // into the year of the nearest 10 milliseconds 
+    // when the tape was created.
+    HRESULT SetColor( DWORD color );
+    
+    // get the tape's Color, which is randomly generated to be
+    // a particular avg brightness
+    DWORD GetColor();
+    
+    // to set whether or not the tape is recordable.
+    HRESULT EnableRecord( BOOL bEnable );
+
+    // Return TRUE if given tape has been set as "Recordable"
+    BOOL IsRecordable();
+
+    // Set the name of the tape
+    HRESULT SetName( [in,string] LPSTR pszName );
+
+    // ... other functions may include selecting
+    // the tape, so it can copy its color corrector
+    // settings, etc. to the trinity system.
+}
+
+// interface for the editor itself
+[
+    local,
+    object,
+    uuid(8335e62b-ab3b-11ce-8468-0000b468276b)
+]    
+interface IPlayEditorApp : IUnknown
+{
+    // initialize the editor.  Optionally create the UI
+    HRESULT Initialize( BOOL bCreateUserInterface );
+
+    // if Init returns error, this function may return
+    // more info as string error.
+    HRESULT GetErrorText( LPSTR pszText, long lBufSize );
+
+}
+
+// interface for the editor interface
+[
+    local,
+    object,
+    uuid(8335e62c-ab3b-11ce-8468-0000b468276b)
+]    
+interface IPlayEditorInterface : IUnknown
+{
+    // Set the Timecode position to be shown for current VTR (frames)
+    HRESULT ShowPosition( [in,out] IEditorDevice *pDev, [in] DWORD dwTime );
+
+    // Set the Timecode in-point to be shown for current VTR (frames)
+    HRESULT ShowInPoint( [in] DWORD dwTime );
+
+    // Set the Timecode out-point to be shown for current VTR (frames)
+    HRESULT ShowOutPoint( [in] DWORD dwTime );
+
+    // Set the Timecode duration to be shown for current VTR (frames)
+    HRESULT ShowDuration( [in] DWORD dwDur );
+
+    // Set the tape name displayed 
+    HRESULT ShowTapeName( LPSTR pszName );
+
+    // Enable/disable the interface
+    HRESULT EnableInterface( BOOL bEnable );
+
+    // Show tbar at given position within given range
+    HRESULT ShowTBarPosition( DWORD field, DWORD scale );
+
+    // Show given values and corresponding color swatch
+    HRESULT ShowColorSettings( int iC1, int iC2, int iC3 );
+
+    // Show picon for effect.  the HRESULT passed in is intended
+    // to let this show errors also. 
+    // some special combos: NULL, S_FALSE : show that we're currently loading 
+    //                      NULL, S_OK    : Effect loaded but has no picon
+    //                      xxxx, FAILED(): effect failed to load, shows red square
+    HRESULT SetEffectPicon( SPlayBitMap *pPBM, HRESULT hr );
+
+}

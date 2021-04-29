@@ -1,0 +1,501 @@
+/*===========================================================================*\
+||                                                                           ||
+||  Copyright 1995 by Play Incorporated                                      ||
+||  PLAY CONFIDENTIAL                                                        ||
+||                                                                           ||
+||  All Specifications subject to change.                                    ||
+||                                                                           ||
+||  FILE:           PLYCTL.IDL                                               ||
+||                                                                           ||
+||  DESCRIPTION:    Interface description for API common to all Play UI      ||
+||                  controls within UI Control library, plus a popup list    ||
+||                                                                           ||
+||  INTERFACES:     IPlayControl                                             ||
+||                  IPlayPopup                                               ||
+||                                                                           ||
+||  MODIFICATIONS:  9/26/95     T.Sprague       created                      ||
+||                  10/9/95     T.Sprague       added APIs                   ||
+||                  10/12/95    T.Sprague       added Repaint(), more flags  ||
+||                                              removed SetTextFont          ||
+||                  10/30/95    T.Sprague       added IPlayPopup             ||
+\*===========================================================================*/
+
+[
+    local,
+    object,
+    uuid(8335e421-ab3b-11ce-8468-0000b468276b)
+]
+interface IPlayControl : IUnknown
+{
+    import "unknwn.idl";
+    import "wtypes.idl";
+    import "pcadvs.idl";
+    import "gxlate.idl";
+
+    // tell this control what modifications to make to other controls
+    // when this one's value is changed.  eg, might link a slider to
+    // a timecode box so the timecode changes as the slider is moved.
+    // It is passed a pointer to an IPlayControl, and the flags 
+    // indicate the type of link.  DOESN'T check for invalid link types
+    // PCLINK_TURNOFF - used to turn off other controls in a group of mutual
+    //                  excludes.  These links may go in a loop without fear.
+    // PCLINK_TURNON - used to turn on other controls.. Could turn on one in 
+    //                  a group of mutual excludes, and the others would be
+    //                  turned off automatically (assuming they use PCLINK_TURNOFF
+    //                  amongst themselves)
+    // PCLINK_TOGGLE -  toggle the state of the specified control
+    // PCLINK_INCREMENT - increment the value of the link control
+    // PCLINK_DECREMENT - decrement  "    "    "  "    "      "
+    // PCLINK_COPYVALUE - copy the value of this control to the link control
+    // PCLINK_INVERTCOPY - for linking two sliders.  their values will
+    //                      complement each other; one goes up the other down.
+    HRESULT SetLinkCtrl( IPlayControl *ptcLinkCtrl, DWORD dwLinkType );
+
+    // set various aspects of the control's operation
+    // here is where expandability can be put in later 
+    // without changing the API.  NULLs in the value pointer
+    // field will be interpreted as OFF or FALSE.
+    //
+    // Some attributes where one actually passes a pointer cast to a DWORD:
+    //
+    //   PCATTR_FONT_NAME - the ASCII name of the font (LPSTR)
+    //   PCATTR_TEXT - set the text associated with the control.  NULL means clear it of text. 
+    //                 (LPSTR)
+    //   PCATTR_HOME_PANEL - the panel to call home.  this should only be set by the panel itself, 
+    //                        control doesn't AddRef the panel.  (IPlayPanel*)
+    //   PCATTR_ECCENTRICITY - the eccentricity used to render either the ends of a pill-shaped
+    //                          control, or the whole control for elliptical.  the DWORD*
+    //                          is really a cast from a (double*)
+    //   PCATTR_FRACTAL_GRAIN - the "graininess" of the fractal used in the handle of the control.  It's
+    //                          really a (double*), should be greater than 0.0.
+    //
+    // Some attributes where the DWORD passed is truly the value of the attribute.
+    //
+    //   PCATTR_CLR_TXT_NORMAL - color of ctrl's text in inactive state
+    //   PCATTR_CLR_TXT_ACTIVE -   "    "   "      "   "  active    "
+    //   PCATTR_FONT_SIZE - the pixel height of the font
+    //   PCATTR_FONT_STYLE - (FSTY_BOLD | FSTY_ITALIC | FSTY_UNDERLINE)
+    //   PCATTR_BTN_TOGGLE - tell a button to be a toggle (or not)
+    //   PCATTR_BTN_MUEX - tell a button to be a mutual exclude (ie, 
+    //                      it's a toggle that can't be turned off with a button 
+    //                      click.  can only be turned off by PCLINK_TURNOFF links
+    //                      from other controls)
+    //   PCATTR_MESSAGES - tell when windows message should be sent.  OR the PCMSG_ 
+    //                     values listed in UICLIB.H together.
+    //   PCATTR_POT_MAX - maximum value for sliders or knobs (signed long)
+    //   PCATTR_POT_MIN - minimum value for sliders or knobs (signed long)
+	//	 PCATTR_SLIDER_MAX_TOP - tell a slider that max value is at top, defaults to FALSE!
+    //   PCATTR_POT_KNOB - make it a knob instead of slider
+    //   PCATTR_TXT_BORDER_X - the amount of border to allow at left 
+    //                          and right edges of text (in pixels) (inside button)
+    //   PCATTR_TXT_BORDER_Y - the amount of border to allow at top
+    //                          and bottom edges of text (in pixels) (inside button)
+    //   PCATTR_HANDLE_SHAPE - set the shape of the control's handle, valid values are
+    //                         HSHP_PILL and HSHP_ELLIPSE
+    //   PCATTR_TEXT_PLACEMENT - Place the control's text differently based on dwValue.
+    //                              See TPLACE_* values in uiclib.h.
+    //   PCATTR_USER_DWORD - user-settable/definable DWORD for any purpose.
+    //
+    HRESULT SetAttr( DWORD dwAttr, DWORD dwValue );
+
+    // find out about various aspects of the control's operation
+    // and display attributes
+    // here is where expandability can be put in later 
+    // without changing the API
+    // Use the same PCATTR_ values listed in SetAttr()
+	// (to get a control's IPlayPanel, do this: 
+	//     IPlayPanel *pipp; GetAttr( PCATTR_HOME_PANEL, (DWORD*)&pipp );
+    HRESULT GetAttr( DWORD dwAttr, DWORD *pValue );
+
+    // this routine will save all the of the control's attributes
+    // to the given structured storage, which can be later used
+    // to set those attributes with the next function.
+    HRESULT SaveAttributes( IStorage *pStg );
+
+    // this routine will set the control's attributes from a description
+    // in the given storage that should have been written by SaveAttributes()
+    HRESULT LoadAttributes( IStorage *pStg );
+
+    // can disable repaint messages for this control.
+    // would allow programmer to set many attributes
+    // but only repaint at end.  While disabled, the painting
+    // rectangles will be added to a repaint region that will be 
+    // repainted when paint messages are re-enabled.
+    HRESULT EnableRepaint( long bEnable );
+
+    // create the control within a parent window at a given location.
+    // Unless the control is being placed within a PlayPanel, this
+    // must be called for the control to become visible.
+    // Conversely, if the control IS going to be in a panel, DON'T 
+    // USE THIS.
+    HRESULT AddToParent( HWND hWndParent, int x, int y );
+
+    // find out what certain sizes actually are for this control.
+    // The first param uses the same values of the SuggestSize() call,
+    // with the addition of SIZE_WINDOW, which returns the width and height
+    // of the control's actual window, and SIZE_HANDLE_ACTUAL, which returns
+    // the actual handle size.  (SIZE_HANDLE will return the same thing set
+    // by SuggestSize(SIZE_HANDLE, &size ) )
+    HRESULT GetSize( DWORD dwAttrSize, SIZE *pSize );
+
+    // "Suggest" the size of the control's handle or its slider slot, etc.
+    // If the given value is too small to make any sense, it will be ignored.
+    // (ie, a button with text in it must be a certain size for the 
+    //  text to fit, a slider must have a vertical track long enough
+    //  to have some play in it...)
+    // The first param tells what size is being suggested :
+    //      SIZE_HANDLE : The minimum rectangular area to fit within the handle.  
+    //                      (The actual size will have curves in it...)
+    //      SIZE_TRACK : For sliders only, this uses the cx member as the width 
+    //                   of the track and the cy member as the length
+    // The second param is the actual size being suggested.  Any member set to
+    //  -1 will indicate that there is no suggested size for that attribute, 
+    //  and that attribute will algorithmically determined.
+    HRESULT SuggestSize( DWORD dwAttrSuggest, SIZE *pSize );
+
+    // Find out the position of the control within & relative to parent window
+    HRESULT GetPosition( POINT *pPosition );
+
+    // Set position of the control within and relative to parent's window
+    // will cause repaint
+    HRESULT SetPosition( POINT *pPosition );
+
+    // Find out the rectangle of the control relative to screen
+    // if control isn't in a window yet, the rectangle is all zeros
+    // and returns S_FALSE
+    // if pRect==NULL, returns E_INVALIDARG
+    HRESULT GetRect( RECT *pRect );
+
+    // set pointer to IPCtrlAdviseSink instance to get notifications.
+    // pass this a NULL to UnAdvise()
+    HRESULT Advise( IPCtrlAdviseSink *pAdvise );
+
+    // find out the current state of the control 
+    //   PCST_BTN_DOWN - the button is currently pressed
+    //   PCST_CAPTURING - the control is currently tracking the mouse
+    //   PCST_DISABLED - set if control is currently disabled
+    //   PCST_GHOSTED  - set if control is currently ghosted
+    //      (note: ghosting and disabling are SEPARATE)
+    long GetState( void );
+
+    // Set the current state of the control, with mask.
+    // Currently, it only allows programmer to change 
+    //    the PCST_BTN_DOWN, PCST_GHOSTED, PCST_DISABLED states on or off
+    // examples: turn on ghosting: SetState( PCST_GHOSTED, PCST_GHOSTED );
+    //       turn off disabling (re-enable): SetState( 0, PCST_DISABLED );
+    // may cause repaint if state change actually visible
+    HRESULT SetState( long iState, long iMask );
+
+    // Find out the current integer value of the control.
+    // string boxes just do atoi() with their contents
+    signed long GetValLong( );
+
+    // Set the current integer value of the control (may not make sense).
+    // May return error if the control can't have a valid long integer value.
+    // For timecode boxes, this will be interpreted as number of frames.
+    // will cause repaint
+    HRESULT SetValLong( long iValue );
+
+    // Find out the current double-precision floating-point value of the control .
+    // May return error if the control can't have a valid floating-point value.
+    HRESULT GetValFloat( double *dValue );
+
+    // Set the current double-precision floating-point value of the control.
+    // May return error if the control can't have a valid floating-point value.
+    // will cause repaint
+    HRESULT SetValFloat( double dValue );
+
+    // Find out the current string value of the control.
+    // may return error if the control can't have a valid string value
+    HRESULT GetValStr( [string] LPSTR pszValue,  long cMaxChars );
+
+    // Set the current string value of the control (may not make sense).
+    // May return error if the control can't have a valid string value.
+    // will cause repaint
+    HRESULT SetValStr( LPSTR pszValue );
+
+    // find out specific type of control this IPlayControl is connected to
+    //   PCTL_BTN_MOM - momentary pushbutton
+    //   PCTL_BTN_TGL - toggle pushbutton
+    //   PCTL_KNOB - knob potentiometer
+    //   PCTL_SLIDER - slider pot
+    //   PCTL_EDIT - edit (string) box
+    //   PCTL_TIMECODE - timecode edit box
+    //   PCTL_NUMBER - number edit box
+    //   PCTL_LABEL - a label
+    long GetCtrlType( void );
+
+    // Tell the control to repaint itself.
+    // (if prcPaint == NULL, entire control will be repainted )
+	// It will be updated before this function returns if 
+	// the bForceUpdate flag is TRUE.
+    HRESULT Repaint( RECT *prcPaint, unsigned long bForceUpdate );
+
+    // Tell the control to destroy its window, but retain the object itself.
+    // Release will both destroy the window AND Release the object.
+    HRESULT Remove( void );
+
+    // Tell the control what bitmaps to use in rendering its graphics.
+    // The first param tells what bitmaps are in the list, second param
+    // tells how many are in the list, third param is a pointer to 
+    // an array of pointers to bitmaps.  These bitmaps will NOT
+    // get AddRefs, and the actual pointers in the list may change
+    // as long as the expected number of pointers point to valid bitmaps.
+    // dwIncluded may have at most one of the following values:
+    //      BMTYPE_BTNFRAMES - to make a button with custom imagery.  
+    //                          nBitMaps should be 2, both of type FTRGBA8,
+    //                          and they should both be the same dimensions.
+    //      BMTYPE_KNOBFRAMES - to make a knob or slider with custom imagery.  
+    //                          each of the nBitMaps should be of type FTRGBA8,
+    //                          and they should all be the same dimensions.
+    //      BMTYPE_HANDLEFACE - to set an alpha to be used in place of the 
+    //                          control's text.  (for play symbols, etc).
+    //                          bitmap should be of type FTALPHA8.
+    //      BMTYPE_LABEL - should be a single FTRGBA8 bitmap to be used in rendering
+    //                          a CPlayLabel control.
+    // This function is only supported for buttons and for slider/knob controls.
+    HRESULT SetCustomBitmaps( DWORD dwIncluded, int nBitmaps, IGXIntBitmap **pparyBitmaps );
+    
+    // this is a routine used by panels to cause the control to draw the part of itself 
+    // described by pUpdRect into the given DIB, assuming that the
+    // client area of the control starts at the POINT pUpdOfs within the DIB.  pUpdOfs
+    // can point to a point above or to the left of (0,0), indicating that only part
+    // of the control overlapps the DIB that's being updated.
+    // The updrect is relative to the control's own client area.
+    //
+    // Most clients of this interface should not use this function.
+    //
+    // The LPVOID is really a (BITMAPINFOHEADER*)
+    HRESULT DrawToDIB( LPVOID pBMIH, BYTE *pBits, RECT *pUpdRect, POINT *pUpdOfs );
+
+}
+
+[
+    local,
+    object,
+    uuid(8335e437-ab3b-11ce-8468-0000b468276b)
+]
+interface IPlayControlBitmaps : IUnknown
+{
+    // this is identical to control-dropping a bitmap on a control
+    // and telling it what to use it for.
+    HRESULT SetBitmap( DWORD dwBMType, LPSTR filename );
+}
+
+interface IPlayPopup;
+
+[
+    local,
+    object,
+    uuid(8335e428-ab3b-11ce-8468-0000b468276b)
+]
+interface IPlayPopupAdviseSink : IUnknown
+{
+    import "unknwn.idl";
+    import "wtypes.idl";
+
+    // This function will be called when a popup's item has been selected.
+    // The return value will be ignored.
+    HRESULT OnSelection( IPlayPopup *pPopup, int index );
+
+    // This function is for future ghosting of popup items.  If it returns S_FALSE, 
+    // the item will be disabled, otherwise it is enabled.
+    HRESULT IsValid( IPlayPopup *pPopup, int index );
+
+}
+
+[
+    local,
+    object,
+    uuid(8335e424-ab3b-11ce-8468-0000b468276b)
+]
+interface IPlayPopup : IUnknown
+{
+    import "unknwn.idl";
+    import "wtypes.idl";
+
+    // add a string to the list at position nPos (the previous 
+    // string at that position will be moved down)  Invalid nPos values
+    // will cause string to be added to end of list. (0 is first)
+    // note, there can be no gaps in the list.  Index starts with 0 and
+    // goes up to n-1, where n is the number of strings in it.
+    // Strings will be copied into memory owned by the COM object.
+    HRESULT AddString( [string] LPSTR pszSelection, int nPos );
+
+    // get a copy of the string with the given index. If nMaxChars is less
+    // than the string's length, it returns E_FAIL.  If nPos refers to an
+    // index that is invalid, it returns E_INVALIDARG.
+    HRESULT CopyString( int nPos, [string] LPSTR pszCopyDest, int nMaxChars );
+
+    // delete the string number nPos from the list.  (0 is first list position)
+    // may return E_INVALIDARG if nPos refers to a non-existant string.
+    HRESULT DelString( int nPos );
+
+    // this will open the popup window and wait for ANY mouse button
+    // transition.  If the pointer isn't over any valid selection when a
+    // button action happens, this will return E_FAIL, indicating nothing
+    // was selected (and *pnResult will be set to -1).  Otherwise, it returns 
+    // S_OK and sets the integer pointed to by pnResult to the index of the 
+    // string that was selected.   x,y are coords of top-left of popup
+    // relative to screen.  They may be internally altered before they are 
+    // used so the popup is fully visible.
+    // Some special positioning things exist if the x value is one of the 
+    // following :
+    // 
+    //     POPX_SELECTION    The popup will be positioned so the cursor is over
+    //                          the selection number passed in y coordinate
+    //     POPX_CENTER       The popup will be positioned so the cursor is over
+    //                          its center
+    //     POPX_TOPLEFT      The popup will appear so the cursor is at its top-left
+    //                          corner.
+    //     POPX_TOP          The popup will appear so the cursor is centered at top.
+    //     POPX_TOPRIGHT     The popup will appear so the cursor is at its
+    //                          top-right corner.
+    //     POPX_LEFT         The popup will appear so the cursor is centered at the
+    //                          left edge.
+    //     POPX_RIGHT        The popup will appear so the cursor is centered at the
+    //                          right edge.
+    //     POPX_BOTLEFT      The popup will appear so the cursor is at its bottom-left
+    //                          corner.
+    //     POPX_BOT          The popup will appear so the cursor is centered at bottom.
+    //     POPX_BOTRIGHT     The popup will appear so the cursor is at its
+    //                          bottom-right corner.
+
+    HRESULT DoPopup( int x, int y, int *pnResult );
+
+    // These two functions are for changing attributes of the popup.
+    //    PCATTR_USER_POPUP - in GetAttr(), will return the child of this popup
+    //    PCATTR_ADVISESINK - in GetAttr(), will return a pointer to this popup's IPlayPopupAdviseSink
+    //    PCATTR_POPUPSIZE - in GetAttr(), fill-in size of popup into the SIZE struct pointed to by
+    //                       (SIZE*)pdwValue
+    HRESULT SetAttr( ULONG dwAttr, DWORD dwValue );
+    HRESULT GetAttr( ULONG dwAttr, DWORD *pdwValue );
+
+    // this function sets an interface to be called by the popup when an item is selected.
+    // The callbacks may be queried to find out if certain things should be ghosted or not.
+    // This AdviseSink callback method must be used if this popup is going to be the
+    // child of another popup.
+    HRESULT Advise( IPlayPopupAdviseSink *piAdviseSink );
+    
+    // This call will set the child popup for this popup.  Child popups will show their text lines
+    // below the whole body of any parent popups.
+    // This function will return E_FAIL if it is called before the popup has an advisesink set.
+    HRESULT LinkPopup( IPlayPopup *piPopup );
+
+//
+//
+//
+//		These are no longer part of this interface. You should not use them. They are only here
+//		temporarily until I'm sure that everything still works.
+//
+//
+//
+//
+	// This call sets the popup in mutual exclusive mode for the checkmark appearing/dissappearing.
+	// If the popup is in mutual exclusive mode, any selection made will place a checkmark
+	// next to it, and erase any other checkmarks. (Ie: Only one checkmark per popup.)
+	// The argument nDefault is the selection to be used for the initial checkmark location.
+	// (This location is 0-based. The first selection is index 0.)
+//	HRESULT SetMutuallyExclusive(int nDefault);
+
+	// This function will toggle the state of the checkmark in the popup for the given selection.
+	// (The location is 0-based. The first selection is index 0.)
+//	HRESULT ToggleState(int nSelection);
+
+	// Sets the checkmark to the given state. TRUE == on, FALSE == off.
+//	HRESULT SetToggleState(int nSelection, BOOL bState);
+
+	// This will return the state of the given location in the arg bResult. TRUE means on.
+//	HRESULT GetToggleState(int nSelection, BOOL *bResult);
+
+	// This function either turns on or off checkmarks on the popup. TRUE = on, FALSE = off.
+//	HRESULT SetCheckMark(BOOL bOn);
+
+	// This function disables or enables a selection, depending on arg bOn.
+//	HRESULT DisableChoice(int nSelection, BOOL bOn);
+
+	// This function enables/disables checkmarks per selection depending on bOn.
+//	HRESULT EnableCheckmark(int nSelection, BOOL bOn);
+}
+
+[
+    local,
+    object,
+    uuid(8335e609-ab3b-11ce-8468-0000b468276b)
+]
+interface IPlayPopup2 : IPlayPopup
+{
+	// This call sets the popup in mutual exclusive mode for the checkmark appearing/dissappearing.
+	// If the popup is in mutual exclusive mode, any selection made will place a checkmark
+	// next to it, and erase any other checkmarks. (Ie: Only one checkmark per popup.)
+	// The argument nDefault is the selection to be used for the initial checkmark location.
+	// (This location is 0-based. The first selection is index 0.)
+	HRESULT SetMutuallyExclusive(int nDefault);
+
+	// This function will toggle the state of the checkmark in the popup for the given selection.
+	// (The location is 0-based. The first selection is index 0.)
+	HRESULT ToggleState(int nSelection);
+
+	// Sets the checkmark to the given state. TRUE == on, FALSE == off.
+	HRESULT SetToggleState(int nSelection, BOOL bState);
+
+	// This will return the state of the given location in the arg bResult. TRUE means on.
+	HRESULT GetToggleState(int nSelection, BOOL *bResult);
+
+	// This function either turns on or off checkmarks on the popup. TRUE = on, FALSE = off.
+	HRESULT SetCheckMark(BOOL bOn);
+
+	// This function disables or enables a selection, depending on arg bOn.
+	HRESULT DisableChoice(int nSelection, BOOL bOn);
+
+	// This function enables/disables checkmarks per selection depending on bOn.
+	HRESULT EnableCheckmark(int nSelection, BOOL bOn);
+}
+
+[
+    local,
+    object,
+    uuid(8335e431-ab3b-11ce-8468-0000b468276b)
+]
+interface IPlayMessageBox : IUnknown
+{
+    import "unknwn.idl";
+    import "wtypes.idl";
+
+	// This function opens the message box at location x,y. dwMask determines
+	// which buttons are put on the box.
+	//	PMB_OK
+	//  PMB_CANCEL
+	//	PMB_RETRY
+	//	PMB_HELP
+	// Any, all, or none of these buttons can be or'd together to appear on the
+	// message box. The text that appears on the buttons can be changed to
+	// whatever you like, however they are still referred to by these constants.
+	// If no buttons are wanted, pass in 0 or PMB_NONE.
+	// pResult returns the value of the button pushed. (PMB_OK, PMB_CANCEL...)
+	HRESULT DoMessageBox(int x, int y, DWORD dwMask, DWORD *pResult);
+
+	// Sets the message that the message box will display. This works just like
+	// printf and its cousins. Any \n will make a new line in the message box.
+	// Each line is centered.
+	HRESULT SetMessage(LPSTR pszFmt, ...);
+
+	// Same as SetMessage, except works just like vsprintf and it's cousins.
+	HRESULT SetMessageV(LPSTR pszFmt, LPSTR vaArgList);
+
+	// Sets the text that appears on the button. To reset the text on a button,
+	// pass NULL for pText. To reset _all_ the buttons, pass 0 or PMB_NONE for
+	// dwButton, and NULL for pText.
+	HRESULT SetButtonText(DWORD dwButton, LPSTR pText);
+}
+
+[
+    local,
+    object,
+    uuid(8335e438-ab3b-11ce-8468-0000b468276b)
+]
+interface IPlayMessageBox2 : IPlayMessageBox
+{
+	// same as old message box function, but allows user to pass owner window
+    HRESULT DoMessageBox2( HWND hWndOwner, int x, int y, DWORD dwMask, DWORD *pResult);
+}

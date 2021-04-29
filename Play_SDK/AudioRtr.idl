@@ -1,0 +1,329 @@
+//+---------------------------------------------------------------------------
+//
+//  Audio Router API
+//  Copyright (C) Play Incorporated, 1999
+//
+//  PRELIMINARY - ALL SPECIFICATIONS SUBJECT TO CHANGE
+//  PLAY CONFIDENTIAL - DO NOT DISTRIBUTE
+//
+//  File:       audiortr.idl
+//
+//  Contents:   definition for all audio router API interfaces
+//
+//  History:    February 22, 1999 cpdaniel  created
+//
+//----------------------------------------------------------------------------
+
+import "wtypes.idl";
+import "unknwn.idl";
+import "objidl.idl";
+import "trnity.idl";
+
+cpp_quote("#define OBJREF_AUDIO_NETWORK(n)  OBJREF_TRINITY_ADDON(n,Play.TDMAudio)")
+
+//+---------------------------------------------------------------------------
+//  Forward declarations
+//----------------------------------------------------------------------------
+interface ITrnAudioDevice;
+interface ITrnAudioNetwork;
+interface ITrnAudioNetworkAdvise;
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnAudioDevice
+//
+// Interface to a device in the audio network
+//
+//  Anticipated devices:
+//    BAS Audio mixer (8-in, 6-out digital mixer w/3-band eq/input)
+//    BAS Audio analog I/O plate  (8 in, 6 out analog I/O plate)
+//    TMI analog I/O plate (8 in, 4 out analog I/O plate)
+//    Time Machine  (4 in/out stereo pairs of record/play audio data)
+//
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e640-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnAudioDevice : IUnknown
+{
+  typedef enum tagETrnStandardPinId
+  {
+    //
+    // General notes about signal naming.
+    //
+    // The term input is a bit ambiguous, but hopefully reflects the natural
+    // labelling on most devices.  For example, on an Analog I/O panel, an Input
+    // (i.e. a point where an external audio source can be connected) is a "Talker"
+    // from the TDM audio standpoint (it drives audio data onto a TDM bus), while
+    // an Input on an audio mixer (DSP module) is a listener (it receives data
+    // from a TDM bus).  In both cases, however, the term Input means a pin
+    // carrying a source which is an Input to the overall process (e.g. mixing)
+    // and does not imply anything about the actual direction of data flow on
+    // the TDM busses.  Similar arguments apply for "outputs".
+    //
+    // Input channels
+    //
+    SPIInput1 = 0,
+    SPIInput2,
+    SPIInput3,
+    SPIInput4,
+    SPIInput5,
+    SPIInput6,
+    SPIInput7,
+    SPIInput8,
+    //
+    // Program channels
+    //
+    // Program channels are the "main outputs" of a mixer. 
+    //
+    SPIProgram1 = 0x100,
+    SPIProgram2,
+    //
+    // Monitor channels
+    // 
+    // Monitor channels are the "aux outputs" of a mixer
+    //
+    SPIMonitor1 = 0x200,
+    SPIMonitor2,
+    //
+    // Send channels
+    //
+    // Send channels are special purpose outputs from a mixer for feeding an
+    // outboard audio processor.
+    //
+    SPISend1 = 0x300,
+    SPISend2,
+    //
+    // General purpose output.  These alias the "Program" channels
+    //
+    SPIOutput1 = 0x100,
+    SPIOutput2,
+    SPIOutput3,
+    SPIOutput4,
+    SPIOutput5,
+    SPIOutput6,
+    SPIOutput7,
+    SPIOutput8,
+    //
+    // Digital audio recorder "Record" channels.  These alias the "Input" channels
+    //
+    SPIRecord1 = 0,
+    SPIRecord2,
+    SPIRecord3,
+    SPIRecord4,
+    SPIRecord5,
+    SPIRecord6,
+    SPIRecord7,
+    SPIRecord8,
+    //
+    // Digital audio player "Play" channels.  These alias the "Program" channels 
+    //
+    SPIPlay1 = 0x100,
+    SPIPlay2,
+    SPIPlay3,
+    SPIPlay4,
+    SPIPlay5,
+    SPIPlay6,
+    SPIPlay7,
+    SPIPlay8,
+    //
+    // That's it!
+    //
+    SPIInvalid = 0xffff
+  } ETrnStandardPinId;
+
+  typedef struct tagSTrnAudioDeviceInfo
+  {
+    DWORD     dwSizeOf;           // must be initialized by caller to sizeof(STrnAudioDeviceInfo)
+    DWORD     dwDeviceType;       // identifies a particular type of audio device
+    DWORD     dwDeviceInstance;   // identifies a particular instance of that type
+    DWORD     dwDeviceId;         // identifies this device uniquely amoung all the 
+                                  // audio devices in the system
+    unsigned  uNumPins;           // number of pins. 
+    char      szDevName[64];      // Device class (type) name
+  } STrnAudioDeviceInfo;
+
+  //
+  // Return information about this audio device
+  //
+  DWORD   QueryInfo(
+    [out]  STrnAudioDeviceInfo* pInfo
+    );
+
+  //
+  // Return information about audio connections
+  //
+  typedef enum tagETrnPinType
+  {
+    PTListener,     // audio flows into the device through this pin
+    PTTalker,       // audio flows from the device through this pin
+    PTTalkSilence,  // pin supplies constant silence
+    PTTalkTone1k,   // pin supplies a constant 1Khz sine-wave
+  } ETrnPinType;
+
+  typedef enum tagETrnPinFlags
+  {
+    PFStereoPair = 1,       // pin is really a stero pair
+    PFPermanentSlot = 2,    // pins timeslot is hardwired
+    PFCantDisable = 4       // pin always drive it's timeslot (only relevant to talkers)
+  } ETrnPinFlags;
+
+  typedef struct tagSTrnPinDescriptor
+  {
+    ETrnPinType   ptType;
+    DWORD         dwPinId;
+    DWORD         dwFlags;
+    char          szPinName[64];
+  } STrnPinDescriptor;
+
+  HRESULT EnumPins(
+    [in]  unsigned      startingIndex,
+    [in]  unsigned      numberOfPins,
+    [out] unsigned*     pNumFetched,
+    [out] STrnPinDescriptor*
+                        pstpd
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnAudioNetwork
+//
+//  Defines the interface used to enumerate and control the audio routing
+//  network.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e641-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnAudioNetwork : IUnknown
+{
+  //
+  //  Enumerate audio devices.  Returned objects will have ITrnAudioDevice
+  //
+  HRESULT EnumDevices(IEnumUnknown** ppEnum);
+
+  ULONG   QueryNumConnections();
+
+  //
+  // Return information about connections in the network
+  //
+  typedef struct tagSTrnAudioNode
+  {
+    DWORD   dwDeviceId;
+    DWORD   dwPinId;
+  } STrnAudioNode;
+
+  typedef struct tagSTrnAudioConnection
+  {
+    STrnAudioNode   source;
+    STrnAudioNode   dest;
+  } STrnAudioConnection;
+
+  HRESULT EnumConnections(
+    [in]  unsigned      startingIndex,
+    [in]  unsigned      numberOfConnections,
+    [out] unsigned*     pNumFetched,
+    [out] STrnAudioConnection*
+                        pstac
+    );
+
+  //
+  //  Make a connection routing audio from source to dest.  One source can
+  //  feed any number of dests
+  //
+  HRESULT MakeConnection(
+    [in]  STrnTimeType* pTime,
+    [in]  STrnAudioNode* source,
+    [in]  STrnAudioNode* dest
+    );
+
+  //
+  //  Break the connection supplying audio to dest.  A dest is implicitly
+  //  disconnected from its current source if the dest is bi-directional
+  //  and is used as the source in a call to MakeConnection.
+  //
+  HRESULT BreakConnection(
+    [in]  STrnTimeType* pTime,
+    [in]  STrnAudioNode* dest
+    );
+
+  //
+  //  Establish an advise relationship with a client
+  //
+  HRESULT Advise(
+    [in]  ITrnAudioNetworkAdvise* pAdv
+    );
+
+  //
+  //  Destroy the advise relationship with a client
+  //
+  HRESULT UnAdvise(
+    [in]  ITrnAudioNetworkAdvise* pAdv
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnAudioNetworkAdvise
+//
+//  Defines the interface through which clients receive notifications of
+//  changes in the configuration of the audio network.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e642-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnAudioNetworkAdvise : IUnknown
+{
+  //
+  //  Inform a client that a connection has been made
+  //
+  HRESULT OnConnect(
+    [in]  DWORD         dwSystemTime,
+    [in]  STrnAudioConnection*
+                        pstac
+    );
+
+  //
+  //  Inform a client that a connection has been broken
+  //
+  HRESULT OnDisconnect(
+    [in]  DWORD         dwSystemTime,
+    [in]  STrnAudioNode*
+                        pstan
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnAudioDeviceFactory
+//
+//  Defines the interface through which audio device proxies are created
+//  by the audio network controller
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e643-ab3b-11ce-8468-0000b468276b), 
+  pointer_default(unique)
+]
+interface ITrnAudioDeviceFactory : IUnknown
+{
+  HRESULT Create(
+    [in]  ITrnConnection* pTC,
+    [in]  DWORD dwListenSocket,
+    [in]  DWORD dwDeviceId,
+    [in]  unsigned type,
+    [in]  unsigned instance,
+    [in]  HKEY  hkModule,
+    [in]  REFIID riid,
+    [out] void** ppv
+    );
+}
+
+
+// End of audiortr.idl

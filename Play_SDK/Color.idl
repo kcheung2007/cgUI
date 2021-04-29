@@ -1,0 +1,117 @@
+//+---------------------------------------------------------------------------
+//
+//  Copyright (C) Play Incorporated, 1997
+//
+//  PLAY CONFIDENTIAL - DO NOT DISTRIBUTE
+//
+//  File:       Color.idl
+//
+//  Contents:   definition of color bin item object
+//
+//  History:    6/19/97     Michael Wang-Helmke     creation
+//              7/2/97      Ted Pabon				first implementation
+//                                                   made to compile
+//              7/15/97     Ted Pabon               added Clone()
+//				7/22/97     Ted Pabon               modified SetColorPos()
+//              7/29/97     Ted Pabon               modified InsertColor()
+//              7/31/97     Ted Pabon               added new Spread types
+//              8/4/97      Ted Pabon               added Compare()
+//                                                  made "local" interface type
+//              8/7/97      Ted Pabon               added Render()
+//----------------------------------------------------------------------------
+
+//Andy Preston 6/14/99-Contained in the PlayUI1 Starteam Project
+
+import "wtypes.idl";
+import "unknwn.idl";
+import "objidl.idl";
+
+interface IGXIntBitmap;
+cpp_quote("interface IGXIntBitmap;")
+
+	// different color spaces
+typedef enum tagEPlayColorSpace
+{
+    PlayColor_RGB,
+    PlayColor_HSV,
+    PlayColor_YUV
+} EPlayColorSpace;
+
+	// different types of gradients
+typedef enum tagEPlayColorSpread
+{
+    PlayColor_Solid,
+    PlayColor_Linear,
+    PlayColor_CornerPoint,
+    PlayColor_Circular,
+	PlayColor_BevelBox,
+	PlayColor_2SideHorz,
+	PlayColor_2SideVert,
+	PlayColor_4Side
+} EPlayColorSpread;
+
+[
+    local,
+	object,
+	uuid(8335e451-ab3b-11ce-8468-0000b468276b),
+    pointer_default(unique)
+]
+interface IPlayColor : IPersistStorage
+{
+		// manipulate what kind of color this is
+	HRESULT SetColorSpread( [in] EPlayColorSpread ColorSpread);
+	HRESULT GetColorSpread( [out] EPlayColorSpread* pColorSpread);
+
+        // manipulate what color space we are in.  setting a new
+        // color space will not affect what color values are returned.
+        // this is not a generalized color space conversion object but
+        // could be when there is more time.
+	HRESULT SetColorSpace( [in] EPlayColorSpace ColorSpace);
+	HRESULT GetColorSpace( [out] EPlayColorSpace* pColorSpace);
+
+	// these set the solid color at an index position.  Solid color
+    // spreads only have one index position
+		// insert after index (adding new color)
+
+//Andy Preston 6/14/99- If just doing a simple type, e.g solid color, you still
+// need to insert a color ! Try (R,G,B,1.0)
+	HRESULT InsertColor(DWORD r,DWORD g, DWORD b, float pos);
+
+//Andy Preston 6/14/99-SetColor and GetColor perform the necessary colour space conversion
+// for the colour space set in SetColorSpace.
+// i.e. SetColourSpace(PlayColor_HSV) , it assumes colors passed in SetColor are defined in
+// HSV and GetColor returns colours in HSV space. It stores the colors internally as RGB, so
+// Color Space conversion is done for those formats.
+	HRESULT SetColor(unsigned int index, DWORD r,DWORD g, DWORD b);
+	HRESULT GetColor(unsigned int index, [out]DWORD* pr, [out]DWORD* pg, [out]DWORD* pb);
+		// position of color within a spread.  range is from 0.0 to 1.0
+	HRESULT GetColorPos(unsigned int index, [out]float* pPos);
+	HRESULT SetColorPos(unsigned int index, float Pos, unsigned int* pNewIndex);
+		// deleting the last color fails
+	HRESULT DeleteColor(unsigned int index);
+
+		// return how many colors are in this spread
+	HRESULT GetNumColors([out]unsigned int* pMaxIndex);
+
+        // only valid for linear spread
+	HRESULT GetRotation([out] float* pRotation);
+	HRESULT SetRotation([in] float Rotation);
+
+		// these are for the color center of a circular spread (0.0 to 1.0)
+	HRESULT GetColorCenter(float* float_x,float *float_y);
+	HRESULT SetColorCenter(float float_x, float float_y);
+
+		// creates duplicate CLSID_CPlayColor
+	HRESULT Clone([out]IPlayColor** ppColor);
+
+		// returns true if pColor has same values(properties) as this
+	BOOL	Compare([in]IPlayColor* pColor);
+
+		// renders this color into a given IGXIntBitmap
+	HRESULT Render([in]IGXIntBitmap* pGXIB);
+
+	HRESULT GetRawRGB(unsigned int index, [out]DWORD* pr, [out]DWORD* pg, [out]DWORD* pb);
+
+};
+
+// end ColorItem.idl

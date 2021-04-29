@@ -1,0 +1,125 @@
+/*===========================================================================*\
+||                                                                           ||
+||  Copyright 1995 by Play Incorporated                                      ||
+||  PLAY CONFIDENTIAL                                                        ||
+||                                                                           ||
+||  All Specifications subject to change.                                    ||
+||                                                                           ||
+||  FILE:           CFGMAN.IDL                                               ||
+||                                                                           ||
+||  DESCRIPTION:    Interface description for an object that allows user to  ||
+||                  change configuration settings like VTR A/v inputs, etc.  ||
+||                                                                           ||
+||  INTERFACES:     ITrnConfigManager                                        ||
+||                  ICfgManAdviseSink                                        ||
+||                                                                           ||
+||  MODIFICATIONS:  4/28/97     T.Sprague       created                      ||
+\*===========================================================================*/
+
+interface IPlayPanel;
+cpp_quote( "interface IPlayPanel;" )
+
+interface IPlayPagedPanel;
+cpp_quote( "interface IPlayPagedPanel;" )
+
+interface ITrnVideoSystem;
+cpp_quote( "interface ITrnVideoSystem;" )
+
+interface IPlayStringList;
+cpp_quote( "interface IPlayStringList;" )
+
+[
+    local,
+    object,
+    uuid(8335e492-ab3b-11ce-8468-0000b468276b)
+]
+interface ICfgManAdviseSink : IUnknown
+{
+    import "unknwn.idl";
+    import "wtypes.idl";
+
+    // This function will be called to see if the device on the
+    // given port can be removed.  If it succeeds or returns 
+    // E_NOTIMPL, the device MAY be subsequently removed.
+    HRESULT CanRemoveDevice( DWORD dwSerialPortNum );
+    
+    // This is just a notification that the device on the
+    // given serial port has been removed.  The return value
+    // is ignored.
+    HRESULT OnRemoveDevice( DWORD dwSerialPortNum );
+
+    // This function will be called to see if A/V connections
+    // can be changed for the device on a given port.
+    // If it succeeds or returns 
+    // E_NOTIMPL, the device MAY subsequently have its connections
+    // changed.
+    HRESULT CanChangeConnections( DWORD dwSerialPortNum );
+
+    // This is just a notification that the device on the
+    // given serial port has had it A/V connections changed.  
+    // The return value is ignored.
+    HRESULT OnConnectionsChange( DWORD dwSerialPortNum );
+
+    // This is just a notification that a new device has been
+    // found on the given serial port.  The return value
+    // is ignored.
+    HRESULT OnNewDevice( DWORD dwSerialPortNum );
+
+    // This is a notification that the device on the
+    // given serial port has had its settings changed.  
+    // EG, user changed its minimum preroll or editdelay.
+    // The return value is ignored.
+    HRESULT OnSettingsChange( DWORD dwSerialPortNum );
+
+}
+
+[
+    local,
+    object,
+    uuid(8335e490-ab3b-11ce-8468-0000b468276b)
+]
+interface ITrnConfigManager : IUnknown
+{
+    import "unknwn.idl";
+    import "wtypes.idl";
+
+	// sets up pointers to Trinity API calls that it needs.
+    // plus an optional advisesink interface
+	HRESULT Initialize( ITrnVideoSystem *pVidSys, ICfgManAdviseSink *pAdvise );
+
+    // Add the necessary controls for this object to get its
+	// properties changed to a given panel.
+	// Will fail if Initialize() hasn't been called.
+	HRESULT AddToPanel( IPlayPanel *pPanel );
+
+	// this will basically call unadvise on any existing controls,
+	// so they release their references on this object and
+	// everything can die happily. 
+	// This must be called if AddToPanel() returns success.
+	HRESULT UnadviseControls(); 
+
+	// this must be called before the last release, so that
+	// simple video can be unadvised and CfgMan can go away.
+	// This must be called if Initialize() returns success.
+	HRESULT Uninitialize( );
+
+	// Adds the controls to the given pages of the given panel
+    HRESULT AddToPagedPanel( IPlayPagedPanel *pPanel, DWORD dwSerialPage, DWORD dwInputsPage );
+
+    // calls that duplicate IPlayPagedPanelAdviseSink so that
+    // settings changes can be undone.  
+
+    // Tell the app to store Revert info for the given page.
+    // If it returns anything but S_OK, the revert
+    // button should be ghosted and disabled for this page.
+    HRESULT StoreRevertInfo( DWORD dwPageID );
+
+    // Tell the object to revert to its stored info for the 
+    // given page.  The return value is ignored.
+    HRESULT Revert( DWORD dwPageID );
+
+    // only defined flags right now is 0x0001 : verbose, means add modules ID's to the text.
+    HRESULT MakeHardwareList( IPlayStringList *pStrList, LONG flags );
+
+}
+

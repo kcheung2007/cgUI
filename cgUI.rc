@@ -1,0 +1,3173 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\cgUI.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\cgUI.ico"
+IDR_CGUITYPE            ICON    DISCARDABLE     "res\\cgUIDoc.ico"
+IDI_ITALIC              ICON    DISCARDABLE     "res\\italic.ico"
+IDI_PALETTE             ICON    DISCARDABLE     "res\\palette.ico"
+IDI_SIZE                ICON    DISCARDABLE     "res\\Size.ico"
+IDI_X_OFFSET            ICON    DISCARDABLE     "res\\Offsetx.ico"
+IDI_Y_OFFSET            ICON    DISCARDABLE     "res\\Offsety.ico"
+IDI_FEATHER             ICON    DISCARDABLE     "res\\Feather.ico"
+IDI_POINTER             ICON    DISCARDABLE     "res\\pointer.ico"
+IDI_LOCK                ICON    DISCARDABLE     "res\\Lock.ico"
+IDI_KERN                ICON    DISCARDABLE     "res\\Kern.ico"
+IDI_SPACE               ICON    DISCARDABLE     "res\\Space.ico"
+IDI_UNLOCK              ICON    DISCARDABLE     "res\\Unlock.ico"
+IDI_UNDERLNE            ICON    DISCARDABLE     "res\\underlin.ico"
+IDI_BOLD                ICON    DISCARDABLE     "res\\bold.ico"
+IDI_FONT_HEIGHT         ICON    DISCARDABLE     "res\\Fheight.ico"
+IDI_BACK_MINUS          ICON    DISCARDABLE     "res\\BackMinus.ico"
+IDI_BACK_GRD            ICON    DISCARDABLE     "res\\Back.ico"
+IDI_FORE_GRD            ICON    DISCARDABLE     "res\\Forward.ico"
+IDI_FORE_PLUS           ICON    DISCARDABLE     "res\\ForwardPlus.ico"
+IDI_FONT_WIDTH          ICON    DISCARDABLE     "res\\Fwidth.ico"
+IDI_ROTATE              ICON    DISCARDABLE     "res\\Rotate.ico"
+IDI_BEVEL               ICON    DISCARDABLE     "res\\Bevel.ico"
+IDI_SAVE                ICON    DISCARDABLE     "res\\save.ico"
+IDI_OPEN                ICON    DISCARDABLE     "res\\open.ico"
+IDI_REDO                ICON    DISCARDABLE     "res\\redo.ico"
+IDI_UNDO                ICON    DISCARDABLE     "res\\undo.ico"
+IDI_SOLID               ICON    DISCARDABLE     "res\\SprSol.ico"
+IDI_TAG_INVERT          ICON    DISCARDABLE     "res\\ClrInv.ico"
+IDI_TAG_SHIFT           ICON    DISCARDABLE     "res\\ClrShft.ico"
+IDI_TAG_SPACE           ICON    DISCARDABLE     "res\\ClrSpc.ico"
+IDI_TAG_SUB             ICON    DISCARDABLE     "res\\ClrSub.ico"
+IDI_V_PERCENT           ICON    DISCARDABLE     "res\\PercentH.ico"
+IDI_H_PERCENT           ICON    DISCARDABLE     "res\\PercentW.ico"
+IDI_4POINT              ICON    DISCARDABLE     "res\\Spr4Pt.ico"
+IDI_CIRCULAR            ICON    DISCARDABLE     "res\\SprCirc.ico"
+IDI_LINEAR              ICON    DISCARDABLE     "res\\SprLine.ico"
+IDI_TAG_ADD             ICON    DISCARDABLE     "res\\ClrAdd.ico"
+IDI_TAG_CLEAR           ICON    DISCARDABLE     "res\\delete.ico"
+IDI_SMALLCAP            ICON    DISCARDABLE     "res\\smallcap.ico"
+IDI_BROWSE              ICON    DISCARDABLE     "res\\icon2.ico"
+IDI_DIR_UP_RIGHT        ICON    DISCARDABLE     "res\\diruprt.ico"
+IDI_DIR_DOWN_LEFT       ICON    DISCARDABLE     "res\\dirdnlft.ico"
+IDI_DIR_DOWN_RIGHT      ICON    DISCARDABLE     "res\\dirdnrt.ico"
+IDI_DIR_LEFT            ICON    DISCARDABLE     "res\\dirleft.ico"
+IDI_DIR_RIGHT           ICON    DISCARDABLE     "res\\dirrt.ico"
+IDI_DIR_UP              ICON    DISCARDABLE     "res\\dirup.ico"
+IDI_DIR_UP_LEFT         ICON    DISCARDABLE     "res\\diruplft.ico"
+IDI_DIR_DOWN            ICON    DISCARDABLE     "res\\dirdn.ico"
+IDI_SUB_SCRIPT          ICON    DISCARDABLE     "res\\sub.ico"
+IDI_SUPER_SCRIPT        ICON    DISCARDABLE     "res\\Super.ico"
+IDI_TYPE_UP             ICON    DISCARDABLE     "res\\typedirup.ico"
+IDI_TYPE_AUTO           ICON    DISCARDABLE     "res\\typedirauto.ico"
+IDI_TYPE_DOWN           ICON    DISCARDABLE     "res\\typedirdn.ico"
+IDI_TYPE_TO_RIGHT       ICON    DISCARDABLE     "res\\typedirlr.ico"
+IDI_J_TOP               ICON    DISCARDABLE     "res\\Jtop.ico"
+IDI_J_CENTER            ICON    DISCARDABLE     "res\\jctr.ico"
+IDI_J_LEFT              ICON    DISCARDABLE     "res\\jleft.ico"
+IDI_J_MIDDLE            ICON    DISCARDABLE     "res\\Jmid.ico"
+IDI_J_RIGHT             ICON    DISCARDABLE     "res\\jright.ico"
+IDI_J_BOTTOM            ICON    DISCARDABLE     "res\\Jbot.ico"
+IDI_J_JUSTIFY           ICON    DISCARDABLE     "res\\justify.ico"
+IDI_BL_CIRCLE           ICON    DISCARDABLE     "res\\BLcircle.ico"
+IDI_BL_CURVE            ICON    DISCARDABLE     "res\\BLCurve.ico"
+IDI_BL_DEFAULT          ICON    DISCARDABLE     "res\\BLDefault.ico"
+IDI_BL_ALIGN_BOT        ICON    DISCARDABLE     "res\\BLalignbot.ico"
+IDI_BL_ALIGN_TOP        ICON    DISCARDABLE     "res\\BLaligntop.ico"
+IDI_ADVANCE             ICON    DISCARDABLE     "res\\more2.ico"
+IDI_TT_FONT             ICON    DISCARDABLE     "res\\TTFlogo.ico"
+IDI_ALPHA               ICON    DISCARDABLE     "res\\AlphaGRAD.ico"
+IDI_NEW_PAGE            ICON    DISCARDABLE     "res\\newpage.ico"
+IDI_EXPORT_PAGE         ICON    DISCARDABLE     "res\\Export.ico"
+IDI_MAG_PLUS            ICON    DISCARDABLE     "res\\MagPlus.ico"
+IDI_MAG_MINUS           ICON    DISCARDABLE     "res\\MagMinus.ico"
+IDI_MAG_NORMAL          ICON    DISCARDABLE     "res\\mag.ico"
+IDI_IMPORT              ICON    DISCARDABLE     "res\\Import.ico"
+IDI_SAVE_STYLE          ICON    DISCARDABLE     "res\\SavePreset.ico"
+IDI_TEXT_DN             ICON    DISCARDABLE     "res\\Text-dn.ico"
+IDI_BOX_DN              ICON    DISCARDABLE     "res\\Box-dn.ico"
+IDI_CURVE               ICON    DISCARDABLE     "res\\curve.ico"
+IDI_CURVE_DN            ICON    DISCARDABLE     "res\\curve-dn.ico"
+IDI_ELLIPSE             ICON    DISCARDABLE     "res\\ellipse.ico"
+IDI_ELLIPSE_DN          ICON    DISCARDABLE     "res\\ellipse-dn.ico"
+IDI_LINE                ICON    DISCARDABLE     "res\\line.ico"
+IDI_LINE_DN             ICON    DISCARDABLE     "res\\line-dn.ico"
+IDI_POLYGON             ICON    DISCARDABLE     "res\\polygon.ico"
+IDI_POLYGON_DN          ICON    DISCARDABLE     "res\\polygon-dn.ico"
+IDI_TEXT                ICON    DISCARDABLE     "res\\Text.ico"
+IDI_BOX                 ICON    DISCARDABLE     "res\\Box.ico"
+IDI_OFF_SWITCH          ICON    DISCARDABLE     "res\\OffSwitch.ico"
+IDI_ON_SWITCH           ICON    DISCARDABLE     "res\\onswitch.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP  MOVEABLE PURE   "res\\Toolbar.bmp"
+IDB_TABCTRL_IMAGE       BITMAP  DISCARDABLE     "res\\tabImage.bmp"
+IDB_ATTRIB_IMAGE        BITMAP  DISCARDABLE     "res\\AttribTab.bmp"
+IDB_UNDERLINE           BITMAP  DISCARDABLE     "res\\Undrln.bmp"
+IDB_ITALIC              BITMAP  DISCARDABLE     "res\\Itl.bmp"
+IDB_BOLD                BITMAP  DISCARDABLE     "res\\Bld.bmp"
+IDB_FONT_WIDTH          BITMAP  DISCARDABLE     "res\\FontWidth.bmp"
+IDB_FONT_HEIGHT         BITMAP  DISCARDABLE     "res\\FontHeight.bmp"
+IDB_ROTATE              BITMAP  DISCARDABLE     "res\\Rotate.bmp"
+IDB_V_CENTER            BITMAP  DISCARDABLE     "res\\JustCtr.bmp"
+IDB_JUST_TOP            BITMAP  DISCARDABLE     "res\\JustTop.bmp"
+IDB_PALETTE             BITMAP  DISCARDABLE     "res\\palette.bmp"
+IDB_JUSTIFY             BITMAP  DISCARDABLE     "res\\Jst.bmp"
+IDB_H_CENTER            BITMAP  DISCARDABLE     "res\\Cnt.bmp"
+IDB_JUST_LEFT           BITMAP  DISCARDABLE     "res\\Lft.bmp"
+IDB_JUST_RIGHT          BITMAP  DISCARDABLE     "res\\Rt.bmp"
+IDB_JUST_BOT            BITMAP  DISCARDABLE     "res\\JustBot.bmp"
+IDB_GRID                BITMAP  DISCARDABLE     "res\\Grid.bmp"
+IDB_IMAGE_TXGRF         BITMAP  DISCARDABLE     "res\\TxGrf.bmp"
+IDR_TEXTGRAPH           BITMAP  DISCARDABLE     "res\\textgrap.bmp"
+IDB_FILE_TYPES          BITMAP  DISCARDABLE     "res\\filetypes.bmp"
+IDR_LITE_TXTGRAF        BITMAP  DISCARDABLE     "res\\lite_txt.bmp"
+IDB_TEST                BITMAP  DISCARDABLE     "res\\bitmap1.bmp"
+IDB_64x48               BITMAP  DISCARDABLE     "res\\bmp64x48.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR DISCARDABLE  16, 15
+BEGIN
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_EDIT_CUT
+    BUTTON      ID_EDIT_COPY
+    BUTTON      ID_EDIT_PASTE
+    SEPARATOR
+    BUTTON      ID_FILE_PRINT
+    SEPARATOR
+    BUTTON      ID_FORMAT_LFT
+    BUTTON      ID_FORMAT_CNT
+    BUTTON      ID_FORMAT_RIT
+    BUTTON      ID_FORMAT_JUT
+    SEPARATOR
+    BUTTON      ID_FORMAT_TOP
+    BUTTON      ID_FORMAT_MID
+    BUTTON      ID_FORMAT_BOT
+    SEPARATOR
+    BUTTON      ID_FORMAT_UNDO
+    BUTTON      ID_FORMAT_REDO
+    BUTTON      ID_FORMAT_PAL
+    BUTTON      ID_FORMAT_GRD
+END
+
+IDR_TEXTGRAPH TOOLBAR DISCARDABLE  16, 16
+BEGIN
+    BUTTON      ID_TXTGFX_TEXT
+    BUTTON      ID_TXTGFX_LINE
+    BUTTON      ID_TXTGFX_CURV
+    BUTTON      ID_TXTGFX_POLYGON
+    BUTTON      ID_TXTGFX_OVAL
+    BUTTON      ID_TXTGFX_BOX
+    BUTTON      ID_TXTGFX_FILL
+    BUTTON      ID_TXTGFX_IMPORT
+    SEPARATOR
+    BUTTON      ID_TXTGFX_MAG
+    BUTTON      ID_TXTGFX_MAG_PLUS
+    BUTTON      ID_TXTGFX_MAG_MINUS
+END
+
+IDR_LITE_TXTGRAF TOOLBAR DISCARDABLE  16, 16
+BEGIN
+    BUTTON      ID_TXTGFX_TEXT
+    BUTTON      ID_TXTGFX_BOX
+    BUTTON      ID_TXTGFX_FILL
+    BUTTON      ID_TXTGFX_IMPORT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM SEPARATOR
+        POPUP "Recent File"
+        BEGIN
+            MENUITEM "(None)",                      ID_FILE_MRU_FILE1
+            , GRAYED
+        END
+        POPUP "Recent Project"
+        BEGIN
+            MENUITEM "(None)",                      ID_FILE_MRU_PROJ1
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
+        MENUITEM "&Panel Bar",                  ID_VIEW_PANEL_BAR
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About cgUI...",              ID_APP_ABOUT
+    END
+END
+
+IDR_CGUITYPE MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "File"
+    BEGIN
+        MENUITEM "New",                         ID_FILE_NEW
+        MENUITEM "Open",                        ID_FILE_OPEN
+        MENUITEM "Save",                        ID_FILE_SAVE
+        MENUITEM "Save As...",                  ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "Export Pages",                ID_FILE_EXPORT_PAGE
+        MENUITEM "Export Project",              ID_FILE_EXPORT_PROJECT
+        MENUITEM SEPARATOR
+        MENUITEM "Import Graphic",              ID_FILE_IMPORT_GFX
+        MENUITEM "Import Text",                 ID_FILE_IMPORT_TEXT
+        MENUITEM SEPARATOR
+        MENUITEM "Scan Image",                  ID_FILE_SCAN_IMAGE
+        MENUITEM "Set Scanner Source",          ID_FILE_SELECT_SCANNER
+        MENUITEM SEPARATOR
+        MENUITEM "Print",                       ID_FILE_PRINT
+        MENUITEM SEPARATOR
+        POPUP "Recent Files"
+        BEGIN
+            MENUITEM "(None)",                      ID_FILE_MRU_FILE1
+            , GRAYED
+        END
+        POPUP "Recent Projects"
+        BEGIN
+            MENUITEM "(None)",                      ID_FILE_MRU_PROJ1
+            , GRAYED
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Exit",                        ID_APP_EXIT
+    END
+    POPUP "Edit"
+    BEGIN
+        MENUITEM "Ed_Undo",                     ID_ED_UNDO
+        MENUITEM "Ed_Redo",                     ID_ED_REDO
+        MENUITEM SEPARATOR
+        MENUITEM "Ed_Copy",                     ID_CLIP_COPY
+        MENUITEM "Ed_Paste",                    ID_CLIP_PASTE
+        MENUITEM "Ed_PosPaste",                 ID_POS_PASTE
+        MENUITEM SEPARATOR
+        MENUITEM "Character Map",               ID_EDIT_CHAR_MAP
+        MENUITEM "Font Locator",                ID_EDIT_FONT_LOCATOR
+    END
+    POPUP "Style"
+    BEGIN
+        MENUITEM "Style Copy",                  ID_STYLE_COPY
+        MENUITEM "Style Paste",                 ID_STYLE_PASTE
+        MENUITEM "Save to style bin",           ID_STYLE_SAVE_TO_BIN
+        MENUITEM "Reset Style",                 ID_STYLE_RESET
+    END
+    POPUP "Line"
+    BEGIN
+        MENUITEM "Clear",                       ID_LN_CLEAR
+        MENUITEM "Delete",                      ID_LN_DELETE
+        MENUITEM "Insert Before",               ID_LN_INSERT_BEFORE
+        MENUITEM "Insert After",                ID_LN_INSERT_AFTER
+        MENUITEM SEPARATOR
+        MENUITEM "Justify Left",                ID_LN_JUST_LEFT
+        MENUITEM "Justify Center",              ID_LN_JUST_CENTER
+        MENUITEM "Justify Right",               ID_LN_JUST_RIGHT
+        MENUITEM "Justify Flush",               ID_LN_JUST_FLUSH
+    END
+    POPUP "Page"
+    BEGIN
+        MENUITEM "Cut",                         ID_PAGE_CUT
+        MENUITEM "Copy",                        ID_PAGE_COPY
+        MENUITEM "Paste_Before",                ID_PAGE_PASTE_BEFORE
+        MENUITEM "Paste_After",                 ID_PAGE_PASTE_AFTER
+        MENUITEM "Duplicate",                   ID_PAGE_DUPLICATE
+        MENUITEM "Insert New Before",           ID_PAGE_IN_NEW_BEFORE
+        MENUITEM "Insert New After",            ID_PAGE_IN_NEW_AFTER
+        MENUITEM SEPARATOR
+        MENUITEM "Clear All",                   ID_PG_CLEAR_ALL
+        MENUITEM "Clear Text",                  ID_PG_CLEAR_TEXT
+        MENUITEM "Clear Graphic",               ID_PG_CLEAR_GRAPHIC
+        MENUITEM SEPARATOR
+        MENUITEM "Justify Left",                ID_PAGE_LEFT
+        MENUITEM "Justify Center",              ID_PAGE_CENTER
+        MENUITEM "Justify Right",               ID_PAGE_RIGHT
+        MENUITEM "Justify Flush",               ID_PAGE_FLUSH
+        MENUITEM SEPARATOR
+        MENUITEM "Word Wrap",                   ID_PG_WORD_WRAP, CHECKED
+        MENUITEM SEPARATOR
+        MENUITEM "Spell Check",                 ID_PG_SPELL_CHECK
+    END
+    POPUP "Settings"
+    BEGIN
+        MENUITEM "Program Settings",            ID_FILE_PROG_SETTING
+        MENUITEM "Page Setup",                  ID_FILE_PAGE_SETUP
+        MENUITEM "Tab Settings",                ID_FILE_TAB_SETUP
+        MENUITEM "Folder Settings",             ID_FILE_PREFERENCE
+        MENUITEM "Video Set Up",                ID_VDO_SET_UP
+    END
+    POPUP "Help"
+    BEGIN
+        MENUITEM "Help Topics",                 ID_HELP_TOPICS
+        MENUITEM "About cgUI...",               ID_APP_ABOUT
+    END
+END
+
+IDR_KENT_MENU MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "File"
+    BEGIN
+        MENUITEM "New",                         ID_FILE_NEW
+        MENUITEM "Open",                        ID_FILE_OPEN
+        MENUITEM "Save",                        ID_FILE_SAVE
+        MENUITEM "Save As...",                  ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "Export Pages",                ID_FILE_EXPORT_PAGE
+        MENUITEM "Export Project",              ID_FILE_EXPORT_PROJECT
+        MENUITEM SEPARATOR
+        MENUITEM "Import Graphic",              ID_FILE_IMPORT_GFX
+        MENUITEM "Import Text",                 ID_FILE_IMPORT_TEXT
+        MENUITEM SEPARATOR
+        MENUITEM "Scan Image",                  ID_FILE_SCAN_IMAGE
+        MENUITEM "Set Scanner Source",          ID_FILE_SELECT_SCANNER
+        MENUITEM SEPARATOR
+        MENUITEM "Print",                       ID_FILE_PRINT
+        MENUITEM SEPARATOR
+        POPUP "Recent Files"
+        BEGIN
+            MENUITEM "(None)",                      ID_FILE_MRU_FILE1
+            , GRAYED
+        END
+        POPUP "Recent Projects"
+        BEGIN
+            MENUITEM "(None)",                      ID_FILE_MRU_PROJ1
+            , GRAYED
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Exit",                        ID_APP_EXIT
+    END
+    POPUP "Edit"
+    BEGIN
+        MENUITEM "Ed_Undo",                     ID_ED_UNDO
+        MENUITEM "Ed_Redo",                     ID_ED_REDO
+        MENUITEM SEPARATOR
+        MENUITEM "Ed_Copy",                     ID_CLIP_COPY
+        MENUITEM "Ed_Paste",                    ID_CLIP_PASTE
+        MENUITEM "Ed_PosPaste",                 ID_POS_PASTE
+        MENUITEM SEPARATOR
+        MENUITEM "Character Map",               ID_EDIT_CHAR_MAP
+        MENUITEM "Font Locator",                ID_EDIT_FONT_LOCATOR
+    END
+    POPUP "Style"
+    BEGIN
+        MENUITEM "Style Copy",                  ID_STYLE_COPY
+        MENUITEM "Style Paste",                 ID_STYLE_PASTE
+        MENUITEM "Save to style bin",           ID_STYLE_SAVE_TO_BIN
+        MENUITEM "Reset Style",                 ID_STYLE_RESET
+    END
+    POPUP "Line"
+    BEGIN
+        MENUITEM "Clear",                       ID_LN_CLEAR
+        MENUITEM "Delete",                      ID_LN_DELETE
+        MENUITEM "Insert Before",               ID_LN_INSERT_BEFORE
+        MENUITEM "Insert After",                ID_LN_INSERT_AFTER
+        MENUITEM SEPARATOR
+        MENUITEM "Justify Left",                ID_LN_JUST_LEFT
+        MENUITEM "Justify Center",              ID_LN_JUST_CENTER
+        MENUITEM "Justify Right",               ID_LN_JUST_RIGHT
+        MENUITEM "Justify Flush",               ID_LN_JUST_FLUSH
+    END
+    POPUP "View"
+    BEGIN
+        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
+        MENUITEM "&Panel Bar",                  ID_VIEW_PANEL_BAR
+    END
+    POPUP "Page"
+    BEGIN
+        MENUITEM "Pg Cut",                      ID_PAGE_CUT
+        MENUITEM "Pg Copy",                     ID_PAGE_COPY
+        MENUITEM "Paste_Before",                ID_PAGE_PASTE_BEFORE
+        MENUITEM "Paste_After",                 ID_PAGE_PASTE_AFTER
+        MENUITEM "Duplicate",                   ID_PAGE_DUPLICATE
+        MENUITEM "Insert New Before",           ID_PAGE_IN_NEW_BEFORE
+        MENUITEM "Insert New After",            ID_PAGE_IN_NEW_AFTER
+        MENUITEM SEPARATOR
+        MENUITEM "Clear All",                   ID_PG_CLEAR_ALL
+        MENUITEM "Clear Text",                  ID_PG_CLEAR_TEXT
+        MENUITEM "Clear Graphic",               ID_PG_CLEAR_GRAPHIC
+        MENUITEM SEPARATOR
+        MENUITEM "Pg Justify Left",             ID_PAGE_LEFT
+        MENUITEM "Pg Justify Center",           ID_PAGE_CENTER
+        MENUITEM "Pg Justify Right",            ID_PAGE_RIGHT
+        MENUITEM "Pg Justify Flush",            ID_PAGE_FLUSH
+        MENUITEM SEPARATOR
+        MENUITEM "Word Wrap",                   ID_PG_WORD_WRAP, CHECKED
+        MENUITEM SEPARATOR
+        MENUITEM "Spell Check",                 ID_PG_SPELL_CHECK
+    END
+    POPUP "Settings"
+    BEGIN
+        MENUITEM "Program Settings",            ID_FILE_PROG_SETTING
+        MENUITEM "Page Setup",                  ID_FILE_PAGE_SETUP
+        MENUITEM "Tab Settings",                ID_FILE_TAB_SETUP
+        MENUITEM "Folder Settings",             ID_FILE_PREFERENCE
+        MENUITEM "Video Set Up",                ID_VDO_SET_UP
+    END
+    POPUP "Help"
+    BEGIN
+        MENUITEM "Help Topics",                 ID_HELP_TOPICS
+        MENUITEM "About cgUI...",               ID_APP_ABOUT
+    END
+    POPUP "Refresh"
+    BEGIN
+        MENUITEM "Page",                        ID_REFRESH_PAGE
+        POPUP "Attribute"
+        BEGIN
+            MENUITEM "Face",                        ID_REFRESH_ATT_FACE
+            MENUITEM "Outline 1",                   ID_REFRESH_ATT_OUTLINE1
+            MENUITEM "Outline 2",                   ID_REFRESH_ATT_OUTLINE2
+            MENUITEM "Shadow 1",                    ID_REFRESH_ATT_SHADOW
+            MENUITEM "Shadow 2",                    ID_REFRESH_ATT_CAST
+            MENUITEM SEPARATOR
+            MENUITEM "Text",                        ID_REFRESH_ATT_TEXT
+            MENUITEM "Line",                        ID_REFRESH_ATT_LINE
+            MENUITEM "Curve",                       ID_REFRESH_ATT_CURV
+            MENUITEM "Box",                         ID_REFRESH_ATT_BOX
+            MENUITEM "Oval",                        ID_REFRESH_ATT_OVAL
+            MENUITEM "Fill",                        ID_REFRESH_ATT_FILL
+            MENUITEM "Poly",                        ID_REFRESH_ATT_POLY
+            MENUITEM "Picture",                     ID_REFRESH_ATT_PIC
+        END
+        MENUITEM "Effect",                      ID_REFRESH_EFFECT
+        MENUITEM "Capture",                     ID_REFRESH_CAPTURE
+        MENUITEM "Baseline",                    ID_REFRESH_BASELINE
+        MENUITEM "UnCheck Alpha",               ID_UNCHECK_ALPHA
+        MENUITEM "Option One",                  ID_OPT_ONE
+        MENUITEM "Option Two",                  ID_OPT_TWO
+        POPUP "Refresh Scroll Bar"
+        BEGIN
+            MENUITEM "Set Page Scroll Pos",         ID_SET_PAGE_SCROLL_POS
+            MENUITEM "Set Bar Bin Top Pos",         ID_SET_BIN_TOP_SCROLL_POS
+
+            MENUITEM "Set Bar Bin Bot Pos",         ID_SET_BIN_BOT_SCROLL_POS
+
+        END
+    END
+    POPUP "Comm."
+    BEGIN
+        MENUITEM "Receiver",                    IDM_COMM_RECEIVER
+        MENUITEM "Sender",                      IDM_COMM_SENDER
+        MENUITEM SEPARATOR
+        MENUITEM "Host Finder",                 IDM_HOST_FINDER
+        MENUITEM "Download",                    IDM_DOWNLOAD
+        MENUITEM SEPARATOR
+        MENUITEM "Modem",                       IDM_MODEM
+    END
+END
+
+IDR_POP_LAYER_LIST MENU DISCARDABLE 
+BEGIN
+    POPUP "Layer List"
+    BEGIN
+        MENUITEM "Layer 0",                     IDM_POP_LAYER_0
+        MENUITEM "Layer 1",                     IDM_POP_LAYER_1
+    END
+END
+
+IDR_POP_PAGE_LIST MENU DISCARDABLE 
+BEGIN
+    POPUP "Page List"
+    BEGIN
+        MENUITEM "Page 0",                      IDM_POP_PAGE_0
+        MENUITEM "Page 1",                      IDM_POP_PAGE_1
+    END
+END
+
+IDR_POP_PAGE_OPT MENU DISCARDABLE 
+BEGIN
+    POPUP "Page Option"
+    BEGIN
+        MENUITEM "Page Option 0",               IDM_POP_PAGE_OPT_0
+        MENUITEM "Page Option 1",               IDM_POP_PAGE_OPT_1
+    END
+END
+
+IDR_POP_PG_N_OBJ MENU DISCARDABLE 
+BEGIN
+    POPUP "Page and Object Option"
+    BEGIN
+        MENUITEM "Page n Obj 0",                IDM_POP_PAGE_OBJ_0
+        MENUITEM "Page n Obj 1",                IDM_POP_PAGE_OBJ_1
+    END
+END
+
+IDR_POP_STYLE_BIN MENU DISCARDABLE 
+BEGIN
+    POPUP "Style Bin"
+    BEGIN
+        MENUITEM "Style Bin 0",                 IDM_POP_STYLE_BIN_0
+        MENUITEM "Style Bin 1",                 IDM_POP_STYLE_BIN_1
+    END
+END
+
+IDR_POP_COLOR_BIN MENU DISCARDABLE 
+BEGIN
+    POPUP "Color Bin"
+    BEGIN
+        MENUITEM "Color Bin 0",                 IDM_POP_COLOR_BIN_0
+        MENUITEM "Color Bin 1",                 IDM_POP_COLOR_BIN_1
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
+BEGIN
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_F1,          ID_FKEY_F1,             VIRTKEY, NOINVERT
+    VK_F10,         ID_FKEY_F10,            VIRTKEY, NOINVERT
+    VK_F11,         ID_FKEY_F11,            VIRTKEY, NOINVERT
+    VK_F12,         ID_FKEY_F12,            VIRTKEY, NOINVERT
+    VK_F2,          ID_FKEY_F2,             VIRTKEY, NOINVERT
+    VK_F3,          ID_FKEY_F3,             VIRTKEY, NOINVERT
+    VK_F4,          ID_FKEY_F4,             VIRTKEY, NOINVERT
+    VK_F5,          ID_FKEY_F5,             VIRTKEY, NOINVERT
+    VK_F6,          ID_FKEY_F6,             VIRTKEY, NOINVERT
+    VK_F7,          ID_FKEY_F7,             VIRTKEY, NOINVERT
+    VK_F8,          ID_FKEY_F8,             VIRTKEY, NOINVERT
+    VK_F9,          ID_FKEY_F9,             VIRTKEY, NOINVERT
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 236, 42
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About Alpha CG Pro"
+FONT 12, "MS Sans Serif"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,11,20,20
+    LTEXT           "Alpha CG Pro [Demo] - www.invt.com",IDC_STATIC,40,8,147,
+                    8,SS_NOPREFIX
+    LTEXT           "Copyright (C) InnoVision Technology 2000",IDC_STATIC,40,
+                    23,133,8
+    DEFPUSHBUTTON   "OK",IDOK,193,17,36,9,WS_GROUP
+END
+
+IDD_DLGBAR_BOTTOM DIALOG DISCARDABLE  0, 0, 530, 99
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "Tab1",IDC_TAB_BOTTOM,"SysTabControl32",0x0,0,1,529,98
+END
+
+IDD_PAGE_PRESET DIALOG DISCARDABLE  0, 0, 330, 55
+STYLE WS_CHILD | WS_BORDER | WS_VSCROLL
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Preset",IDC_STATIC,60,20,95,10
+END
+
+IDD_PAGE_FILTER DIALOG DISCARDABLE  0, 0, 330, 55
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Filter",IDC_STATIC,50,20,16,8
+END
+
+IDD_PAGE_EFFECT DIALOG DISCARDABLE  0, 0, 400, 67
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Hold Time",IDC_STC_HOLD_TIME,61,5,38,8,NOT WS_GROUP
+    LTEXT           "Speed",IDC_STC_SPEED,61,20,34,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_MM,103,3,24,12,ES_CENTER | ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    CONTROL         "Spin1",IDC_SPN_MM,"msctls_updown32",UDS_WRAP | 
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,116,4,11,13
+    EDITTEXT        IDC_ED_SC,137,3,25,12,ES_CENTER | ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    CONTROL         "Spin2",IDC_SPN_SC,"msctls_updown32",UDS_WRAP | 
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,151,4,11,13
+    EDITTEXT        IDC_ED_FM,172,3,25,12,ES_CENTER | ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    CONTROL         "Spin2",IDC_SPN_FM,"msctls_updown32",UDS_WRAP | 
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,186,4,11,13
+    EDITTEXT        IDC_ED_SPD,103,19,24,12,ES_CENTER | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPN_SPEED,"msctls_updown32",UDS_WRAP | 
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,116,21,11,12
+    CTEXT           ":",IDC_STC,128,3,8,8,NOT WS_GROUP
+    CTEXT           ":",IDC_STC2,163,3,8,8,NOT WS_GROUP
+    PUSHBUTTON      "Play Project",IDC_BT_PLAY_PROJ,200,3,56,12,BS_CENTER | 
+                    BS_VCENTER
+    CONTROL         "GPI",IDC_CK_GPI,"Button",BS_AUTOCHECKBOX | BS_LEFT | 
+                    BS_VCENTER | WS_TABSTOP,258,3,25,10
+    CONTROL         "Loop",IDC_CK_LOOP,"Button",BS_AUTOCHECKBOX | BS_LEFT | 
+                    BS_VCENTER | WS_TABSTOP,287,3,37,10
+    CONTROL         "All Pages",IDC_RB_ALL_PAGE,"Button",BS_AUTORADIOBUTTON | 
+                    BS_LEFT | BS_VCENTER | WS_TABSTOP,205,17,42,10
+    CONTROL         "Pages",IDC_RB_PAGE,"Button",BS_AUTORADIOBUTTON | 
+                    BS_VCENTER | WS_TABSTOP,205,30,36,10
+    EDITTEXT        IDC_ED_START_PG,251,28,24,12,ES_CENTER | ES_NUMBER | 
+                    WS_DISABLED
+    EDITTEXT        IDC_ED_END_PG,288,28,24,12,ES_CENTER | ES_NUMBER | 
+                    WS_DISABLED
+    CTEXT           "To",IDC_STC_TO,276,30,10,8,NOT WS_GROUP
+    PUSHBUTTON      "Take",IDC_BT_TAKE,328,2,65,12
+    PUSHBUTTON      "Fade to Video",IDC_BT_FADE_VDO,328,15,65,12,BS_CENTER | 
+                    BS_VCENTER
+    PUSHBUTTON      "Live Video",IDC_BT_LIVE_VDO,328,28,65,12,BS_CENTER | 
+                    BS_BOTTOM
+    CONTROL         "",IDC_STC_PIC,"Static",SS_ETCHEDFRAME | SS_NOTIFY,7,7,
+                    46,33
+    PUSHBUTTON      "Stop Play Back",IDC_BT_STOP_PLAY,200,43,56,12
+END
+
+IDD_DLGBAR_LEFT DIALOG DISCARDABLE  0, 0, 104, 310
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "Tab1",IDC_TAB_LEFT,"SysTabControl32",TCS_RAGGEDRIGHT,0,
+                    0,103,310
+END
+
+IDD_PAGE_PAGE DIALOGEX 0, 0, 97, 153
+STYLE WS_CHILD | WS_VISIBLE
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_ED_PAGE_NUM,15,0,18,12,ES_RIGHT | ES_NUMBER | NOT 
+                    WS_TABSTOP
+    LTEXT           "of",IDC_STC_OF,40,2,8,8,NOT WS_GROUP
+    LTEXT           "TP",IDC_STC_PAGE_TOTAL,55,0,19,12,SS_CENTERIMAGE | NOT 
+                    WS_GROUP
+    COMBOBOX        IDC_CB_PAGE_TYPE,2,15,85,57,CBS_DROPDOWNLIST
+    SCROLLBAR       IDC_VSB_PGBOX,87,43,9,97,SBS_TOPALIGN | SBS_VERT
+    CONTROL         "List1",IDC_LIST_BOX,"SysListView32",LVS_SINGLESEL | 
+                    LVS_NOSCROLL | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER | 
+                    WS_BORDER,2,43,85,97,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "Button1",IDC_BT_NEW_PAGE,18,29,15,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button1",IDC_BT_EXPORT_PAGE,43,29,15,12,BS_ICON | NOT 
+                    WS_TABSTOP
+END
+
+IDD_PAGE_LAYER DIALOGEX 0, 0, 78, 153
+STYLE WS_CHILD | WS_VISIBLE
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Button1",IDC_BT_NEW_LAYER,6,5,15,13,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button1",IDC_BT_MOVE_UP,30,5,15,13,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button1",IDC_BT_MOVE_DOWN,54,5,15,13,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button1",IDC_BT_COPY_LAYER,6,21,15,13,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button1",IDC_BT_DEL_LAYER,30,21,15,13,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button1",IDC_BT_PASTE_LAYER,54,21,15,13,BS_ICON | NOT 
+                    WS_TABSTOP
+    EDITTEXT        IDC_ED_LAYER_NUM,11,37,18,12,ES_RIGHT | ES_NUMBER | NOT 
+                    WS_TABSTOP
+    LTEXT           "of",IDC_STC_OF,33,38,8,8,NOT WS_GROUP
+    LTEXT           "TP",IDC_STC_LAYER_TOTAL,46,37,19,12,SS_CENTERIMAGE | 
+                    NOT WS_GROUP
+    CONTROL         "List1",IDC_LAYER_LIST_BOX,"SysListView32",LVS_SINGLESEL | 
+                    LVS_NOSCROLL | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER | 
+                    WS_BORDER,1,53,64,97,WS_EX_CLIENTEDGE
+    SCROLLBAR       IDC_VSB_LAYER_BOX,65,53,10,97,SBS_TOPALIGN | SBS_VERT
+END
+
+IDD_DLGBAR_BINTOP DIALOGEX 0, 0, 102, 181
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    SCROLLBAR       IDC_VSB_TOPBIN,89,16,10,67,SBS_VERT
+    SCROLLBAR       IDC_VSB_BOTBIN,89,94,10,80,SBS_VERT
+    CONTROL         "List1",IDC_LIST_TOP_BIN,"SysListView32",LVS_SINGLESEL | 
+                    LVS_NOSCROLL | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER,3,
+                    16,85,67,WS_EX_CLIENTEDGE
+    CONTROL         "List2",IDC_LIST_BOT_BIN,"SysListView32",LVS_SINGLESEL | 
+                    LVS_NOSCROLL | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER | 
+                    WS_TABSTOP,3,92,85,82,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "Button1",IDC_TXT_PRESET,5,3,13,11,BS_ICON | NOT 
+                    WS_VISIBLE
+    PUSHBUTTON      "Button1",IDC_GFX_PRESET,22,3,13,11,BS_ICON | NOT 
+                    WS_VISIBLE
+    PUSHBUTTON      "Button1",IDC_SHOW_COLOR,48,3,13,11,BS_ICON | NOT 
+                    WS_VISIBLE
+    PUSHBUTTON      "Button1",IDC_SHOW_TEXTURE,68,3,13,11,BS_ICON | NOT 
+                    WS_VISIBLE
+END
+
+IDD_DLGBAR_PPAL DIALOG DISCARDABLE  0, 0, 92, 143
+STYLE WS_CHILD | WS_BORDER
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,35,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,35,24,50,14
+    LTEXT           "PAL",IDC_STATIC,53,57,20,12
+END
+
+IDD_DLG_PALETTE DIALOGEX 0, 0, 368, 233
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "Palette"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    PUSHBUTTON      "OK",IDOK,219,218,35,10,NOT WS_VISIBLE | NOT WS_TABSTOP
+    PUSHBUTTON      "Cancel",IDCANCEL,325,220,35,10
+    PUSHBUTTON      "PalOpen",IDC_BT_PAL_OPEN,303,3,14,11,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "PalSave",IDC_BT_PAL_SAVE,318,3,14,11,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "PalRedo",IDC_BT_PAL_REDO,348,3,14,11,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "PalUndo",IDC_BT_PAL_UNDO,333,3,14,11,BS_ICON | NOT 
+                    WS_TABSTOP
+    GROUPBOX        "Current Color",IDC_STC_CUR_COLOR,261,16,105,94,WS_GROUP
+    GROUPBOX        "Base Color",IDC_STC_BASE_COLOR,261,136,105,81,WS_GROUP
+    PUSHBUTTON      "Copy",IDC_BT_PAL_COPY,311,38,49,10,BS_CENTER | 
+                    BS_VCENTER | NOT WS_TABSTOP
+    PUSHBUTTON      "Swap",IDC_BT_PAL_SWAP,311,49,49,10,BS_CENTER | 
+                    BS_VCENTER | NOT WS_TABSTOP
+    CONTROL         "",IDC_SPREAD_COLOR,"Static",SS_BLACKFRAME,265,64,96,16,
+                    WS_EX_TRANSPARENT
+    PUSHBUTTON      "Add",IDC_BT_PAL_ADD,266,95,14,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "PalDelete",IDC_BT_PAL_DELETE,282,95,14,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "PalClear",IDC_BT_PAL_CLEAR,298,95,14,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "PalSpace",IDC_BT_PAL_SPACE,314,95,14,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "PalShift",IDC_BT_PAL_SHIFT,330,95,14,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "PalInvert",IDC_BT_PAL_INVERT,346,95,14,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    GROUPBOX        "Rotate Gradient",IDC_STC_ROTATE,261,111,105,24
+    SCROLLBAR       IDC_HSB_ROTATE,265,121,73,9
+    EDITTEXT        IDC_ED_ROTATE,340,119,21,12,ES_CENTER | ES_NUMBER
+    CONTROL         "",IDC_FRM_BASE_COLOR,"Static",SS_ETCHEDFRAME,265,146,35,
+                    24
+    CONTROL         "Video Safe",IDC_VDO_SAFE,"Button",BS_AUTOCHECKBOX,304,
+                    145,50,8
+    CONTROL         "RGB",IDC_RB_RGB,"Button",BS_AUTORADIOBUTTON | WS_GROUP,
+                    304,155,27,8
+    CONTROL         "HSV",IDC_RB_HSV,"Button",BS_AUTORADIOBUTTON,304,165,27,
+                    8
+    CTEXT           "R",IDC_STC_R,265,177,8,8,NOT WS_GROUP
+    CTEXT           "G",IDC_STC_G,265,188,8,8,NOT WS_GROUP
+    CTEXT           "B",IDC_STC_B,265,201,8,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_R,340,174,21,12,ES_CENTER | ES_NUMBER
+    EDITTEXT        IDC_ED_G,340,187,21,12,ES_CENTER | ES_NUMBER
+    EDITTEXT        IDC_ED_B,340,200,21,12,ES_CENTER | ES_NUMBER
+    SCROLLBAR       IDC_HSB_R,275,176,63,9
+    SCROLLBAR       IDC_HSB_G,275,188,63,9
+    SCROLLBAR       IDC_HSB_B,275,201,63,9
+    CONTROL         "List3",IDC_LIST_TAG,"SysListView32",LVS_SINGLESEL | 
+                    LVS_NOLABELWRAP | LVS_AUTOARRANGE | LVS_NOSCROLL,265,82,
+                    96,12
+    CONTROL         "Solid",IDC_BT_PAL_SOLID,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE | WS_GROUP,307,25,14,12
+    CONTROL         "Linear",IDC_BT_PAL_LINEAR,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,321,25,14,12
+    CONTROL         "Linear",IDC_BT_PAL_CIRCULAR,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,335,25,14,12
+    CONTROL         "Linear",IDC_BT_PAL_4POINT,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,349,25,14,12
+    CONTROL         "",IDC_PAL_CUR_COLOR,"Static",SS_BLACKFRAME,264,25,42,36
+    CONTROL         "List1",IDC_LIST_PAL_BIN,"SysListView32",LVS_SINGLESEL | 
+                    LVS_NOSCROLL | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER,5,5,
+                    252,210
+    PUSHBUTTON      "OK",IDC_OK,278,220,35,10
+    PUSHBUTTON      "Button1",IDC_BT_PAL_PICKER,343,156,14,12,BS_ICON
+END
+
+IDD_DLGBAR_PCIR DIALOG DISCARDABLE  0, 0, 82, 183
+STYLE WS_CHILD | WS_BORDER
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,25,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,25,24,50,14
+    LTEXT           "CIR",IDC_STATIC,17,52,35,11
+END
+
+IDD_DLGBAR_PFBG DIALOG DISCARDABLE  0, 0, 79, 180
+STYLE WS_CHILD | WS_BORDER
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,22,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,22,24,50,14
+    LTEXT           "FBG",IDC_STATIC,35,56,20,14
+END
+
+IDD_DLGBAR_PGRD DIALOG DISCARDABLE  0, 0, 78, 183
+STYLE WS_CHILD | WS_BORDER
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,21,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,21,24,50,14
+    LTEXT           "GRD",IDC_STATIC,27,58,31,14
+END
+
+IDD_PAGE_ATTRIB DIALOG DISCARDABLE  0, 0, 525, 80
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "Tab1",IDC_TAB_ATTRIB,"SysTabControl32",0x0,2,0,278,79
+END
+
+IDD_PG_FACE DIALOG DISCARDABLE  0, 0, 275, 63
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Color",IDC_STC_FACE_COLOR,16,0,68,61
+    GROUPBOX        "Transparency",IDC_STC_FACE_TRANS,83,0,70,61
+    PUSHBUTTON      "import",IDC_BT_COL_IMP_FA,62,11,17,13,BS_ICON | 
+                    BS_CENTER | BS_VCENTER | NOT WS_TABSTOP
+    PUSHBUTTON      "",IDC_BT_COL_PAL_FA,62,26,17,13,BS_ICON | BS_CENTER | 
+                    BS_VCENTER | NOT WS_TABSTOP
+    PUSHBUTTON      "import",IDC_BT_TRANS_IMP_FA,130,11,17,13,BS_ICON | 
+                    BS_CENTER | BS_VCENTER | NOT WS_TABSTOP
+    PUSHBUTTON      "",IDC_BT_TRANS_PAL_FA,130,26,17,13,BS_ICON | BS_CENTER | 
+                    BS_VCENTER | NOT WS_TABSTOP
+    CONTROL         "",IDC_FRM_COLOR_FA,"Static",SS_ETCHEDFRAME,20,10,40,30
+    CONTROL         "",IDC_FRM_TRANS_FA,"Static",SS_ETCHEDFRAME,88,10,40,30
+    EDITTEXT        IDC_ED_TRANS_FA,90,42,29,13,ES_RIGHT | ES_NUMBER | NOT 
+                    WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_TRANS_FA,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,109,44,11,12
+    EDITTEXT        IDC_ED_FA_FEATHER,172,19,30,13,ES_RIGHT | ES_NUMBER | 
+                    NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_FA_FEATHER,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,191,23,11,12
+    LTEXT           "Static",IDC_STC_FA_FEATHER,158,21,10,8
+    CONTROL         "Radio1",IDC_BT_TRANS_ALPHA_FA,"Button",
+                    BS_AUTORADIOBUTTON | BS_ICON | BS_PUSHLIKE,130,43,17,13
+    CONTROL         "Check1",IDC_CK_FA_ENABLE,"Button",BS_AUTOCHECKBOX | 
+                    BS_ICON | BS_CENTER | BS_VCENTER | BS_PUSHLIKE,3,4,10,10
+END
+
+IDD_PG_OUTLINE_1 DIALOG DISCARDABLE  0, 0, 275, 63
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Color",IDC_STC_OL_COLOR,16,0,68,61
+    GROUPBOX        "Transparency",IDC_STC_OL_TRANS,83,0,68,61
+    PUSHBUTTON      "import",IDC_BT_COL_IMP_OL,62,11,17,13,BS_ICON | 
+                    BS_CENTER | BS_VCENTER | NOT WS_TABSTOP
+    PUSHBUTTON      "",IDC_BT_COL_PAL_OL,62,26,17,13,BS_ICON | BS_CENTER | 
+                    BS_VCENTER | NOT WS_TABSTOP
+    PUSHBUTTON      "import",IDC_BT_TRANS_IMP_OL,130,11,17,13,BS_ICON | 
+                    BS_CENTER | BS_VCENTER | NOT WS_TABSTOP
+    PUSHBUTTON      "",IDC_BT_TRANS_PAL_OL,130,26,17,13,BS_ICON | BS_CENTER | 
+                    BS_VCENTER | NOT WS_TABSTOP
+    CONTROL         "",IDC_FRM_COLOR_OL,"Static",SS_ETCHEDFRAME,20,10,40,30
+    CONTROL         "",IDC_FRM_TRANS_OL,"Static",SS_ETCHEDFRAME,88,10,40,30
+    EDITTEXT        IDC_ED_TRANS_OL,90,42,29,13,ES_NUMBER | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_TRANS_OL,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,109,45,11,13
+    LTEXT           "Static",IDC_STC_OL1_SIZE,158,19,10,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_OL1_SIZE,172,18,29,13,ES_RIGHT | ES_NUMBER | NOT 
+                    WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_OL1_SIZE,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,192,20,11,13
+    EDITTEXT        IDC_ED_OL1_FEATHER,172,34,29,13,ES_RIGHT | ES_NUMBER | 
+                    NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_OL1_FEATHER,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,192,36,11,13
+    EDITTEXT        IDC_ED_OL1_XOFFSET,219,18,30,13,ES_RIGHT | ES_NUMBER | 
+                    NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_OL1_X_OFFSET,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,238,20,11,13
+    EDITTEXT        IDC_ED_OL1_YOFFSET,219,34,30,13,ES_RIGHT | ES_NUMBER | 
+                    NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_OL1_Y_OFFSET,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,238,36,11,13
+    LTEXT           "Static",IDC_STC_OL1_FEATHER,158,37,10,8
+    LTEXT           "Static",IDC_STC_OL1_XOFFSET,206,19,10,8,NOT WS_GROUP
+    LTEXT           "Static",IDC_STC_OL1_YOFFSET,206,35,10,8,NOT WS_GROUP
+    CONTROL         "Radio1",IDC_BT_TRANS_ALPHA_OL,"Button",
+                    BS_AUTORADIOBUTTON | BS_ICON | BS_PUSHLIKE,130,42,17,13
+    CONTROL         "Check1",IDC_CK_OL1_ENABLE,"Button",BS_AUTOCHECKBOX | 
+                    BS_ICON | BS_CENTER | BS_VCENTER | BS_PUSHLIKE,3,4,10,10
+END
+
+IDD_PG_OUTLINE_2 DIALOG DISCARDABLE  0, 0, 275, 63
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Color",IDC_STC_OL2_COLOR,16,0,68,61
+    GROUPBOX        "Transparency",IDC_STC_OL2_TRANS,83,0,70,61
+    PUSHBUTTON      "import",IDC_BT_COL_IMP_OL2,62,11,17,13,BS_ICON | 
+                    BS_CENTER | BS_VCENTER | NOT WS_TABSTOP
+    PUSHBUTTON      "",IDC_BT_COL_PAL_OL2,62,26,17,13,BS_ICON | BS_CENTER | 
+                    BS_VCENTER | NOT WS_TABSTOP
+    PUSHBUTTON      "import",IDC_BT_TRANS_IMP_OL2,130,11,17,13,BS_ICON | 
+                    BS_CENTER | BS_VCENTER | NOT WS_TABSTOP
+    PUSHBUTTON      "",IDC_BT_TRANS_PAL_OL2,130,26,17,13,BS_ICON | BS_CENTER | 
+                    BS_VCENTER | NOT WS_TABSTOP
+    CONTROL         "",IDC_FRM_COLOR_OL2,"Static",SS_ETCHEDFRAME,20,10,40,30
+    CONTROL         "",IDC_FRM_TRANS_OL2,"Static",SS_ETCHEDFRAME,88,10,40,30
+    EDITTEXT        IDC_ED_TRANS_OL2,90,42,29,13,ES_NUMBER | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_TRANS_OL2,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,107,44,11,13
+    LTEXT           "Static",IDC_STC_OL2_SIZE,158,19,10,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_OL2_SIZE,172,18,29,13,ES_RIGHT | ES_NUMBER | NOT 
+                    WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_OL2_SIZE,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,192,19,11,13
+    EDITTEXT        IDC_ED_OL2_FEATHER,172,34,29,13,ES_RIGHT | ES_NUMBER | 
+                    NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_OL2_FEATHER,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,192,36,11,13
+    EDITTEXT        IDC_ED_OL2_XOFFSET,219,18,30,13,ES_RIGHT | ES_NUMBER | 
+                    NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_OL2_X_OFFSET,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,239,19,11,13
+    EDITTEXT        IDC_ED_OL2_YOFFSET,219,34,30,13,ES_RIGHT | ES_NUMBER | 
+                    NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_OL2_Y_OFFSET,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,239,36,11,13
+    LTEXT           "Static",IDC_STC_OL2_FEATHER,158,37,10,8
+    LTEXT           "Static",IDC_STC_OL2_XOFFSET,206,19,10,8,NOT WS_GROUP
+    LTEXT           "Static",IDC_STC_OL2_YOFFSET,206,35,10,8,NOT WS_GROUP
+    CONTROL         "Radio1",IDC_BT_TRANS_ALPHA_OL2,"Button",
+                    BS_AUTORADIOBUTTON | BS_ICON | BS_PUSHLIKE,130,42,17,13
+    CONTROL         "Check1",IDC_CK_OL2_ENABLE,"Button",BS_AUTOCHECKBOX | 
+                    BS_ICON | BS_CENTER | BS_VCENTER | BS_PUSHLIKE,3,4,10,10
+END
+
+IDD_PG_SHADOW DIALOG DISCARDABLE  0, 0, 275, 63
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Color",IDC_STC_SHADOW_COLOR,15,0,68,61
+    CONTROL         "",IDC_FRM_COLOR_SD,"Static",SS_ETCHEDFRAME,19,10,40,30
+    PUSHBUTTON      "import",IDC_BT_COL_IMP_SD,61,11,17,13,BS_ICON | 
+                    BS_CENTER | BS_VCENTER | NOT WS_TABSTOP
+    PUSHBUTTON      "",IDC_BT_COL_PAL_SD,61,26,17,13,BS_ICON | BS_CENTER | 
+                    BS_VCENTER | NOT WS_TABSTOP
+    GROUPBOX        "Transparency",IDC_STC_SHADOW_TRANS,82,0,68,61
+    CONTROL         "",IDC_FRM_TRANS_SD,"Static",SS_ETCHEDFRAME,87,10,40,30
+    PUSHBUTTON      "import",IDC_BT_TRANS_IMP_SD,129,11,17,13,BS_ICON | 
+                    BS_CENTER | BS_VCENTER | NOT WS_TABSTOP
+    PUSHBUTTON      "",IDC_BT_TRANS_PAL_SD,129,26,17,13,BS_ICON | BS_CENTER | 
+                    BS_VCENTER | NOT WS_TABSTOP
+    EDITTEXT        IDC_ED_TRANS_SD,89,42,29,13,ES_NUMBER | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_TRANS_SD,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,105,44,11,13
+    LTEXT           "Static",IDC_STC_SD_SIZE,153,19,10,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_SD_SIZE,166,18,30,13,ES_RIGHT | ES_NUMBER | NOT 
+                    WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_SIZE,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,182,20,11,
+                    13
+    EDITTEXT        IDC_ED_SD_FEATHER,166,34,30,13,ES_RIGHT | ES_NUMBER | 
+                    NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_FEATHER,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,181,36,11,13
+    EDITTEXT        IDC_ED_SD_XOFFSET,211,18,30,13,ES_RIGHT | ES_NUMBER | 
+                    NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_X_OFFSET,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,230,20,11,13
+    EDITTEXT        IDC_ED_SD_YOFFSET,211,34,30,13,ES_RIGHT | ES_NUMBER | 
+                    NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_Y_OFFSET,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,230,36,11,13
+    CONTROL         "",IDC_RB_DIRECT_UL,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE | WS_GROUP,244,37,9,8
+    CONTROL         "",IDC_RB_DIRECT_U,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
+                    BS_PUSHLIKE,254,37,9,8
+    CONTROL         "",IDC_RB_DIRECT_UR,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,264,37,9,8
+    CONTROL         "",IDC_RB_DIRECT_R,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
+                    BS_PUSHLIKE,264,45,9,8
+    CONTROL         "",IDC_RB_DIRECT_DR,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,264,53,9,8
+    CONTROL         "",IDC_RB_DIRECT_D,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
+                    BS_PUSHLIKE,254,53,9,8
+    CONTROL         "",IDC_RB_DIRECT_DL,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,244,53,9,8
+    CONTROL         "",IDC_RB_DIRECT_L,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
+                    BS_PUSHLIKE,244,45,9,8
+    CONTROL         "",IDC_RB_DIRECT_C,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
+                    BS_PUSHLIKE,254,45,9,8
+    LTEXT           "Static",IDC_STC_SD_FEATHER,153,36,10,8
+    LTEXT           "Static",IDC_STC_SD_XOFFSET,198,20,10,8,NOT WS_GROUP
+    LTEXT           "Static",IDC_STC_SD_YOFFSET,198,36,10,8,NOT WS_GROUP
+    CONTROL         "Radio1",IDC_BT_TRANS_ALPHA_SD,"Button",
+                    BS_AUTORADIOBUTTON | BS_ICON | BS_PUSHLIKE | WS_GROUP,
+                    129,42,17,13
+    CONTROL         "Check1",IDC_CK_SD_ENABLE,"Button",BS_AUTOCHECKBOX | 
+                    BS_ICON | BS_CENTER | BS_VCENTER | BS_PUSHLIKE,3,4,10,10
+END
+
+IDD_PG_CAST DIALOG DISCARDABLE  0, 0, 275, 63
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Color",IDC_STC_CAST_COLOR,15,0,68,61
+    GROUPBOX        "Transparency",IDC_STC_CAST_TRANS,82,0,68,61
+    PUSHBUTTON      "import",IDC_BT_COL_IMP_CA,61,11,17,13,BS_ICON | 
+                    BS_CENTER | BS_VCENTER | NOT WS_TABSTOP
+    PUSHBUTTON      "",IDC_BT_COL_PAL_CA,61,26,17,13,BS_ICON | BS_CENTER | 
+                    BS_VCENTER | NOT WS_TABSTOP
+    PUSHBUTTON      "import",IDC_BT_TRANS_IMP_CA,129,11,17,13,BS_ICON | 
+                    BS_CENTER | BS_VCENTER | NOT WS_TABSTOP
+    PUSHBUTTON      "",IDC_BT_TRANS_PAL_CA,129,26,17,13,BS_ICON | BS_CENTER | 
+                    BS_VCENTER | NOT WS_TABSTOP
+    CONTROL         "",IDC_FRM_COLOR_CA,"Static",SS_ETCHEDFRAME,19,10,40,30
+    CONTROL         "",IDC_FRM_TRANS_CA,"Static",SS_ETCHEDFRAME,87,10,40,30
+    EDITTEXT        IDC_ED_TRANS_CA,89,42,29,13,ES_NUMBER | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_TRANS_CA,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,107,45,11,13
+    LTEXT           "Static",IDC_STC_CA_SIZE,153,19,10,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_CA_SIZE,166,18,30,13,ES_RIGHT | ES_NUMBER | NOT 
+                    WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_CA_SIZE,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,184,20,11,13
+    EDITTEXT        IDC_ED_CA_FEATHER,166,34,30,13,ES_RIGHT | ES_NUMBER | 
+                    NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_CA_FEATHER,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,183,36,11,13
+    EDITTEXT        IDC_ED_CA_XOFFSET,211,18,30,13,ES_RIGHT | ES_NUMBER | 
+                    NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_CA_X_OFFSET,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,231,20,11,13
+    EDITTEXT        IDC_ED_CA_YOFFSET,211,34,30,13,ES_RIGHT | ES_NUMBER | 
+                    NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_CA_Y_OFFSET,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,226,36,11,13
+    CONTROL         "",IDC_RB_CA_DIRECT_UL,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE | WS_GROUP,244,37,9,8
+    CONTROL         "",IDC_RB_CA_DIRECT_U,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,254,37,9,8
+    CONTROL         "",IDC_RB_CA_DIRECT_UR,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,264,37,9,8
+    CONTROL         "",IDC_RB_CA_DIRECT_R,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,264,45,9,8
+    CONTROL         "",IDC_RB_CA_DIRECT_DR,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,264,53,9,8
+    CONTROL         "",IDC_RB_CA_DIRECT_D,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,254,53,9,8
+    CONTROL         "",IDC_RB_CA_DIRECT_DL,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,244,53,9,8
+    CONTROL         "",IDC_RB_CA_DIRECT_L,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,244,45,9,8
+    CONTROL         "",IDC_RB_CA_DIRECT_C,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,254,45,9,8
+    LTEXT           "Static",IDC_STC_CA_FEATHER,153,36,10,8
+    LTEXT           "Static",IDC_STC_CA_XOFFSET,198,20,10,8,NOT WS_GROUP
+    LTEXT           "Static",IDC_STC_CA_YOFFSET,198,36,10,8,NOT WS_GROUP
+    CONTROL         "Radio1",IDC_BT_TRANS_ALPHA_CA,"Button",
+                    BS_AUTORADIOBUTTON | BS_ICON | BS_PUSHLIKE | WS_GROUP,
+                    129,42,17,13
+    CONTROL         "Check1",IDC_CK_CA_ENABLE,"Button",BS_AUTOCHECKBOX | 
+                    BS_ICON | BS_CENTER | BS_VCENTER | BS_PUSHLIKE,3,4,10,10
+END
+
+IDD_ATTRIB_TEXT DIALOG DISCARDABLE  0, 0, 214, 80
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_ED_T_X,72,54,41,12,ES_RIGHT
+    CONTROL         "Spin1",IDC_SPN_T_X,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,97,53,11,14
+    EDITTEXT        IDC_ED_T_Y,126,54,41,12,ES_RIGHT
+    CONTROL         "Spin1",IDC_SPN_T_Y,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,150,55,11,14
+    COMBOBOX        IDC_CB_T_FONT,16,0,90,270,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL
+    RADIOBUTTON     "bold",IDC_RB_T_BOLD,111,1,13,11,BS_ICON | BS_PUSHLIKE
+    RADIOBUTTON     "italic",IDC_RB_T_ITALIC,125,1,13,11,BS_ICON | 
+                    BS_PUSHLIKE
+    RADIOBUTTON     "underline",IDC_RB_T_UNDERLNE,139,1,13,11,BS_ICON | 
+                    BS_PUSHLIKE
+    CONTROL         "",IDC_FRM_T_PREVIEW,"Static",SS_ETCHEDFRAME,0,19,53,44
+    LTEXT           "Static",IDC_STC_T_HEIGHT,58,17,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_T_HEIGHT,72,15,41,12,ES_RIGHT
+    CONTROL         "Spin1",IDC_SPN_T_HEIGHT,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,97,14,11,
+                    14
+    LTEXT           "Static",IDC_STC_T_WIDTH,114,16,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_T_WIDTH,126,15,41,12,ES_RIGHT
+    CONTROL         "Spin1",IDC_SPN_T_WIDTH,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,150,15,11,14
+    LTEXT           "Static",IDC_STC_T_SPACE,58,30,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_T_SPACE,72,28,41,12,ES_RIGHT
+    CONTROL         "Spin1",IDC_SPN_T_SPACING,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,97,28,11,
+                    14
+    LTEXT           "Static",IDC_STC_T_KERNING,114,29,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_T_KERNING,126,28,41,12,ES_RIGHT
+    CONTROL         "Spin1",IDC_SPN_T_KERN,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,150,28,11,14
+    LTEXT           "Static",IDC_STC_T_ROTATION,58,43,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_T_ROTATION,72,41,41,12,ES_RIGHT
+    CONTROL         "Spin1",IDC_SPN_T_ROTATE,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,97,42,11,
+                    14
+    LTEXT           "Static",IDC_STC_T_BEVEL,114,42,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_T_BEVEL,126,41,41,12,ES_RIGHT
+    CONTROL         "Spin1",IDC_SPN_T_BEVEL,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,150,42,11,14
+    PUSHBUTTON      "Button2",IDC_BT_T_F,58,68,13,11,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_T_PLUS,75,68,13,11,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_T_MINUS,92,68,13,11,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_T_B,109,68,13,11,BS_ICON | NOT 
+                    WS_TABSTOP
+    EDITTEXT        IDC_ED_T_PRIORITY,126,67,41,12,ES_RIGHT
+    CONTROL         "Spin1",IDC_SPN_T_PRIORITY,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,147,66,11,14
+    PUSHBUTTON      "Button2",IDC_BT_T_LOCK,34,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    CTEXT           "X",IDC_STC_T_X,60,56,8,8,NOT WS_GROUP
+    CTEXT           "Y",IDC_STC_T_Y,116,55,8,8,NOT WS_GROUP
+    RADIOBUTTON     "",IDC_RB_T_SMALL_CAP,153,1,13,11,BS_ICON | BS_PUSHLIKE
+    RADIOBUTTON     "Radio1",IDC_BT_SUPERSCRIPT,167,1,13,11,BS_ICON | 
+                    BS_PUSHLIKE
+    RADIOBUTTON     "Radio1",IDC_BT_SUBSCRIPT,181,1,13,11,BS_ICON | 
+                    BS_PUSHLIKE
+    PUSHBUTTON      "Button2",IDC_BT_FONT_LIST,1,1,13,11,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_ADVANCE,19,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "",IDC_BT_SAVE_STYLE,5,67,13,12,BS_ICON | NOT WS_TABSTOP
+END
+
+IDD_ATTRIB_LINE DIALOG DISCARDABLE  0, 0, 178, 80
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_ED_L_X,74,53,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_L_X,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,98,52,11,14
+    EDITTEXT        IDC_ED_L_Y,133,53,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_L_Y,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,150,54,11,14
+    CONTROL         "",IDC_FRM_L_PREVIEW,"Static",SS_ETCHEDFRAME,1,17,53,44
+    LTEXT           "Static",IDC_STC_L_LENGTH,59,15,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_L_LENGTH,74,13,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_L_LENGTH,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,98,13,11,
+                    14
+    LTEXT           "Static",IDC_STC_L_THICK,120,15,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_L_THICK,133,13,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_L_THICK,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,150,14,11,14
+    LTEXT           "Static",IDC_STC_ROUNDNESS,59,41,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_ROUNDNESS,74,40,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_ROUNDNESS,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,98,40,11,
+                    14
+    LTEXT           "Static",IDC_STC_V_PERCENT,120,28,9,8,NOT WS_VISIBLE | 
+                    WS_DISABLED | NOT WS_GROUP
+    EDITTEXT        IDC_ED_V_PERCENT,133,27,41,12,ES_RIGHT | NOT WS_VISIBLE | 
+                    WS_DISABLED | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_V_PERCENT,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | NOT 
+                    WS_VISIBLE | WS_DISABLED,150,27,11,14
+    LTEXT           "Static",IDC_STC_L_ROTATION,59,29,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_L_ROTATION,74,27,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_L_ROTATE,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,98,28,11,
+                    14
+    LTEXT           "Static",IDC_STC_L_BEVEL,120,41,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_L_BEVEL,133,40,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_L_BEVEL,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,150,41,11,14
+    PUSHBUTTON      "Button2",IDC_BT_L_F,59,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_L_PLUS,76,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_L_MINUS,93,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_L_B,110,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    EDITTEXT        IDC_ED_L_PRIORITY,133,67,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_L_PRIORITY,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,150,65,11,14
+    PUSHBUTTON      "Button2",IDC_BT_L_LOCK,33,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    CTEXT           "X",IDC_STC_L_X,61,55,8,8,NOT WS_GROUP
+    CTEXT           "Y",IDC_STC_L_Y,122,55,8,8,NOT WS_GROUP
+    PUSHBUTTON      "Button2",IDC_BT_ADVANCE,19,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "",IDC_BT_SAVE_STYLE,5,67,13,12,BS_ICON | NOT WS_TABSTOP
+END
+
+IDD_ATTRIB_BOX DIALOG DISCARDABLE  0, 0, 178, 80
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_ED_B_X,72,54,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_B_X,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,97,53,11,14
+    EDITTEXT        IDC_ED_B_Y,133,54,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_B_Y,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,149,55,11,14
+    CONTROL         "",IDC_FRM_B_PREVIEW,"Static",SS_ETCHEDFRAME,0,18,53,44
+    LTEXT           "Static",IDC_STC_B_HEIGHT,58,16,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_B_HEIGHT,72,14,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_B_HEIGHT,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,97,14,11,
+                    14
+    LTEXT           "Static",IDC_STC_B_WIDTH,119,16,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_B_WIDTH,133,14,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_B_WIDTH,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,149,15,11,14
+    LTEXT           "Static",IDC_STC_ROUNDNESS,58,42,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_ROUNDNESS,72,41,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_ROUNDNESS,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,97,41,11,
+                    14
+    LTEXT           "Static",IDC_STC_V_PERCENT,119,29,9,8,NOT WS_VISIBLE | 
+                    WS_DISABLED | NOT WS_GROUP
+    EDITTEXT        IDC_ED_V_PERCENT,133,28,41,12,ES_RIGHT | NOT WS_VISIBLE | 
+                    WS_DISABLED | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_V_PERCENT,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | NOT 
+                    WS_VISIBLE | WS_DISABLED,149,28,11,14
+    LTEXT           "Static",IDC_STC_B_ROTATION,58,29,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_B_ROTATION,72,28,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_B_ROTATE,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,97,28,11,
+                    14
+    LTEXT           "Static",IDC_STC_B_BEVEL,119,42,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_B_BEVEL,133,41,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_B_BEVEL,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,149,42,11,14
+    PUSHBUTTON      "Button2",IDC_BT_B_F,58,68,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_B_PLUS,75,68,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_B_MINUS,92,68,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_B_B,109,68,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    EDITTEXT        IDC_ED_B_PRIORITY,133,68,41,12,ES_RIGHT | ES_NUMBER | 
+                    NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_B_PRIORITY,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,149,66,11,14
+    PUSHBUTTON      "Button2",IDC_BT_B_LOCK,34,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    CTEXT           "X",IDC_STC_B_X,60,56,8,8,NOT WS_GROUP
+    CTEXT           "Y",IDC_STC_B_Y,119,56,9,8,NOT WS_GROUP
+    PUSHBUTTON      "Button2",IDC_BT_ADVANCE,19,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "",IDC_BT_SAVE_STYLE,5,67,13,12,BS_ICON | NOT WS_TABSTOP
+END
+
+IDD_ATTRIB_OVAL DIALOG DISCARDABLE  0, 0, 178, 80
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_ED_O_X,74,54,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_O_X,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,97,53,11,14
+    EDITTEXT        IDC_ED_O_Y,133,54,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_O_Y,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,147,55,11,14
+    CONTROL         "",IDC_FRM_O_PREVIEW,"Static",SS_ETCHEDFRAME,0,18,53,44
+    LTEXT           "Static",IDC_STC_O_SIZE,58,16,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_O_SIZE,74,14,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_O_SIZE,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,97,14,11,14
+    LTEXT           "Static",IDC_STC_O_WIDTH,120,16,9,8,NOT WS_VISIBLE | 
+                    WS_DISABLED | NOT WS_GROUP
+    EDITTEXT        IDC_ED_O_WIDTH,133,14,41,12,ES_RIGHT | NOT WS_VISIBLE | 
+                    WS_DISABLED | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_O_WIDTH,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS | NOT WS_VISIBLE | WS_DISABLED,147,15,11,
+                    14
+    LTEXT           "Static",IDC_STC_ROUNDNESS,58,42,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_O_ROUNDNESS,74,41,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_ROUNDNESS,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,97,41,11,
+                    14
+    LTEXT           "Static",IDC_STC_V_PERCENT,120,29,9,8,NOT WS_VISIBLE | 
+                    WS_DISABLED | NOT WS_GROUP
+    EDITTEXT        IDC_ED_V_PERCENT,133,28,41,12,ES_RIGHT | NOT WS_VISIBLE | 
+                    WS_DISABLED | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_V_PERCENT,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS | NOT WS_VISIBLE | WS_DISABLED,147,28,11,
+                    14
+    LTEXT           "Static",IDC_STC_O_ROTATION,58,30,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_O_ROTATION,74,28,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_O_ROTATE,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,97,29,11,
+                    14
+    LTEXT           "Static",IDC_STC_O_BEVEL,120,42,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_O_BEVEL,133,41,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_O_BEVEL,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,147,42,11,14
+    PUSHBUTTON      "Button2",IDC_BT_O_F,58,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_O_PLUS,75,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_O_MINUS,92,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_O_B,109,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    EDITTEXT        IDC_ED_O_PRIORITY,133,67,41,12,ES_RIGHT | ES_NUMBER | 
+                    NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_O_PRIORITY,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,147,66,11,14
+    PUSHBUTTON      "Button2",IDC_BT_O_LOCK,34,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    CTEXT           "X",IDC_STC_O_X,60,56,8,8,NOT WS_GROUP
+    CTEXT           "Y",IDC_STC_O_Y,122,56,8,8,NOT WS_GROUP
+    PUSHBUTTON      "Button2",IDC_BT_ADVANCE,19,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "",IDC_BT_SAVE_STYLE,5,67,13,12,BS_ICON | NOT WS_TABSTOP
+END
+
+IDD_ATTRIB_FILL DIALOG DISCARDABLE  0, 0, 178, 80
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_ED_F_X,72,54,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_F_X,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,97,53,11,14
+    EDITTEXT        IDC_ED_F_Y,133,54,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_F_Y,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,150,55,11,14
+    CONTROL         "",IDC_FRM_F_PREVIEW,"Static",SS_ETCHEDFRAME,0,18,53,44
+    LTEXT           "Static",IDC_STC_F_HEIGHT,58,16,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_F_HEIGHT,72,14,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_F_HEIGHT,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,97,14,11,
+                    14
+    LTEXT           "Static",IDC_STC_F_WIDTH,119,16,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_F_WIDTH,133,14,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_F_WIDTH,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,150,15,11,14
+    LTEXT           "Static",IDC_STC_ROUNDNESS,58,42,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_ROUNDNESS,72,41,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_ROUNDNESS,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,96,41,11,
+                    14
+    LTEXT           "Static",IDC_STC_V_PERCENT,119,29,9,8,NOT WS_VISIBLE | 
+                    WS_DISABLED | NOT WS_GROUP
+    EDITTEXT        IDC_ED_V_PERCENT,133,28,41,12,ES_RIGHT | NOT WS_VISIBLE | 
+                    WS_DISABLED | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_V_PERCENT,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | NOT 
+                    WS_VISIBLE | WS_DISABLED,150,28,11,14
+    LTEXT           "Static",IDC_STC_F_ROTATION,58,30,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_F_ROTATION,72,28,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_F_ROTATE,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,97,29,11,
+                    14
+    LTEXT           "Static",IDC_STC_F_BEVEL,119,42,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_F_BEVEL,133,41,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_F_BEVEL,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,150,42,11,14
+    PUSHBUTTON      "Button2",IDC_BT_F_F,58,68,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_F_PLUS,75,68,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_F_MINUS,92,68,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_F_B,109,68,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    EDITTEXT        IDC_ED_F_PRIORITY,133,68,41,12,ES_RIGHT | ES_NUMBER | 
+                    NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_F_PRIORITY,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,150,66,11,14
+    PUSHBUTTON      "Button2",IDC_BT_F_LOCK,34,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    CTEXT           "X",IDC_STC_F_X,60,56,8,8,NOT WS_GROUP
+    CTEXT           "Y",IDC_STC_F_Y,121,56,8,8,NOT WS_GROUP
+    PUSHBUTTON      "Button2",IDC_BT_ADVANCE,19,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "",IDC_BT_SAVE_STYLE,5,67,13,12,BS_ICON | NOT WS_TABSTOP
+END
+
+IDD_PAGE_SETUP_DLG DIALOGEX 0, 0, 268, 230
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Page Setup"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Page Type",IDC_GP_PAGE_TYPE,5,0,259,38,WS_GROUP
+    COMBOBOX        IDC_CB_TYPE,10,10,77,50,CBS_DROPDOWNLIST | WS_TABSTOP
+    LTEXT           "Safe Title Area",IDC_STC_SAFE_AREA,96,12,71,8
+    EDITTEXT        IDC_ED_STA,172,9,31,12,ES_NUMBER | WS_GROUP,WS_EX_RIGHT
+    CONTROL         "Spin1",IDC_SPN_PS_STA,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,183,11,11,
+                    12
+    LTEXT           "%",IDC_STC_PERCENT,205,11,8,8
+    CONTROL         "Safe Title ",IDC_CK_SAFE_TITLE_INDICATOR,"Button",
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,10,27,81,8
+    PUSHBUTTON      "Default",IDC_BT_STA,221,9,39,12,WS_GROUP | NOT 
+                    WS_TABSTOP
+    GROUPBOX        "Page Center Offset",IDC_GP_PAGE_CENTER_OFFSET,3,207,139,
+                    22,NOT WS_VISIBLE | WS_DISABLED | WS_GROUP
+    LTEXT           "Horizontal",IDC_STC_HORI,10,214,32,8,NOT WS_VISIBLE | 
+                    WS_DISABLED
+    EDITTEXT        IDC_ED_HORI,48,211,15,12,ES_RIGHT | NOT WS_VISIBLE | 
+                    WS_DISABLED | WS_GROUP
+    CONTROL         "Spin1",IDC_SPN_PS_HORI,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS | NOT WS_VISIBLE | 
+                    WS_DISABLED,57,214,11,12
+    LTEXT           "Vertical",IDC_STC_VERT,84,215,24,8,NOT WS_VISIBLE | 
+                    WS_DISABLED
+    EDITTEXT        IDC_ED_VERT,110,214,12,12,ES_RIGHT | NOT WS_VISIBLE | 
+                    WS_DISABLED | WS_GROUP
+    CONTROL         "Spin1",IDC_SPN_PS_VERT,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS | NOT WS_VISIBLE | 
+                    WS_DISABLED,115,213,11,12
+    GROUPBOX        "Page Margins",IDC_GP_MARGIN,5,99,259,38,WS_GROUP
+    LTEXT           "TOP",IDC_STC_TOP,13,110,44,9
+    EDITTEXT        IDC_ED_TOP,63,108,44,12,ES_RIGHT | WS_GROUP
+    CONTROL         "Spin1",IDC_SPN_PS_TOP,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,91,106,11,12
+    LTEXT           "Left",IDC_STC_LEFT,117,110,35,8
+    EDITTEXT        IDC_ED_LEFT,151,108,44,12,ES_RIGHT | WS_GROUP
+    CONTROL         "Spin1",IDC_SPN_PS_LEFT,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,181,106,11,12
+    LTEXT           "Bottom",IDC_STC_BOTTOM,13,124,44,8
+    EDITTEXT        IDC_ED_BOTTOM,63,122,44,12,ES_RIGHT | WS_GROUP
+    CONTROL         "Spin1",IDC_SPN_PS_BOTTOM,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,95,120,11,
+                    12
+    LTEXT           "Right",IDC_STC_RIGHT,117,124,36,8
+    EDITTEXT        IDC_ED_RIGHT,151,122,44,12,ES_RIGHT | WS_GROUP
+    CONTROL         "Spin1",IDC_SPN_PS_RIGHT,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,167,121,
+                    11,12
+    PUSHBUTTON      "Default",IDC_BT_PM,221,108,39,12,WS_GROUP | NOT 
+                    WS_TABSTOP
+    LTEXT           "Spacing",IDC_STC_SPACING,25,148,45,10
+    EDITTEXT        IDC_ED_HORI_SPACE,21,160,37,12,ES_NUMBER | WS_GROUP,
+                    WS_EX_RIGHT
+    CONTROL         "Spin1",IDC_SPN_PS_HORI_SPACE,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,50,162,11,12
+    EDITTEXT        IDC_ED_VERT_SPACE,21,173,37,12,ES_NUMBER | WS_GROUP,
+                    WS_EX_RIGHT
+    CONTROL         "Spin1",IDC_SPN_PS_VERT_SPACE,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,49,175,11,12
+    EDITTEXT        IDC_ED_HORI_OFFSET,69,160,37,12,WS_GROUP,WS_EX_RIGHT
+    CONTROL         "Spin1",IDC_SPN_PS_HORI_OFFSET,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,97,162,11,12
+    EDITTEXT        IDC_ED_VERT_OFFSET,69,173,37,12,WS_GROUP,WS_EX_RIGHT
+    CONTROL         "Spin1",IDC_SPN_PS_VERT_OFFSET,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,94,176,11,12
+    CONTROL         "Horizontal",IDC_CK_HORI,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,110,163,88,10
+    CONTROL         "Vertical",IDC_CK_VERT,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,110,174,88,10
+    CONTROL         "Show Grids",IDC_CK_SHOW_GRIDS,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,110,184,88,10
+    CONTROL         "Snap to Grid",IDC_CK_SNAP_GRID,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,110,195,88,10
+    PUSHBUTTON      "Default",IDC_BT_GRID,221,158,39,12,WS_GROUP | NOT 
+                    WS_TABSTOP
+    GROUPBOX        "Grids",IDC_GP_GRIDS,5,139,259,69,WS_GROUP
+    GROUPBOX        "Resolution",IDC_GP_RESOLUTION,5,39,259,59,WS_GROUP
+    COMBOBOX        IDC_CB_RESOLUTION,10,52,104,100,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    LTEXT           " Width",IDC_STC_WIDTH,14,71,54,8
+    LTEXT           " Height",IDC_STC_HEIGHT,14,84,54,8
+    EDITTEXT        IDC_ED_SP_WIDTH,73,68,37,12,ES_NUMBER | WS_GROUP,
+                    WS_EX_RIGHT
+    CONTROL         "Spin1",IDC_SPN_PS_RES_WIDTH,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,102,70,11,12
+    EDITTEXT        IDC_ED_SP_HEIGHT,73,82,37,12,ES_NUMBER | WS_GROUP,
+                    WS_EX_RIGHT
+    CONTROL         "Spin1",IDC_SPN_PS_RES_HEIGHT,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,101,84,11,12
+    LTEXT           "Offset",IDC_STC_OFFSET,73,148,35,10
+    PUSHBUTTON      "OK",IDC_OK,151,212,52,12,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,208,212,52,12,WS_GROUP
+    CONTROL         "Safe Action",IDC_CK_SAFE_ACTION,"Button",
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,98,27,81,8
+    CONTROL         "Center Point",IDC_CK_CENTER_POINT,"Button",
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,186,27,74,8
+    LTEXT           "%",IDC_STC_PERCENT2,131,216,8,8,NOT WS_VISIBLE | 
+                    WS_DISABLED
+    LTEXT           "%",IDC_STC_PERCENT3,71,215,8,8,NOT WS_VISIBLE | 
+                    WS_DISABLED
+    LTEXT           "%",IDC_STC_PERCENT4,197,124,8,8
+    LTEXT           "%",IDC_STC_PERCENT5,197,110,8,8
+    LTEXT           "%",IDC_STC_PERCENT6,108,110,8,8
+    LTEXT           "%",IDC_STC_PERCENT7,108,124,8,8
+    LTEXT           "Screen Aspect Ratio",IDC_STC_ASPECT_RATIO,140,49,114,8
+    CONTROL         "4 : 3",IDC_RB_4_3,"Button",BS_AUTORADIOBUTTON,151,61,84,
+                    8
+    CONTROL         "16 : 9",IDC_RB_16_9,"Button",BS_AUTORADIOBUTTON,151,72,
+                    84,8
+    CONTROL         "Square Pixel",IDC_RB_SQR_PIXEL,"Button",
+                    BS_AUTORADIOBUTTON,151,83,84,9
+END
+
+IDD_VIDEO_CLIP_DLG DIALOGEX 0, 0, 382, 49
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_ED_FILE_NAME,3,5,117,12,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "Load Clip",IDC_LOAD_CLIP,123,5,38,12
+    PUSHBUTTON      "Play Title",IDC_PLAY_TITLE,295,28,38,12
+    PUSHBUTTON      "Stop",IDC_STOP,236,28,38,12
+    PUSHBUTTON      "Play",IDC_PLAY,192,28,38,12
+    CONTROL         "Display on Video Monitor",IDC_VDO_MON,"Button",
+                    BS_AUTOCHECKBOX,3,29,94,10
+    LTEXT           "From:",IDC_STATIC,171,6,18,8
+    LTEXT           "To:",IDC_STATIC,279,6,12,8
+    PUSHBUTTON      "Apply Title",IDC_APPLY_TITLE,339,28,38,12
+    CTEXT           ":",IDC_STATIC,229,4,8,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_FR_HH,193,4,13,12,ES_CENTER | ES_NUMBER | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    EDITTEXT        IDC_ED_FR_MM,215,4,13,12,ES_CENTER | ES_NUMBER | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    EDITTEXT        IDC_ED_FR_SS,238,4,13,12,ES_CENTER | ES_NUMBER | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    EDITTEXT        IDC_ED_FR_FF,259,4,13,12,ES_CENTER | ES_NUMBER | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    CTEXT           ":",IDC_STATIC,251,4,8,8,NOT WS_GROUP
+    CTEXT           ":",IDC_STATIC,207,4,8,8,NOT WS_GROUP
+    CTEXT           ":",IDC_STATIC,332,4,8,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_TO_HH,296,4,13,12,ES_CENTER | ES_NUMBER | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    EDITTEXT        IDC_ED_TO_MM,318,4,13,12,ES_CENTER | ES_NUMBER | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    EDITTEXT        IDC_ED_TO_SS,340,4,13,12,ES_CENTER | ES_NUMBER | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    EDITTEXT        IDC_ED_TO_FF,362,4,13,12,ES_CENTER | ES_NUMBER | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    CTEXT           ":",IDC_STATIC,354,4,8,8,NOT WS_GROUP
+    CTEXT           ":",IDC_STATIC,310,4,8,8,NOT WS_GROUP
+END
+
+IDD_VIDEO_FRAME_DLG DIALOGEX 0, 0, 436, 207
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Video Clip Setting"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CTEXT           ":",IDC_STATIC,323,187,8,8,NOT WS_GROUP
+    CONTROL         "",IDC_OUT_FRAME,"Static",SS_GRAYFRAME,226,17,204,143,
+                    WS_EX_DLGMODALFRAME | WS_EX_CLIENTEDGE
+    CONTROL         "",IDC_OUT_RECT,"Static",SS_WHITERECT,232,22,192,133
+    CONTROL         "",IDC_IN_FRAME,"Static",SS_GRAYFRAME,4,17,204,143,
+                    WS_EX_DLGMODALFRAME | WS_EX_CLIENTEDGE
+    EDITTEXT        IDC_ED_IN_POINT,95,2,30,12,ES_RIGHT | ES_NUMBER | NOT 
+                    WS_VISIBLE | WS_DISABLED
+    EDITTEXT        IDC_ED_OUT_POINT,285,1,30,12,ES_RIGHT | ES_NUMBER | NOT 
+                    WS_VISIBLE | WS_DISABLED
+    SCROLLBAR       IDC_HS_IN_POINT,10,174,192,10,WS_TABSTOP
+    SCROLLBAR       IDC_HS_OUT_POINT,231,174,193,10,WS_TABSTOP
+    EDITTEXT        IDC_ED_DURATION,188,1,60,12,ES_CENTER | ES_READONLY | 
+                    NOT WS_TABSTOP
+    GROUPBOX        "In Point",IDC_STATIC,5,162,204,43,BS_LEFT | WS_GROUP,
+                    WS_EX_TRANSPARENT
+    GROUPBOX        "Out Point",IDC_STATIC,226,162,204,41,BS_RIGHT | 
+                    WS_GROUP,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_ED_OUT_HH,287,187,13,12,ES_CENTER | ES_NUMBER | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    EDITTEXT        IDC_ED_OUT_MM,309,187,13,12,ES_CENTER | ES_NUMBER | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    EDITTEXT        IDC_ED_OUT_SS,332,187,13,12,ES_CENTER | ES_NUMBER | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    EDITTEXT        IDC_ED_OUT_FF,353,187,13,12,ES_CENTER | ES_NUMBER | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    CTEXT           ":",IDC_STATIC,345,187,8,8,NOT WS_GROUP
+    CTEXT           ":",IDC_STATIC,301,187,8,8,NOT WS_GROUP
+    CTEXT           ":",IDC_STATIC,99,188,8,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_IN_HH,63,188,13,12,ES_CENTER | ES_NUMBER | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    EDITTEXT        IDC_ED_IN_MM,85,188,13,12,ES_CENTER | ES_NUMBER | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    EDITTEXT        IDC_ED_IN_SS,108,188,13,12,ES_CENTER | ES_NUMBER | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    EDITTEXT        IDC_ED_IN_FF,129,188,13,12,ES_CENTER | ES_NUMBER | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    CTEXT           ":",IDC_STATIC,121,188,8,8,NOT WS_GROUP
+    CTEXT           ":",IDC_STATIC,77,188,8,8,NOT WS_GROUP
+    CONTROL         "",IDC_IN_RECT,"Static",SS_WHITERECT,10,22,192,133
+    LTEXT           "Duration",IDC_STATIC,158,3,28,8
+END
+
+IDD_TITLE_VDO_SETUP DIALOG DISCARDABLE  0, 0, 241, 157
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION
+CAPTION "Video Setup"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Video Input",IDC_STC_VDO_INPUT,3,0,234,91
+    GROUPBOX        "Video Output",IDC_VIDEO_OUTPUT_STATIC,3,91,234,52
+    LTEXT           "Brightness",IDC_STC_BRIGHT,10,10,68,11,NOT WS_GROUP
+    EDITTEXT        IDC_ED_BRIGHT,84,9,33,12,ES_CENTER
+    CONTROL         "Spin1",IDC_SPN_BRIGHT,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,106,10,8,
+                    12
+    CONTROL         "Slider1",IDC_HSD_BRIGHT,"msctls_trackbar32",
+                    TBS_AUTOTICKS | WS_TABSTOP,118,9,112,11
+    LTEXT           "Contrast",IDC_STC_CONTRAST,10,33,68,11,NOT WS_GROUP
+    EDITTEXT        IDC_ED_CONSTRAST,84,31,33,12,ES_CENTER
+    CONTROL         "Spin2",IDC_SPN_CONSTRAST,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,107,33,8,12
+    CONTROL         "Slider2",IDC_HSD_CONTRAST,"msctls_trackbar32",
+                    TBS_AUTOTICKS | WS_TABSTOP,118,31,112,11
+    LTEXT           "H Delay",IDC_STC_H_DELAY,10,55,68,11,NOT WS_GROUP
+    EDITTEXT        IDC_ED_HDELAY,84,52,33,12,ES_CENTER
+    CONTROL         "Spin3",IDC_SPN_HDELAY,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
+                    WS_TABSTOP,107,54,8,12
+    CONTROL         "Slider3",IDC_HSD_HDELAY,"msctls_trackbar32",
+                    TBS_AUTOTICKS | WS_TABSTOP,118,52,112,11
+    CONTROL         "Flicker Filter",IDC_CK_FLICKER,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,10,128,81,10
+    CONTROL         "NTSC",IDC_RB_NTSC,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,10,100,81,10
+    CONTROL         "PAL",IDC_RB_PAL,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,10,114,81,10
+    LTEXT           "-128",IDC_STC_NUM0,116,21,15,8
+    LTEXT           "128",IDC_STC_NUM1,217,21,13,8
+    LTEXT           "-128",IDC_STC_NUM2,116,43,15,8
+    LTEXT           "128",IDC_STC_NUM3,217,43,13,8
+    LTEXT           "-128",IDC_STC_NUM4,116,64,15,8
+    LTEXT           "128",IDC_STC_NUM5,217,64,13,8
+    PUSHBUTTON      "Save",IDOK,56,145,50,10
+    PUSHBUTTON      "Cancel",IDCANCEL,110,145,50,10
+    PUSHBUTTON      "Defaults",IDC_BT_DEFAULT,177,75,50,11
+    LTEXT           "Format",IDC_STC_VDO_FORMAT,10,77,68,10,NOT WS_GROUP
+    LTEXT           "Format",IDC_STC_FORMAT,100,101,48,8,NOT WS_GROUP
+    COMBOBOX        IDC_CB_IN_FORMAT,84,74,76,48,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    COMBOBOX        IDC_CB_OUT_FORMAT,153,98,81,56,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Mode",IDC_STC_MODE,100,115,48,8
+    LTEXT           "GPI Port",IDC_STC_GPIPORT,100,129,48,8
+    COMBOBOX        IDC_CB_OUT_MODE,153,112,81,32,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_CB_OUT_GPIPORT,153,126,81,66,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_DLG_CAP_PICONS DIALOG DISCARDABLE  0, 0, 411, 256
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Capture Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "",IDC_FRM_CAP_PIC,"Static",SS_ETCHEDFRAME,5,4,340,206
+    PUSHBUTTON      "Export...",IDC_BT_EXPORT,353,182,50,11,NOT WS_TABSTOP
+    CONTROL         "to disk",IDC_RB_TO_DISK,"Button",BS_AUTORADIOBUTTON,353,
+                    198,37,10
+    CONTROL         "to title page",IDC_RB_TO_TITLE_PAGE,"Button",
+                    BS_AUTORADIOBUTTON,353,210,53,10
+    PUSHBUTTON      "Exit",IDOK,353,239,50,11
+    CONTROL         "",IDC_FRM_PICON,"Static",SS_ETCHEDFRAME,3,214,344,39
+END
+
+IDD_PAGE_CAPTURE DIALOG DISCARDABLE  0, 0, 388, 46
+STYLE DS_CONTROL | WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Capture Type",IDC_STC_CAP_TYPE,4,7,44,8,NOT WS_GROUP
+    COMBOBOX        IDC_CB_CAPTURE_TYPE,53,5,77,51,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Grab",IDC_BT_GRAB,160,6,50,11
+    PUSHBUTTON      "Multi-Grab",IDC_BT_MULTI_GRAB,160,21,50,11
+END
+
+IDD_DLG_MESG DIALOG DISCARDABLE  0, 0, 285, 63
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "ACG"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Cancel",IDCANCEL,119,48,47,11,NOT WS_TABSTOP
+    EDITTEXT        IDC_STC_MSG1,12,10,260,31,ES_CENTER | ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_READONLY | NOT WS_BORDER | NOT 
+                    WS_TABSTOP
+END
+
+IDD_PIC_LOAD_OPT DIALOGEX 0, 0, 262, 186
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Add Picture Option"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_ED_ED_WIN_SIZE,22,114,36,12,ES_RIGHT | NOT 
+                    WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_ED_WIN,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,41,115,9,13
+    LTEXT           "% edit window size",IDC_STC_ED_WIN_SIZE,59,115,126,8
+    DEFPUSHBUTTON   "OK",IDOK,206,146,44,12
+    PUSHBUTTON      "Cancel",IDCANCEL,206,161,44,12
+    LTEXT           "File",IDC_STC_FILE,9,55,56,10,NOT WS_GROUP
+    LTEXT           "Original Size",IDC_STC_ORIG_SIZE,9,67,56,10
+    GROUPBOX        "Load Size Option",IDC_GP_LD_SIZE,4,80,189,104
+    CONTROL         "Original Size",IDC_RB_ORIG_SIZE,"Button",
+                    BS_AUTORADIOBUTTON | BS_VCENTER,9,91,177,10
+    CONTROL         "Fit to Edi Window",IDC_RB_FIT_ED_WIN,"Button",
+                    BS_AUTORADIOBUTTON | BS_VCENTER,9,102,177,10
+    CONTROL         "",IDC_RB_ED_WIN_SIZE,"Button",BS_AUTORADIOBUTTON,9,115,
+                    11,8
+    CONTROL         "K Include Alpha Channel",IDC_CK_A_CH_INCLUDE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,9,150,177,10
+    CONTROL         "Invert Alpha Channel",IDC_CK_A_CH_INVERT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,9,161,177,10
+    CONTROL         "Black Trim",IDC_CK_BLACK_TRIM,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,9,172,177,10
+    GROUPBOX        "Position",IDC_GP_POSITION,198,80,59,57
+    CONTROL         "",IDC_RB_UL,"Button",BS_AUTORADIOBUTTON | WS_GROUP,209,
+                    96,9,8
+    CONTROL         "",IDC_RB_UM,"Button",BS_AUTORADIOBUTTON,224,96,9,8
+    CONTROL         "",IDC_RB_UR,"Button",BS_AUTORADIOBUTTON,239,96,9,8
+    CONTROL         "",IDC_RB_ML,"Button",BS_AUTORADIOBUTTON,209,106,9,8
+    CONTROL         "",IDC_RB_CC,"Button",BS_AUTORADIOBUTTON,224,106,9,8
+    CONTROL         "",IDC_RB_MR,"Button",BS_AUTORADIOBUTTON,239,106,9,8
+    CONTROL         "",IDC_RB_BL,"Button",BS_AUTORADIOBUTTON,209,116,9,8
+    CONTROL         "",IDC_RB_BM,"Button",BS_AUTORADIOBUTTON,224,116,9,8
+    CONTROL         "",IDC_RB_BR,"Button",BS_AUTORADIOBUTTON,239,116,9,8
+    LTEXT           "Size",IDC_STC_SIZE,23,128,72,8,NOT WS_VISIBLE | NOT 
+                    WS_GROUP
+    GROUPBOX        "",IDC_STATIC,4,143,189,41
+    CONTROL         "Preserve Image Aspect",IDC_CK_PRESERVE_ASPECT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,9,136,177,9
+    CONTROL         "",IDC_STC_FRAME,"Static",SS_ETCHEDFRAME,97,2,67,50,
+                    WS_EX_TRANSPARENT
+    EDITTEXT        IDC_STC_FILE_NAME,69,56,188,12,ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
+    EDITTEXT        IDC_STC_FILE_ORIG_SIZE,69,68,188,12,ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
+END
+
+IDD_ATTRIB_IMPORT DIALOG DISCARDABLE  0, 0, 178, 80
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_ED_G_X,72,53,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_G_X,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,97,52,11,14
+    EDITTEXT        IDC_ED_G_Y,131,53,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_G_Y,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,150,54,11,14
+    CONTROL         "",IDC_FRM_G_PREVIEW,"Static",SS_ETCHEDFRAME,0,17,53,44
+    LTEXT           "Static",IDC_STC_G_HEIGHT,58,15,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_G_HEIGHT,72,13,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_G_HEIGHT,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,97,13,11,
+                    14
+    LTEXT           "Static",IDC_STC_G_WIDTH,118,15,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_G_WIDTH,131,13,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_G_WIDTH,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,150,14,11,14
+    LTEXT           "Static",IDC_STC_H_PERCENT,58,28,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_WIDTH_PERCENT,72,27,41,12,ES_RIGHT | NOT 
+                    WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_WIDTH_PERCENT,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,97,27,11,
+                    14
+    LTEXT           "Static",IDC_STC_V_PERCENT,118,28,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_HEIGHT_PERCENT,131,27,41,12,ES_RIGHT | NOT 
+                    WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_HEIGHT_PERCENT,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,150,27,11,
+                    14
+    LTEXT           "Static",IDC_STC_G_ROTATION,58,42,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_G_ROTATION,72,40,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_G_ROTATE,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,97,41,11,
+                    14
+    LTEXT           "Static",IDC_STC_G_BEVEL,118,41,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_G_BEVEL,131,40,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_G_BEVEL,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,150,41,11,14
+    PUSHBUTTON      "Button2",IDC_BT_G_F,58,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_G_PLUS,75,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_G_MINUS,92,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_G_B,109,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    EDITTEXT        IDC_ED_G_PRIORITY,131,67,41,12,ES_RIGHT | ES_NUMBER | 
+                    NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_G_PRIORITY,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,150,65,11,14
+    PUSHBUTTON      "Button2",IDC_BT_G_LOCK,34,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    CTEXT           "X",IDC_STC_G_X,60,55,8,8,NOT WS_GROUP
+    CTEXT           "Y",IDC_STC_G_Y,120,55,8,8,NOT WS_GROUP
+    PUSHBUTTON      "Button2",IDC_BT_ADVANCE,19,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "",IDC_BT_SAVE_STYLE,5,67,13,12,BS_ICON | NOT WS_TABSTOP
+END
+
+IDD_DLG_SPELL_CHECKER DIALOG DISCARDABLE  0, 0, 152, 158
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Spell Check"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "DONE",IDOK,99,132,50,11
+    PUSHBUTTON      "Cancel",IDCANCEL,99,118,50,11
+    LTEXT           "Original Word",IDC_STC_ORIGINAL_WORD,5,3,91,8,
+                    SS_CENTERIMAGE | NOT WS_GROUP
+    EDITTEXT        IDC_ED_ORIGINAL_WORD,4,13,91,12,ES_READONLY
+    LTEXT           "Change To",IDC_STC_CHANGE_TO,6,34,91,8,SS_CENTERIMAGE | 
+                    NOT WS_GROUP
+    EDITTEXT        IDC_ED_CHANGE_TO,4,43,91,12
+    PUSHBUTTON      "Replace",IDC_BT_REPLACE,99,8,50,10
+    PUSHBUTTON      "Ignore",IDC_BT_IGNORE,99,21,50,10
+    PUSHBUTTON      "Add",IDC_BT_ADD,99,44,50,10
+    LTEXT           "Alternate Spellings",IDC_STC_ALTER_SPELL,6,60,93,10,
+                    SS_CENTERIMAGE | NOT WS_GROUP
+    LISTBOX         IDC_LB_ALTER_SPELL,4,71,91,73,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Static",IDC_STC_DONE_MSG,4,146,145,10,SS_CENTERIMAGE | 
+                    NOT WS_VISIBLE | NOT WS_GROUP
+END
+
+IDD_PIC_FILE_DLG DIALOGEX 0, 0, 255, 66
+STYLE DS_3DLOOK | DS_CONTROL | WS_CHILD | WS_CLIPSIBLINGS
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_PIC_FRAME,"Static",SS_ETCHEDFRAME,5,2,83,61,
+                    WS_EX_TRANSPARENT
+    LTEXT           "Name:",IDC_STC_NAME,95,5,37,8,SS_CENTERIMAGE | NOT 
+                    WS_GROUP
+    LTEXT           "Time:",IDC_STC_LAST_TIME,95,50,37,8,SS_CENTERIMAGE | 
+                    NOT WS_GROUP
+    LTEXT           "Size:",IDC_STC_RES,95,20,37,8,SS_CENTERIMAGE | NOT 
+                    WS_GROUP
+    LTEXT           "",IDC_STC_OUT_NAME,137,5,113,8,SS_CENTERIMAGE | NOT 
+                    WS_GROUP
+    LTEXT           "",IDC_STC_OUT_TIME,137,50,113,8,SS_CENTERIMAGE | NOT 
+                    WS_GROUP
+    LTEXT           "",IDC_STC_OUT_RES,137,20,113,8,SS_CENTERIMAGE | NOT 
+                    WS_GROUP
+    LTEXT           "Date:",IDC_STC_LAST_DATE,95,35,37,8,SS_CENTERIMAGE | 
+                    NOT WS_GROUP
+    LTEXT           "",IDC_STC_OUT_DATE,137,35,113,8,SS_CENTERIMAGE | NOT 
+                    WS_GROUP
+    LTEXT           "Preview",IDC_STATIC,17,31,57,9,NOT WS_GROUP
+END
+
+IDD_COMM_DOWNLOAD DIALOG DISCARDABLE  0, 0, 184, 261
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Download"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Get",IDC_BT_HTTP_GET,133,26,40,11
+    PUSHBUTTON      "Cancel",IDCANCEL,60,180,40,11
+    GROUPBOX        "HTTP",IDC_GP_HTTP,5,2,175,38
+    EDITTEXT        IDC_ED_HTTP,10,12,165,11,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ED_SHOW_HTML,5,210,170,45,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_AUTOHSCROLL | WS_VSCROLL | 
+                    WS_HSCROLL
+    LTEXT           "Testing only - All download in c:\\me",IDC_STATIC,5,195,
+                    155,8
+    DEFPUSHBUTTON   "Get",IDC_BT_FTP_GET,90,97,40,11
+    GROUPBOX        "FTP",IDC_GP_FTP,5,42,175,70
+    EDITTEXT        IDC_ED_FTP,10,53,165,11,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "Get",IDC_BT_FILE_GET,90,140,40,11
+    GROUPBOX        "FILE",IDC_GP_FILE,5,116,175,38
+    EDITTEXT        IDC_ED_FILE,10,127,165,11,ES_AUTOHSCROLL
+    CONTROL         "CERN Proxy",IDC_CK_CERN,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,10,97,55,8
+    CONTROL         "HTML",IDC_RB_HTML,"Button",BS_AUTORADIOBUTTON,14,27,36,
+                    10
+    CONTROL         "Image",IDC_RB_IMAGE,"Button",BS_AUTORADIOBUTTON,75,27,
+                    35,10
+    LTEXT           "User name",IDC_STC_USERNAME,10,69,35,8
+    LTEXT           "Password",IDC_STC_PASSWORD,10,84,32,8
+    EDITTEXT        IDC_ED_USERNAME,60,68,115,11,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ED_PASSWORD,60,83,115,11,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "Send",IDC_BT_FTP_SEND,133,97,40,11
+    DEFPUSHBUTTON   "Send",IDC_BT_FILE_SEND,133,140,40,11
+END
+
+IDD_COMM_FINDER DIALOGEX 0, 0, 181, 76
+STYLE DS_MODALFRAME | DS_SETFOREGROUND | WS_POPUP | WS_VISIBLE | WS_CAPTION
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "Host Finder"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Cancel",IDOK,137,61,35,12
+    CONTROL         "Host Name",IDC_RB_HOSTNAME,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,9,13,66,8
+    EDITTEXT        IDC_ED_HOSTNAME,82,11,90,12,ES_AUTOHSCROLL
+    CONTROL         "IP Address",IDC_RB_IP_ADDR,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,9,27,66,8
+    EDITTEXT        IDC_ED_IP_ADDR,82,25,90,12
+    PUSHBUTTON      "Find",IDC_BT_FIND,137,42,35,12
+    GROUPBOX        "Find Machine",IDC_GP_MACH_FINDER,4,0,174,58
+    CONTROL         "Static",IDC_STC_DISP_HOST,"Static",SS_LEFTNOWORDWRAP | 
+                    SS_CENTERIMAGE,9,42,125,12
+END
+
+IDD_COMM_MODEM DIALOG DISCARDABLE  0, 0, 251, 74
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Modem Session"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Select Game To Join:",-1,2,4,69,8
+    LISTBOX         IDC_GAMES_LIST,2,17,183,35,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Join",IDC_JOIN,13,56,50,14
+    DEFPUSHBUTTON   "Create Session",IDC_CREATE,190,7,55,14
+    PUSHBUTTON      "Cancel",IDC_BACK,190,44,55,14
+    CONTROL         "Dial to",IDC_SEARCH_CHECK,"Button",BS_AUTOCHECKBOX | 
+                    BS_PUSHLIKE | WS_TABSTOP,190,25,55,14
+END
+
+IDD_COMM_RECEIVER DIALOGEX 0, 0, 182, 58
+STYLE DS_MODALFRAME | DS_SETFOREGROUND | WS_POPUP | WS_VISIBLE | WS_CAPTION
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "Receiver"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_CB_TCP_PORT,9,11,75,52,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,89,11,41,12
+    PUSHBUTTON      "Cancel",IDCANCEL,133,11,41,12
+    GROUPBOX        "TCP Port Number",IDC_GP_PORT_NUM,2,1,178,27
+    GROUPBOX        "Message",IDC_GP_R_MESG,2,29,178,27
+    EDITTEXT        IDC_ED_R_MSG,9,40,125,11,ES_AUTOHSCROLL
+    PUSHBUTTON      "Send",IDC_BT_R_SEND,139,40,35,11
+END
+
+IDD_COMM_SENDER DIALOGEX 0, 0, 166, 126
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "Sender"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Connect",IDOK,83,43,35,12
+    PUSHBUTTON      "Cancel",IDCANCEL,128,17,35,12
+    GROUPBOX        "Connect To",IDC_GP_CONNECT,4,0,120,60
+    LTEXT           "Host Name \\ IP Address",IDC_STC_HOST_ID,12,10,105,8
+    EDITTEXT        IDC_ED_HOST_ID,10,19,110,12,ES_AUTOHSCROLL
+    LTEXT           "TCP Port Number",IDC_STC_TCP_PORT,11,34,105,8
+    COMBOBOX        IDC_CB_PORT_NUM,9,43,71,63,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Send",IDC_BT_SEND,123,107,35,12
+    EDITTEXT        IDC_ED_MSG,9,107,110,12,ES_AUTOHSCROLL
+    GROUPBOX        "Message",IDC_GP_MSG,4,96,159,27
+END
+
+IDD_COMM_WAITING DIALOG DISCARDABLE  0, 0, 186, 46
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,35,27,43,11
+    PUSHBUTTON      "Cancel",IDCANCEL,97,27,43,11
+    LTEXT           "Waiting Now ....",IDC_WAIT_TEXT,66,10,52,8
+END
+
+IDD_MAIN_GAME DIALOG DISCARDABLE  0, 0, 233, 164
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Testing purpose"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Exit",IDCANCEL,169,10,50,15
+    PUSHBUTTON      "Send",IDC_SEND,174,140,50,12
+    LISTBOX         IDC_CHAT_LISTBOX,10,31,211,101,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Number of people in conversation:",IDC_STATIC,7,10,118,
+                    9
+    LTEXT           "0",IDC_NUM_PLAYERS,131,10,28,9
+    EDITTEXT        IDC_CHAT_EDIT,11,141,160,12,ES_AUTOHSCROLL
+END
+
+IDD_MUTLIPLAYER_CONNECT DIALOG DISCARDABLE  0, 0, 282, 151
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Multiplayer Connect"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Player Name:",IDC_STATIC,7,10,43,8
+    EDITTEXT        IDC_PLAYER_NAME_EDIT,7,22,268,14,ES_AUTOHSCROLL
+    LTEXT           "Connection Type:",IDC_STATIC,7,41,57,8
+    LISTBOX         IDC_CONNECTION_LIST,7,53,268,72,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,171,130,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,225,130,50,14
+END
+
+IDD_VM_VDO_SETUP DIALOG DISCARDABLE  0, 0, 82, 96
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "VM Video Setup"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,4,83,34,11
+    PUSHBUTTON      "Cancel",IDCANCEL,41,83,34,11
+    LTEXT           "Video Overlay Source",IDC_STC_VDO_OVERLAY,4,2,72,8
+    COMBOBOX        IDC_CB_VDO_OVERLAY,4,12,72,74,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Video Preview Update",IDC_STC_VDO_PREVIEW,4,31,73,8
+    COMBOBOX        IDC_CB_VDO_PREVIEW,4,41,73,59,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Video Defringe",IDC_CK_VDO_DEFRINGE,"Button",
+                    BS_AUTOCHECKBOX | BS_LEFT | BS_VCENTER | WS_TABSTOP,4,60,
+                    76,8
+    CONTROL         "Anti-flicker Filter",IDC_CK_ANTI_FLICKER,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,4,70,70,8
+END
+
+IDD_TAB_SETUP DIALOGEX 0, 0, 232, 76
+STYLE DS_MODALFRAME | DS_SETFOREGROUND | WS_VISIBLE | WS_CAPTION
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "Tab Setup"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         "1",IDC_RB_TAB1,"Button",BS_AUTORADIOBUTTON | BS_CENTER | 
+                    BS_VCENTER | BS_PUSHLIKE | WS_GROUP | WS_TABSTOP,3,3,16,
+                    10
+    CONTROL         "2",IDC_RB_TAB2,"Button",BS_AUTORADIOBUTTON | BS_CENTER | 
+                    BS_VCENTER | BS_PUSHLIKE | WS_TABSTOP,26,3,16,10
+    CONTROL         "3",IDC_RB_TAB3,"Button",BS_AUTORADIOBUTTON | BS_CENTER | 
+                    BS_VCENTER | BS_PUSHLIKE | WS_TABSTOP,49,3,16,10
+    CONTROL         "4",IDC_RB_TAB4,"Button",BS_AUTORADIOBUTTON | BS_CENTER | 
+                    BS_VCENTER | BS_PUSHLIKE | WS_TABSTOP,72,3,16,10
+    CONTROL         "5",IDC_RB_TAB5,"Button",BS_AUTORADIOBUTTON | BS_CENTER | 
+                    BS_VCENTER | BS_PUSHLIKE | WS_TABSTOP,95,3,16,10
+    CONTROL         "6",IDC_RB_TAB6,"Button",BS_AUTORADIOBUTTON | BS_CENTER | 
+                    BS_VCENTER | BS_PUSHLIKE | WS_TABSTOP,118,3,16,10
+    CONTROL         "7",IDC_RB_TAB7,"Button",BS_AUTORADIOBUTTON | BS_CENTER | 
+                    BS_VCENTER | BS_PUSHLIKE | WS_TABSTOP,141,3,16,10
+    CONTROL         "8",IDC_RB_TAB8,"Button",BS_AUTORADIOBUTTON | BS_CENTER | 
+                    BS_VCENTER | BS_PUSHLIKE | WS_TABSTOP,164,3,16,10
+    GROUPBOX        "Align",IDC_STC_ALIGN,2,15,226,26
+    CONTROL         "Left",IDC_RB_ALIGN_LEFT,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,9,26,45,10
+    CONTROL         "Center",IDC_RB_ALIGN_CENTER,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,65,26,45,10
+    CONTROL         "Right",IDC_RB_ALIGN_RIGHT,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,121,26,45,10
+    CONTROL         "Decimal",IDC_RB_ALIGN_DECIMAL,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP,177,26,45,10
+    LTEXT           "Position",IDC_STC_POSITION,11,45,34,8
+    EDITTEXT        IDC_ED_POS,51,44,41,12,ES_RIGHT
+    CONTROL         "Spin1",IDC_SPN_POS,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,70,44,11,15
+    LTEXT           "%",IDC_STC_PERCENT,95,46,8,8,NOT WS_GROUP
+    PUSHBUTTON      "Reset All",IDC_BT_RESET,113,44,54,12,BS_CENTER | 
+                    BS_VCENTER
+    DEFPUSHBUTTON   "OK",IDOK,51,60,54,12
+    PUSHBUTTON      "Cancel",IDCANCEL,113,60,54,12
+    CONTROL         "9",IDC_RB_TAB9,"Button",BS_AUTORADIOBUTTON | BS_CENTER | 
+                    BS_VCENTER | BS_PUSHLIKE | WS_TABSTOP,187,3,16,10
+    CONTROL         "10",IDC_RB_TAB10,"Button",BS_AUTORADIOBUTTON | 
+                    BS_CENTER | BS_VCENTER | BS_PUSHLIKE | WS_TABSTOP,210,3,
+                    17,10
+END
+
+IDD_DLG_ANNOTATION DIALOG DISCARDABLE  0, 0, 186, 40
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Page Annotation"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_ED_ANNOT,11,6,162,13
+    DEFPUSHBUTTON   "OK",IDOK,49,26,42,11
+    PUSHBUTTON      "Cancel",IDCANCEL,93,26,42,11
+END
+
+IDD_DLG_PREFER DIALOG DISCARDABLE  0, 0, 336, 71
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Preferences"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_ED_PROJ,60,15,255,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ED_GRAF,60,28,255,12
+    EDITTEXT        IDC_ED_PG_EXPORT,60,41,255,12
+    DEFPUSHBUTTON   "OK",IDOK,125,56,40,11
+    PUSHBUTTON      "Cancel",IDCANCEL,170,56,40,11
+    LTEXT           "Default Folders :",IDC_STC_FOLDER,4,3,76,9
+    LTEXT           "Projects",IDC_STC_PROJECT,5,16,50,8
+    LTEXT           "Graphics",IDC_STC_GRAPHIC,5,29,50,8
+    LTEXT           "Page Export",IDC_STC_PAGE_EXP,5,42,50,8
+    PUSHBUTTON      "Button1",IDC_BT_BROWSE1,318,15,13,11,BS_ICON
+    PUSHBUTTON      "Button1",IDC_BT_BROWSE2,318,28,13,11,BS_ICON
+    PUSHBUTTON      "Button1",IDC_BT_BROWSE3,318,41,13,11,BS_ICON
+END
+
+IDD_GET_PATH DIALOG DISCARDABLE  0, 0, 183, 188
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Blar..."
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "Tree1",IDC_TREE,"SysTreeView32",TVS_HASBUTTONS | 
+                    TVS_HASLINES | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | 
+                    TVS_SHOWSELALWAYS | TVS_INFOTIP | TVS_FULLROWSELECT | 
+                    WS_BORDER | WS_TABSTOP,7,16,169,146
+    DEFPUSHBUTTON   "OK",IDOK,72,167,50,14,WS_DISABLED
+    PUSHBUTTON      "Cancel",IDCANCEL,126,167,50,14
+    LTEXT           "Blar blar blar...",IDC_STATIC_NOTE,7,5,169,10
+END
+
+IDD_DLG_CHAR_MAP DIALOGEX 0, 0, 480, 80
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Character Map"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,359,66,46,12
+    PUSHBUTTON      "Cancel",IDCANCEL,410,66,46,12
+    CONTROL         "List1",IDC_LIST_CHAR_MAP,"SysListView32",WS_BORDER,4,3,
+                    456,60,WS_EX_CLIENTEDGE
+    SCROLLBAR       IDC_SB_CHAR_MAP,460,3,11,60,SBS_VERT
+    PUSHBUTTON      "Back Space",IDC_BT_BACKSPACE,24,65,55,12
+    PUSHBUTTON      "Delete",IDC_BT_DELETE,84,65,55,12
+    PUSHBUTTON      "Enter",IDC_BT_ENTER,144,65,55,12
+    PUSHBUTTON      "Button4",IDC_BT_LEFT,225,66,14,12,BS_ICON
+    PUSHBUTTON      "Button4",IDC_BT_RIGHT,243,66,14,12,BS_ICON
+    PUSHBUTTON      "Up",IDC_BT_UP,261,66,14,12,BS_ICON
+    PUSHBUTTON      "Down",IDC_BT_DOWN,279,66,14,12,BS_ICON
+END
+
+IDD_FONT_LOCATOR DIALOG DISCARDABLE  0, 0, 335, 265
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Font Locator"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,243,241,39,12
+    PUSHBUTTON      "Cancel",IDCANCEL,288,241,39,12
+    CONTROL         "",IDC_FRM_FONT,"Static",SS_BLACKFRAME,2,2,320,222
+    GROUPBOX        "View",IDC_STC_VIEW,2,225,332,39
+    CONTROL         "Serif Fonts",IDC_CK_SERIF_FONT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,39,233,93,8
+    CONTROL         "Sans Serif Fonts",IDC_CK_SANS_SERIF_FONT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,39,243,93,8
+    CONTROL         "Symbol Fonts",IDC_CK_SYMBOL_FONT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,39,253,93,8
+    SCROLLBAR       IDC_VSB_FONT,322,2,11,222,SBS_VERT
+END
+
+IDD_ZOOM_BOX DIALOG DISCARDABLE  0, 0, 216, 98
+STYLE WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL
+FONT 8, "MS Sans Serif"
+BEGIN
+END
+
+IDD_PAGE_BASELINE DIALOG DISCARDABLE  0, 0, 416, 82
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Baseline Type",IDC_GP_BASELINE,4,1,86,26
+    CONTROL         "Radio1",IDC_RB_LINE,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE | WS_GROUP,8,12,13,11
+    CONTROL         "Radio2",IDC_RB_CURVE,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,39,12,13,11
+    CONTROL         "Radio3",IDC_RB_CIRCLE,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,72,12,13,11
+    GROUPBOX        "Justify",IDC_GP_JUSTIFIY,4,28,86,26
+    CONTROL         "Radio4",IDC_RB_LEFT,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE | WS_GROUP,8,39,13,11
+    CONTROL         "Center",IDC_RB_CENTER,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,28,39,13,11
+    CONTROL         "Right",IDC_RB_RIGHT,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,50,39,13,11
+    CONTROL         "Justify",IDC_RB_JUSTIFY,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,72,39,13,11
+    GROUPBOX        "Typing Direction",IDC_GP_TYPING_DIR,4,55,86,26
+    CONTROL         "Radio8",IDC_RB_AUTO,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE | WS_GROUP,8,66,13,11
+    CONTROL         "Radio9",IDC_RB_TOP_RIGHT,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,28,66,13,11
+    CONTROL         "Radio10",IDC_RB_BOTTOM_UP,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,50,66,13,11
+    CONTROL         "Radio11",IDC_RB_TOP_DOWN,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,72,66,13,11
+    LTEXT           "Position",IDC_STC_POSITION,95,1,59,9
+    LTEXT           "X",IDC_STC_X,98,14,8,8
+    LTEXT           "Y",IDC_STC_Y,148,14,8,8
+    EDITTEXT        IDC_ED_X,107,11,34,12,ES_RIGHT
+    CONTROL         "Spin1",IDC_SPN_X,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,130,8,13,17
+    EDITTEXT        IDC_ED_Y,156,11,34,12,ES_RIGHT
+    CONTROL         "Spin2",IDC_SPN_Y,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,177,7,12,17
+    LTEXT           "Rotation",IDC_STC_ROTATION,95,40,59,9
+    EDITTEXT        IDC_ED_ROTATION,156,38,34,12,ES_RIGHT | ES_AUTOHSCROLL
+    CONTROL         "Spin3",IDC_SPN_ROTATION,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
+                    WS_TABSTOP,173,33,16,14
+    LTEXT           "Line Spacing",IDC_STC_LINE_SPACE,95,54,59,9
+    LTEXT           "Character Spacing",IDC_STC_CHAR_SPACE,95,68,59,9
+    EDITTEXT        IDC_ED_LNE_SPACE,156,52,34,12,ES_RIGHT | ES_AUTOHSCROLL
+    CONTROL         "Spin4",IDC_SPN_LNE_SPACE,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
+                    WS_TABSTOP,180,50,11,16
+    GROUPBOX        "Line Margin",IDC_GP_LINE_MARGIN,194,1,86,80
+    LTEXT           "Left",IDC_STC_MARGIN_LEFT,200,13,25,8
+    LTEXT           "Right",IDC_STC_MARGIN_RIGHT,200,31,25,8
+    EDITTEXT        IDC_ED_MARGIN_LEFT,229,11,34,12,ES_RIGHT | 
+                    ES_AUTOHSCROLL
+    CONTROL         "Spin1",IDC_SPN_MARGIN_LEFT,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
+                    WS_TABSTOP,251,7,13,17
+    EDITTEXT        IDC_ED_MARGIN_RIGHT,229,29,34,12,ES_RIGHT | 
+                    ES_AUTOHSCROLL
+    CONTROL         "Spin2",IDC_SPN_MARGIN_RIGHT,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
+                    WS_TABSTOP,253,26,10,16
+    CONTROL         "Use Page Margin",IDC_CHK_CONSTRAIN,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,200,47,71,10
+    PUSHBUTTON      "+",IDC_BT_CHAR_PLUS,160,67,11,11
+    PUSHBUTTON      "-",IDC_BT_CHAR_MINUS,176,67,11,11
+    GROUPBOX        "Baseline curve control",IDC_GP_CURVE_CTRL,283,1,100,26
+    GROUPBOX        "Baseline circle control",IDC_GP_CIRCLE_CTRL,282,27,100,
+                    54
+    LTEXT           "Curve control points",IDC_STC_CURVE_POINT,289,14,52,8
+    LTEXT           "Circle Radius",IDC_STC_CIR_RADIUS,291,42,42,8
+    LTEXT           "Circle Aspect",IDC_STC_CIR_ASPECT,291,54,42,8
+    LTEXT           "Align to circle",IDC_STC_ALIGN_CIR,291,67,43,9
+    EDITTEXT        IDC_ED_CURVE_CTRL,344,12,34,12,ES_RIGHT | ES_AUTOHSCROLL
+    CONTROL         "Spin3",IDC_SPN_CURVE_CTRL,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,369,10,9,
+                    12
+    EDITTEXT        IDC_ED_CIR_RADIUS,344,39,34,12,ES_RIGHT | ES_AUTOHSCROLL
+    CONTROL         "Spin4",IDC_SPN_RADIUS,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS | WS_TABSTOP,369,36,9,15
+    EDITTEXT        IDC_ED_CIR_ASPECT,344,52,34,12,ES_RIGHT | ES_AUTOHSCROLL
+    CONTROL         "Spin4",IDC_SPN_ASPECT,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS | WS_TABSTOP,369,50,11,15
+    CONTROL         "Radio1",IDC_RB_OUT,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE | WS_GROUP | WS_TABSTOP,345,67,13,
+                    11
+    CONTROL         "Radio1",IDC_RB_IN,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
+                    BS_PUSHLIKE | WS_TABSTOP,363,67,13,11
+    PUSHBUTTON      "Default",IDC_BT_DEFAULT,385,64,30,12
+    CONTROL         "Lock Position",IDC_CK_LOCK_POS,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,107,26,81,8
+END
+
+IDD_ALPHA_BOX DIALOGEX 0, 0, 80, 121
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION
+EXSTYLE WS_EX_TOOLWINDOW
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "",IDOK,0,0,80,122,BS_MULTILINE | BS_FLAT
+END
+
+IDD_PAGE_SELECTION DIALOG DISCARDABLE  0, 0, 416, 80
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Objects",IDC_GP_OBJECT,1,0,163,78
+    CONTROL         "",IDC_FRM_SELECT_OBJ,"Static",SS_ETCHEDFRAME,19,10,53,
+                    44
+    PUSHBUTTON      "Previous",IDC_BT_PREV,5,56,40,10
+    PUSHBUTTON      "Next",IDC_BT_NEXT,47,56,40,10
+    CONTROL         "Select",IDC_CK_SELECT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,19,68,55,8
+    PUSHBUTTON      "Select All",IDC_BT_SEL_ALL,97,11,62,12
+    PUSHBUTTON      "Select Text",IDC_BT_SEL_TEXT,97,25,62,12
+    PUSHBUTTON      "Select Graphic",IDC_BT_SEL_GRAPHIC,97,39,62,12
+    PUSHBUTTON      "Un-select All",IDC_BT_UN_SEL_ALL,97,53,62,12
+    GROUPBOX        "View",IDC_GP_VIEW,171,0,234,78
+    CONTROL         "Hide Selected Objects",IDC_CK_HIDE_SEL_OBJ,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,180,12,112,8
+    CONTROL         "Hide Text Objects",IDC_CK_HIDE_TEXT_OBJ,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,180,26,112,8
+    CONTROL         "Hide Graphic Objects",IDC_CK_HIDE_GRAPHIC_OBJ,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,180,40,112,8
+    CONTROL         "Hide Other Layers",IDC_CK_HIDE_LAYER_OBJ,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,180,54,112,8
+END
+
+IDD_TYPE_FACE_OPT DIALOG DISCARDABLE  0, 0, 195, 215
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Type Face Options"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_ED_ITALIC_ANGLE,123,8,39,11,ES_CENTER | 
+                    ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPN_ITALIC_ANGLE,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,154,11,10,11
+    EDITTEXT        IDC_ED_SMALL_CAP_HEIGHT,123,22,39,11,ES_CENTER | 
+                    ES_NUMBER
+    CONTROL         "Spin1",IDC_SPN_SMALL_CAP_HEIGHT,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,153,25,10,11
+    EDITTEXT        IDC_ED_SUPER_SIZE,123,50,39,11,ES_CENTER | 
+                    ES_AUTOHSCROLL | ES_NUMBER | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_SUPER_SIZE,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,153,53,10,11
+    EDITTEXT        IDC_ED_SUPER_OFFSET,123,64,39,11,ES_CENTER | 
+                    ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPN_SUPER_OFFSET,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,153,67,10,11
+    EDITTEXT        IDC_ED_SUB_SIZE,123,94,39,11,ES_CENTER | ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    CONTROL         "Spin1",IDC_SPN_SUB_SIZE,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,153,98,10,11
+    EDITTEXT        IDC_ED_SUB_OFFSET,123,108,39,11,ES_CENTER | 
+                    ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPN_SUB_OFFSET,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,153,113,10,11
+    EDITTEXT        IDC_ED_UNDERLNE_SIZE,123,139,39,11,ES_CENTER | 
+                    ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPN_UNDERLNE_SIZE,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,153,142,10,11
+    EDITTEXT        IDC_ED_UNDERLNE_OFFSET,123,153,39,11,ES_CENTER | 
+                    ES_NUMBER
+    CONTROL         "Spin1",IDC_SPN_UNDERLNE_OFFSET,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,154,157,10,11
+    DEFPUSHBUTTON   "OK",IDOK,44,199,50,12
+    PUSHBUTTON      "Cancel",IDCANCEL,101,199,50,12
+    LTEXT           "Italic Angle",IDC_STC_ITALIC_ANGLE,28,10,90,8,
+                    SS_CENTERIMAGE | NOT WS_GROUP
+    LTEXT           "Small Caps Height",IDC_STC_SMALL_CAP_HEIGHT,28,23,90,8,
+                    SS_CENTERIMAGE | NOT WS_GROUP
+    LTEXT           "Size",IDC_STC_SUPER_SIZE,28,52,90,8,SS_CENTERIMAGE | 
+                    NOT WS_GROUP
+    LTEXT           "Offset",IDC_STC_SUPER_OFFSET,28,65,90,8,SS_CENTERIMAGE | 
+                    NOT WS_GROUP
+    LTEXT           "Size",IDC_STC_SUB_SIZE,28,96,90,8,SS_CENTERIMAGE | NOT 
+                    WS_GROUP
+    LTEXT           "Offset",IDC_STC_SUB_OFFSET,28,109,90,8,SS_CENTERIMAGE | 
+                    NOT WS_GROUP
+    LTEXT           "Size",IDC_STC_UNDERLN_SIZE,28,140,90,8,SS_CENTERIMAGE | 
+                    NOT WS_GROUP
+    LTEXT           "Offset",IDC_STC_UNDERLNE_OFFSET,28,154,90,8,
+                    SS_CENTERIMAGE | NOT WS_GROUP
+    LTEXT           "Color",IDC_STC_COLOR,28,173,28,8,SS_CENTERIMAGE | NOT 
+                    WS_GROUP
+    GROUPBOX        "Superscript",IDC_STC_SUPERSCRIPT,3,39,188,40
+    GROUPBOX        "Subscript",IDC_STC_SUBSCRIPT,3,81,188,43
+    GROUPBOX        "Underline",IDC_STC_UNDERLINE,3,127,188,68
+    GROUPBOX        "",IDC_STATIC,3,0,188,37
+    LTEXT           "%",IDC_STC_PERCENT,166,10,9,9,SS_CENTERIMAGE | NOT 
+                    WS_GROUP
+    LTEXT           "%",IDC_STC_PERCENT8,166,24,9,9,SS_CENTERIMAGE | NOT 
+                    WS_GROUP
+    LTEXT           "%",IDC_STC_PERCENT2,166,52,9,9,SS_CENTERIMAGE | NOT 
+                    WS_GROUP
+    LTEXT           "%",IDC_STC_PERCENT3,166,66,9,9,SS_CENTERIMAGE | NOT 
+                    WS_GROUP
+    LTEXT           "%",IDC_STC_PERCENT9,166,96,9,9,SS_CENTERIMAGE | NOT 
+                    WS_GROUP
+    LTEXT           "%",IDC_STC_PERCENT5,166,110,9,9,SS_CENTERIMAGE | NOT 
+                    WS_GROUP
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,76,167,32,24
+    PUSHBUTTON      "Button1",IDC_BT_PALETTE,123,171,18,15,BS_ICON | NOT 
+                    WS_TABSTOP
+END
+
+IDD_PAGE_VIEW DIALOG DISCARDABLE  0, 0, 416, 80
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Indicators",IDC_GP_INDICATOR,4,1,225,78
+    CONTROL         "Safe Title",IDC_CK_SAFE_TITLE,"Button",BS_AUTOCHECKBOX,
+                    13,14,80,8
+    CONTROL         "Safe Action",IDC_CK_SAFE_ACTION,"Button",
+                    BS_AUTOCHECKBOX,13,27,80,8
+    CONTROL         "Center Point",IDC_CK_CENTER_POINT,"Button",
+                    BS_AUTOCHECKBOX,13,40,80,8
+    CONTROL         "Tabs",IDC_CK_TAB,"Button",BS_AUTOCHECKBOX,13,53,44,8
+    CONTROL         "Grids",IDC_CK_GRIDS,"Button",BS_AUTOCHECKBOX,13,66,44,8
+    CONTROL         "Selection Boxes",IDC_CK_SEL_BOX,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,122,14,100,8
+    CONTROL         "Line Margins",IDC_CK_LNE_MARGIN,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,122,27,100,8
+    CONTROL         "Baselines",IDC_CK_BASELINE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,122,40,100,8
+    PUSHBUTTON      "Tabs",IDC_BT_TAB,68,51,55,11
+    PUSHBUTTON      "Settings",IDC_BT_SETTING,67,64,56,11
+    GROUPBOX        "Page View",IDC_GP_PAGE_VIEW,233,1,180,78
+    CONTROL         "Aspect Correction",IDC_CK_ASPECT_CORRECTION,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,248,14,101,8
+    CONTROL         "Show Alpha Channel",IDC_CK_SHOW_A_CHANNEL,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,248,27,101,8
+    CONTROL         "Monitor Gamma",IDC_CK_MONITOR_GAMMA,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,248,40,101,8
+    EDITTEXT        IDC_EDMON_GARMMA,349,39,27,12,ES_CENTER | ES_AUTOHSCROLL
+    CONTROL         "Spin1",IDC_SPN_MON_GAMMA,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,366,40,11,
+                    15
+END
+
+IDD_PAGE_TEMPLATES DIALOGEX 0, 0, 416, 82
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         "List2",IDC_LC_TEMPLATE,"SysListView32",LVS_OWNERDATA | 
+                    LVS_NOSCROLL | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER,24,
+                    4,328,65,WS_EX_STATICEDGE
+    SCROLLBAR       IDC_VSB_VERT,354,4,10,65,SBS_VERT
+    PUSHBUTTON      "Button1",IDC_BT_SAVE_TEMPLATE,4,4,16,14,BS_ICON | NOT 
+                    WS_TABSTOP
+END
+
+IDD_DLG_PROG_SETTING DIALOG DISCARDABLE  0, 0, 297, 95
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Program Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,96,78,50,12
+    PUSHBUTTON      "Cancel",IDCANCEL,151,78,50,12
+    LTEXT           "Keyboard",IDC_STC_KEYBOARD,29,11,63,8
+    LTEXT           "Program Startup:",IDC_STC_STARTUP,29,27,94,8
+    CONTROL         "Read last style setting",IDC_CK_STYLE_SETTING,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,61,40,159,10
+    CONTROL         "Reload last project",IDC_CK_LAST_PROJECT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,61,55,159,10
+    COMBOBOX        IDC_CB_KEYBOARD,111,9,86,62,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+END
+
+IDD_SEL_EFFECT DIALOGEX 0, 0, 407, 228
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Select Effect"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,340,213,50,14
+    SCROLLBAR       IDC_VSB_WINBIN,391,2,11,210,SBS_VERT
+    CONTROL         "List1",IDC_LST_BINWIN,"SysListView32",LVS_NOSCROLL | 
+                    LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER | WS_BORDER | 
+                    WS_TABSTOP,2,2,387,210,WS_EX_CLIENTEDGE
+END
+
+IDD_ATTRIB_CURVE DIALOG DISCARDABLE  0, 0, 178, 80
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_ED_C_X,73,53,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_C_X,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,98,52,11,14
+    EDITTEXT        IDC_ED_C_Y,133,53,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_C_Y,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,150,54,11,14
+    CONTROL         "",IDC_FRM_C_PREVIEW,"Static",SS_ETCHEDFRAME,1,17,53,44
+    LTEXT           "Static",IDC_STC_C_LENGTH,59,15,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_C_LENGTH,73,13,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_C_LENGTH,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,98,13,11,
+                    14
+    LTEXT           "Static",IDC_STC_C_THICK,121,15,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_C_THICK,133,13,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_C_THICK,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,150,14,11,14
+    LTEXT           "Static",IDC_STC_C_ROUNDNESS,59,41,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_C_ROUNDNESS,73,40,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_C_ROUNDNESS,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,98,40,11,
+                    14
+    LTEXT           "Static",IDC_STC_C_VERTICES,121,28,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_C_VERTICES,133,27,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_C_VERTICES,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,150,27,11,
+                    14
+    LTEXT           "Static",IDC_STC_C_ROTATION,59,29,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_C_ROTATION,73,27,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_C_ROTATE,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,98,28,11,
+                    14
+    LTEXT           "Static",IDC_STC_C_BEVEL,121,41,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_C_BEVEL,133,40,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_C_BEVEL,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,150,41,11,14
+    PUSHBUTTON      "Button2",IDC_BT_C_F,59,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_C_PLUS,76,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_C_MINUS,93,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_C_B,110,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    EDITTEXT        IDC_ED_C_PRIORITY,133,67,41,12,ES_RIGHT | ES_NUMBER | 
+                    NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_C_PRIORITY,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,150,65,11,14
+    PUSHBUTTON      "Button2",IDC_BT_C_LOCK,33,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    CTEXT           "X",IDC_STC_C_X,61,55,8,8,NOT WS_GROUP
+    CTEXT           "Y",IDC_STC_C_Y,122,55,8,8,NOT WS_GROUP
+    PUSHBUTTON      "Button2",IDC_BT_ADVANCE,19,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "",IDC_BT_SAVE_STYLE,5,67,13,12,BS_ICON | NOT WS_TABSTOP
+END
+
+IDD_ATTRIB_POLYGON DIALOG DISCARDABLE  0, 0, 178, 80
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_ED_P_X,74,53,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_P_X,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,98,52,11,14
+    EDITTEXT        IDC_ED_P_Y,133,53,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_P_Y,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,151,54,11,14
+    CONTROL         "",IDC_FRM_P_PREVIEW,"Static",SS_ETCHEDFRAME,1,17,53,44
+    LTEXT           "Static",IDC_STC_P_LENGTH,59,15,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_P_LENGTH,74,13,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_P_LENGTH,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,98,13,11,
+                    14
+    LTEXT           "Static",IDC_STC_P_THICK,120,15,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_P_THICK,133,13,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_P_THICK,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,151,14,11,14
+    LTEXT           "Static",IDC_STC_P_ROUNDNESS,59,41,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_P_ROUNDNESS,74,40,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_P_ROUNDNESS,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,98,40,11,
+                    14
+    LTEXT           "Static",IDC_STC_P_VERTICES,120,28,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_P_VERTICES,133,27,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_P_VERTICES,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,151,27,11,
+                    14
+    LTEXT           "Static",IDC_STC_P_ROTATION,59,29,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_P_ROTATION,74,27,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_P_ROTATE,"msctls_updown32",
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,98,28,11,
+                    14
+    LTEXT           "Static",IDC_STC_P_BEVEL,120,41,9,8,NOT WS_GROUP
+    EDITTEXT        IDC_ED_P_BEVEL,133,40,41,12,ES_RIGHT | NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_P_BEVEL,"msctls_updown32",UDS_ALIGNRIGHT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,151,41,11,14
+    PUSHBUTTON      "Button2",IDC_BT_P_F,59,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_P_PLUS,76,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_P_MINUS,93,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Button2",IDC_BT_P_B,110,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    EDITTEXT        IDC_ED_P_PRIORITY,133,67,41,12,ES_RIGHT | ES_NUMBER | 
+                    NOT WS_TABSTOP
+    CONTROL         "Spin1",IDC_SPN_P_PRIORITY,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,151,65,11,14
+    PUSHBUTTON      "Button2",IDC_BT_P_LOCK,33,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    CTEXT           "X",IDC_STC_P_X,61,55,8,8,NOT WS_GROUP
+    CTEXT           "Y",IDC_STC_P_Y,122,55,8,8,NOT WS_GROUP
+    PUSHBUTTON      "Button2",IDC_BT_ADVANCE,19,67,13,12,BS_ICON | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "",IDC_BT_SAVE_STYLE,5,67,13,12,BS_ICON | NOT WS_TABSTOP
+    CONTROL         "Filled",IDC_CK_POLY_FILL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,4,5,49,8
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 2,0,0,1
+ PRODUCTVERSION 2,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "Innovision Technology\0"
+            VALUE "CompanyName", "Innovision Technology\0"
+            VALUE "FileDescription", "Alpha CG\0"
+            VALUE "FileVersion", "2, 0, 0, 1\0"
+            VALUE "InternalName", "cgUI\0"
+            VALUE "LegalCopyright", "Copyright (C) 2000\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "cgUI.EXE\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "Alpha CG\0"
+            VALUE "ProductVersion", "2, 0, 0, 0\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_DLGBAR_BOTTOM, DIALOG
+    BEGIN
+        RIGHTMARGIN, 509
+        BOTTOMMARGIN, 98
+    END
+
+    IDD_PAGE_PRESET, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 312
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_PAGE_FILTER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 323
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_PAGE_EFFECT, DIALOG
+    BEGIN
+        RIGHTMARGIN, 398
+    END
+
+    IDD_DLGBAR_LEFT, DIALOG
+    BEGIN
+        RIGHTMARGIN, 86
+        BOTTOMMARGIN, 206
+    END
+
+    IDD_DLGBAR_BINTOP, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 158
+    END
+
+    IDD_DLGBAR_PPAL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 85
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 136
+    END
+
+    IDD_DLG_PALETTE, DIALOG
+    BEGIN
+        RIGHTMARGIN, 367
+    END
+
+    IDD_DLGBAR_PCIR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 75
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 176
+    END
+
+    IDD_DLGBAR_PFBG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 72
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 173
+    END
+
+    IDD_DLGBAR_PGRD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 71
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 176
+    END
+
+    IDD_PAGE_ATTRIB, DIALOG
+    BEGIN
+        LEFTMARGIN, 2
+        RIGHTMARGIN, 522
+        VERTGUIDE, 2
+        VERTGUIDE, 238
+    END
+
+    IDD_ATTRIB_TEXT, DIALOG
+    BEGIN
+        RIGHTMARGIN, 212
+    END
+
+    IDD_VIDEO_CLIP_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 379
+        TOPMARGIN, 1
+        BOTTOMMARGIN, 47
+    END
+
+    IDD_VIDEO_FRAME_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 313
+        BOTTOMMARGIN, 130
+    END
+
+    IDD_TITLE_VDO_SETUP, DIALOG
+    BEGIN
+        TOPMARGIN, 7
+        HORZGUIDE, 9
+        HORZGUIDE, 10
+        HORZGUIDE, 92
+    END
+
+    IDD_PAGE_CAPTURE, DIALOG
+    BEGIN
+        VERTGUIDE, 4
+        VERTGUIDE, 53
+        VERTGUIDE, 160
+        HORZGUIDE, 17
+        HORZGUIDE, 32
+    END
+
+    IDD_COMM_DOWNLOAD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 177
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 254
+    END
+
+    IDD_COMM_FINDER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 174
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 69
+    END
+
+    IDD_COMM_MODEM, DIALOG
+    BEGIN
+        LEFTMARGIN, 2
+        RIGHTMARGIN, 245
+        VERTGUIDE, 141
+        TOPMARGIN, 2
+        BOTTOMMARGIN, 71
+    END
+
+    IDD_COMM_RECEIVER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 175
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 51
+    END
+
+    IDD_COMM_SENDER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 159
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 119
+    END
+
+    IDD_COMM_WAITING, DIALOG
+    BEGIN
+        RIGHTMARGIN, 183
+        TOPMARGIN, 1
+        BOTTOMMARGIN, 43
+    END
+
+    IDD_MAIN_GAME, DIALOG
+    BEGIN
+        LEFTMARGIN, 1
+        RIGHTMARGIN, 230
+        TOPMARGIN, 2
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_MUTLIPLAYER_CONNECT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 275
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 144
+    END
+
+    IDD_DLG_PREFER, DIALOG
+    BEGIN
+        TOPMARGIN, 3
+    END
+
+    IDD_GET_PATH, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 176
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 181
+    END
+
+    IDD_DLG_CHAR_MAP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 473
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 73
+    END
+
+    IDD_ZOOM_BOX, DIALOG
+    BEGIN
+        RIGHTMARGIN, 205
+        BOTTOMMARGIN, 88
+    END
+
+    IDD_ALPHA_BOX, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 118
+    END
+
+    IDD_TYPE_FACE_OPT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 188
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 208
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+IDC_NORMAL              CURSOR  DISCARDABLE     "res\\3dwarro.cur"
+IDC_4WAY                CURSOR  DISCARDABLE     "res\\3dwmove.cur"
+IDC_RIGHT_LEFT          CURSOR  DISCARDABLE     "res\\3dwnesw.cur"
+IDC_VERT                CURSOR  DISCARDABLE     "res\\3dwns.cur"
+IDC_LEFT_RIGHT          CURSOR  DISCARDABLE     "res\\3dwnwse.cur"
+IDC_HORIZ               CURSOR  DISCARDABLE     "res\\3dwwe.cur"
+IDC_ROTATE              CURSOR  DISCARDABLE     "res\\3dRotate.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDP_SOCKETS_INIT_FAILED "Windows sockets initialization failed."
+    IDP_OLE_INIT_FAILED     "OLE initialization failed.  Make sure that the OLE libraries are the correct version."
+    CG_ID_VIEW_BOTTOM       "Show or hide Bottom\nToggle Bottom"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    IDR_MAINFRAME           "Alpha CG"
+    IDR_CGUITYPE            "\nCgUI\nCgUI\n\n\nCgUI.Document\nCgUI Document"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "Alpha CG"
+    AFX_IDS_IDLEMESSAGE     "Ready"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_NEW             "Create a new document\nNew"
+    ID_FILE_OPEN            "Open an existing document\nOpen"
+    ID_FILE_CLOSE           "Close the active document\nClose"
+    ID_FILE_SAVE            "Save the active document\nSave"
+    ID_FILE_SAVE_AS         "Save the active document with a new name\nSave As"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
+    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "Open this document"
+    ID_FILE_MRU_FILE2       "Open this document"
+    ID_FILE_MRU_FILE3       "Open this document"
+    ID_FILE_MRU_FILE4       "Open this document"
+    ID_FILE_MRU_FILE5       "Open this document"
+    ID_FILE_MRU_FILE6       "Open this document"
+    ID_FILE_MRU_FILE7       "Open this document"
+    ID_FILE_MRU_FILE8       "Open this document"
+    ID_FILE_MRU_PROJ1       "Open this document"
+    ID_FILE_MRU_PROJ2       "Open this document"
+    ID_FILE_MRU_PROJ3       "Open this document"
+    ID_FILE_MRU_PROJ4       "Open this document"
+    ID_FILE_MRU_PROJ5       "Open this document"
+    ID_FILE_MRU_PROJ6       "Open this document"
+    ID_FILE_MRU_PROJ7       "Open this document"
+    ID_FILE_MRU_PROJ8       "Open this document"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
+    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_WINDOW_NEW           "Open another window for the active document\nNew Window"
+    ID_WINDOW_ARRANGE       "Arrange icons at the bottom of the window\nArrange Icons"
+    ID_WINDOW_CASCADE       "Arrange windows so they overlap\nCascade Windows"
+    ID_WINDOW_TILE_HORZ     "Arrange windows as non-overlapping tiles\nTile Windows"
+    ID_WINDOW_TILE_VERT     "Arrange windows as non-overlapping tiles\nTile Windows"
+    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_EDIT_CLEAR           "Erase the selection\nErase"
+    ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
+    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
+    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
+    ID_EDIT_FIND            "Find the specified text\nFind"
+    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
+    ID_EDIT_REPEAT          "Repeat the last action\nRepeat"
+    ID_EDIT_REPLACE         "Replace specific text with different text\nReplace"
+    ID_EDIT_SELECT_ALL      "Select the entire document\nSelect All"
+    ID_EDIT_UNDO            "Undo the last action\nUndo"
+    ID_EDIT_REDO            "Redo the previously undone action\nRedo"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+    AFX_IDS_MDICHILD        "Activate this window"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_PAGE_TYPE_STILL      "Still"
+    ID_PAGE_TYPE_ROLL       "Roll"
+    ID_PAGE_TYPE_CRAWL      "Crawl"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_PANEL_BAR       "Show or hide the panel bar\nToggle PanelBar"
+    ID_OPT_ONE              "hello"
+    ID_OPT_TWO              "yello"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VDO_SET_UP           "Open Video Setup Dialog\nOpen Setup Dialog"
+    ID_PG_CUT               "Cut the page and put it on the Clipboard\nCut"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_OPT_REDRAW           "Refresh all data fields"
+    ID_REFRESH_ATT_FACE     "Refresh Face"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_REG_KEY             "InnoVision, Inc. - Character Gernerator Applications"
+    IDS_FILTERSTRING        "Bitmaps Files(*.bmp)|*.bmp|All Files(*.*)|*.*|"
+    IDS_DSMNAME             "TWAIN_32.DLL"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.K.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_PRINTER             BITMAP  DISCARDABLE     "res\\printer.bmp"
+#endif    // English (U.K.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "res\cgUI.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

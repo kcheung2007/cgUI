@@ -1,0 +1,48 @@
+T:.\pcbitmap.idl 933076871
+T:.\panel.idl 933076871
+T:.\props.idl 933076871
+T:.\bitmaplib.idl 933076871
+T:.\stdbg.idl 933076872
+T:color.idl 933076871
+T:.\plytxt.idl 933076871
+T:.\plyglo.idl 933076871
+T:.\timeline.idl 937373057
+T:pcadvs.idl 933076871
+T:.\plyctl.idl 933076871
+T:.\seglist.idl 933076872
+T:gxlate.idl 940463850
+T:.\gxlate3d.idl 935755276
+T:.\cursor.idl 933076871
+T:.\color.idl 933076871
+T:.\pcadvs.idl 933076871
+T:spline.idl 937373057
+T:.\brender.idl 933076871
+T:.\ihelp1.idl 933076871
+T:.\ihelp2.idl 933076871
+T:psttab.idl 933076871
+T:.\bitmaprgn.idl 933076871
+T:.\playui1.idl 933076871
+T:.\gxlate.idl 940463850
+T:.\pstrlist.idl 933076872
+T:pcbitmap.idl 933076871
+T:props.idl 933076871
+T:.\spline.idl 937373057
+T:.\picons.idl 938045163
+T:timeline.idl 937373057
+T:plyctl.idl 933076871
+T:.\psttab.idl 933076872
+D:.\panel.idl plyctl.idl psttab.idl
+D:.\pcbitmap.idl gxlate.idl
+D:.\pcadvs.idl plyctl.idl
+D:.\bitmaplib.idl gxlate.idl pcbitmap.idl
+D:.\bitmaprgn.idl gxlate.idl
+D:.\playui1.idl color.idl props.idl timeline.idl
+D:.\plytxt.idl gxlate.idl
+D:pcbitmap.idl gxlate.idl
+D:pcadvs.idl plyctl.idl
+D:.\plyglo.idl gxlate.idl
+D:.\timeline.idl gxlate.idl plyctl.idl spline.idl
+D:.\plyctl.idl gxlate.idl pcadvs.idl
+D:.\picons.idl gxlate.idl
+D:timeline.idl gxlate.idl plyctl.idl spline.idl
+D:plyctl.idl gxlate.idl pcadvs.idl

@@ -1,0 +1,237 @@
+/*===========================================================================*\
+||                                                                           ||
+||  Copyright 1995 by Play Incorporated                                      ||
+||  PLAY CONFIDENTIAL                                                        ||
+||                                                                           ||
+||  All Specifications subject to change.                                    ||
+||                                                                           ||
+||  FILE:           PROPS.IDL                                                ||
+||                                                                           ||
+||  DESCRIPTION:    Interface description for objects that support an        ||
+||                  arbitrary set of properties.                             ||
+||                  Hopefully, an object that supports this interface also   ||
+||                  supports IPersistStream.                                 ||
+||                                                                           ||
+||  INTERFACES:     IPlayProperties                                          ||
+||                                                                           ||
+||  MODIFICATIONS:  9/25/96     T.Sprague       created                      ||
+\*===========================================================================*/
+
+interface IPlayPanel;
+interface IPlayControl;
+interface IPlayStringList;
+interface IPlayProperties;
+cpp_quote( "interface IPlayPanel;" )
+cpp_quote( "interface IPlayControl;" )
+cpp_quote( "interface IPlayStringList;" )
+
+[
+    local,
+    object,
+    uuid(8335e62e-ab3b-11ce-8468-0000b468276b)
+]    
+interface IPlayPropertiesOwnerAdviseSink : IUnknown
+{
+    import "unknwn.idl";
+    import "wtypes.idl";
+
+    // This will be called whenever a property in the set is 
+    // changed.
+    HRESULT OnOwnedPropertyValueChange( IPlayProperties *pPropSet, LPSTR pszPropName ); 
+}
+
+[
+    local,
+    object,
+    uuid(8335e62d-ab3b-11ce-8468-0000b468276b)
+]    
+interface IPlayPropertiesAdviseSink : IUnknown
+{
+    import "unknwn.idl";
+    import "wtypes.idl";
+
+    // This will be called to find out if a particular property ought to
+    // have an editing control added to the UI.
+    // A return of E_NOTIMPL will cause the prop set to look at the 
+    // property's flags to make the determination.
+    // A successful return will cause the control to be put in the panel.
+    //    however, S_FALSE will cause that control to be ghosted and 
+    //    disabled.
+    // Any fail condition returned besides E_NOTIMPL will mean the
+    // property shouldn't have any editable control on the UI.
+    HRESULT CanEditFromUI( IPlayProperties *pPropSet, LPSTR pszPropName );
+
+    // Will be called to notify that this property's value is changing,
+    // ie the user is dragging some control around to change its value.
+    HRESULT ValueIsChanging( IPlayProperties *pPropSet, LPSTR pszPropName ); 
+
+    // Will be called to notify that this property's value has changed.
+    // This will be called when the control is released.
+    HRESULT ValueHasChanged( IPlayProperties *pPropSet, LPSTR pszPropName ); 
+
+    // Will be called to determine whether or not a property can be deleted from 
+    // this set.  If S_OK or E_NOTIMPL are returned, the delete
+    // button on the UI will be enabled.
+    // Note that properties that have their own controls like knob, numberbox,
+    // or timecode box can't be deleted, only changed.
+    HRESULT CanDeleteFromUI( IPlayProperties *pPropSet, LPSTR pszPropName );
+
+}
+
+[
+    local,
+    object,
+    uuid(8335e62a-ab3b-11ce-8468-0000b468276b)
+]    
+interface IPlayProperties : IUnknown
+{
+    import "unknwn.idl";
+    import "wtypes.idl";
+
+    typedef enum tagEPropValueType
+    {
+        PVTString = 0,
+        PVTLong = 1,
+        PVTGuid = 2,
+        PVTLongWithRange = 3 // added only to preserve loading of old property sets, used internally only
+    } EPropValueType;
+
+    typedef enum tagEPropFlags
+    {
+        PFUserEditable       = 0x01, // if editing this set of properties, user should be able to change, using a string box
+        PFUserUnderstands    = 0x02, // if editing, this property should be displayed
+        PFSearchKeyword      = 0x04, // a list of property names given this parameter will be maintained in the registry
+        PFUserAdjustKnob     = 0x08, // when editing this property will be given its own knob control (long props only)
+        PFUserAdjustNumber   = 0x10, // when editing this property will be given its own numberbox control (long props only)
+        PFUserAdjustTimeCode = 0x20  // when editing this property will be given its own timecodebox control (long props only)
+    } EPropFlags;
+
+    // ask what the type of the native value of the property is.
+    // (The type of the way the value was originally set)
+    // Will return E_FAIL if the set doesn't contain a property 
+    // of the requested name.
+    HRESULT GetPropType( [in,string] LPSTR pszProperty, 
+                         [out]       LONG *peType );
+
+    // Get copy of flags for the given property.
+    // Will return E_FAIL if the set doesn't contain a property 
+    // of the requested name.
+    HRESULT GetPropFlags( [in,string] LPSTR pszProperty, 
+                          [out]       LONG *peFlags );
+
+    // Fill-in the given DWORD with the number of properties in 
+    // this set.
+    HRESULT GetNumProps( [out] DWORD *dwNum );
+
+    // Fill-in the given string with the name of the property 
+    // with the given index.  index is >=0, < numprops
+    HRESULT GetPropName( [in] DWORD index, [out,string] LPSTR pszName, [in] DWORD dwBufSize );
+
+    // Set the value of a property as a string
+    HRESULT SetPropString( [in,string] LPSTR pszProperty, 
+                           [in,string] LPSTR pszValue, 
+                           [in]        LONG flags );
+    
+    // Get the value of a property as a string, regardless
+    // of the type of its original value.
+    // Will return E_FAIL if the set doesn't contain a property 
+    // of the requested name.
+    HRESULT GetPropString( [in,string]  LPSTR pszProperty, 
+                           [out,string] LPSTR pszBuffer, 
+                           [in]         ULONG uBufSize );
+
+    // Set the value of a property as a LONG
+    HRESULT SetPropLong( [in,string] LPSTR pszProperty, 
+                         [in]        LONG lValue, 
+                         [in]        LONG flags );
+    
+    // Get the value of a property as a LONG, if the original 
+    // type of its value is PVTLong or PVTString, otherwise,
+    // will return E_ACCESSDENIED.
+    // Will return E_FAIL if the set doesn't contain a property 
+    // of the requested name.
+    HRESULT GetPropLong( [in,string] LPSTR pszProperty, 
+                         [out]       LONG *plVal );
+
+    // Remove the named property from the set
+    HRESULT DeleteProp( [in,string] LPSTR pszProperty );
+
+    // Add controls to a panel to edit this set of properties
+    HRESULT AddEditControls( IPlayPanel *pPanel );
+
+    // Create a copy of this property set (for undoing)
+    HRESULT Clone( IPlayProperties **ppProps );
+
+    // Add all the strings that have been used as search
+    // keys to the given playcontrol.  Will fail if it's 
+    // not actually an IPlayListBox.
+    HRESULT GetSearchKeys( IPlayStringList *pPlayCtl );
+
+    // Set the value of a property as a GUID
+    HRESULT SetPropGuid( [in,string] LPSTR pszProperty, 
+                         [in]        GUID *pguidValue, 
+                         [in]        LONG flags );
+    
+    // Get the value of a property as a GUID.
+    // If the type of its original value isn't GUID,
+    // this will fail with E_ACCESSDENIED.
+    // Will return E_FAIL if the set doesn't contain a property 
+    // of the requested name.
+    HRESULT GetPropGuid( [in,string] LPSTR pszProperty, 
+                         [out]       GUID *pguidVal );
+
+    // Merge two property sets.  The set whose member function
+    // is called is the destination.  The boolean parameter
+    // specifies whether or not to replace identical properties
+    // in the destination with what's in the source set.
+    HRESULT Merge( [in] IPlayProperties *pSrcSet, [in] BOOL bReplace );
+
+    // Store a property set in the registry.  Note that this function
+    // can't correctly store the flags part of the property, so it 
+    // puts an extra character at the start to denote properties
+    // that are user editable (ie in a properties page)
+    HRESULT StoreInKey( [in] HKEY hkeyDest );
+
+    // Retrieve a property set from the registry.  Note that this function
+    // can't correctly restore the flags part of the property, so it 
+    // checks the first character to identify properties
+    // that are user editable (ie in a properties page)
+    // Any properties already in the set remain, but will be
+    // replaced by any identical properties in the registry.
+    HRESULT RetrieveFromKey( [in] HKEY hkeyDest );
+
+    // Set the adviseSink for this object.  If a UserInterface
+    // gets created, or if the properties are changed from elsewhere,
+    // this interface will be notified.
+    // Call Advise(NULL) to break the advise link.
+    HRESULT Advise( IPlayPropertiesAdviseSink *pAdviseSink );
+
+    typedef enum tagEPPValidationMethod
+    {
+        PPVMRail = 0,    // if < min, set to min; if > max, set to max
+        PPVMModulo = 1   // if outside range, add (or subtract) range width until it's within range
+    } EPPValidationMethod;
+
+    // Set the allowed range and type of validation for a 
+    // property with a long value.  Will fail if the property is
+    // not of long type.
+    HRESULT SetLongPropRange( LPSTR pszPropName, long minValue, long maxValue, EPPValidationMethod eValid );
+
+    // Query the allowed range and type of validation for a 
+    // property with a long value.  Will fail if the property is
+    // not of long type.  Any of the pointers may be passed in as
+    // NULLs if caller is not interested in that value.
+    HRESULT QueryLongPropRange( LPSTR pszPropName, long *pminValue, long *pmaxValue, EPPValidationMethod *peValid );
+
+    // Set the OwneradviseSink for this object.  If a property 
+    // gets changed from anywhere, this interface will be notified.
+    // Call SetOwner(NULL) to break the advise link.
+    // NOTE: this doesn't addref the given pointer, because it's assumed
+    // that it is the owner object that is being passed in.
+    HRESULT SetOwner( IPlayPropertiesOwnerAdviseSink *pAdviseSink );
+
+    // Update only properties that exist in the destination set.
+	// The set whose member function is called is the destination.  
+    HRESULT UpdateExistingFrom( [in] IPlayProperties *pSrcSet );
+
+}

@@ -1,0 +1,1176 @@
+//+-------------------------------------------------------------------------//
+//                                                                          //
+// 	Project:	GXlate3D - 3D object file translation. Version 1.0          //
+//                                                                          //
+//  Copyright (C) Play Incorporated, 1997                                   //
+//                                                                          //
+//  File:       GXlate3d.idl                                                //
+//                                                                          //
+//  Contents:   COM interfaces for 3D file translation object               //
+//                                                                          //
+//  Author:     Brian D. Ross                                               //
+//                                                                          //
+//  Change History:                                                         //
+//                                                                          //
+//--------------------------------------------------------------------------//
+
+
+import "objidl.idl";
+
+
+// forward declarations
+interface IGX3DEnumTrans;
+interface IGX3DEnumObjects;
+interface IGX3DEnumPolygons;
+interface IGX3DEnumVertices;
+interface IGX3DEnumNormals;
+interface IGX3DEnumSurfaces;
+interface IGX3DEnumSurfaceMaps;
+interface IGX3DTransFact;
+interface IGX3DTranslator;
+interface IGX3DScene;
+interface IGX3DObject;
+interface IGX3DSurface;
+interface IGX3DSurfaceMap;
+interface IGX3DClientIO;
+interface IGX3DProgress;
+
+
+//+-------------------------------------------------------------------------//
+//  Class:      IGX3DTypes                                                  //
+//                                                                          //
+//  Purpose:    Defines types used by the file translator interfaces        //
+//                                                                          //
+//	Last changed:	                                                        //
+//+-------------------------------------------------------------------------//
+[
+  uuid(8335e670-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IGX3DTypes
+{
+  
+    //--------------------------------------------//
+	//  Enumeration values for surface map type.  //
+	//--------------------------------------------//
+    typedef enum tagESurfaceMapType {
+
+        MT_TEXTURE      = 0x00000001,	//-- Texture map
+        MT_REFLECTION   = 0x00000002,	//-- Reflection map
+        MT_BUMP         = 0x00000004,	//-- Bump map
+        MT_OPACITY      = 0x00000008,	//-- Opacity map (similar to transparency)
+		MT_TRANSPARENCY = 0x00000010,	//-- Transparency map
+		MT_SPECULAR     = 0x00000020,	//-- Specularity map
+		MT_DIFFUSE      = 0x00000040,   //-- Diffusion map
+		MT_SELFILLUM    = 0x00000080,	//-- Self illumination map
+		MT_SHININESS    = 0x00000100	//-- Shininess map
+
+    } EMapType;
+
+    //------------------------------------------------//
+	//  Enumeration values for surface mapping mode.  //
+	//------------------------------------------------//
+    typedef enum tagESurfaceMapMode {
+
+		MM_DEFAULT	   = 0x00000000,	//-- Unspecified mapping
+        MM_PLANAR_X	   = 0x00000001,	//-- Planar mapping X (yz)
+        MM_PLANAR_Y	   = 0x00000002,	//-- Planar mapping Y (xz)
+        MM_PLANAR_Z	   = 0x00000004,	//-- Planar mapping Z (xy) (planar default)
+		MM_CYLINDRICAL = 0x00000008,	//-- Cylindrical mapping
+		MM_SPHERICAL   = 0x00000010,	//-- Spherical mapping
+		MM_CUBIC       = 0x00000020,	//-- Cubic mapping
+		MM_SHRINKWRAP  = 0x00000040		//-- Shrink Wrap mapping
+
+    } EMapMode;
+
+    //---------------------------------------------------------//
+	//  Enumeration values for surface mapping frame types.    //
+	//                                                         //
+	//    MI_SINGLE   :  The surface map is a single frame.    //
+	//    MI_MULTI    :  The surface map is a multi-frame      //
+	//                   or animation file.                    //
+	//    MI_SEQUENCE :  The surface map is an image sequence. //
+	//                   This means that the associated file   //
+	//                   name is a prefix string.              //
+	//---------------------------------------------------------//
+    typedef enum tagESurfaceMapImage {
+
+	    MI_SINGLE      = 0x00000001,	//-- Single-frame file
+		MI_MULTI       = 0x00000002,	//-- Multi-frame file 
+		MI_SEQUENCE    = 0x00000004		//-- Image sequence
+
+	} EMapImage;
+
+    //----------------------------------//
+	//  Definition of a 3D coordinate.  //
+	//----------------------------------//
+	typedef struct tag3DCoords {
+
+		double x;
+		double y;
+		double z;
+
+	} GXCoords;
+
+    //----------------------------------//
+	//    Definition of a 3D vertex.    //
+	//----------------------------------//
+	typedef GXCoords GXVertex;
+
+    //----------------------------------//
+	//    Definition of a 3D polygon.   //
+	//----------------------------------//
+	typedef struct tagPolygon {
+
+		DWORD  VertexCount;			//-- Total number of vertices in polygon
+		DWORD *VertexIndices;		//-- A list of indicies into a vertex array
+		DWORD  SurfaceIndex;		//-- The index value for the polygons surface material
+
+	} GXPolygon;
+
+    //----------------------------------//
+	//   Definition of an RGB triple.   //
+	//  RGB values range from 0 to 1.   //
+	//----------------------------------//
+	typedef struct tagRGBTriple {
+
+	    float r;					//-- Red component
+		float g;					//-- Green component
+		float b;					//-- Blue component
+
+	} GXRGBTriple;
+
+    //----------------------------------//
+	// Definition of a surface element. //
+	//----------------------------------//
+    typedef struct tagSurfaceAttributes {
+
+	    char Name[128];				//-- Name of surface (fixed size)
+
+		GXRGBTriple Specular;		//-- Base specularity - Range [0.0, 1.0] for each RGB component
+        GXRGBTriple Diffuse;		//-- Base diffusion	  - Range [0.0, 1.0] for each RGB component
+		GXRGBTriple Ambient;		//-- Base ambient	  - Range [0.0, 1.0] for each RGB component
+
+		double Reflectivity;		//-- Reflectivity value		- Range [0.0, 1.0]
+		double Transparency;		//-- Transparency value		- Range [0.0, 1.0]
+		double Glossiness;			//-- Glossiness (shininess)	- Range [0.0, 1.0]
+		double Luminosity;			//-- Luminosity value		- Range [0.0, 1.0]
+		double RefractionIdx;		//-- Index of refraction	- Range [0.0,    ] ??? Undetermined
+		double Absorption;			//-- Absorption value		- Range [0.0, 1.0]
+		double ReflectionBlur;		//-- Reflection Blur value	- Range [0.0, 1.0]
+
+		BYTE TwoSided;				//-- Boolean value indicating double sidedness
+		ULONG TotalVerts;
+		ULONG TotalPolys;
+
+	} GXSurfaceAttrib;		
+
+    //---------------------------------------//
+	// Definition of surface map attributes. //
+	//---------------------------------------//
+    typedef struct tagSurfaceMapAttributes {
+
+		BYTE FileName[260];			//-- Map's file name
+
+	    EMapType  Type;				//-- Map type
+	    EMapMode  Mode;				//-- Map mode
+		EMapImage Image;			//-- Map image mode
+
+	    float  Percent;				//-- Percentage of (reflectivity, bumpiness, transparency, etc.)
+
+	    double OffsetU;				//-- Map U Offset
+	    double OffsetV;				//-- Map V Offset
+	    double SpanU;				//-- Map U Span
+	    double SpanV;				//-- Map V Span
+	    double OriginU;				//-- Map U Origin
+	    double OriginV;				//-- Map V Origin
+		double ScaleU;				//-- Map U Scale
+		double ScaleV;				//-- Map V Scale
+	    double Width;				//-- Map width
+	    double Height;				//-- Map height
+
+	    BYTE   MirrorU;				//-- Boolean value for mirror u
+	    BYTE   MirrorV;				//-- Boolean value for mirror v
+	    BYTE   TileU;				//-- Boolean value for tile u
+	    BYTE   TileV;				//-- Boolean value for tile v
+	
+	} GXMapAttrib;
+
+    //--------------------------------------//
+	//    Definition of a Normal Vertex.	//
+	//--------------------------------------//
+	typedef GXCoords GXNormal;
+}
+
+
+//+-------------------------------------------------------------------------//
+//  Class:      IGX3DEnumTranslators                                        //
+//                                                                          //
+//  Purpose:    Access to list of installed file translators.  This is      //
+//              provided from IGX3DTransFact.  Clients use this to get      //
+//              the string names and descriptions of the installed file     //
+//              translators.                                                //
+//                                                                          //
+// Last changed:                                                            //
+//+-------------------------------------------------------------------------//
+[
+  object,
+  uuid(8335e671-ab3b-11ce-8468-0000b468276b)
+]
+interface IGX3DEnumTrans : IUnknown
+{
+    //-----------------------------------------------------------//
+    // Return a string with the name of the next file type in    //
+    // the list.  The minimum string length is 4 (including      //
+	// the null terminator.)                                      //
+	// Return string example:  "3DS"  (NOTE: fileTypeSize == 4)  //
+	// Return S_OK on success                                    //
+	//        S_FALSE on end of list                             //
+	//-----------------------------------------------------------//
+	HRESULT Next(
+		[in ] DWORD fileTypeSize,
+		[in ] DWORD fileDescripSize,
+		[out] char *szFileTypeName,
+		[out] char *szFileDescrip);
+
+    //-----------------------------------------------------------//
+    // Skip the next celt elements in the list.  return S_FALSE  //
+    // if skip would move beyond end of list.                    //
+	//-----------------------------------------------------------//
+	HRESULT Skip(
+		[in] ULONG celt);
+
+    //-----------------------------------------------------------//
+    //  Reset enumeration to beginning of list.                  //
+	//-----------------------------------------------------------//
+	HRESULT Reset(void);
+
+    //-----------------------------------------------------------//
+    // Produce a copy of this enumeration.  E_OUTOFMEMORY if     //
+    // unable to allocate space                                  //
+	//-----------------------------------------------------------//
+	HRESULT Clone(
+		[out] IGX3DEnumTrans **ppenum);
+
+}
+
+
+
+//+-------------------------------------------------------------------------//
+//  Class:      IGX3DEnumObjects                                            //
+//                                                                          //
+//  Purpose:    Access to an array of pointers to objects contained in an   //
+//              IGX3DScene object.  Clients use this to safely gain access  //
+//              to the object's entities (polygons, vertices, etc.).        //
+//                                                                          //
+// Last changed:                                                            //
+//+-------------------------------------------------------------------------//
+[
+  object,
+  uuid(8335e678-ab3b-11ce-8468-0000b468276b)
+]
+interface IGX3DEnumObjects : IUnknown
+{
+    //-----------------------------------------------------------//
+    //  Fill an array[celt] of pointers to IGX3DObjects.  This   //
+    //  requires that the user allocates enough memory to store  //
+	//  at least 'celt' pointers to objects.                     // 
+	//  Return: S_OK on success                                  //
+	//          S_FALSE on end of list                           //
+	//          E_FAIL on internal error                         // 
+	//-----------------------------------------------------------//
+	HRESULT Next(
+		[in ] ULONG celt,				//-- Number of elements requested 
+		[out] IGX3DObject **pIGXObj,	//-- Array of the elements 
+		[out] ULONG *pceltFetched);		//-- Pointer to the number of elements supplied 
+
+    //-----------------------------------------------------------//
+    //  Skip the next celt elements in the list.                 //
+	//  Return: S_FALSE if skip would move beyond end of list.   //
+	//          S_OK on success                                  //
+	//-----------------------------------------------------------//
+	HRESULT Skip(
+		[in] ULONG celt);
+
+    //-----------------------------------------------------------//
+    //  Reset enumeration to beginning of list.                  //
+	//-----------------------------------------------------------//
+	HRESULT Reset(void);
+
+    //-----------------------------------------------------------//
+    // Produce a copy of this enumeration.  E_OUTOFMEMORY if     //
+    // unable to allocate space                                  //
+	//-----------------------------------------------------------//
+	HRESULT Clone(
+		[out] IGX3DEnumObjects **ppenum);
+
+}
+
+
+
+//+-------------------------------------------------------------------------//
+//  Class:      IGX3DEnumPolygons                                           //
+//                                                                          //
+//  Purpose:    Access to array of pointers to GXPolygons contained in an   //
+//              IGX3DObject.  Clients use this to safely gain access to the //
+//              object's polygons.                                          //
+//                                                                          //
+// Last changed:                                                            //
+//+-------------------------------------------------------------------------//
+[
+  object,
+  uuid(8335e679-ab3b-11ce-8468-0000b468276b)
+]
+interface IGX3DEnumPolygons : IUnknown
+{
+    //-----------------------------------------------------------//
+    //  Fill an array[celt] of pointers to GXPolygons.  This     //
+    //  requires that the user allocates enough memory to store  //
+	//  at least 'celt' pointers.                                // 
+	//  Return: S_OK on success                                  //
+	//          S_FALSE on end of list                           //
+	//          E_FAIL on internal error                         // 
+	//-----------------------------------------------------------//
+	HRESULT Next(
+		[in ] ULONG celt,
+		[out] GXPolygon **pGXPoly,
+		[out] ULONG *pceltFetched);
+
+    //-----------------------------------------------------------//
+    //  Skip the next celt elements in the list.                 //
+	//  Return: S_FALSE if skip would move beyond end of list.   //
+	//          S_OK on success                                  //
+	//-----------------------------------------------------------//
+	HRESULT Skip(
+		[in] ULONG celt);
+
+    //-----------------------------------------------------------//
+    //  Reset enumeration to beginning of list.                  //
+	//-----------------------------------------------------------//
+	HRESULT Reset(void);
+
+    //-----------------------------------------------------------//
+    // Produce a copy of this enumeration.  E_OUTOFMEMORY if     //
+    // unable to allocate space                                  //
+	//-----------------------------------------------------------//
+	HRESULT Clone(
+		[out] IGX3DEnumPolygons **ppenum);
+
+}
+
+
+
+//+-------------------------------------------------------------------------//
+//  Class:      IGX3DEnumVertices                                           //
+//                                                                          //
+//  Purpose:    Access to array of pointers to GXVertices contained in an   //
+//              IGX3DObject.  Clients use this to safely gain access to the //
+//              object's vertices.                                          //
+//                                                                          //
+// Last changed:                                                            //
+//+-------------------------------------------------------------------------//
+[
+  object,
+  uuid(8335e67a-ab3b-11ce-8468-0000b468276b)
+]
+interface IGX3DEnumVertices : IUnknown
+{
+    //-----------------------------------------------------------//
+    //  Fill an array[celt] of pointers to GXVertices.  This     //
+    //  requires that the user allocates enough memory to store  //
+	//  at least 'celt' pointers.                                // 
+	//  Return: S_OK on success                                  //
+	//          S_FALSE on end of list                           //
+	//          E_FAIL on internal error                         // 
+	//-----------------------------------------------------------//
+	HRESULT Next(
+		[in ] ULONG celt,
+		[out] GXVertex **pGXVertex,
+		[out] ULONG *pceltFetched);
+
+    //-----------------------------------------------------------//
+    //  Skip the next celt elements in the list.                 //
+	//  Return: S_FALSE if skip would move beyond end of list.   //
+	//          S_OK on success                                  //
+	//-----------------------------------------------------------//
+	HRESULT Skip(
+		[in] ULONG celt);
+
+    //-----------------------------------------------------------//
+    //  Reset enumeration to beginning of list.                  //
+	//-----------------------------------------------------------//
+	HRESULT Reset(void);
+
+    //-----------------------------------------------------------//
+    // Produce a copy of this enumeration.  E_OUTOFMEMORY if     //
+    // unable to allocate space                                  //
+	//-----------------------------------------------------------//
+	HRESULT Clone(
+		[out] IGX3DEnumVertices **ppenum);
+
+}
+
+//+-------------------------------------------------------------------------//
+//  Class:      IGX3DEnumNormals                                            //
+//                                                                          //
+//  Purpose:    Access to array of pointers to GXNormals contained in an    //
+//              IGX3DObject.  Clients use this to safely gain access to the //
+//              object's vertices.                                          //
+//                                                                          //
+// Last changed:                                                            //
+//+-------------------------------------------------------------------------//
+[
+  object,
+  uuid(8335e67d-ab3b-11ce-8468-0000b468276b)
+]
+interface IGX3DEnumNormals : IUnknown
+{
+    //-----------------------------------------------------------//
+    //  Fill an array[celt] of pointers to GXNormal.  This     //
+    //  requires that the user allocates enough memory to store  //
+	//  at least 'celt' pointers.                                // 
+	//  Return: S_OK on success                                  //
+	//          S_FALSE on end of list                           //
+	//          E_FAIL on internal error                         // 
+	//-----------------------------------------------------------//
+	HRESULT Next(
+		[in ] ULONG celt,
+		[out] GXNormal **pGXNormal,
+		[out] ULONG *pceltFetched);
+
+    //-----------------------------------------------------------//
+    //  Skip the next celt elements in the list.                 //
+	//  Return: S_FALSE if skip would move beyond end of list.   //
+	//          S_OK on success                                  //
+	//-----------------------------------------------------------//
+	HRESULT Skip(
+		[in] ULONG celt);
+
+    //-----------------------------------------------------------//
+    //  Reset enumeration to beginning of list.                  //
+	//-----------------------------------------------------------//
+	HRESULT Reset(void);
+
+    //-----------------------------------------------------------//
+    // Produce a copy of this enumeration.  E_OUTOFMEMORY if     //
+    // unable to allocate space                                  //
+	//-----------------------------------------------------------//
+	HRESULT Clone(
+		[out] IGX3DEnumNormals **ppenum);
+
+}
+
+//+-------------------------------------------------------------------------//
+//  Class:      IGX3DEnumSurfaces                                           //
+//                                                                          //
+//  Purpose:    Access to array of pointers to IGX3DSurfaces contained in   //
+//              an IGX3DScene object.  Clients use this to safely gain      //
+//              access to the object's surfaces.                            //
+//                                                                          //
+// Last changed:                                                            //
+//+-------------------------------------------------------------------------//
+[
+  object,
+  uuid(8335e67b-ab3b-11ce-8468-0000b468276b)
+]
+interface IGX3DEnumSurfaces : IUnknown
+{
+    //-----------------------------------------------------------//
+    //  Fill an array[celt] of pointers to GXSurfaces.  This     //
+    //  requires that the user allocates enough memory to store  //
+	//  at least 'celt' pointers.                                // 
+	//  Return: S_OK on success                                  //
+	//          S_FALSE on end of list                           //
+	//          E_FAIL on internal error                         // 
+	//-----------------------------------------------------------//
+	HRESULT Next(
+		[in ] ULONG celt,
+		[out] IGX3DSurface **pIGXSurface,
+		[out] ULONG *pceltFetched);
+
+    //-----------------------------------------------------------//
+    //  Skip the next celt elements in the list.                 //
+	//  Return: S_FALSE if skip would move beyond end of list.   //
+	//          S_OK on success                                  //
+	//-----------------------------------------------------------//
+	HRESULT Skip(
+		[in] ULONG celt);
+
+    //-----------------------------------------------------------//
+    //  Reset enumeration to beginning of list.                  //
+	//-----------------------------------------------------------//
+	HRESULT Reset(void);
+
+    //-----------------------------------------------------------//
+    // Produce a copy of this enumeration.  E_OUTOFMEMORY if     //
+    // unable to allocate space                                  //
+	//-----------------------------------------------------------//
+	HRESULT Clone(
+		[out] IGX3DEnumSurfaces **ppenum);
+
+}
+
+
+
+//+-------------------------------------------------------------------------//
+//  Class:      IGX3DEnumSurfaceMaps                                        //
+//                                                                          //
+//  Purpose:    Access to list of installed surface maps.  This includes    //
+//              texture, bump, reflection, transparency and opacity maps.   //
+//                                                                          //
+// Last changed:  6/20/97 - Initial creation                                //
+//+-------------------------------------------------------------------------//
+[
+  object,
+  uuid(8335e67c-ab3b-11ce-8468-0000b468276b)
+]
+interface IGX3DEnumSurfaceMaps : IUnknown
+{
+    //-----------------------------------------------------------//
+    //  Fill an array[celt] of pointers to GXSurfaceMaps.  This  //
+    //  requires that the user allocates enough memory to store  //
+	//  at least 'celt' pointers.                                // 
+	//  Return: S_OK on success                                  //
+	//          S_FALSE on end of list                           //
+	//          E_FAIL on internal error                         // 
+	//-----------------------------------------------------------//
+	HRESULT Next(
+		[in ] ULONG celt,
+		[out] IGX3DSurfaceMap **pIGXSurfaceMap,
+		[out] ULONG *pceltFetched);
+
+    //-----------------------------------------------------------//
+    //  Skip the next celt elements in the list.                 //
+	//  Return: S_FALSE if skip would move beyond end of list.   //
+	//          S_OK on success                                  //
+	//-----------------------------------------------------------//
+	HRESULT Skip(
+		[in] ULONG celt);
+
+    //-----------------------------------------------------------//
+    //  Reset enumeration to beginning of list.                  //
+	//-----------------------------------------------------------//
+	HRESULT Reset(void);
+
+    //-----------------------------------------------------------//
+    // Produce a copy of this enumeration.  E_OUTOFMEMORY if     //
+    // unable to allocate space                                  //
+	//-----------------------------------------------------------//
+	HRESULT Clone(
+		[out] IGX3DEnumSurfaceMaps **ppenum);
+
+}
+
+
+//--------------------------------------------------------------------------//
+//                                                                          //
+//  Class:      IGX3DScene                                                  //
+//                                                                          //
+//  Purpose:    Encapsulates all of the IGX3DObjects, IGX3DSurfaces,        //
+//            IGX3DSurfaceMaps and a colection of other global information. //
+//                                                                          //
+// Last changed:                                                            //
+//                                                                          //
+//+-------------------------------------------------------------------------//
+[
+  object,
+  uuid(8335e676-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGX3DScene : IUnknown
+{
+   
+	//--------------------------------------------------//
+	//  IGX3DObject construction/allocation functions.  //
+	//--------------------------------------------------//
+	HRESULT Create3DScene(void);
+	HRESULT AllocObjectArray(void);
+	HRESULT AllocSurfaceArray(void);
+	HRESULT AllocSurfaceMapArray(void);
+	
+	//------------------------------//------------------//
+	//   Object entity functions.   //
+	//------------------------------//
+	HRESULT SetMaxObjects(
+		[in ] DWORD MaxObj);
+
+	HRESULT GetObjectCount(
+		[out] DWORD *OCount);
+
+	HRESULT GetEnumObjects(
+		[out] IGX3DEnumObjects **pIGXObj);
+
+	HRESULT GetObjectList(
+		[out] IGX3DObject ***GXObj);	//-- This may disappear soon
+
+	HRESULT InsertObject(
+		[in ] IGX3DObject *GXObj);
+
+	//------------------------------//------------------//
+	//   Surface entity functions.  //
+	//------------------------------//
+	HRESULT SetMaxSurfaces(
+		[in ] DWORD SCount);
+
+	HRESULT GetSurfaceCount(
+		[in ] DWORD *SCount);
+
+	HRESULT GetEnumSurfaces(
+		[out] IGX3DEnumSurfaces **pEnumSurf);
+
+	HRESULT GetSurfaceList(
+		[out] IGX3DSurface ***SList);	//-- This may disappear soon
+
+	HRESULT InsertSurface(
+		[in ] IGX3DSurface *Surf,
+		[out] DWORD *SIndex);
+
+	//--------------------------------//----------------//
+	//  Surface Map entity functions. //
+	//--------------------------------//
+	HRESULT SetMaxSurfaceMaps(
+		[in ] DWORD MCount);
+
+	HRESULT GetSurfaceMapCount(
+		[in ] DWORD *MCount);
+
+	HRESULT GetEnumSurfaceMaps(
+		[out] IGX3DEnumSurfaceMaps **pEnumMap);
+
+	HRESULT GetSurfaceMapList(
+		[out] IGX3DSurfaceMap ***MList);	//-- This may disappear soon
+
+	HRESULT InsertSurfaceMap(
+		[in ] IGX3DSurfaceMap *SMap,
+		[out] DWORD *MIndex);
+
+	//------------------------------//------------------//
+	//   Misc. Scene operations.    //
+	//------------------------------//
+	HRESULT SetWorldScale(
+		[in ] GXCoords *Scale);
+
+	HRESULT GetWorldScale(
+		[out] GXCoords *Scale);
+
+	HRESULT NormalizeScene(void);	//-- This may disappear soon
+
+	HRESULT CombineObjects(
+		[out] IGX3DScene **pIGXScene);
+
+}
+
+
+//--------------------------------------------------------------------------//
+//                                                                          //
+//  Class:      IGX3DObject                                                 //
+//                                                                          //
+//  Purpose:    Encapsulates all of the GXPolygons, GXVertices and a        //
+//            collection of other local informations.                       //
+//                                                                          //
+// Last changed:                                                            //
+//                                                                          //
+//+-------------------------------------------------------------------------//
+[
+  object,
+  uuid(8335e677-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGX3DObject : IUnknown
+{
+
+	//--------------------------------------------------//
+	//  IGX3DObject construction/allocation functions.  //
+	//--------------------------------------------------//
+    HRESULT Create3DObject(void);
+	HRESULT AllocVertexArray(void);
+	HRESULT AllocPolygonArray(void);
+	
+	//------------------------------//------------------//
+	//   Polygon entity functions.  //
+	//------------------------------//
+	HRESULT SetMaxPolygons(
+		[in ] DWORD PCount);
+
+	HRESULT GetPolygonCount(
+		[out] DWORD *PCount);
+
+	HRESULT GetEnumPolygons(
+		[out] IGX3DEnumPolygons **pEnumPoly);
+
+	HRESULT GetPolygonList(
+		[out] GXPolygon ***PList);	//-- This may disappear soon
+
+	HRESULT InsertPolygonV(		//-- Will change soon
+		[in ] WORD VCount, 
+		[in ] GXVertex **VList);
+
+	HRESULT InsertPolygonI(		//-- Will change soon
+		[in ] DWORD VCount, 
+		[in ] BYTE  BytesPerIndex, 
+		[in ] BYTE *VidxList,
+		[in ] DWORD SIndex);
+ 
+	//------------------------------//------------------//
+	//   Vertex entity functions.   //
+	//------------------------------//
+	HRESULT SetMaxVertices(
+		[in ] DWORD VCount);
+
+    HRESULT GetVertexCount(
+		[out] DWORD *VCount);
+
+	HRESULT GetEnumVertices(
+		[out] IGX3DEnumVertices **pEnumVert);
+
+	HRESULT GetVertexList(
+		[out] GXVertex ***VList);	//-- This may disappear soon
+
+	HRESULT InsertVertex(
+		[in ] GXVertex Vert, 
+		[out] DWORD *VIndex);
+
+	//------------------------------//------------------//
+	//   Misc. object attributes.   //
+	//------------------------------//
+	HRESULT SetWorldScale(
+		[in ] GXCoords *Scale);
+
+	HRESULT SetWorldAngle(
+		[in ] GXCoords *Angle);
+
+	HRESULT SetWorldPosition(
+		[in ] GXCoords *Position);
+
+	HRESULT SetObjectName(
+		[in ] char *ObjName);
+
+	HRESULT GetWorldScale(
+		[out] GXCoords *Scale);
+
+	HRESULT GetWorldAngle(
+		[out] GXCoords *Angle);
+
+	HRESULT GetWorldPosition(
+		[out] GXCoords *Position);
+
+	HRESULT GetObjectName(
+		[out] char *ObjName);
+
+		//  Parent indices can range from 0 to 2^32 -2 (0xFFFFFFFE)
+		//  A value of 0xFFFFFFFF means that there is no parent.
+	HRESULT GetParentIndex(
+		[out] DWORD *PIndex);
+
+		//  Parent indices can range from 0 to 2^32 -2 (0xFFFFFFFE)
+		//  A value of 0xFFFFFFFF means that there is no parent.
+	HRESULT SetParentIndex(
+		[in ] DWORD PIndex);
+
+	HRESULT GetMaxCoords(
+		[out] GXCoords *MaxCoords);
+
+	HRESULT GetMinCoords(
+		[out] GXCoords *MinCoords);
+
+	//------------------------------//------------------//
+	//   Vertex entity functions.   //
+	//------------------------------//
+	HRESULT SetMaxNormals(
+		[in ] DWORD NCount);
+
+    HRESULT GetNormalCount(
+		[out] DWORD *NCount);
+
+	HRESULT GetEnumNormals(
+		[out] IGX3DEnumNormals **pEnumNormal);
+
+	HRESULT GetNormalList(
+		[out] GXNormal ***NList);	//-- This may disappear soon
+
+	HRESULT InsertNormal(
+		[in ] GXNormal Norm, 
+		[out] DWORD *NIndex);
+
+
+}
+
+
+
+//--------------------------------------------------------------------------//
+//                                                                          //
+//  Class:      IGX3DSurface                                                //
+//                                                                          //
+//  Purpose:                                                                //
+//	Details:                                                                //
+//  Last changed:                                                           //
+//                                                                          //
+//+-------------------------------------------------------------------------//
+[
+  object,
+  uuid(8335e67e-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGX3DSurface : IUnknown
+{
+
+	HRESULT GetAttributes(
+		[out] GXSurfaceAttrib *SurfaceAttrib);
+
+	HRESULT SetAttributes(
+		[in ] GXSurfaceAttrib *SurfaceAttrib);
+
+    HRESULT GetMapCount(
+		[out] DWORD *MCount);
+
+    HRESULT GetMapIndices(
+	    [out] DWORD **MapIndexList);
+
+	HRESULT InsertMapIndex(
+		[in ] DWORD MIndex);
+
+}
+
+
+
+//--------------------------------------------------------------------------//
+//                                                                          //
+//  Class:      IGX3DSurfaceMap                                             //
+//                                                                          //
+//  Purpose:                                                                //
+//	Details:                                                                //
+//  Last changed:                                                           //
+//                                                                          //
+//+-------------------------------------------------------------------------//
+[
+  object,
+  uuid(8335e67f-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGX3DSurfaceMap : IUnknown
+{
+
+	HRESULT InitializeAttributes(
+		[out] GXMapAttrib *MapAttrib);
+
+	HRESULT GetAttributes(
+		[out] GXMapAttrib *MapAttrib);
+
+	HRESULT SetAttributes(
+		[in ] GXMapAttrib *MapAttrib);
+
+}
+
+
+
+//+-------------------------------------------------------------------------//
+//                                                                          //
+//  Class:      IGX3DTransFact                                              //
+//                                                                          //
+//  Purpose:    3D object file translator factory.  Allows interfaces for   //
+//            specific file types to be obtained.                           //
+//                                                                          //
+//	Details:    This class will return interfaces to other file types for   //
+//	          clients to translate to and from.  CLSIDs for other installed //
+//	          interfaces must be stored in the system registry (which this  //
+//	          class will read information from).  clients can obtain a list // 
+//	          of installed translators from this class.  the list can then  //
+//	          be presented to the user.  user choices can be fed back       //
+//            through here to instantiate the proper classes.               //
+//                                                                          //
+// Last changed:                                                            //
+//                                                                          //
+//+-------------------------------------------------------------------------//
+[
+  object,
+  uuid(8335e672-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGX3DTransFact : IUnknown
+{
+
+    // get the type of this file and return a pointer to a
+    // translator that can load/save it.
+    // params:
+    //      pszFileName - name of file to get type of
+    //      filetypeSize - size of type name buffer 
+	//        (including null terminator; min size = 4)
+    //      szfileTypeName - the name of this file type
+    //      ppXlator - pointer to a translator interface
+    // return S_OK if a file type is found
+    //        S_FALSE if no installed type is found
+    //        E_... on other failure
+HRESULT GetFileType(
+    [string,in] char *pszFileName,
+    [in ] DWORD fileTypeSize,
+    [out] char *szFileTypeName,
+    [out] IGX3DTranslator **ppXlator);
+
+     // given a file name, load the file and return an IGXIntBitmap
+    // and, optionally, the IGXTranslator used to load the bitmap.
+    // if client doesn't want a translator, a NULL pointer can be
+    // passed in instead.  progress allows clients to monitor
+    // progress on the operation.  this function is provided as
+    // a shortcut to getting a translator and then loading the file
+    // as a 2 step operation.
+    // return S_OK on success
+    //        S_FALSE if object can't load
+    //        E_OUTOFMEMORY if components couldn't be created
+HRESULT LoadFile(
+    [string,in] char *pszFileName,
+    [out] IGX3DScene **pIGXScene,
+    [in ] IGX3DProgress *Progress);
+//    [out] IGX3DTranslator **pITrans);
+
+    // save a file with the given name.  the IGXTranslator held by
+    // the bitmap is used to save the file with the same settings it
+    // was loaded with.  if the bitmap has no associated
+    // IGXTranslator, return E_INVALIDARG as failure.
+    // return S_OK on success.
+    // (if there is no translator held in the bitmap, one must be
+    // obtained through other functions in this interface)
+HRESULT SaveFile(
+    [string,in] char *pszFileName,
+    [in ] IGX3DScene *pIGXScene,
+    [in ] IGX3DProgress *Progress);
+
+    // the following two return enumeration interfaces to list
+    // installed file loaders and file savers.
+    // return S_OK on success
+    //        E_OUTOFMEMORY if enum can't be created
+HRESULT GetEnumLoaders(
+    [out] IGX3DEnumTrans **ppIenum);
+
+    // return S_OK on success
+    //        E_OUTOFMEMORY if enum can't be created
+HRESULT GetEnumSavers(
+    [out] IGX3DEnumTrans **ppIenum);
+
+}
+
+
+//+-------------------------------------------------------------------------//
+//  Class:      IGX3DTranslator                                             //
+//                                                                          //
+//  Purpose:    Load and save 3D object files.  This interface will be      //
+//            attached to file specific translator classes.                 //
+//                                                                          //
+//				Clients should receive this from IGX3DTransFact.            //
+//				Clients should not instantiate this themselves!             // 
+//                                                                          //
+// Last changed:                                                            //
+//                                                                          //
+//+-------------------------------------------------------------------------//
+[
+  object,
+  uuid(8335e673-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGX3DTranslator: IUnknown
+{
+    // return values of the two following indicate if a
+    // translator can load and/or save in this format.
+    // return S_OK if object can load or save a format
+    //        S_FALSE if it cannot
+HRESULT CanILoad(void);
+HRESULT CanISave(void);
+
+    // given a file name, return S_OK or S_FALSE based on whether
+    // the file type can be validated for this translator.  normally
+    // used by IGXTransFact.
+    // return S_OK if file is recognized by this translator
+    //        S_FALSE if it isn't
+    //        E_OUTOFMEMORY if internal components couldn't be
+    //                      allocated
+HRESULT ValidateFile( 
+  [string,in] char *pszFileName);
+
+    // load a file into a particular internal format.
+	// we allocate space for the bitmap.  we even AddRef() the
+	// interface (so don't you do that yourself).
+    // params:
+    //      pszFileName - name of file to load
+    //      format - what internal form we want the bitmap to be in
+    //      ppIBmp - the loaded bitmap (which contains file format
+    //               specific information available through another
+    //               interface).
+    // return S_OK on success
+    //        S_FALSE if object can't load
+    //        E_OUTOFMEMORY if components couldn't be created
+HRESULT LoadFile( 
+  [string,in] char *pszFileName,
+  [out] IGX3DScene **pIGXScene,
+  [in ] IGX3DProgress *Progress);
+
+    // save the bitmap to a file
+    // return S_OK on success
+    //        S_FALSE if object can't save
+    //        E_OUTOFMEMORY if components couldn't be created
+HRESULT SaveFile(
+  [string,in] char  *pszFileName,
+  [in ] IGX3DScene  *pIGXScene,
+  [in ] IGX3DProgress *Progress);
+
+}
+
+
+//+-------------------------------------------------------------------------//
+//  Class:      IGX3DClientIO                                               //
+//                                                                          //
+//	Purpose:	The client should implement this if it has special disk     //
+//            I/O needs (for example trying to multi-task Windows 95/NT     //
+//            disk operations with high-performance graphics operations).   //
+//            Client will provide an instantiation of this interface.       //
+//            The library will then use this interface for subsequent       //
+//            operations on the given disk entity.                          //
+//                                                                          //
+// Last changed:                                                            //
+//                                                                          //
+//+-------------------------------------------------------------------------//
+[
+  object,
+  uuid(8335e675-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGX3DClientIO: IUnknown
+{
+
+	typedef enum tagGXSeekOrig {
+
+		gxSEEK_START = 0,
+		gxSEEK_END,
+		gxSEEK_CURRENT
+
+	} GXSeekOrig;
+
+	typedef enum tagGXEEndianess {
+
+		gxUNKNOWN = 0,	//-- Results in default mode
+		gxINTEL,		//-- Little endian
+		gxMOTOROLA,		//-- Big endian
+
+	} GXEEndianess;
+
+        // report about the state of the object.  if a file
+        // is open and seems usable, return S_OK, otherwise
+        // return S_FALSE
+    HRESULT IsValid(void);
+
+        // tell what is the format of the data.  (big or small endian)
+	void GetMediaEndianess(
+		[out] GXEEndianess *end);
+
+        // set the format of the data.
+	void SetMediaEndianess(
+		[in] GXEEndianess end);
+
+    HRESULT Open(
+        [in] char *pszFileName,
+        [in] DWORD mode);
+
+    HRESULT Close(void);
+
+	HRESULT Tell(
+		[in] DWORD *Offset);
+
+	HRESULT Seek(
+		[in] DWORD Offset, 
+		[in] WORD  Origin);
+
+    HRESULT ReadByte(
+		[out] BYTE *Value);
+
+    HRESULT ReadWord(
+		[out] WORD *Value);
+
+    HRESULT ReadDWord(
+		[out] DWORD *Value);
+
+    HRESULT ReadFloat(
+		[out] float *Value);
+
+    HRESULT ReadDouble(
+		[out] double *Value);
+
+	HRESULT ReadBuffer(
+		[out] BYTE  *Buffer, 
+		[in]  DWORD *Count);
+
+    HRESULT WriteByte(
+		[in] BYTE *Value);
+
+    HRESULT WriteWord(
+		[in] WORD *Value);
+
+    HRESULT WriteDWord(
+		[in] DWORD *Value);
+
+    HRESULT WriteFloat(
+		[in] float *Value);
+
+    HRESULT WriteDouble(
+		[in] double *Value);
+
+	HRESULT WriteBuffer(
+		[in]  BYTE *Buffer, 
+		[in] DWORD *Count);
+
+}
+
+
+//+-------------------------------------------------------------------------//
+//                                                                          //
+//  Class:      IGX3DProgress                                               //
+//                                                                          //
+//  Purpose:    Clients implement this to receive notification that         //
+//            progress has been made during a 3D object operation.          //
+//            Progress isn't guaranteed to be a linear progression          //
+//            (one layer of an operation may see progress while             //
+//            lower layers are buffering data which gets operated           // 
+//            upon later).                                                  //
+//                                                                          //
+// Last changed:                                                            //
+//                                                                          //
+//+-------------------------------------------------------------------------//
+[
+  object,
+  uuid(8335e674-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGX3DProgress : IUnknown
+{
+    typedef struct tagGXSTrnProgress {
+
+		BYTE *Description;  //-- Descriptive string for current process
+
+        DWORD currentRow;
+        DWORD maxRow;
+
+        DWORD currentPass;
+        DWORD maxPass;
+
+    } GXSTrnProgress;
+
+		// these calls are made simply to tell the client exactly
+		// when and operation begins or ends
+	void StartOperation(void);
+	void EndOperation(void);
+		// this will be called before an operation really begins
+		// work and will be the real maximum number of passes.
+		// (at present, the maxPass value in STrnProgress may not
+		// be correct in all implementations.  this will change
+		// soon).
+	void SetMaxPasses(DWORD maxPass);
+
+        // tell the client which row of how many the translation
+        // is operating on.  multiple passes over the image may occur
+        // when palettes are generated from a true-color image, for
+        // example.  client can do anything it wants with this
+        // information.
+        // returns S_OK normally
+        //         S_FALSE if client wants to abort operation
+    HRESULT ProgressNotify(
+        [in] GXSTrnProgress *progress);
+}
+
+//*************************** End GXlate3d.idl ******************************/

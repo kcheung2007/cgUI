@@ -1,0 +1,782 @@
+//+---------------------------------------------------------------------------
+//
+//  Trinity OEM API
+//  Copyright (C) Play Incorporated, 1995
+//
+//  PRELIMINARY - ALL SPECIFICATIONS SUBJECT TO CHANGE
+//  PLAY CONFIDENTIAL - DO NOT DISTRIBUTE
+//
+//  File:       TFXFILE.idl
+//
+//  Contents:   Definition for Trinty Effect File manipulation interfaces.
+//
+//  History:    March 14, 1996      cmdaniel    created
+//
+//----------------------------------------------------------------------------
+import "wtypes.idl";
+import "unknwn.idl";
+import "objidl.idl";
+import "autoct.idl";
+import "trnity.idl";
+
+
+cpp_quote("#define PLAY_3D_DVE_ID           0x00000005")
+cpp_quote("#define PLAY_SWITCHER_ID         0x00000003")
+cpp_quote("#define PLAY_COMPOSITE_INPUT_ID2 0x80000003")
+cpp_quote("#define PLAY_COMPOSITE_INPUT_ID1 0x80000002")
+cpp_quote("#define PLAY_SERIAL_D1_INPUT_ID  0x80000001")
+
+cpp_quote("#define TFX_E_TOOMANYITEMS       0xE8030001")
+cpp_quote("#define TFX_E_ITEMALREADYEXISTS  0xE8030002")
+cpp_quote("#define TFX_E_ITEMNOTFOUND       0xE8030003")
+
+cpp_quote("#define TFX_MAX_BUSSES           16")
+cpp_quote("#define TFX_MAX_LAYERS           8")
+
+
+//+---------------------------------------------------------------------------
+//  Forward declarations
+//----------------------------------------------------------------------------
+interface ITrnEffectFile;
+interface ITrnEffectInput;
+interface ITrnEffectTransition;
+interface ITrnEffectTransform;
+interface ITrnEffectMixing;
+interface ITrnEffectLayering;
+interface ITrnEffectSoundEffect;
+interface ITrnEffectEvent;
+
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnEffectFile
+//
+//  Purpose:    Defines functions which are useful when loading or otherwise
+//              using an effect file in a way other than creation.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e5d3-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+
+interface ITrnEffectFile : IUnknown
+{
+
+  //
+  // NOTE that the values in this enumeration are meant to be used
+  //      in bit map combinations.
+  //
+  typedef enum tagETFXattributes
+  {
+    TFXtransition = 0x01,   // this effect is a transition
+    TFXchroma0    = 0x02,   //
+    TFXchroma1    = 0x04,   // turn on chroma key mode at the start of effect
+    TFXchroma2    = 0x08,   //
+    TFXchromaOff  = 0x10,   // turn chroma key off at the end
+    TFXUSAlpha    = 0x20,   // uses upstream alpha
+    TFXDSAlpha    = 0x40,   // uses downstream alpha
+	  TFXgraphics   = 0x80,   // contains graphics content
+    TFXgallery    = 0x100,  // "Gallery" effect - covers entire screen non transition, non-overlay
+    TFXPAL        = 0x200,  // effect is for PAL/SECAM systems (as opposed to NTSC/PAL-M)
+    TFXAnyRes     = 0x400,  // effect is resultion independent
+    TFXNoReverse  = 0x800,  // effect is NOT reversible
+    TFXViewFx     = 0x1000, // effect is view manager effect
+    TFXchromaMask = (TFXchroma0|TFXchroma1|TFXchroma2),
+    TFXchromaShift= 1
+  } ETFXattributes;
+
+  //
+  // Creates a new TFX file.  If the file already exists, FAIL.
+  //
+  HRESULT   Create(
+    [ in, string ] const OLECHAR* pFileName
+    );
+
+  //
+  // Opens an existing TFX file.  If the file does not, FAIL.
+  //
+  HRESULT   Open(
+    [ in, string ] const OLECHAR* pFileName
+    );
+
+  //
+  // Returns an IStorage* for the root storage of the TFX file.  This IStorage*
+  // can be passed to PlayUI functions to add the Picon, 5SummaryInfo, etc.
+  // NOTE: The caller must call Release() on the returned IStorage*
+  //       when it is finished with it.
+  //
+  HRESULT   GetRootStorage(
+    [out]   IStorage** ppStg
+    );
+
+  //
+  // Returns the length of the effect in fields.
+  //
+  DWORD     GetDuration();
+
+  //
+  // Sets the length of the effect in fields.
+  //
+  HRESULT   SetDuration(
+    [in]    DWORD dweDurationFields);
+
+  //
+  // Sets attribute flags on the effect (see ETFXattributes)
+  // Caller may pass any combination of bits defined in ETXFattributes.
+  //
+  HRESULT SetAttributes( DWORD attr );
+
+  //
+  // Clears attribute flags in the effect.
+  //
+  HRESULT ClearAttributes( DWORD attr );
+
+  //
+  // Returns the current set of attribute flags.
+  //
+  DWORD GetAttributes();
+
+  //
+  // Creates a new input in the effect file and returns a ITrnEffectInput*
+  // which can be used to define the contents of the new input.
+  //
+  HRESULT   CreateNewInput(
+    [out]   ITrnEffectInput** ppInput
+    );
+
+  //
+  // Returns an IEnumUnknown* which can iterate through all the inputs defined
+  // in the effect file.  The enumerator returns IUnknowns which can QI'd to
+  // return a ITrnEffectInput*.
+  //
+  HRESULT   EnumInputs(
+    [out]   IEnumUnknown** ppEnumUnk
+    );
+
+  //
+  // Creates a new transition in the effect file and returns a ITrnEffectTrnsition*
+  // which can be used to define the contents of the new transition.
+  //
+  HRESULT   CreateNewTransition(
+    [out]   ITrnEffectTransition** ppTransition
+    );
+
+  //
+  // Returns an IEnumUnknown* which can iterate through all the transitions defined
+  // in the effect file.  The enumerator returns IUnknowns which can QI'd to
+  // return a ITrnEffectTransition*.
+  //
+  HRESULT   EnumTransitions(
+    [out]   IEnumUnknown** ppEnumUnk
+    );
+
+  //
+  // Creates a new Transform in the effect file and returns a ITrnEffectTransform*
+  // which can be used to define the contents of the new transform.
+  //
+  HRESULT   CreateNewTransform(
+    [out]   ITrnEffectTransform** ppTransform
+    );
+
+  //
+  // Returns an IEnumUnknown* which can iterate through all the transforms defined
+  // in the effect file.  The enumerator returns IUnknowns which can QI'd to
+  // return a ITrnEffectTransform*.
+  //
+  HRESULT   EnumTransforms(
+    [out]   IEnumUnknown** ppEnumUnk
+    );
+
+  //
+  // Creates the Mixing section in the effect file.  If the effect file already
+  // has a mixing section, this function will return an error.  On success
+  // this function returns an ITrnEffectMixing*.
+  //
+  HRESULT   CreateMixing(
+    [out]   ITrnEffectMixing** ppMixing
+    );
+
+  //
+  // Returns an ITrnEffectMixing* for the currently defined Mixing section of
+  // the effect.  If no mixing exists, this function returns an error.
+  //
+  HRESULT   GetMixing(
+    [out]   ITrnEffectMixing** ppMixing
+    );
+
+  //
+  // Creates the Layering section of the effect file.  If the section already
+  // exists, this function will return an error.  On success, this function
+  // returns an ITrnEffectLayering*.
+  //
+  HRESULT   CreateLayering(
+    [out]   ITrnEffectLayering** ppLayering
+    );
+
+  //
+  // Returns an ITrnEffectLayering* for this effect.
+  //
+  HRESULT   GetLayering(
+    [out]   ITrnEffectLayering** ppLayering
+    );
+
+  //
+  // Creates a new entry in the SoundEffects section of the effect file.
+  // Returns an ITrnEffectSoundEffect*.
+  //
+  HRESULT   CreateNewSoundEffect(
+    [out]   ITrnEffectSoundEffect** ppSound
+    );
+
+  //
+  // Returns an IEnumUnknown* which can be used to enumerate all the sound effects.
+  //
+  HRESULT   EnumSoundEffects(
+    [out]   IEnumUnknown** ppEnumUnk
+    );
+
+  //
+  // Creates a new entry in the Events section of the effect file.
+  // Returns an ITrnEffectEvent*.
+  //
+  HRESULT   CreateNewEvent(
+    [out]   ITrnEffectEvent** ppEvent
+    );
+
+  //
+  // Returns an IEnumUnknown* which can be used to enumerate all the events.
+  //
+  HRESULT   EnumEvents(
+    [out]   IEnumUnknown** ppEnumUnk
+    );
+
+  //
+  // Returns an ITrnGraphicsEffect*.  This can can QI'd for ITrnGraphicsBuffer.
+  // This object is used to create a CG effect which is stored in a TFX file.
+  // If there is no Graphics section in the file, this will return an error.
+  //
+  HRESULT   GetGraphics(
+    [out]   ITrnGraphicsEffect** ppGraphics
+  );
+
+  //
+  // Same as GetGraphics except that this will create a Graphics section.
+  // If CreateAlways is TRUE, then the section will always be created and any
+  // existing data will be destroyed.  If CreateAlways is FALSE, then the
+  // function will fail if the section already exists.
+  //
+  HRESULT   CreateGraphics(
+    [in]    BOOL CreateAlways,
+    [out]   ITrnGraphicsEffect** ppGraphics
+  );
+
+  //
+  // Get the file name for this tfx file
+  //
+  HRESULT   GetFileName(
+    [in]    unsigned  cbBuffSize,   // size in bytes
+    [out]   OLECHAR* pBuffer
+  );
+
+  //
+  // Save any modified components and return an error -
+  // Clients should call this function before releasing the effect file
+  // if anything has been modified.
+  //
+  HRESULT   Save(
+  );
+}
+
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnEffectInput
+//
+//  Purpose:    Defines functions for use with the data for one Input in an
+//              effect file.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e5d4-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+
+interface ITrnEffectInput : IUnknown
+{
+
+  //
+  // Returns which logical input number this object represents.
+  //
+  DWORD     GetIndex();
+
+  //
+  // Returns an IStream* for the Description stream for this input.
+  // The stream will be open in read/write mode.  If the Descrption has not
+  // yet been created, this function will create the stream.
+  //
+  HRESULT   GetDescription(
+    [out]   IStream** ppDescStream
+    );
+
+  //
+  // Return a IStream* for a read-only stream containing the Anim Data.
+  //
+  HRESULT   GetAnimData(
+    [in]    DWORD ModuleId,
+    [out]   IStream** ppAnimStream
+    );
+
+  //
+  // Return an IStream* for a read/write stream which is to hold new anim data.
+  // NOTE: If the AnimData stream already exists, it will be deleted and
+  //       re-created.  Be careful!!
+  //
+  HRESULT   SetAnimData(
+    [in]    DWORD ModuleId,
+    [out]   IStream** ppAnimStream
+    );
+
+  //
+  // Loads the play list from the file and returns the DWORD offset.
+  //
+  HRESULT   GetTimingData(
+    [in]    DWORD ModuleId,
+    [in]    STrnPlayList* pPlayList,
+    [out]   DWORD* pOffset
+    );
+
+  //
+  // Saves the play list and the offset.
+  //
+  HRESULT   SetTimingData(
+    [in]    DWORD ModuleId,
+    [in]    STrnPlayList* pPlayList,
+    [in]    DWORD Offset
+    );
+
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnEffectTransition
+//
+//  Purpose:    Defines functions for use with one Transition in an
+//              effect file.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e5d5-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+
+interface ITrnEffectTransition : IUnknown
+{
+
+  //
+  // Returns which logical transition number this object represents.
+  //
+  DWORD     GetIndex();
+
+  //
+  // Returns the time (in fields relative to the beginning of the effect)
+  // when this set of bus re-configurations occurs.
+  //
+  HRESULT   GetOffset(
+    [out]   DWORD* pdwOffsetFields);
+
+  //
+  // Sets the time (in fields relative to the beginning of the effect)
+  // when this set of bus re-configurations occurs.
+  //
+  HRESULT   SetOffset(
+    [in]    DWORD dwOffsetFields
+    );
+
+  //
+  // Returns an IStream* for the Description stream for this transition.
+  // The stream will be open in read/write mode.  If the Descrption has not
+  // yet been created, this function will create the stream.
+  //
+  HRESULT   GetDescription(
+    [out]   IStream** ppDescStream
+    );
+
+  //
+  // Return a table of bytes at pBusTable.  The index into the table is the
+  // bus number (See enumeration EVidBus in SVIDEO.IDL).  The entry at each
+  // index is the logical input to be connected to that bus. These values
+  // come from the enumeration EVidSource in SVIDEO.IDL.
+  //
+  // The normal size of the bus table is TFX_MAX_BUSSES entries * sizeof(DWORD).
+  //
+  HRESULT   GetBusConfiguration(
+    [in]    DWORD dwcbTableSize,
+    [out]   DWORD* pBusTable
+    );
+
+  //
+  // Accepts a bus configuration table (See GetBusConfiguration) and writes
+  // it to the effect file.
+  //
+  HRESULT   SetBusConfiguration(
+    [in]    DWORD dwcbTableSize,
+    [in]    DWORD* pBusTable
+    );
+
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnEffectTransform
+//
+//  Purpose:    Defines functions for use with one Transform in an
+//              effect file.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e5d6-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+
+interface ITrnEffectTransform : IUnknown
+{
+
+  //
+  // Returns which logical transform number this object represents.
+  //
+  DWORD     GetIndex();
+
+  //
+  // Returns an IStream* for the Description stream for this transform.
+  // The stream will be open in read/write mode.  If the Descrption has not
+  // yet been created, this function will create the stream.
+  //
+  HRESULT   GetDescription(
+    [out]   IStream** ppDescStream
+    );
+
+  //
+  // Returns the logical input number this transform works on.  If the source
+  // has not yet been set, this function will return an error.
+  //
+  HRESULT   GetSource(
+    [out]   DWORD* pdwSourceNum
+    );
+
+  //
+  // Sets the logical input number that this transform works on.
+  //
+  HRESULT   SetSource(
+    [in]    DWORD dwSourceNum
+    );
+
+  //
+  // Returns an IStream* for the stream which holds the Anim data.
+  //
+  HRESULT   GetAnimData(
+    [in]    DWORD ModuleId,
+    [out]   IStream** ppStream
+    );
+
+  //
+  // Returns an IStream* for the stream to contain the anim data.
+  // NOTE: If the AnimData stream already exists, it will be
+  //       deleted and re-created. Be careful!!
+  //
+  HRESULT   SetAnimData(
+    [in]    DWORD ModuleId,
+    [out]   IStream** ppStream
+    );
+
+  //
+  // Loads the playlist from the file and returns the DWORD offset.
+  //
+  HRESULT   GetTimingData(
+    [in]    DWORD ModuleId,
+    [in]    STrnPlayList* pPlayList,
+    [out]   DWORD* pOffset
+    );
+
+  //
+  // Saves the playlist and the offset
+  //
+  HRESULT   SetTimingData(
+    [in]    DWORD ModuleId,
+    [in]    STrnPlayList* pPlayList,
+    [in]    DWORD Offset
+    );
+
+  //
+  // Enumerate the module Id's for which this transform is implemented
+  //
+  HRESULT   EnumModuleIds(
+    [in,out] DWORD*   pListLength,
+    [out]   DWORD*    pModuleList
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnEffectMixing
+//
+//  Purpose:    Defines functions for use with the Mixing data in an
+//              effect file.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e5d7-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+
+interface ITrnEffectMixing : IUnknown
+{
+
+  //
+  // Returns an IStream* for the stream which holds the Anim data.
+  //
+  HRESULT   GetAnimData(
+    [in]    DWORD ModuleId,
+    [out]   IStream** ppStream
+    );
+
+  //
+  // Returns an IStream* for the stream to contain the anim data.
+  // NOTE: If the AnimData stream already exists, it will be
+  //       deleted and re-created. Be careful!!
+  //
+  HRESULT   SetAnimData(
+    [in]    DWORD ModuleId,
+    [out]   IStream** ppStream
+    );
+
+  //
+  // Loads the playlist from the file and returns the DWORD offset.
+  //
+  HRESULT   GetTimingData(
+    [in]    DWORD ModuleId,
+    [in]    STrnPlayList* pPlayList,
+    [out]   DWORD* pOffset
+    );
+
+  //
+  // Saves the playlist and the offset
+  //
+  HRESULT   SetTimingData(
+    [in]    DWORD ModuleId,
+    [in]    STrnPlayList* pPlayList,
+    [in]    DWORD Offset
+    );
+
+  //
+  // Enumerate the module Id's for which mixing data is implemented
+  //
+  HRESULT   EnumModuleIds(
+    [in,out] DWORD*   pListLength,
+    [out]   DWORD*    pModuleList
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnEffectLayering
+//
+//  Purpose:    Defines functions for use with the Layering data in an
+//              effect file.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e5d8-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+
+interface ITrnEffectLayering : IUnknown
+{
+
+  typedef enum tagETrnDvePriority
+  {
+    KP_None         = 0x00,         // board is NOT in the layer
+    KP_Background   = 0x01,         // background key priority
+    KP_ForegroundLT = 0x02,         // foreground (< threshold)
+    KP_ForegroundGE = 0x04,         // foreground (>= threshold)
+    KP_Foreground   = 0xFE,         // all foregrounds
+    KP_Foreground3  = 0x08,
+    KP_Foreground4  = 0x10,
+    KP_Foreground5  = 0x20,
+    KP_Foreground6  = 0x40,
+    KP_Foreground7  = 0x80
+  } ETrnDvePriority;
+
+
+  typedef enum tagETrnBusIndex
+  {
+    BI_ABalpha = 0,
+    BI_MCalpha,
+    BI_Cbus,
+    BI_Bbus,
+    BI_Abus
+  } ETrnBusIndex;
+
+
+  //
+  // Returns the layering table(s)
+  //
+  HRESULT   GetAnimData(
+    [in]    DWORD ModuleId,
+    [in]    DWORD dwBuffSize,
+    [out]   void* pTable
+    );
+
+  //
+  // Returns the layering data stream (same semantics as GetAnimData on the other 
+  // sections of the file
+  //
+  HRESULT   GetAnimDataStream( 
+    [in]    DWORD ModuleId,
+    [out]   IStream** ppStream
+    );
+
+  //
+  // Sets the layering data for the specified table and layer .
+  // BoardNumber is a logical number which identifies a DVE board within the effect.
+  // KeyPriorityMask is a bit mask of values from the ETrnDvePriority enum.
+  // Each bit that is set says that that portion of the DVE (background,
+  // foreground, etc) is to be included in the specified layer.
+  //
+  HRESULT   SetLayerEntry(
+    [in]    DWORD ModuleId,
+    [in]    DWORD TableNumber,
+    [in]    DWORD LayerNumber,
+    [in]    DWORD BoardNum,
+    [in]    ETrnBusIndex BusIndex,
+    [in]    DWORD KeyPriorityMask   // use ETrnDvePriority for bit mask values
+    );
+
+  //
+  // Loads the play list specified by pPlayList from the file and
+  // returns a DWORD offset where this playlist starts.
+  //
+  HRESULT   GetTimingData(
+    [in]    DWORD ModuleId,
+    [in]    STrnPlayList* pPlayList,
+    [out]   DWORD* pOffset
+    );
+
+  //
+  // Sets the playlist and offset for the layering anim.
+  //
+  HRESULT   SetTimingData(
+    [in]    DWORD ModuleId,
+    [in]    STrnPlayList* pPlayList,
+    [in]    DWORD Offset
+    );
+
+  //
+  // Enumerate the module Id's for which layering data is implemented
+  //
+  HRESULT   EnumModuleIds(
+    [in,out] DWORD*   pListLength,
+    [out]   DWORD*    pModuleList
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnEffectSoundEffect
+//
+//  Purpose:    Defines functions for use with one SoundEffect in an
+//              effect file.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e5d9-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+
+interface ITrnEffectSoundEffect : IUnknown
+{
+
+  //
+  // Returns which logical source effect number this object represents.
+  //
+  DWORD     GetIndex();
+
+  //
+  // Returns the time (in fields relative to the beginning of the effect)
+  // when this sound effect should be played.
+  //
+  DWORD     GetOffset();
+
+  //
+  // Returns an IStream* for the Description stream for this sound effect.
+  // The stream will be open in read/write mode.  If the Descrption has not
+  // yet been created, this function will create the stream.
+  //
+  HRESULT   GetDescription(
+    [out]   IStream** ppDescStream
+    );
+
+  //
+  // Sets the time (in fields relative to the beginning of the effect)
+  // when this sound effect should be played.
+  //
+  HRESULT   SetOffset(
+    [in]    DWORD dwOffsetFields
+    );
+
+
+  //
+  // Returns an IStream* for the stream which holds the anim data.
+  //
+  HRESULT   GetAnimData(
+    [out]   IStream** ppStream
+    );
+
+  //
+  // takes a filename which must be a .WAV file.  The sound data in the .WAV
+  // file is added to the effect file.
+  // NOTE: If the wave data has already been set, it will be deleted
+  //       and the new .WAV file will be put in its place.
+  //
+  HRESULT   SetAnimData(
+    [ in, string ] const OLECHAR* pFileName
+    );
+
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnEffectEvent
+//
+//  Purpose:    Defines functions for use with one Event in an
+//              effect file.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e5da-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+
+interface ITrnEffectEvent : IUnknown
+{
+
+  //
+  // Returns which logical event number this object represents.
+  //
+  DWORD     GetIndex();
+
+  //
+  // Returns an IStream* for the Description stream for this event.
+  // The stream will be open in read/write mode.  If the Descrption has not
+  // yet been created, this function will create the stream.
+  //
+  HRESULT   GetDescription(
+    [out]   IStream** ppDescStream
+    );
+
+
+}
+
+
+// End of TFX.idl
+

@@ -1,0 +1,106 @@
+/*===========================================================================*\
+||                                                                           ||
+||  Copyright 1995 by Play Incorporated                                      ||
+||  PLAY CONFIDENTIAL                                                        ||
+||                                                                           ||
+||  All Specifications subject to change.                                    ||
+||                                                                           ||
+||  FILE:           CHROMA.IDL                                               ||
+||                                                                           ||
+||  DESCRIPTION:    Interface description for an object that would create    ||
+||                  chroma key tables for simple video.                      ||
+||                                                                           ||
+||  INTERFACES:     IChromaKeyFactory                                        ||
+||                                                                           ||
+||  MODIFICATIONS:  5/14/96     T.Sprague       created                      ||
+\*===========================================================================*/
+
+import "unknwn.idl";
+import "wtypes.idl";
+import "gxlate.idl";
+import "trnity.idl";
+
+[
+    local,
+    object,
+    uuid(8335e42a-ab3b-11ce-8468-0000b468276b)
+]
+interface IChromaKeyFactory : IUnknown
+{
+
+    // This function creates a luma and a chroma histogram from the given 
+    // YUV framestore.  These histograms will be used along with the
+    // parameter set to generate a key table when GetKeyTable is called.
+    // The frame passed in should be primarily of the key background
+    // color.  In most cases, it's OK if it's a frame that has, say, 
+    // an actor in front of a blue screen.  The chroma color will still
+    // be detected OK.
+    HRESULT SetKeyFrame( SPlayBitMap *pBM );
+
+    
+    // returns an DWORD number of different key creation methods.
+    DWORD GetNumMethods();
+
+    // fills in a string with the text description of the given method.
+    HRESULT GetMethodName( DWORD dwMethod, LPSTR pszDesc, DWORD dwBytes );
+
+    // return S_OK if the method makes a table that works for the given key type.
+    HRESULT CanMethodMakeKey( ULONG uKeyMode, ULONG uMixType );
+
+    // Sets what method will be used to make table.
+    // NOTE: parameter sets are dependent on what method is used!
+    HRESULT SetMethod( DWORD dwMethod );
+    
+    // Find out what method number is currently selected.
+    DWORD GetMethod( );
+
+    
+    // This returns a DWORD number of parameters that can be set.
+    // (Zero is the first one in calls that take an index)
+    DWORD GetNumParams();
+
+    // This returns a text description of the given parameter index.
+    HRESULT GetParamName( DWORD dwParam, LPSTR pszDesc, DWORD dwBytes );
+
+    // This returns the numerical range expected for a given parameter index.
+    HRESULT GetParamRange( DWORD dwParam, long *pdwLow, long *pdwHigh );
+
+    // This sets the value of the given parameter index.
+    HRESULT SetParameter( DWORD dwParam, long dwVal );
+    
+    // This retrieves the value of the given parameter index.
+    // This may fail if setting a frame buffer has invalidated the parameter.
+    HRESULT GetParameter( DWORD dwParam, long *pdwVal );
+    
+
+    // Creates and returns the key table from the histograms and parameters.
+    // Will return E_FAIL if any needed parameters haven't been set, or if
+    // no histograms yet exist.
+    // desired table is 0 for chromakey,1 for lumakey, other
+    // bits are reserved, should be zero
+    HRESULT GetKeyTable( [in] DWORD dwDesiredTable, [out] BYTE **ppTable, [out] DWORD *pdwSize );
+
+    // Returns the first peak color used in creating the chromakey table.
+    // eg: in DVE effects where the matte color shows through around a shrink,
+    // the switcher can still do the keying.
+    // Returns color in format : 0x00CrYYCb
+    DWORD GetMatteColor();
+
+    // store the current settings of this key factory, including histograms, 
+    // method number, parameters as well as the table itself.
+    HRESULT SaveSettings( IStorage *pStg );
+
+    // restore the factory settings to that of the given storage, including histograms, 
+    // method number, parameters as well as the table itself.
+    HRESULT RestoreSettings( IStorage *pStg );
+
+	// upload a color correction (color remap mode) table that
+	// will pre-correct an input to be used as a shadow-mode chromakey source
+	HRESULT SetInputPrecorrection( ITrnInputModule *pInput );
+
+    // set internal mode such that generated tables will be inverted.
+    // mode stays this way until changed.
+    HRESULT InvertTable( BOOL bInvert );
+    
+    BOOL IsInverted( );
+}

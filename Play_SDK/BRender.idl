@@ -1,0 +1,338 @@
+/*===========================================================================*\
+||                                                                           ||
+||  Copyright 1995 by Play Incorporated                                      ||
+||  PLAY CONFIDENTIAL                                                        ||
+||                                                                           ||
+||  All Specifications subject to change.                                    ||
+||                                                                           ||
+||  FILE:           BRENDER.IDL                                              ||
+||                                                                           ||
+||  DESCRIPTION:    Interface description for bump map renderer, for Play UI ||
+||                  Control library.                                         ||
+||                                                                           ||
+||  INTERFACES:     IBumpMapRenderer                                         ||
+||                  IBumpMapScene                                            ||
+||                                                                           ||
+||  MODIFICATIONS:  6/24/96    T.Sprague       created                       ||
+||                                                                           ||
+\*===========================================================================*/
+
+cpp_quote( "extern const CLSID CLSID_CBumpMapScene;" )
+cpp_quote( "#define DECLARE_CLSID_CBUMPMAPSCENE \\" )
+cpp_quote( "   const CLSID CLSID_CBumpMapScene = { 0xc500597b,0xab3b,0x11ce,{0x84,0x68,0x00,0x00,0xb4,0x68,0x27,0x6b} }" )
+
+cpp_quote( "extern const CLSID CLSID_CBumpMapRenderer;" )
+cpp_quote( "#define DECLARE_CLSID_CBUMPMAPRENDERER \\" )
+cpp_quote( "   const CLSID CLSID_CBumpMapRenderer = { 0xc500597c,0xab3b,0x11ce,{0x84,0x68,0x00,0x00,0xb4,0x68,0x27,0x6b} } " )
+
+
+cpp_quote( "extern const IID IID_IBumpMapScene;" )
+cpp_quote( "#define DECLARE_IID_IBUMPMAPSCENE \\" )
+cpp_quote( "   const CLSID IID_IBumpMapScene = { 0x8335e618,0xab3b,0x11ce,{0x84,0x68,0x00,0x00,0xb4,0x68,0x27,0x6b} }" )
+
+cpp_quote( "extern const IID IID_IBumpMapRenderer;" )
+cpp_quote( "#define DECLARE_IID_IBUMPMAPRENDERER \\" )
+cpp_quote( "   const CLSID IID_IBumpMapRenderer = { 0x8335e619,0xab3b,0x11ce,{0x84,0x68,0x00,0x00,0xb4,0x68,0x27,0x6b} }" )
+
+[
+    local,
+    object,
+    uuid(8335e618-ab3b-11ce-8468-0000b468276b)
+]
+interface IBumpMapScene : IUnknown
+{
+    import "unknwn.idl";
+    import "wtypes.idl";
+
+    // This routine must be called first for the array of slopes to be
+    // allocated.  The other functions will return E_ACCESSDENIED otherwise,
+    // to signify that some setup stuff hasn't been completed.
+    HRESULT SetSize( long w, long h );
+
+    // This routine draws an ellipsoid into the scene.
+    HRESULT MakeEllipsoid( long dx, long dy, long w, long h );
+    
+    // This routine draws a horizontal cylinder into the scene.
+    HRESULT MakeHCylinder( long dx, long dy, long w, long h );
+
+    // This routine makes a rounded-off rectangle that stands off of any 
+    // surface it is put in. Both corners and straight edges appear to be 
+    // semi-circular.  The 'edge' is the radius of the semicircles on the 
+    // perimeter.
+    HRESULT MakeRoundRect( long dx, long dy, long w, long h, long edge );
+
+    // This routine makes a rounded-off rectangle that is dented into any 
+    // surface it is put in. 
+    //     Cross section has this profile :   -----_        ^
+    //                                              \       |
+    //                                               \_     | 1/bottom
+    //                                                 ---- V
+    //                                             <-->
+    //                                             edge
+    // The depth the dip appears is related to both the edge and the bottom
+    // parameters.  Wider edge or smaller bottom parameter will make it
+    // appear deeper.  (bottom >= 1)
+    HRESULT MakeRoundRectDip( long dx, long dy, long w, long h, long edge, long bottom );
+
+    // This routine makes a rounded-off rectangle that is dented into any 
+    // surface it is put in. 
+    //     Cross section has this profile :   -----_        ^
+    //                                              \       |
+    //                                               |      | 1/bottom
+    //                                               ------ V
+    //                                             <-->
+    //                                             edge
+    // The depth the dip appears is related to both the edge and the bottom
+    // parameters.  Wider edge or smaller bottom parameter will make it
+    // appear deeper.  (bottom >= 1)
+    HRESULT MakeFlatDip( long dx, long dy, long w, long h, long edge, long bottom );
+
+    // This routine makes a rounded-off rectangle that is raised off of any 
+    // surface it is put in. 
+    //     Cross section has this profile :           _---- ^
+    //                                               /      |
+    //                                             _/       | 1/top
+    //                                        -----         V
+    //                                             <-->
+    //                                             edge
+    // The height the bump appears is related to both the edge and the top
+    // parameters.  Wider edge or smaller top parameter will make it
+    // appear higher.  (top >= 1)
+    HRESULT MakeRaisedRect( long dx, long dy, long w, long h, long edge, long top );
+
+    // This routine makes a totally flat rectangle in the given position,
+    // with the given dimensions.
+    HRESULT MakeFlatRect( long dx, long dy, long w, long h );
+
+    // This routine applies a random rough texture to an existing scene
+    HRESULT RoughenRect( long dx, long dy, long w, long h, long rough );
+
+    // This routine applies a slightly less random rough texture to an existing scene
+    //  The texture somewhat resembles brushed metal.
+    HRESULT BrushedRect( long dx, long dy, long w, long h, long rough );
+    
+    // this routine will clear the given rectangle in the scene
+    // so that when rendered, nothing will be drawn in this area.
+    // The entire scene starts in this state.
+    HRESULT ClearRect( long dx, long dy, long w, long h );
+    
+    // This will ripple the existing surface as if the swells
+    // are travelling in a vertical direction.  (The crests/
+    // troughs will run horizontally.)
+    HRESULT HorizRipple( long dx, long dy, long w, long h, long ampl, long periods );
+
+    // This makes an ellipsoid whose edges vary with a sine wave.
+    // (The radius is like r0 + ampl*cos(periods*theta) )
+    HRESULT RippleEllipse( long dx, long dy, long w, long h, long periods, long ampl );
+
+    // This makes an indented area whose bottom is flat, and whose
+    // perimeter is shaped as an ellipse.
+    HRESULT MakeEllipseDent( long dx, long dy, long w, long h, long edge );
+
+    // This makes something like a raised rectangle, but only the
+    // top and bottom edges are S-curved, the sides are
+    // perfectly vertical.
+    HRESULT MakeVBelt( long dx, long dy, long w, long h, long edge, long bottom );
+    
+}
+
+
+
+[
+    local,
+    object,
+    uuid(8335e619-ab3b-11ce-8468-0000b468276b)
+]
+interface IBumpMapRenderer : IUnknown
+{
+    import "unknwn.idl";
+    import "wtypes.idl";
+
+    // This function sets the light position, relative to 0,0.
+    // Light is assumed parallel (ie, distant).  This function 
+    // must be called for any of the rendering routines to work.
+    // They will return E_ACCESSDENIED otherwise.
+    HRESULT SetLight( signed long *plLV );
+
+    // This function renders an IBumpMapScene into a given bitmap.
+    // It uses a solid color.  (This does shading as if all objects
+    // in the scene are one color)  The LPVOID is a (BITMAPINFOHEADER*)
+    HRESULT Render( LPVOID pBMIH, BYTE *pBits, long dx, long dy, 
+                    IBumpMapScene *pScn, COLORREF color );
+
+    // This function renders an IBumpMapScene into a given bitmap.
+    // It uses the color already in the bitmap.  (This does shading 
+    // as if all objects colors and orthogonal projections are
+    // colored correctly in the given bitmap).  The LPVOID is a 
+    // (BITMAPINFOHEADER*)
+    // The boolean parameter bBlank is whether or not the
+    // renderer should blank out colors in the given DIB is there's
+    // nothing in the scene at a given location.
+    HRESULT RenderOnDIB( LPVOID pBMIH, BYTE *pBits, 
+                         long dx, long dy, IBumpMapScene *pScn,
+                         long bBlank );
+
+    // This function renders an ellipsoid of the given color into
+    // the given bitmap.  The LPVOID is a (BITMAPINFOHEADER*)
+    HRESULT Ellipsoid( LPVOID pBMIH, BYTE *pBits, long dx, long dy, 
+                         long w, long h, COLORREF color );
+
+//	HRESULT InvertEllipsoid(LPVOID pBMIH, BYTE *pBites, long dx, long dy,
+//						 long w, long h, COLORREF color);
+
+    // This routine changes the levels of the ambient lighting.
+    // These numbers should be 0 to 255 inclusive.  
+    // They are the numerator of a fraction where the denominator
+    // is 255.  The ambient level gets multiplied by the
+    // color at a given position, and the diffuse lighting
+    // adds the diffuse fraction on top of this.  
+    // Pass -1 in either to leave the value unchanged.
+    // The two values should follow this:  0 <= ambient+diffuse < 256
+    HRESULT SetDiffuseLevels( long ambient, long diffuse );
+
+    // This routine changes the levels of the specular lighting.
+    // These numbers should be 0 to 255 inclusive,
+    // although a diffuse value greater than 8 makes no difference.
+    // The 'spec' parameter is the numerator of a fraction where the 
+    // denominator is 255.  The specular level is used as an alpha,
+    // adding white to the color calculated from the diffuse lighting.
+    // Pass -1 in either to leave the value unchanged.
+    // The power parameter specifies the tightness of the hightlights.
+    // The higher the power, the tighter the highlight.
+    HRESULT SetSpecularLevels( long spec, long power );
+
+    // Draws a rounded-off a rectangle in a DIB with lighting,
+    // of given color at coords (dx,dy) in the destination DIB.
+	// "edge" and "topdenom" parameters determine how high off the 
+	// surface it will look.  If topdenom is 1, the edges will be
+	// quarter-sections of spheres/cylinders -- higher "topdenom"
+	// will make it appear lower.
+	// If prcClip!=NULL, only the part of the rectangle that falls
+	// within that rectangle will be drawn.
+    HRESULT RoundoffRect( LPVOID pvBMIH, BYTE *pBits, 
+                                long dx, long dy, long w, long h, 
+                                DWORD color, long edge, long topdenom,
+								RECT *prcClip );
+
+
+    // Draws a roughened rounded-off a rectangle in a DIB with lighting,
+    // of given color at coords (dx,dy) in the destination DIB.
+	// If prcClip!=NULL, only the part of the rectangle that falls
+	// within that rectangle will be drawn.
+    HRESULT RoundoffRectRough( LPVOID pvBMIH, BYTE *pBits, 
+                                long dx, long dy, long w, long h, 
+                                DWORD color, long edge, long rough,
+								RECT *prcClip );
+
+    HRESULT RoundoffRectRoughCached( LPVOID pvBMIH, BYTE *pBits, 
+                                long dx, long dy, long w, long h, 
+                                DWORD color, long edge, long rough,
+								RECT *prcClip,
+								DWORD dwRendererHandle );
+
+    // Draws a rounded-off a rectangle in a DIB with lighting,
+    // uses DIB for color source.
+    HRESULT RoundoffRectDIB( LPVOID pvDestBMIH, BYTE *pDestBits, 
+                          LPVOID pvSrcBMIH, BYTE *pSrcBits, 
+                                long dx, long dy,
+								long w, long h, 
+                                long edge );
+
+    // This routine makes a rounded-off rectangle that is dented into any 
+    // bitmap it is put into.  (Uses colors already there to do this)
+    //     Cross section has this profile :   -----_        ^
+    //                                              \       |
+    //                                               \_     | 1/bottom
+    //                                                 ---- V
+    //                                             <-->
+    //                                             edge
+    // The depth the dip appears is related to both the edge and the bottom
+    // parameters.  Wider edge or smaller bottom parameter will make it
+    // appear deeper.  (bottom >= 1)
+    HRESULT MakeDentedFrame( LPVOID pvDestBMIH, BYTE *pDestBits, 
+                             long dx, long dy, 
+							 long w, long h, 
+                             long edge, long bottom,
+							 RECT *prcClip );
+
+
+    HRESULT MakeDentedFrameCached( LPVOID pvDestBMIH, BYTE *pDestBits, 
+                             long dx, long dy, 
+							 long w, long h, 
+                             long edge, long bottom,
+							 RECT *prcClip,
+							 DWORD dwRendererHandle );
+
+    // Draws a roughened rounded-off a rectangle in a DIB with lighting,
+    // of color given by the source DIB.
+    HRESULT RoundoffRectRoughDIB( LPVOID pvDestBMIH, BYTE *pDestBits, 
+								LPVOID pvSrcBMIH, BYTE *pSrcBits, 
+                                long dx, long dy, 
+								long w, long h, 
+                                DWORD color, long edge, long rough );
+
+
+    // This routine makes a rounded-off rectangle that is dented in. 
+    // Uses colors passed as parameters for both inside and outside 
+	// color.
+    //     Cross section has this profile :   -----_        ^
+    //                                              \       |
+    //                                               \_     | 1/bottom
+    //                                                 ---- V
+    //                                             <-->
+    //                                             edge
+    // The depth the dip appears is related to both the edge and the bottom
+    // parameters.  Wider edge or smaller bottom parameter will make it
+    // appear deeper.  (bottom >= 1)
+	//
+	// The curveradius parameter is the radius of the rounded corners
+	// (the the first routine of this name, the edge and curve radius were
+	// the same.)
+    //
+    // The raised parameter can be used to "outdent" the rectangle rather
+    // than indent it.
+    HRESULT MakeDentedFrame2( LPVOID pvDestBMIH, BYTE *pDestBits, 
+                             long dx, long dy, 
+							 long w, long h, 
+                             long edge, long curveradius, long bottom,
+							 DWORD clrIn, DWORD clrOut,
+							 long roughIn, long roughOut,
+							 RECT *prcClip, BOOL raised,
+                             DWORD dwRendererHandle);
+
+    // This routine is used by CPanel to smooth the already-drawn 
+    // intersection between the edge of the panel and the edge of the 
+    // indented (or outdented) rectangle.
+    //
+    // theRect is the rectangle to be smoothed. edgeNum specifies which
+    // edge of the panel we're dealing with: 1 = right, 2 = top, 3 =
+    // left, 4 = bottom. quadrant specifies which quadrant of the rectangle
+    // we're dealing with: NE = 1, NW = 2, SW = 3, SE = 4.
+    // color is the color of the panel.
+    HRESULT SmoothIntersection(LPVOID pvDestBMIH, BYTE* pDestBits,
+                               RECT* theRect, long edgeNum, long quadrant, 
+                               DWORD color, DWORD rough, BOOL raised,
+							   DWORD dwRendererHandle);
+
+	// Used internally 
+	HRESULT SetGlobalRenderer(IBumpMapRenderer** ppRenderer);
+
+	// Cacheing interfaces, not yet documented
+	HRESULT NewRendererHandle([out] DWORD* pHandle, long width, long height);
+
+    HRESULT HandleValid(DWORD handle, BOOL valid);
+
+	HRESULT RenderFromCache(LPVOID pvDestBMIH, BYTE* pDestBits, DWORD handle, RECT* updRect);
+}
+
+[
+    local,
+    object,
+    uuid(8335e606-ab3b-11ce-8468-0000b468276b)
+]
+interface IBumpMapRenderer2 : IBumpMapRenderer
+{
+	HRESULT InvertEllipsoid(LPVOID pBMIH, BYTE *pBites, long dx, long dy,
+						 long w, long h, COLORREF color);
+}
+

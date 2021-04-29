@@ -1,0 +1,70 @@
+100
+"Menu"
+101
+"Text"
+103
+"Graphics"
+102
+"Palette"
+201
+"Solid"
+202
+"Linear"
+203
+"Circular"
+204
+"4 Point"
+207
+"Current Color"
+208
+"Copy"
+209
+"Swap"
+210
+"Base Color"
+211
+"RGB"
+212
+"HSV"
+213
+"Video Safe"
+215
+"R"
+216
+"H"
+218
+"G"
+219
+"S"
+221
+"B"
+222
+"V"
+224
+"Indicators"
+225
+"Add"
+226
+"Delete"
+227
+"Clear"
+228
+"Duplicate"
+229
+"Space"
+230
+"Shift"
+231
+"Invert"
+232
+"Hues"
+233
+"Rotate Gradient"
+236
+"Palette"
+237
+"Load"
+238
+"Save"
+239
+"Update color box"

@@ -1,0 +1,3244 @@
+//*****************************************************************************************
+// TRNITY.IDL
+// Copyright © 1999 Play Incorporated
+// PLAY CONFIDENTIAL
+// 
+// Created on June 23, 1995 cpdaniel
+//*****************************************************************************************
+/******************************************************************************************
+Version         : $Revision$
+Vault File		  : $Archive$
+Project  		    : $Project$
+Sub Project     : $Subproject$
+Checked in by	  : $Author$ 
+Locked by	      : $Locker$
+Purpose		      : definition for core Trinity interfaces and types
+Modification History :
+$Log
+$
+$NoKeywords$
+******************************************************************************************/
+//+---------------------------------------------------------------------------
+//
+//  Trinity Core API
+//  Copyright (C) Play Incorporated, 1995
+//
+//  PRELIMINARY - ALL SPECIFICATIONS SUBJECT TO CHANGE
+//  PLAY CONFIDENTIAL - DO NOT DISTRIBUTE
+//
+//  File:       trnity.idl
+//
+//  Contents:   definition for core Trinity interfaces and types
+//
+//  History:    June 23,      1995   cpdaniel  Created
+//              October 14,   1996   cpdaniel  last modified
+//
+//----------------------------------------------------------------------------
+//
+//  The Trinity core API provides comprehensive, low-level access to all
+//  Trinity hardware functionality.  The API is object oriented and extensible
+//  to handle new hardware modules as they become available.  Third party
+//  additions may be seamlessly made to support third party hardware modules
+//  which operate within the Trinity platform.
+//
+//----------------------------------------------------------------------------
+import "wtypes.idl";
+import "unknwn.idl";
+import "objidl.idl";
+import "oleidl.idl";
+import "autoct.idl";
+import "trnoem.idl";
+import "gxlate.idl";
+
+//+---------------------------------------------------------------------------
+//  Forward declarations
+//----------------------------------------------------------------------------
+interface ITrnItemContainer;
+interface ITrnClipAdviseSink;
+interface ITrnClipGrab;
+interface ITrnChromaKeyer;
+interface ITrnCompositeEncoder1;
+interface ITrnControlAdviseSink;
+interface ITrnCoreAddOn;
+interface ITrnD1Output;
+interface ITrnDownstreamProcessor;
+interface ITrnEffectsProcessor;
+interface ITrnEnumControls;
+interface ITrnExternalControlPanel;
+interface ITrnInputModule;
+interface ITrnKeyPriorityCompositor;
+interface ITrnModule;
+interface ITrnProcessor;
+interface ITrnRecursiveEffectsGenerator;
+interface ITrnDiagnostics;
+interface ITrnSerialAdviseSink;
+interface ITrnSerialPort;
+interface ITrnTimeCodeReader;
+interface ITrnTimeCodeGenerator;
+interface ITrnTimeCodeAdviseSink;
+interface ITrnVideoRouter;
+interface ITrnVideoSwitcher;
+interface ITrnVideoSystem;
+interface ITrnVideoSystemFactory;
+interface ITrnVideoTypes;
+interface ITrnVideoEncoder;
+
+cpp_quote("#define OBJREF_TRINITY_FACTORY     L\"clsid:c5005872-ab3b-11ce-8468-0000b468276b:\"")
+cpp_quote("#define OBJREF_TRINITY_SYSTEM(n)   OBJREF_TRINITY_FACTORY L\"!\" L#n")
+cpp_quote("#define OBJREF_TRINITY_ADDON(n,m)  OBJREF_TRINITY_SYSTEM(n) L\"!\" L#m")
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnItemContainer
+//
+//  Purpose:    Adds a GetMoniker function (similar to that in IOleClientSite
+//              but not quite the same) to IOleItemContainer.
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e7eb-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnItemContainer : IOleItemContainer
+{
+  HRESULT GetMoniker(
+    [in]  IUnknown*   pItem,          // pointer to the sub-item (may be NULL if 
+                                      //   container moniker is requested)
+    [in]  DWORD       dwWhichMoniker, // see OLEWHICHMK enumeration
+    [out] IMoniker**  ppMk            // address of variable to receive a pointer 
+                                      //   to the new moniker
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnVideoTypes
+//
+//  Purpose:    Defines types used by Trinity Core API classes
+//+---------------------------------------------------------------------------
+[
+  uuid(8335e3d5-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+
+interface ITrnVideoTypes
+{
+  //----------------------------------------------------------
+  //  Enum ETrnVideoTransmissionFormats
+  //  Enumerates video transmission formats
+  //----------------------------------------------------------
+  typedef enum tagETrnVideoTransmissionFormats
+  {
+    VTFAnaComposite  = 1,
+    VTFAnaSVideo     = 2,
+    VTFAnaYUV        = 4,
+    VTFAnaRGB        = 8,
+    VTFDigComposite  = 16,
+    VTFDigD2         = VTFDigComposite,
+    VTFDigComposite10= 32,
+    VTFDigD3         = VTFDigComposite10,
+    VTFDigYUV        = 64,
+    VTFDigD1         = VTFDigYUV,
+    VTFDigYUV10      = 128,
+    VTFDigD5         = VTFDigYUV10,
+    VTFDigDV         = 256,
+    VTFAnaRGBNoSync  = 512,
+    VTFAnaLuma       = 1024,         // could be luma or alpha
+    VTFAnaLumaNoSync = 2048,
+    VTFAlpha         = 4096,
+    VTFAlphaNoSync   = 8192,
+
+    VTFPassThru      = 0x80000000   // use same format as corresponding signal
+  } ETrnVideoTransmissionFormats;
+
+  //----------------------------------------------------------
+  // Enum ETrnVideoEncodingFormats
+  // Enumerates video picture encoding formats
+  //----------------------------------------------------------
+  typedef enum tagETrnVideoEncodingFormats
+  {
+    VEFNTSC         = 1,
+    VEFPAL          = 2,
+    VEFPALM         = 4,
+    VEFSECAM        = 8
+  } ETrnVideoEncodingFormats;
+
+  // !!! TBD: How are these used in the system?
+  // !!!      Do we support simultaneous use of mixed encodings?
+
+  //----------------------------------------------------------
+  // Enum ETrnContentComponents
+  // Enumerates the different data streams which compose a
+  // complete media stream.
+  //----------------------------------------------------------
+  typedef enum tagETrnContentComponents
+  {
+    CCVideo  = 1,
+    CCAudio1 = 2,
+    CCAudio2 = 4,
+    CCAudio3 = 8,
+    CCAudio4 = 16,
+    CCAudio  = CCAudio1|CCAudio2|CCAudio3|CCAudio4,  // old name for backwards compatibility
+    CCAlpha  = 32
+  } ETrnContentComponents;
+
+
+  //----------------------------------------------------------
+  //  Enum ETrnRemapModes
+  //  Enumerates color-space mappings which may be performed by
+  //  input modules.
+  //----------------------------------------------------------
+  typedef enum tagETrnRemapModes
+  {
+    RMNormal        = 1,  // no mapping
+    RMPallette      = 2,  // Y -> Y', U -> U', V -> V'
+    RMCorrector     = 4,  // Y -> Y', YU -> U', YV -> V'
+    RMPseudoColor   = 8,  // Y -> Y'U'V'
+    RMColorMap      = 16, // Y -> Y', UV -> U', UV-> V'
+  } ETrnRemapModes;
+
+  //----------------------------------------------------------
+  //  Struct STrnRect
+  //  Describes a rectangle - INCLUSIVE coordinates
+  //    height = bottom-top+1
+  //    width  = right-left+1
+  //----------------------------------------------------------
+  typedef struct tagSTrnRect
+  {
+    WORD left;
+    WORD top;
+    WORD right;
+    WORD bottom;
+  } STrnRect;
+
+  //----------------------------------------------------------
+  // enum ETrnFrameAccessMode
+  // identifies which lines of an interlacved frame are to
+  // be acted upon
+  //----------------------------------------------------------
+  typedef enum tagETrnFrameAccessMode
+  {
+    //
+    // A little note about interlacing and field order.
+    //
+    // D1 defines field 1 as having 244 lines and field 2 as having 243 lines
+    // with the topmost visible line belonging to field 1.  However, in Trinity
+    // we're defining both fields with 243 lines, dropping the top line of
+    // field 1, so the topmost visible line belongs to field 2.
+    //
+
+    FAMAllLines,    // all lines in progressive scan order
+    FAMEvenLines,   // only even lines      (top line is line 0 -> even -> field2)
+    FAMOddLines,    // only odd lines
+    FAMNatural      // all lines in natural (source dependent) order
+  } ETrnFrameAccessMode;
+
+  //----------------------------------------------------------
+  //  Struct STrnRectGrid
+  //  Describes a rectangle with granular (>=1) access
+  //----------------------------------------------------------
+  typedef struct tagSTrnRectGrid
+  {
+	  STrnRect  Bounds;		// Enclosing Limits (Bounds[left,top] is legal)
+	  WORD      GridX;    // Legal Grid positions relative to Bounds[left,top]
+	  WORD      GridY;
+  } STrnRectGrid;
+
+  //----------------------------------------------------------
+  //  Struct STrnRectGridLimits
+  //  Describes a family of rectangles with minimum/maximum
+  //  height and width, with specific coordinate granularity
+  //
+  //  Invariants:
+  //    MaxLeft <= MinRight
+  //    MaxTop <= MinBot
+  //    (MinRight - MaxLeft) % GridX == 0
+  //    (MinBot - MaxTop) % GridY == 0
+  //    GridX != 0
+  //    GridY != 0
+  //----------------------------------------------------------
+  typedef struct tagSTrnRectGridLimits
+  {
+    WORD    MinLeft;  // Leftmost X coordinate for left corners
+    WORD    MaxLeft;  // Rightmost X coordinate for left corners
+    WORD    MinRight; // Leftmost X coordinate for right corners
+    WORD    MaxRight; // Rightmost X coordinate for right corners
+    WORD    GridX;    // Granularity of X corrdinates
+
+    WORD    MinTop;   // Topmost Y coordinate for upper corners
+    WORD    MaxTop;   // Bottommost Y coordinate for upper corners
+    WORD    MinBot;   // Topmost Y coordinate for lower corners
+    WORD    MaxBot;   // Bottommost Y coordinate for lower corners
+    WORD    GridY;    // Granularity of Y coordinates
+
+  } STrnRectGridLimits;
+
+  //----------------------------------------------------------
+  //  Enum ETrnKPMode
+  //  Enumerates key priority modes which a VideoProcessor
+  //  might implement.
+  //----------------------------------------------------------
+	typedef enum tagETrnKPMode
+	{
+	  KPMForeground     = 1,
+    KPMBackground     = 2,
+		KPMLumaThreshold  = 4,
+		KPMChromaKey      = 8,
+		KPMAlphaThreshold = 16
+	} ETrnKPMode;
+
+  //----------------------------------------------------------
+  // Enum ETrnRouterSource
+  // Enumerates the inputs to the Trinity router
+  //----------------------------------------------------------
+  typedef enum tagETrnRouterSource
+  {
+    InModule1 = 1,
+    InModule2,
+    InModule3,
+    InModule4,
+    InModule5,
+    InModule6,
+    InModule7,
+    InOutModuleMux,
+    SystemOut
+  } ETrnRouterSource;
+
+/* ==================================================================
+   * Example Usage : for GSRouter and GSRouterAlpha, add an ETrnRouterSource
+   i.e. to view input 2 use
+   GSRouterAlpha+InModule2
+ 
+   ==================================================================*/
+  //----------------------------------------------------------
+  // Enum ETrnCGGrabSource
+  // Enumerates the video streams which may be grabbed
+  //----------------------------------------------------------
+  typedef enum tagETrnCGGrabSource
+  {
+    GSRouter = 0x000,                   // Grab from our router output 
+    GSRouterAlpha = 0x100,              // Grab from our router's alpha output
+    GSBusA = 0x200,                     // Grab A-bus current content
+    GSBusB = 0x300,                     //      B
+    GSBusC = 0x400,                     //      C
+    GSAlpha1 = 0x500,                   // Alpha1 bus
+    GSAlpha2 = 0x600,                   // Alpha2 bus
+    GSDynamic = 0x700                   // changes dynamically based on outside control
+  } ETrnCGGrabSource;
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnVideoSystemFactory
+//
+//  Purpose:    The ITrnVideoSystemFactory class serves as a constructor
+//              class for ITrnVideoSystem.  This is the only interface in
+//              the Trinity Core API which can be obtained with a call to
+//              CoCreateInstace or through a class factory obtained with
+//              CoGetClassObject.
+//
+//  Interface:  Create        -- Opens a connection given a system index
+//                               and returns a pointer to a ITrnVideoSystem
+//
+//              QueryNumAttachedsystems  -- Returns the number of attached
+//                                          Trinity systems.
+//
+//              QuerySystemInfo -- Returns information about a particular
+//                                 attached Trinity system.
+//+---------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e3e9-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnVideoSystemFactory : IUnknown
+{
+  HRESULT Create(
+    [ in ]  DWORD systemIndex,
+    [ out ] ITrnVideoSystem **pVidSys );
+
+  DWORD   QueryNumAttachedSystems();
+
+  HRESULT QuerySystemInfo(
+    [ in ] DWORD systemIndex,
+    [ in ] DWORD systemNameSize,
+    [ out ] char *pSystemName);
+
+  HRESULT CreateConnection(
+    [ in ] DWORD systemIndex,
+    [ out ] ITrnConnection **pConn );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnVideoSystemFactory2
+//+---------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e63e-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnVideoSystemFactory2 : ITrnVideoSystemFactory
+{
+  HRESULT CreateConnectionEx(
+    [ in ] DWORD systemIndex,
+    [ in ] DWORD dwOptions,   // use ETrnConnectOptions for bits
+    [ out ] ITrnConnection **pConn );
+
+  //
+  //  Determine if the connection is up & what state Trinity is in
+  //  
+  //  Return values:  any error hr    - connection is NOT up
+  //                    specifically VNKE_SyncError (E8060201) means Trinity is off or unconnected
+  //                  S_OK            - connection is UP and Trinity is Initialized
+  //                  S_FALSE         - connection is UP but Trinity is NOT initialized
+  //
+  //  This function calls ITrnConnection2::GetConnectionStatus after getting
+  //  a connection pointer without waiting.  This will fail quickly if Trinity is disconnected.
+  //
+  HRESULT GetConnectionStatus(
+    [ in ] DWORD systemIndex
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnModule
+//
+//  Purpose:    Defines the common interface for all Trinity modules.
+//
+//  Interface:  QueryProductId  -- Returns information identifying the module
+//
+//              QuerySlot       -- Returns the number of the slot occupied by
+//                                 the module.
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3e2-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnModule : IUnknown
+{
+	HRESULT QueryProductID(
+    [ in ] DWORD bufferSize,
+    [ out ] DWORD *pDeviceId,
+	  [ out,string ] char *pDeviceName);
+
+  DWORD QuerySlot();
+
+  HRESULT QueryController(
+    [out] ITrnAutomationController** ppController);
+
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnModule2
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e408-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnModule2 : ITrnModule
+{
+  typedef enum   tagETrnModuleFlags
+  {
+    MFVideoBackPanel   = 1,   // module uses back panel space
+    MFVideoBackPanelIO = 2    // module has user connections on video back panel
+  } ETrnModuleFlags;
+
+  typedef struct tagSTrnModuleCharacteristics
+  {
+    DWORD     dwSizeof;     // set to sizeof this struct before using
+
+    unsigned  physBus;
+    unsigned  physSlot;
+
+    unsigned  logBus;
+    unsigned  logSlot;
+
+    unsigned  sizeRAM;
+
+    GUID      controlModel; // GUID which uniquely identifes the control model of this module
+    DWORD     flags;        // set of ETrnModuleFlags
+  } STrnModuleCharacteristics;
+
+  HRESULT QueryModuleCharacteristics(
+    [in] STrnModuleCharacteristics*  pMC
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnDiagnostics
+//
+//  Purpose:    Defines the interface for testing interaction with other
+//              processors in Trinity.  All CPU equipped hardware modules
+//              should implement this interface.
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3e8-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnDiagnostics : IUnknown
+{
+  HRESULT GetConnection(
+    [out] ITrnConnection** ppConnection);
+
+  HRESULT Echo(
+    WORD  blockSize,
+    BYTE  *pInBuffer,
+    BYTE  *pOutBuffer);
+
+  HRESULT GetModuleBaseAddress(
+    DWORD*  pBaseAddr
+    );
+
+  //
+  // In the Read/WriteModuleMemory functions, the address is relative to
+  // the module's base address.
+  //
+  HRESULT ReadModuleMemory(
+    DWORD   sourceAddress,
+    DWORD   alignment,
+    DWORD   size,
+    LPVOID  pBuffer
+    );
+
+  HRESULT WriteModuleMemory(
+    DWORD   destAddress,
+    DWORD   alignment,
+    DWORD   size,
+    LPVOID  pBuffer
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnDiagnostics2
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e415-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnDiagnostics2 : ITrnDiagnostics
+{
+  // Re-initialize the module
+  // WARNING: re-initializing a module may have far reaching consequences!
+  HRESULT ReInitialize(
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnVideoSystem
+//
+//  Purpose:    Defines the interface to a Trinity video system.
+//              This is the "main" interface class, and provides system
+//              enumeration/navigation functions to obtain interface pointers
+//              to all the elements of the system. ITrnVideoSystem interface
+//              pointers are obtained from the ITrnVideoSystemFactory class.
+//
+//  Interface:  EnumElements    -- Returns an iterator which visits all
+//                                 modules of the indicated type in slot order.
+//              CreateAddOn     -- Returns a new instance of a Trinity Core
+//                                 add-on object.
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3d3-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnVideoSystem : IUnknown
+{
+  typedef enum tagETrnVSElementType
+  {
+    VEMainBusDevice,
+    VEInputModule,
+    VEDSInOutModule,
+    VESerialPort,
+    VEAudioMixer,
+    VEControlPanel,
+    VERouter,
+    VESwitcher
+  } ETrnVSElementType;
+
+
+  typedef struct tagTrnSystemInfo
+  {
+    char*       pszSystemName;      // pre-fill with a pointer to a buffer.
+    DWORD       cchSystemName;      // pre-fill with size (BYTES) of buffer.
+    DWORD       dwCoordType;        // receives coordinator hardware revision
+    DWORD       dwCoordBuild;       // receives coordinator kernel build #
+    DWORD       dwConnectionType;   // see #define CONNECT_xxx in TrnOem.h
+    DWORD       dwConnectionVersion;
+    ETrnVideoEncodingFormats
+                efSystemFormat;     // video format this Trinity is using
+  } STrnSystemInfo;
+
+
+ //
+ // Return miscellaneous information about the VideoSystem.
+ //
+  HRESULT QuerySystemInfo(
+    [out] STrnSystemInfo* pInfo);
+
+  HRESULT QueryController(
+    [out] ITrnAutomationController** ppController);
+
+  //
+  // Enumerate all elements of the requested type which are installed in the
+  // system.
+  //
+  HRESULT EnumElements(
+    [ in ] ETrnVSElementType vtype,
+    [ out ] IEnumUnknown **ppenum);
+
+  //
+  // Create and initialize an instance of a Trinity Core add-on object.
+  // This will call CoCreateInstance with the specified parameters.  If
+  // successful, the new object will be connected to the system using the
+  // ITrnCoreAddOn interface, and a pointer to the new object returned.
+  //
+  HRESULT CreateAddOn(
+    REFCLSID rclsid,	    // Class identifier
+    LPUNKNOWN pUnkOuter,	// Object is or isn't part of an aggregate
+    DWORD dwClsContext,	  // Context for running executable code
+    REFIID riid,	        // Interface identifier
+    LPVOID * ppv	        // Pointer to storage of interface pointer
+    );
+
+  typedef struct tagSTrnBuildErrorInfo
+  {
+    HRESULT   m_createResult;   // result from BuildOneProxy
+    DWORD     m_lastSocket;     // last destination Trinity socket
+    DWORD     m_lastCommand;    // last Trinity command
+  } STrnBuildErrorInfo;
+
+  //
+  // Return information about system initialization errors
+  //
+  HRESULT QueryBuildErrorInfo(
+    ETrnVSElementType vtype,
+    unsigned          slot,
+    unsigned          count,
+    unsigned*         countOut,
+    STrnBuildErrorInfo* pErrorInfo
+    );
+
+  // !!! TBD:  Advise interface for system-wide notifications
+  //           e.g.  loss/acquisition of genlock, comm error, system reset, others?
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnModuleProxy
+//
+//  Purpose:    Defines the interface implemented by all Trinity hardware
+//              module proxy objects.
+//+---------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e419-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+
+interface ITrnModuleProxy : ITrnConnectionClient
+{
+  //
+  // Called by Trinity implementation on system startup to associate this
+  // module proxy with a particular hardware module.
+  //
+  HRESULT Connect(
+    [in] ITrnConnection*  pConnection,  // pointer to the Trinity connection
+    [in] ITrnAutomationController*
+                          pController,  // pointer to central controller
+    [in] DWORD            socketNum,    // socket # on which module listens
+    [in] DWORD            slotNumber,   // this device's slot number
+    [in] DWORD            moduleId,     // this device's module id
+    [in] HKEY             hkModuleKey,  // open key to module registry entry
+    [in] HKEY             hkSystemKey   // open key to system registry entry
+    );                                  // for this module
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnCoreAddOn
+//
+//  Purpose:    Defines the interface for Trinity Core Add-on modules.
+//              This interface is implemented by add-on modules such as
+//              Simple Video and Simple Media.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e3f7-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnCoreAddOn : IUnknown
+{
+  //
+  //  Connect this add-on to a specific Trinity system.
+  //
+  HRESULT Connect([in] ITrnVideoSystem* pSystem,
+                  [in] ITrnAutomationController* pController,
+                  [in] ITrnConnection* pConnection);
+}
+
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnPropertySet
+//
+//  Purpose:    Defines the interface for Trinity low leve property sets
+//              which are used to configure the hardware state.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e401-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnPropertySet : IUnknown
+{
+  //----------------------------------------------------------
+  // Enum ETrnProperty & related structs
+  //----------------------------------------------------------
+  typedef int ETrnProperty;
+
+  typedef struct tagSTrnProperty
+  {
+    ETrnProperty      propName;
+    LONG              propValue;
+  } STrnProperty;
+
+  typedef enum tagETrnPropertyFlags
+  {
+    IPFDefault  = 0,    // none of the below
+    IPFReadOnly = 1,    // property cannot be modified
+    IPFAnimate  = 2,    // property value can be animated
+    IPFNoSave   = 4,    // property shouldn't be persisted
+    IPFContent  = 8,    // property is content related, not config related
+    IPFDerived  = 16,   // property is derived from other properties
+    IPFCalibration = 32,// property is a calibration value
+                        // (not saved in prop sets, unique for each board)
+    IPFUndefined = 64   // property is not defined
+  } ETrnPropertyFlags;
+
+  typedef struct tagSTrnPropertyInfo
+  {
+    ETrnProperty        propName;
+    ETrnPropertyFlags   propFlags;
+    LONG                lowerLimit;
+    LONG                upperLimit;
+    LONG                nominalValue;
+    LONG                uiScaleNum;   // UI value is (propValue*uiScaleNum)/uiScaleDenom);
+    LONG                uiScaleDenom;
+  } STrnPropertyInfo;
+
+
+  //
+  // Query the total number of properties available
+  //
+  HRESULT QueryNumProps(unsigned* pNumProps);
+
+  //
+  // Query the values and characteristics of a group of properties.
+  //
+  // startingIndex must be in [0,QueryNumProps())
+  // numToReturn must be in [1,QueryNumProps()-startingIndex]
+  //
+  // pProps and pPropInfo are assumed to point to buffers with the same
+  // number of elements.  The elements of the two buffers will correspond
+  // one-to-one (i.e.  pProps[n].propName == pPropInfo[n].propName).
+  //
+  // The existing contents of *pProps and *pPropInfo are ignored and overwritten.
+  //
+  HRESULT EnumProperties(
+    [in]      unsigned          startingIndex,
+    [in]      unsigned          numToReturn,
+    [out]     STrnProperty      *pProps,
+    [out]     STrnPropertyInfo  *pPropInfo
+    );
+
+  //
+  // Add properties to the set
+  //
+  HRESULT AddProps(
+    [in]    unsigned          numProps,
+    [in]    STrnPropertyInfo* pPropInfo
+    );
+
+  //
+  // Query the range of a property
+  //
+  HRESULT QueryPropertyInfo(
+    [in]    ETrnProperty      prop,
+    [out]   STrnPropertyInfo* pInfo
+    );
+
+  //
+  // Query the value of a single property
+  //
+  HRESULT QueryPropertyValue(
+    [ in ]  ETrnProperty  prop,
+    [ out ] LONG*         pValue
+    );
+
+  //
+  // Query one or more properties by name.  The property values in *pProps
+  // will be updated in-place.
+  //
+  HRESULT QueryProperties(
+    [in]      unsigned        numProps,
+    [in,out]  STrnProperty*   pProps
+    );
+
+  //
+  // Query info on one or more properties by name.  The property info in 
+  // *pPropInfo is updated in-place.
+  //
+  HRESULT QueryPropertiesInfo(
+    [in]      unsigned          numProps,
+    [in,out]  STrnPropertyInfo* pPropInfo
+    );
+
+  //
+  // Set one or more properties. If any read-only properties are listed,
+  // their values are not changed, S_FALSE is returned, but all other
+  // properties are updated nonetheless.
+  //
+  HRESULT SetProperties(
+    [in]    unsigned        numProperties,
+    [in]    STrnProperty    *pProps 
+    );
+
+  //
+  // Set a single property with an animated value.  Returns an error and
+  // takes no action if the property cannot be animated.
+  //
+  HRESULT SetProperty(
+    [ in ]  STrnTimeType*   pTime, 
+    [ in ]  ETrnProperty    prop,
+    [ in ]  STrnPlayList*   pPl
+    );
+
+  //
+  // Merge all properties from another set into this one.  Properties with
+  // matching names will be overwritten with the new values.
+  //
+  HRESULT Merge(
+    [ in ]  ITrnPropertySet*  pPropsToMerge,
+    [ in ]  ETrnPropertyFlags filterFlags   // props with these flags aren't merged
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnPropertiesArchive
+//
+//  Purpose:    Defines the interface for an archive which stores one or
+//              name-value sets which are loaded and saved through 
+//              ITrnPropertySet.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e403-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnPropertiesArchive : IUnknown
+{
+  typedef enum tagETrnPropsArchiveFlags
+  {
+    AFProtected = 1,    // this set can't be overwritten or deleted
+    AFModified  = 2     // properties have been modified since load/save
+  } ETrnPropsArchiveFlags;
+
+  //
+  // Open an archive on the specified file.  This function must be called
+  // with a successful result before any of the other functions will work!
+  //
+  HRESULT Open(const char* pszArchiveName);
+
+  //
+  // Create a new, empty archive on the specified file.  An existing file
+  // will be erased if it exists!
+  //
+  HRESULT Create(const char* pszArchiveName);
+
+  //
+  // Return the number of property sets stored in the archive
+  //
+  ULONG QueryNumPropertySets();
+
+  //
+  // Return the name of the 'n'th PropertySet
+  //
+  HRESULT QuerySetName(
+    unsigned  setIndex,   // which set to return [0..QueryNumPropertySets())
+    OLECHAR*  pwszBuffer, // pre-allocated buffer to hold returned name
+    unsigned  ccBuffer    // size of allocation (in characters, not bytes)
+    );
+
+  // 
+  // Load all properties from the specified set
+  //
+  HRESULT Load(
+    ITrnPropertySet*  pSetToLoad,
+    OLECHAR*          pwszSetName,
+    DWORD*            pdwPropsFlags
+    );
+
+  //
+  // Save all writable properties into the set with the specified name.
+  // The set is created if it doesn't exist, or replaced if it does.
+  //
+  HRESULT Save(
+    ITrnPropertySet*      pSetToSave,
+    OLECHAR*              pwszSetName,
+    ETrnPropsArchiveFlags arcFlags,     // saved with the archive
+    ETrnPropertyFlags     filterFlags   // props with these flags aren't saved
+    );
+
+  //
+  // Delete the property set with the specified index.
+  //
+  HRESULT Delete(
+    OLECHAR*          pwszSetName
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnInputModule
+//
+//  Purpose:    Defines the interface for Trinity Input modules.
+//              ITrnInputModule interface pointers are obtained through the
+//              ITrnVideoSystem interface.
+//
+//----------------------------------------------------------------------------
+// An input module is an object which converts an external video signal
+// from one or more external video formats (analog or digital) into
+// a component digital stream of the type used internally by Trinity.
+// Current Trinity hardware is CCIR-601 4:2:2:4 at either 8 or 10 bits,
+// but other future formats are possible.
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3dc-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnInputModule : IUnknown
+{
+  //
+  //  Return the an interface to the PropertiesArchive for this input module.
+  //  The returned pointer is to a different object which is not aggregated or
+  //  contained.
+  //
+  HRESULT QueryPropsArchive(
+    ITrnPropertiesArchive** ppPropsArchive
+    );
+
+  // 
+  // Return the name of the property set most recently loaded by 
+  // ITrnInputModule::LoadProperties or saved by ITrnInputModule::SaveProperties.  
+  //
+  HRESULT QueryPropSetName(
+    OLECHAR*  pwszSetNameBuffer,
+    unsigned  ccBuffSize,         // size of the buffer, in characters (not BYTEs)
+    DWORD*    pdwFlags            // ETrnPropsArchiveFlags for bits
+    );
+
+  //
+  // Load all writable properties from the specified set.
+  //
+  HRESULT LoadProperties(
+    OLECHAR*  pwszSetName,
+    DWORD*    pdwPropsFlags        // ETrnPropsArchiveFlags for bits
+    );
+
+  //
+  // Save all writable properties into the set with the specified name.
+  // The set is created if it doesn't exist, or replaced if it does.
+  //
+  HRESULT SaveProperties(
+    OLECHAR*              pwszSetName,
+    ETrnPropertyFlags     filterFlags   // props with these flags aren't saved
+    );
+
+  //
+  // Load a map table (segment).  The caller is responsible for knowing the
+  // layout of the tables.
+  //
+  HRESULT LoadMapTable(
+    DWORD MapIndex,
+    DWORD TableSize,
+    [ in,size_is(TableSize) ] BYTE *Table
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnInputModule2
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e413-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnInputModule2 : ITrnInputModule
+{
+  // 
+  // Query if the color corrector loader is busy
+  // Returns S_OK if not busy, S_FALSE if busy
+  //
+  HRESULT ColorCorrectorReady();
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnProcessor
+//
+//  Purpose:    Defines the interface to all Trinity processor modules
+//              (anything which connects to the main data bus and has an on-
+//              board CPU).
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3df-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnProcessor : IUnknown
+{
+  typedef struct tagSTrnPCapabilities
+  {
+    BOOL  BigEndian;            // TRUE=Motorola format, FALSE=Intel format
+  	SHORT VideoDepth;		        // 8 or 10 bit video support
+    SHORT Delay;                // Delay in # of fields
+    BOOL  RouterInput;          // Does it use router input
+    BOOL  AlphaIn;              // Does it support alpha-input
+    BOOL  AlphaOut1;            // Does it support/generate alpha-output
+    BOOL  AlphaOut2;
+    BOOL  ABusOut;
+    BOOL  BBusOut;
+    BOOL  CBusOut;
+    ETrnVideoTransmissionFormats  NativeFormat;
+
+    DWORD KeyPriorityModes;     // Which key priority modes does it support
+	                            // SET of enum ETrnKPMode
+
+  } STrnPCapabilities;
+
+					// Determine abilities of the processor.
+  HRESULT QueryCapabilities(
+	  [out] STrnPCapabilities *pCaps);
+}
+
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnD1Output
+//
+//  Purpose:
+//  Interface:
+//  Notes:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e5db-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnD1Output : ITrnProcessor
+{
+  typedef enum tagETrnD1OutputMode
+  {
+	  D1OModeFreeze,
+	  D1OModeLive
+  } ETrnD1OutputMode;
+
+  HRESULT SetMode(
+	ETrnD1OutputMode whichMode
+	);
+
+  HRESULT QueryMode(
+    ETrnD1OutputMode* pWhichMode
+	);
+
+  // Load FrameStore from the current position of an open IStream
+  HRESULT LoadFrameStoreStream(
+    [in] IStream* pStream,
+    DWORD         length
+	);
+
+  // Load FrameStore from the current position of an already-opened file
+  HRESULT LoadFrameStoreFile(
+	  HANDLE  hFile,
+    DWORD   length
+	  );
+
+  // Load FrameStore from an offset within a file mapping
+  HRESULT LoadFrameStoreFileMapping(
+    HANDLE  hFileMapping,
+    DWORD   offset,
+    DWORD   length
+	);
+
+  // Load FrameStore directly from memory
+  // Note: This memory may be copied one or more times before
+  // transmission to the Trinity hardware, so LoadFrameStoreFileMapping may
+  // give better performance.  Any difference is implementation dependent
+  // and may change from release to release.
+  HRESULT LoadFrameStoreMemory(
+    LPVOID  pImage,
+    DWORD   length
+	);
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnClipAdviseSink
+//
+//  Purpose:    IClipAdviseSink defines the interface of clients of the
+//              Trinity clip-grab board.
+//
+//  Interface:  OnClipUpdate   -- Called when an asynchronous grab has updated
+//                                the destination buffer.
+//
+//              OnClipError    -- Called if an error is detected for a given
+//                                connection.  If the return value from this
+//                                callback is a FAILED code, the connection
+//                                will be closed (only relevant if it was a
+//                                repeated grab).
+//
+//  Notes:      The implementation of this interface is up to the client.
+//              This interface will generally be called in the context of
+//              a different thread than the function which established
+//              the link to this interface.  As a result, the implementation
+//              behind this interface may need to be multi-thread safe.
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3d6-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnClipAdviseSink : IUnknown
+{
+  HRESULT OnClipUpdate(
+      DWORD     connectionId            // Which connection produced the clip
+    );
+
+  HRESULT OnClipError(
+      DWORD     connectionId,           // Which connection had the error
+      HRESULT   error                   // the error code
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnClipGrab
+//
+//  Purpose:    Defines the interface to the Trinity ClipGrab module
+//              A ClipGrabber IsA VideoProcessor, and gets its input from the
+//              router just like any other processor.
+//
+//  Interface:
+//      QueryCapabilitiesEx -- Obtain information about the clib-grabbers
+//                             capabilities.
+//
+//      GrabImage     -- Synchronously grab a single image
+//
+//      GrabImageEx   -- Asynchornously grab multiple images
+//
+//      StopGrab      -- Stop an asynchronous grab
+//
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3d2-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnClipGrab : ITrnProcessor
+{
+  typedef struct tagSTrnCGCapabilities
+  {
+    DWORD         formatsSupported;     // Bits correspond to FrameType enumeration
+    DWORD         sourcesSupported;     // SET of ETrnCGGrabSource
+
+    BOOL          canDitherToPalette;   // TRUE if can accept palette for 256 color convert
+    BOOL          canShrink;            // TRUE if can make reduced size clips
+    BOOL          canBorder;            // TRUE if can grab from STrnRect within frame
+    BOOL          canGrabAlpha;         // TRUE if can grab YUVA
+
+    // !!! TBD describe limitations on shrink, border
+
+    WORD        minInterval;          // minimum inter-grab interval in fields
+
+  } STrnCGCapabilities;
+
+  enum
+  {
+    GrabIDAllGrabs = 0xDEADDEAD
+  };
+
+  HRESULT   QueryCapabilitiesEx(
+    [ out ] STrnPCapabilities *pCaps,
+    [ out ] STrnCGCapabilities *pECaps);
+
+  //
+  //  Field/frame grab functions (GrabImage, GrabImageEx)
+  //
+  //  Defaults:
+  //    Source Rect - if NULL, entire active area is digitized
+  //    Dest Rect   - if NULL, rect which fills dest bitmap is assumed
+  //
+  //  Restrictions:
+  //  Source rect - must fit inside active video area
+  //                must start on an even pixel & be an even # of pixels wide
+  //                for sourceMode == FAMAllLines
+  //                  must be even # lines high and start on even (field 1) line
+  //  Source mode - if dest mode is FAMNatural, source mode must be FAMNatural
+  //                or FAMAllLines
+  //  Dest bitmap - must use supported frame type
+  //  Dest mode   - if source is all lines, dest must be all lines
+  //  Dest rect   - must fit inside dest bitmap
+  //                must be multiple of 4 pixels wide
+  //                must be no larger than source rect
+  //                for destMode == FAMAllLines
+  //                  must be even # lines high
+  //
+
+  // Synchronously grab a single clip
+  HRESULT GrabImage(
+    unsigned            source,         // video source (ETrnCGGrabSource + ETrnRouterSource)
+    STrnRect            *pSourceRect,   // rect within source to grab
+    ETrnFrameAccessMode sourceMode,     // which lines of source to read
+    SPlayBitMap         *pDest,         // destination
+    STrnRect            *pDestRect,     // rect within destination to update
+    ETrnFrameAccessMode destMode        // which lines of dest to write
+    );
+
+  // Asynchronously grab one or more clips
+  HRESULT GrabImageEx(
+    unsigned            source,         // video source (ETrnCGGrabSource + ETrnRouterSource)
+    STrnRect            *pSourceRect,   // rect within source to grab
+    ETrnFrameAccessMode sourceMode,     // which lines of source to read
+    SPlayBitMap         *pDest,         // destination
+    STrnRect            *pDestRect,     // rect within destination to update
+    ETrnFrameAccessMode destMode,       // which lines of dest to write
+    STrnTimeType*       pTime,          // when to do first grab
+    WORD                ratel,          // grab rate fields/grab, 0=one time grab
+    ITrnClipAdviseSink  *pAdvise,       // Where to send update notifications
+    DWORD               *pConnectionId  // used with StopGrab
+    );
+
+  HRESULT StopGrab(
+    DWORD             connectionId);
+}
+
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnClipGrab2
+//
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e497-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnClipGrab2 : ITrnClipGrab
+{
+  // Globally enable or disable all grabs for the calling process
+  HRESULT Enable(BOOL fEnabled);
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnVideoPath
+//
+//  Purpose:    Defines the interface shared by all video path boards
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e5eb-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnVideoPath : ITrnProcessor
+{
+  typedef struct tagSTrnEPKPTable
+  {
+    unsigned char Index;
+    unsigned char KP[7];
+  } STrnEPKPTable;
+
+  HRESULT SetStrobe(
+    [in]    STrnTimeType* pTime,
+    [in]    DWORD frequency);   // 0=freeze, 1=run, 2=every 2nd frame, etc.
+
+  HRESULT SetMatteColor(
+    [in]    STrnTimeType* pTime,
+    [in]    DWORD color);
+
+  HRESULT ActivateMatte(
+    [in]    STrnTimeType* pTime
+    );
+
+					// Send a KeyPriorityTable
+  HRESULT SetKeyPriorityTable(
+    WORD KPIndex,
+    [in] STrnEPKPTable* pTable);
+
+					// Select a KeyPriorityTable
+  HRESULT ActivateKeyPriorityTable(
+    [in] STrnTimeType* pTime,
+    WORD KPIndex);
+
+					//  Read a KeyPriorityTable
+  HRESULT QueryKeyPriorityTable(
+    WORD KPIndex,
+    [out] STrnEPKPTable* pTable);
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnEffectsProcessor
+//
+//  Purpose:    Defines the interface shared by all video effects processors
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3e0-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnEffectsProcessor : ITrnVideoPath
+{
+
+  typedef struct tagSTrnEPCapabilities
+  {
+	  WORD nBuffers;		// Number of distinct frame buffers in VideoProcessor
+
+	  STrnRectGridLimits  ActiveRange;
+
+    BOOL    canStrobe;
+    BOOL    canFreeze;
+    BOOL    canMatte;
+    BOOL    canBlack;
+
+    // !!! TBD: Others?
+
+  } STrnEPCapabilities;
+
+  typedef enum tagEEPRunMode
+  {
+    EPRMRun     = 0,    // run
+    EPRMFreeze  = 1,    // freeze
+    EPRMMatte   = 2     // display matte color
+  } EEPRunMode;
+
+  typedef enum tagEEPRunItems
+  {
+    EPRIanims       = 0x01,
+    EPRIstrobe      = 0x02,
+    EPRIrunmode     = 0x04
+  } EEPRunItems;
+
+					// Inquire particulars of the DVE card.
+	HRESULT QueryCapabilitiesEx(
+	  [ out ] STrnPCapabilities *pCaps,
+	  [ out ] STrnEPCapabilities *pECaps);
+
+  // Load Anim from the current position of an open IStream
+  HRESULT LoadAnimStream(
+    [in] IStream* pStream,
+    DWORD         length,
+    DWORD        *pAnimId);
+
+  // Load Anim from the current position of an already-opened file
+	HRESULT LoadAnimFile(
+	  HANDLE  hFile,
+    DWORD   length,
+	  DWORD   *pAnimId);
+
+  // Load Anim from an offset within a file mapping
+  HRESULT LoadAnimFileMapping(
+    HANDLE  hFileMapping,
+    DWORD   offset,
+    DWORD   length,
+    DWORD   *pAnimId);
+
+  // Load Anim directly from memory
+  // Note: This memory may be copied one or more times before
+  // transmission to the Trinity hardware, so LoadAnimFileMapping may
+  // give better performance.  Any difference is implementation dependant
+  // and may change from release to release.
+  HRESULT LoadAnimMemory(
+    LPVOID  pImage,
+    DWORD   length,
+    DWORD   *pAnimId);
+
+  HRESULT ReleaseAnim(
+    DWORD   AnimId);
+
+	// Perform the Transform identified
+  HRESULT PlayAnim(
+    DWORD AnimId,
+    [ in ] STrnTimeType *pTime,
+    [ in ] STrnPlayList *pList);
+
+  // pass the video through unmodified
+  // KeepMask specifies items to leave running as is.
+  //   see enum EEPRunItems for bit assignments
+	HRESULT ActivatePassThrough(
+        [in] STrnTimeType *pTime,
+        [in] DWORD KeepMask);
+
+  HRESULT SetLumaThreshold(
+    DWORD   luma
+    );
+
+  // !!! TBD: Accomodate all capabilities of new 3D dve
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnStillStore
+//
+//  Purpose:    Defines the interface for a bus-resident stillstore.
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e5ea-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnStillStore : ITrnVideoPath
+{
+  // Determine the buffer size needed to store an entire native frame
+  DWORD QueryFrameStoreSize();
+
+  // Grab an entire video frame, in native format
+  HRESULT GrabFrame(
+      DWORD   dwBuffIdx,
+      LPVOID  pBuffer                 // where to put the data
+      );
+
+  HRESULT AllocFrameBuffer(
+    [out]   DWORD* pdwBuffIdx,
+    [out]   DWORD* pdwBuffAddr
+    );
+
+  HRESULT FreeFrameBuffer(
+    [in]    DWORD dwBuffIdx
+    );
+
+  // Prepare frame buffer for writing
+  HRESULT PrepareWrite(
+    [in]    DWORD dwBuffIdx
+    );
+      
+  // Display a frame that is already loaded into the DVE's DRAM
+  HRESULT ShowFrameBuffer(
+    [in]    STrnTimeType* pTime,
+    [in]    DWORD dwBuffidx
+    );
+
+  // Display a frame from a buffer in native format
+  HRESULT DisplayFrame(
+      DWORD   dwBuffIdx,
+      LPVOID  pBuffer
+      );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnVideoEncoder
+//
+//  Purpose:    Defines the generic interface for output encoders.
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3f9-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnVideoEncoder : IUnknown
+{
+  typedef enum tagETrnGenlockMode
+  {
+    GMFreeRun,      // free-running mode
+    GMGenLock,      // genlock mode
+    GMAuto,         // auto mode  (set only)
+    GMNotLocked     // in genlock mode, but not locked (query only)
+  } ETrnGenlockMode;
+
+
+  typedef enum tagETrnEncoderModes
+  {
+    EMNormalMode     = 0,     // encoder outputs video bus
+    EMPreviewGenlock = 1,     // encoder outputs genlock input
+    EMPreviewAlpha   = 2,     // encoder outputs alpha channel
+    EMColorBars      = 3,     // encoder outputs color bars
+    EMModRamp        = 4,     // encoder outputs modulated ramp
+    EMExclusiveModeMask = 15,
+
+                              // independent modes which may be added to any other mode
+    EMAlphaSync      = 256,   // encoder adds sync to alpha output
+    EMExtClock       = 512,   // encoder uses external high precision clock for free run
+    EMMixinModes     = EMAlphaSync +
+                       EMExtClock
+  } ETrnEncoderModes;
+
+  //
+  //  Return the an interface to the PropertiesArchive for this output module.
+  //  The returned pointer is to a different object which is not aggregated or
+  //  contained.
+  //
+  HRESULT QueryPropsArchive(
+    ITrnPropertiesArchive** ppPropsArchive
+    );
+
+  // 
+  // Return the name of the property set most recently loaded by 
+  // ITrnVideoEncoder::LoadProperties or saved by ITrnVideoEncoder::SaveProperties.  
+  // Return S_FALSE if the properties have been changed since the set was loaded.
+  //
+  HRESULT QueryPropSetName(
+    OLECHAR*  pwszSetNameBuffer,
+    unsigned  ccBuffSize,          // size of the buffer, in characters (not BYTEs)
+    DWORD*    pdwPropsFlags        // ETrnPropsArchiveFlags for bits
+    );
+
+  //
+  // Load all writable properties from the specified set.
+  //
+  HRESULT LoadProperties(
+    OLECHAR*  pwszSetName,
+    DWORD*    pdwPropsFlags        // ETrnPropsArchiveFlags for bits
+    );
+
+  //
+  // Save all writable properties into the set with the specified name.
+  // The set is created if it doesn't exist, or replaced if it does.
+  //
+  HRESULT SaveProperties(
+    OLECHAR*              pwszSetName,
+    ETrnPropertyFlags     filterFlags   // props with these flags aren't saved
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnCompositeEncoder1
+//
+//  Purpose:    Defines the additional interface for the V1 composite encoder.
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3fa-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnCompositeEncoder1 : ITrnVideoEncoder
+{
+  //
+  //  Load an output LUT.
+  //
+  HRESULT LoadMapTable(
+    [in]    DWORD MapIndex,         // range is 0..127
+    [in,size_is(512)] BYTE* pTable  // 256 Luma entries followed by
+                                    // 256 chroma entries
+	);
+
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnDownstreamProcessor
+//
+//  Purpose:    Defines the interface for downstream video processors.
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3de-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnDownstreamProcessor : ITrnProcessor
+{
+	typedef struct tagSTrnDSCapabilities
+	{
+		BOOL MasterReference; // only TRUE for one card in system - the "output module"
+		BOOL MasterExtIn;	// can the card accept external sync in
+		BOOL SyncDetect;	// can the card detect if ext sync is real video signal
+		BOOL ExtVideoIn;
+		BOOL ExtAlphaIn;
+		DWORD InputFormats; // see ETrnVideoTransmissionFormats bitfield definition above
+
+		// !!! TBD: alpha input formats
+
+		BOOL WritableFrame;	// does the card have a video frame which can be written to
+		BOOL ReadableFrame;
+
+    // !!! TBD:
+		//    recursive abilities
+		//    output to 9th channel
+		//    LUT available  fade to color available
+    //    output module
+
+
+	} STrnDSCapabilities;
+
+	HRESULT QueryCapabilitiesEx(
+    [ out ] STrnPCapabilities *pCaps,
+	  [ out ] STrnDSCapabilities *pECaps);
+
+	HRESULT ActivatePassThrough( // pass the video through unmodified
+		[in] STrnTimeType *pTime);
+
+	// !!! TBD: write/read frame, get/set sync mode, LUT get/set modes
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnVideoRouter
+//
+//  Purpose:    Defines the interface to the Trinity router module
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3dd-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnVideoRouter : IUnknown
+{
+	typedef struct tagSTrnRTRCapabilities
+	{
+		WORD usInputs;	      // number of inputs
+		WORD usOutputs;	      // number of outputs
+		WORD usMultiOut;	    // number of outputs each input may be mapped to simultaneously
+		WORD usDepth;		      // size of samples - currently 8 or 10
+		BOOL bAlphaRouting;     // can router route alpha at all
+		BOOL bAlphaIndependent; // is alpha routing independent of video routing
+		WORD usAlphaInputs;	  // number of inputs
+		WORD usAlphaOutputs;	// number of outputs
+		WORD usAlphaMultiOut;	// number of outputs each input may be mapped to simultaneously
+		WORD usAlphaDepth;    // depth of alpha samples - currently 8 or 10
+
+	} STrnRTRCapabilities;
+
+	HRESULT QueryCapabilities(
+	  [out] STrnRTRCapabilities *pCaps);
+
+  // Route YUV signals from input 'source' to module 'dest'
+	HRESULT ActivateYUVRoute(
+		[in] STrnTimeType *pTime,
+		ETrnRouterSource source,
+		WORD dest);
+
+  // Route Alpha signal from input 'source' to module 'dest'
+  HRESULT ActivateAlphaRoute(
+    [in] STrnTimeType *pTime,
+    ETrnRouterSource source,
+    WORD dest);
+
+  // Select which in/out module slot is conencted to router input 8
+  // Config option only - cannot be changed dynamically
+  typedef enum tagETrnIOMuxSource
+  {
+    InOutModule1,
+    InOutModule2,
+    InOutModule3
+  } ETrnIOMuxSource;
+
+  HRESULT SetInOutModuleMux(
+    ETrnIOMuxSource source);
+
+  //
+  // Changes the router such that the input that was connected to Output1
+  // is now connected to Output2, and vice versa.
+  //
+  HRESULT SwapRoutes(
+    [in] STrnTimeType* pTime,
+    [in] DWORD Output1,
+    [in] DWORD Output2
+    );
+
+  // Determine which YUV signal is feeding each module.
+  // Store a vector of input channel numbers at pSources, indexed by output
+  // channel number.
+	HRESULT QueryVideoRoutes(
+		[out] WORD *pSources);
+
+  // Determine which alpha signal is feeding each module
+  // Store a vector of input channel numbers at pSources, indexed by output
+  // channel number.
+	HRESULT QueryAlphaRoutes(
+		[out] WORD *pSources);
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnVideoSwitcher
+//
+//  Purpose:    Defines the interface for the Trinity switcher board.
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3e1-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnVideoSwitcher : ITrnProcessor
+{
+  //====================================================================
+  // Preview output interface
+  //====================================================================
+
+	typedef enum tagETrnSWPreviewSource
+	{
+        PSABus      = 0,
+        PSBBus      = 1,
+        PSMainMixer = 2,
+        PSGraphics  = 3,
+        PSCBus      = 3,
+        PSDSMixer   = 4     // program output
+	} ETrnSWPreviewSource;
+
+    HRESULT SelectPreviewSource(
+		[in] STrnTimeType *pTime,
+	  ETrnSWPreviewSource source);
+
+  //====================================================================
+  // Main mixer interface
+  //====================================================================
+	typedef enum tagETrnSWMainAlphaMode
+	{
+        MAFixed         = 0,
+        MAFIFO          = 1,
+        MAChromaCLUT    = 2,
+        MAExternal      = 3
+	} ETrnSWMainAlphaMode;
+
+	typedef enum tagETrnSWMainVideoMode
+	{
+		MVColor,
+		MVMonochrome
+	} ETrnSWMainVideoMode;
+
+  // !!! Interface for standard wipes
+
+					// Select Main Alpha Source
+	HRESULT SetMainAlphaMode(
+		[in] STrnTimeType *pTime,
+        [in] ETrnSWMainAlphaMode alphaMode);
+
+					// Read Main Alpha Source
+    HRESULT QueryMainAlphaMode(
+        [out] ETrnSWMainAlphaMode* pMode
+        );
+
+    //
+    // Forces the main alpha mode to MAFixed and sets it
+    // according to the specified play list at the specified time.
+    //
+    HRESULT SetMainAlpha(
+        [in] STrnTimeType *pTime,
+        [in] STrnPlayList* pPlayList
+        );
+
+					// Select Main Video Modes
+	HRESULT SetMainVideoMode(
+        [in] STrnTimeType *pTime,
+        [in] ETrnSWMainVideoMode aBusMode,
+        [in] ETrnSWMainVideoMode bBusMode);
+
+					// Read Main Video Modes
+	HRESULT QueryMainVideoMode(
+        [out] ETrnSWMainVideoMode *pABusMode,
+		[out] ETrnSWMainVideoMode *pBBusMode);
+
+  //====================================================================
+  // Downstream mixer interface
+  //====================================================================
+
+	typedef enum tagETrnSWDSAlphaMode
+	{
+        DAFixed         = 0,
+        DAFIFO          = 1,
+        DAMainAlphaOut  = 2,
+        DAExternal      = 3
+	} ETrnSWDSAlphaMode;
+
+	typedef enum tagETrnSWDSVideoMode
+	{
+		DVCGIndex,
+		DVColor,
+		DVMonochrome
+	} ETrnSWDSVideoMode;
+
+          // Set Downstream mixer alpha mode
+	HRESULT SetDSAlphaMode(
+		[in] STrnTimeType *pTime,
+        [in] ETrnSWDSAlphaMode alphaMode);
+
+					// Read DS Alpha Source
+     HRESULT QueryDSAlphaMode(
+        [out] ETrnSWDSAlphaMode* pMode
+        );
+
+    //
+    // Forces the downstream alpha mode to DAFixed and sets it
+    // to the specified value at the specified time.
+    //
+    HRESULT SetDSAlpha(
+		[in] STrnTimeType *pTime,
+        [in] STrnPlayList* pPlayList
+        );
+					// Select Mode of DS Video
+	HRESULT SetDSVideoMode(
+		[in] STrnTimeType *pTime,
+	  ETrnSWDSVideoMode cBusMode);
+
+					// Read Mode of DS Video
+     HRESULT QueryDSVideoMode(
+        [out] ETrnSWDSVideoMode* pMode
+        );
+
+  //====================================================================
+  // Animation interface
+  //====================================================================
+
+  // Load Anim from the current position of an open IStream
+  HRESULT LoadAnimStream(
+    [in] IStream* pStream,
+    DWORD         length,
+    DWORD        *pAnimId);
+
+  // Load Anim from the current position of an already-opened file
+	HRESULT LoadAnimFile(
+	  HANDLE  hFile,
+    DWORD   length,
+	  DWORD   *pAnimId);
+
+  // Load Anim from an offset within a file mapping
+  HRESULT LoadAnimFileMapping(
+    HANDLE  hFileMapping,
+    DWORD   offset,
+    DWORD   length,
+    DWORD   *pAnimId);
+
+  // Load Anim directly from memory
+  // Note: This memory may be copied one or more times before
+  // transmission to the Trinity hardware, so LoadAnimFileMapping may
+  // give better performance.
+  HRESULT LoadAnimMemory(
+    LPVOID  pImage,
+    DWORD   length,
+    DWORD   *pAnimId);
+
+  HRESULT ReleaseAnim(
+    DWORD   AnimId);
+
+					// Perform the anim identified
+	HRESULT PlayAnim(
+    DWORD animId,
+    [ in ] STrnTimeType *pTime,
+    [ in ] STrnPlayList *pList);
+
+					// Retrieve portion of anim Frame   !!! Frame or Field?
+  HRESULT GrabAnimFrame(
+    DWORD animId,
+    WORD frameIndex,
+    [in] STrnRect *pSourceRect,
+    [out] SPlayBitMap *pBitMap,
+    [in] STrnRect *pDestRect);
+
+          // Update portion of Anim frame     !!! Likewise
+  HRESULT UpdateAnimFrame(
+    DWORD animId,
+    WORD frameIndex,
+    [in] STrnRect *pDestRect,
+    [in] SPlayBitMap *pBitMap,
+    [in] STrnRect *pSourceRect);
+
+					// Disable all "ANIM"s and pass "ABus" though
+          // !!! Should be named similar/identical to Downstream::ActivatePassThrough
+	HRESULT EnterPassiveState(
+    [ in ] const STrnTimeType *pTime);
+
+  // !!! TBD: Interfaces for dynamic modification of animation parameters
+
+}
+
+//+---------------------------------------------------------------------------
+//  Class:    ITrnKeyPriorityCompositor
+//
+//  Purpose:
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3f3-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnKeyPriorityCompositor : IUnknown
+{
+  //----------------------------------------------------------
+  // Struct STrnSWKPTable
+  // Describes a switcher key priority table.
+  //----------------------------------------------------------
+  typedef struct tagSTrnSWKPTable
+  {
+    unsigned char Index;
+    unsigned char L1_Enables;
+    unsigned char L2_Enables;
+    unsigned char DefaultKP;
+    unsigned char KP[8];
+    unsigned char BusControl[5];    // aAB aMC C B A
+    unsigned char Filler[3];
+  } STrnSWKPTable;
+
+					// Send a KeyPriorityTable
+	HRESULT SetKeyPriorityTable(
+	  WORD KPIndex,
+      [in] STrnSWKPTable* pTable);
+
+					// Select a KeyPriorityTable
+	HRESULT ActivateKeyPriorityTable(
+      [in] STrnTimeType* pTime,
+      WORD KPIndex);
+
+					//  Read a KeyPriorityTable
+    HRESULT QueryKeyPriorityTable(
+	  WORD KPIndex,
+      [out] STrnSWKPTable* pTable);
+}
+
+//+---------------------------------------------------------------------------
+//  Class:    ITrnChromaKeyer
+//
+//  Purpose:
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3f4-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnChromaKeyer : IUnknown
+{
+					// Send ChromaKeyLUT
+	HRESULT LoadChromaKeyLUT(
+	  WORD LUTIndex,
+	  DWORD LUTSize,
+	  [in,size_is(LUTSize)] BYTE *pLUTData);
+
+  typedef enum tagETrnChromaKeyMode
+  {
+    CKMLuma = 0,
+    CKMLumaAB = 1,
+    CKMChroma = 2,
+    CKMChromaLuma = 3
+  } ETrnChromaKeyMode;
+
+  typedef enum tagETrnChromaKeyMethod
+  {
+    CKTmix = 1,
+    CKTaddmix = 2,
+    CKTaddadd = 3
+  } ETrnChromaKeyMethod;
+
+					// Turn on chroma keyer
+	HRESULT ActivateChromaKey(
+        [in] STrnTimeType       *pTime,
+        [in] ETrnChromaKeyMode  keyerMode,
+        [in] ETrnChromaKeyMethod  keyMethod,
+	    [in] DWORD              LUTIndex,
+        [in] DWORD              keyColor);
+}
+
+//+---------------------------------------------------------------------------
+//  Class:    ITrnRecursiveEffectsGenerator
+//
+//  Purpose:
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3f5-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnRecursiveEffectsGenerator : IUnknown
+{
+					// Select Recusive Mode of operation
+	HRESULT SetRecursiveMode(
+		[in] STrnTimeType *pTime,
+	  WORD RecursiveMode);        // !!! TBD: mode definition
+
+					// Read Recursive Mode
+	WORD QueryRecursiveMode();      // !!! ditto
+
+					// Determine Range of Recusive Offset
+	HRESULT QueryRecursiveOffsetRange(
+	  [out] STrnRectGrid *pOffsetRange);
+
+					// Use specified offset
+	HRESULT SetRecursiveOffset(
+		[in] STrnTimeType *pTime,
+	  SHORT x,
+	  SHORT y);   // !!! TBD: Should recursive offsets be animated?
+                // !!! More general solution: should we define recursive 'anims'?
+
+					// Read current offset
+	HRESULT QueryRecursiveOffset(
+	  [out] SHORT *px,
+	  [out] SHORT *py);
+
+					// Enable/Disable Recursives.
+  HRESULT SetRecursiveEnable(
+    [ in ] STrnTimeType *pTime,
+    [ in ] STrnPlayList *pList);
+}
+
+//+---------------------------------------------------------------------------
+//  Class:    ITrnGraphicsBuffer
+//
+//  Purpose:
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e5de-ab3b-11ce-8468-0000b468276b ),
+  pointer_default(unique)
+]
+interface ITrnGraphicsBuffer : IUnknown
+{
+  //
+  // Region Animation functions
+  //
+
+  typedef enum tagETrnDisplayTypes
+  {
+    DISPLAY_MAINALPHA = 0x4080,    // upstream alpha
+    DISPLAY_ALPHA = 0x2040,        // downstream alpha
+    DISPLAY_D1    = 0x8A30         // downstream graphics
+  } ETrnDisplayTypes;
+
+  // Create a new view
+  //
+  // viewMode specifies which switcher FIFOs are fed by the view
+  //
+
+  HRESULT CreateView(
+    DWORD viewMode,       // user ETrnDisplayTypes
+    DWORD*  pViewHandle   // identifies this view in subsequent calls
+    );
+
+  // Delete a view
+
+  HRESULT DeleteView(
+    DWORD viewHandle      // returned by a preceding call to CreateView
+    );
+
+  // Create a view port
+
+  HRESULT CreateViewPort(
+    DWORD viewHandle,     // returned by a previous call to CreateView
+    STrnRect* pRect,      // ViewPort size & position on view
+    DWORD*  pPortHandle   // identifies this ViewPort in subsequent calls
+    );
+
+  // Delete a ViewPort
+
+  HRESULT DeleteViewPort(
+    DWORD portHandle      // returned by a previous call to CreateViewPort
+    );
+
+  // Create a BitMap
+
+  HRESULT CreateBitMap(
+    DWORD portHandle,     // returned by a previous call to CreateViepPort
+    unsigned  width,      // ViewPort width in pixels
+    unsigned  height,     // ViewPort height in lines
+    DWORD*  pBitMapHandle // identifies this BitMap in subsequent calls
+    );
+
+  // Delete a BitMap
+
+  HRESULT DeleteBitMap(
+    DWORD BitMapHandle    // returned by a previous call to CreateBitMap
+    );
+
+  // Set the layering order of the ViewPorts for a given view
+
+  HRESULT SetViewPortLayering(
+    DWORD     viewHandle, // returned by a previous call to CreateView
+    unsigned  nPorts,     // number of ViewPorts to be arranged
+    DWORD*    pViewPorts  // pointer to array of ViewPorts, topmost first
+    );
+
+  // Set which BitMap a ViewPort is using
+
+  HRESULT SetViewPortBitMap(
+    DWORD     portHandle,   // returned by a previous call to CreateViewPort
+    DWORD     BitMapHandle  // returned by a previous call to CreateBitMap
+    );
+
+  // Set the rectangle within the view within which a ViewPort is visible.
+
+  HRESULT SetViewPortClipRect(
+    DWORD     portHandle,   // returned by a previous call to CreateViewPort
+    STrnRect* pRect
+    );
+
+  // Begin (or end) displaying of views
+
+  HRESULT ShowViews(
+    STrnTimeType* pTime,    // when to change the visible views
+    unsigned      nViews,   // number of views to show (0 = stop showing)
+    DWORD*        pViewHandles  // array of viewHandle to be displayed
+    );
+
+  // Read a ViewPort parameter
+
+  typedef enum tagETrnViewPortParams
+  {
+    VIEWPORT_DYTOP = 0,
+    VIEWPORT_DXLEFT = 1,
+    VIEWPORT_DYHEIGHT = 2,
+    VIEWPORT_DXWIDTH = 3,
+    VIEWPORT_RYOFFSET = 4,
+    VIEWPORT_RXOFFSET = 5,
+    VIEWPORT_NUMPARAMS = 6  // *** ALWAYS set this equal to number of params
+  } ETrnViewPortParams;     // ALSO, this enum must always be consecutive
+                            // integers starting from zero.
+
+  HRESULT GetViewPortParameter(
+    DWORD     portHandle,   // returned by a previous call to CreateViewPort
+    DWORD     parameter,    // use ETrnViewPortParams
+    DWORD*    pParameter
+    );
+
+  // Animate a ViewPort parameter
+
+  HRESULT AnimateViewPortParameter(
+    STrnTimeType* pTime,    // when to begin the animation
+    STrnPlayList* pList,    // playlist which describes animation
+    DWORD     portHandle,   // returned by a previous call to CreateViewPort
+    DWORD     parameter     // use ETrnViewPortParams
+    );
+
+  // Update the contents of a BitMap
+
+  HRESULT UpdateBitMap(
+    DWORD         bitmapHandle,   // returned by a previous call to CreateBitMap
+    STrnRect*     pDestRect,      // rect within dest bitmap
+    BYTE*         pSourceBitmap   // source bitmap, identical format & size as dest
+//
+// !!! Alternatively, the source might be specified as:
+//
+//    SPlayBitMap*  pSourceBitMap,  // source bitmap - MUST be compatible format
+//    STrnRect*     pSourceRect,    // rect within source bitmap
+//
+// !!! This would add flexibility, but it's harder for everyone... needed?
+//
+    );
+
+}
+
+//+---------------------------------------------------------------------------
+//  Class:    ITrnGraphicsEffect
+//
+//  Purpose:
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e5e6-ab3b-11ce-8468-0000b468276b ),
+  pointer_default(unique)
+]
+interface ITrnGraphicsEffect : IUnknown
+{
+  HRESULT LoadFromStorage(
+    [in]  IStorage* pStg
+  );
+
+  HRESULT SaveToStorage(
+    [in]  IStorage* pStg
+  );
+
+  HRESULT TransferToTrinity(
+    [in]  ITrnGraphicsBuffer* pGrph,
+    [in]  STrnTimeType* pTime     // Track and offset which plays the effect
+  );
+
+  HRESULT ReturnViewHandles(
+    [in]  DWORD numEntries,
+    [out] DWORD* handleArray,
+    [out] DWORD* numReturned
+  );
+
+  HRESULT ReturnViewPortHandles(
+    [in]  DWORD numEntries,
+    [out] DWORD* handleArray,
+    [out] DWORD* numReturned
+  );
+
+  HRESULT ReturnBitmapHandles(
+    [in]  DWORD numEntries,
+    [out] DWORD* handleArray,
+    [out] DWORD* numReturned
+  );
+
+  HRESULT GetControllingPlayList(
+    [out] STrnPlayList* pL
+  );
+}
+
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnControlAdviseSink
+//
+//  Purpose:    Defines the interface implemented by control panel clients
+//              through which control change notifications are delivered to
+//              the client.
+//
+//  Interface:
+//
+//  Notes:      The implementation of this interface is up to the client.
+//              This interface will generally be called in the context of
+//              a different thread than the advise function which established
+//              the link to this interface.  As a result, the implementation
+//              behind this interface may need to be multi-thread safe.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e3d7-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnControlAdviseSink : IUnknown
+{
+  HRESULT OnControlChanged(
+    WORD  ControlId,
+    SHORT ControlValue );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnEnumControls
+//
+//  Purpose:    Defines the interface for iterating through the controls
+//              on an external control panel.
+//
+//  Interface:
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e3d9-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnEnumControls : IUnknown
+{
+  typedef enum tagETrnCPControlType
+  {
+    CTMomentary,          // A simple button/switch which doesn't stick
+    CTLatching,           // A simple button/switch which sticks
+    CTPositionSensor,     // A knob/slided with hard limits
+    CTEncoder,            // A rotating control with no limits
+    CTVelocitySensor,     // A rotating control which reads velocity
+    CTLight,              // An LED
+    CTTextDisplay,        // A textual display
+    CTBitmapDisplay       // A graphics display
+  } ETrnCPControlType;
+
+  typedef struct tagSTrnCPControlDescriptor
+  {
+    WORD    ControlId;    // the ID number for this control
+    ETrnCPControlType Type;       // the type of control
+    SHORT   LowRange;     // lowest value the control can return
+    SHORT   HighRange;    // highest value the control can return
+    WORD    NumColors;    // number of distinct colors the light can be
+    WORD    NumLines;     // number of lines on this text display
+    WORD    NumColumns;   // number of characters wide this display is
+    DWORD     Flags;        // misc. bit flags (definition TBD)
+  } STrnCPControlDescriptor;
+
+  HRESULT Next(
+    [ in ] DWORD celt,            // size of buffer in elements (not bytes)
+    [ in ] STrnCPControlDescriptor *rgelt, // the buffer
+    [ out ] DWORD *pceltFetched); // number of items placed in buffer
+
+  HRESULT Skip(
+    [ in ] DWORD celt);
+
+  HRESULT Reset();
+
+  HRESULT Clone(
+    [ out ] ITrnEnumControls **ppenum);
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnExternalControlPanel
+//
+//  Purpose:    Defines the interface for the Trini-touch series of external
+//              physical control panels for Trinity systems
+//
+//  Interface:
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e3d8-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnExternalControlPanel : IUnknown
+{
+  // !!! TBD: Should we expose interfaces with a richer semantic content?
+  //          e.g. ITrnEditorController, ITrnSwitcherController
+  //          Should we provide facilities to associate semantics with
+  //          controls, or just leave this up to the client?
+
+  //
+  // Enumerate all the controls on this panel
+  //
+  HRESULT EnumElements(
+    [out] ITrnEnumControls **ppenum);
+
+  //
+  // Use this function to set up the asynchronous notification
+  // of the app when control panel events occur.
+  //
+  HRESULT Advise(
+    [ in ] ITrnControlAdviseSink *AdvSink,
+    [ out ] DWORD *pConnectionId);
+
+  //
+  // Use this function to terminate an Advise link established by Advise()
+  //
+  HRESULT UnAdvise(
+    [ in ] DWORD ConnectionId);
+
+  //
+  // This function is used to set the state of an indicator light on
+  // the physical external control panel.  A return of TRUE indicates
+  // success.  FALSE indiactes failure.
+  //
+  BOOL SetLightState(
+		[in] STrnTimeType *pTime,
+    WORD LightID,
+    WORD LightValue,
+    WORD LightColor );
+
+  //
+  // This function can be used to interrogate the control panel about the
+  // state of a specified control. Using this function to poll the panel
+  // is not reccommended.
+  //
+  HRESULT QueryControlState(
+    WORD ControlId,
+    [ out ] SHORT* pControlValue );
+
+  //
+  // This function may be used to set the text of an alpha-numeric display
+  // on the control panel.
+  //
+  HRESULT SetTextDisplay(
+		[in] STrnTimeType *pTime,
+    WORD DisplayId,
+    [ in,string ] const char *pText);
+
+  // !!! TBD: Interface for controls with bitmap display capability
+}
+
+//+---------------------------------------------------------------------------
+//  Class:    ITrnSerialAdviseSink
+//
+//  Purpose:  Defines the interface which clients of ITrnSerialPort use to
+//            receive messages received from the port.
+//
+//  Interface:
+//
+//  Notes:      The implementation of this interface is up to the client.
+//              This interface will generally be called in the context of
+//              a different thread than the advise function which established
+//              the link to this interface.  As a result, the implementation
+//              behind this interface may need to be multi-thread safe.
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3db-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnSerialAdviseSink : IUnknown
+{
+  //
+  // Notification of a message received on the serial port.
+  // The commandId corresponds to the most recently transmitted message on
+  // this port.  If the attached device does not use a command/response
+  // communications model, the commandId value is probably not useful.
+  //
+  HRESULT OnReceivedMsg(
+    DWORD commandId,
+    WORD dataLen,
+    [ in,size_is(dataLen) ] char *pData);
+}
+
+//+---------------------------------------------------------------------------
+//  Class:    ITrnSerialPort
+//
+//  Purpose:  Defines the interface to send serial commands to VTRs
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3da-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnSerialPort : IUnknown
+{
+
+  typedef enum tagETrnSerialFlags
+  {
+    SFpooled    = 1,
+    SFoddField  = 2
+  } ETrnSerialFlags;
+
+  typedef struct tagSTrnSPTimeType
+  {
+    STrnTimeType  StartTime;      // basic timing info
+    DWORD         Flags;          // Use ETrnSerialFlags for bit mask.
+    DWORD         Frequency;      // every Nth field. 0=Send once
+  } STrnSPTimeType;
+
+  typedef enum tagETrnSPParityMode
+  {
+    SPPNone,
+    SPPOdd,
+    SPPEven,
+    SPPMark,
+    SPPSpace
+  } ETrnSPParityMode;
+
+  typedef enum tagETrnStopBits
+  {
+    SBOneStopBit,
+    SBOnePtFiveStopBit,
+    SBTwoStopBit,
+    SBNineSixteenthsStopBit
+  } ETrnStopBits;
+
+  typedef struct tagSTrnSPConfiguration
+  {
+    DWORD             baudRate;       // bits/second transmitted & received
+    DWORD             parity;         // use ETrnSPParityMode for values
+    DWORD             bitsPerChar;
+    DWORD             stopBits;       // use ETrnStopBits for values
+  } STrnSPConfiguration;
+
+  //
+  //  Open the port for subsequent use. Returns failure if the port is already open.
+  //
+  HRESULT OpenPort();
+
+  //
+  //  Release the port.  Terminates all message processing on the port.
+  //
+  HRESULT ClosePort();
+
+  //
+  // Use this function to set up the asynchronous notification
+  // of the app when data is returned from a port.
+  //
+  HRESULT Advise(
+    [in]  ITrnSerialAdviseSink *pAdvSink,
+    [out] DWORD *pConnectionId);
+
+  //
+  // Cancel an advise link established by Advise()
+  //
+  HRESULT UnAdvise(
+    [in]  DWORD connectionId);
+
+  //
+  // Query the current state of all port parameters.
+  //
+  HRESULT QueryPortParameters(
+    [out] STrnSPConfiguration *pConfig);
+
+  //
+  // Set all port parameters according to the specified device control block
+  //
+  HRESULT SetPortParameters(
+    [in]  STrnSPConfiguration *pConfig);
+
+  //
+  // Send a message out through the port.
+  // The Id parameter uniquely identifies this message.
+  // The message may be canceled by a call to CancelMsg() or FlushAllMsgs().
+  //
+  HRESULT SendMsg(
+    [in]  DWORD msgLength,
+    [in]  char *pMessage,
+    [in]  STrnSPTimeType *pSendTime,
+    [out] DWORD *pCommandId);
+
+  //
+  // Cancel an untransmitted (or repeated) message.  The command
+  // identifier was returned by the send message function.
+  //
+  HRESULT CancelMsg(
+    DWORD id);
+
+  //
+  // Used to cancel ALL messages currently queued for this device.
+  //
+  HRESULT FlushAllMsgs();
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnTimeCodeReader
+//
+//  Purpose:
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3ef-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnTimeCodeReader : IUnknown
+{
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnTimeCodeGenerator
+//
+//  Purpose:
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3f0-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnTimeCodeGenerator : IUnknown
+{
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnTimeCodeAdviseSink
+//
+//  Purpose:
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3f1-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnTimeCodeAdviseSink : IUnknown
+{
+
+  HRESULT OnTimeCodeData(
+    DWORD dwCookie,
+//    ETapeVtrAdvises whichData,  !!!
+    ULONG timeCode);
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnGPIInputOutput
+//
+//  Purpose:    Interface for GPI input/output lines
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e5d2-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnGPIInputOutput : IUnknown
+{
+  // Determine the number of GPI pins which this device supports
+  HRESULT QueryNumPins(
+    DWORD* pdwNumPins
+    );
+
+  // Determine the state (active/inactive) of all of the pins of this device
+  HRESULT QueryPinState(
+    DWORD*  pdwPinStateMask
+    );
+
+  // Set the configuration of the pins - input/output, inverted/non-inverted
+  // (inverted = active low)
+  HRESULT SetConfiguration(
+    DWORD   dwOutputPinMask,
+    DWORD   dwInvertedPinMask
+    );
+
+  // Determine the current input/output, inverted/non-inverted configuration
+  HRESULT QueryConfiguration(
+    DWORD*  pdwOutputPinMask,
+    DWORD*  pdwInvertedPinMask
+    );
+
+  //
+  // Set the preroll associated with a GPI pin.  The preroll is the time 
+  // by which an edge on the GPI line precedes an action on Trinity.  Note
+  // that if an action associated with a GPI input has a higher preroll than
+  // the input is assigned, the action will occur later than expected.
+  //
+  HRESULT SetGPIPreRoll(
+    DWORD     dwPinIndex,
+    unsigned  preRollInFields
+    );
+
+  HRESULT QueryGPIPreRoll(
+    DWORD     dwPinIndex,
+    unsigned* puPreRoll
+    );
+
+  typedef enum tagETrnOutputAction
+  {
+    OASetInactive,
+    OASetActive,
+    OAPulseInactive,
+    OAPulseActive
+  } ETrnOutputAction;
+
+  //
+  // Set the state of an output pin.  The actual output change(s) will be
+  // offset from the target time by the pin's programmed preroll time.
+  //
+  HRESULT SetOutput(
+    STrnTimeType*     pTime,
+    ETrnOutputAction  action,
+    DWORD             dwPinIndex,
+    unsigned          duration
+    );
+
+  //
+  // Associate a system event (see ITrnAutomationController) with an
+  // input pin.  The event will be fired whenever a pulse is received on
+  // the pin.  Pass an event of 0 to disassociate the event from the pin.
+  // Only a single event may be associated with a pin - calling this
+  // function replaces any current association with the new one.
+  //
+  HRESULT FireEventOnGPI(
+    DWORD         dwInputPinIndex,
+    DWORD         dwEventNumber
+    );
+
+  //
+  // Trigger a track (see ITrnAutomationContoller) with an input pin.
+  // This link is mutually exclusive with the link established by
+  // FireEventOnGPI (above) - Use FireEventOnGPI(pin,0) to cancel
+  // either association.
+  //
+  HRESULT TriggerTrackOnGPI(
+    DWORD         dwInputPinIndex,
+    DWORD         dwTrackNumber
+    );
+
+  //
+  // Make an application callback when an input pin goes active
+  //
+  HRESULT SetInputCallback(
+    [in]  DWORD                 dwPinIndex, 
+    [in]  ITrnEventAdviseSink*  pAdvise,
+    [in]  DWORD                 dwClientInfo,
+    [out] DWORD*                pdwEventId
+    );
+
+  //
+  // Cancel an application callback
+  //
+  HRESULT CancelCallback(
+    [in]  ITrnEventAdviseSink*  pAdvise
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Forward declarations
+//----------------------------------------------------------------------------
+interface ITrnSimpleAudioInput;
+interface ITrnSimpleAudioAdviseSink;
+interface ITrnSimpleAudio;
+
+interface ITrnBASAudioInput;		// Base Audio Solution-specific extensions
+
+//+---------------------------------------------------------------------------
+//  Widely used values, structs, etc.
+//----------------------------------------------------------------------------
+
+typedef enum tagETrnSpecialAudioLevels
+{
+  NegativeInfinity	= (-10000),   // not very close to infinity, but close enough
+} ETrnSpecialAudioLevels;
+
+typedef struct tagSTrnGainCapabilities
+{
+  signed long      gainMin;           // scaled: tenths of dB (indexed)
+  signed long      gainMax;           // implicitly logarithmic
+  signed long      gainDefault;
+} STrnGainCapabilities;
+
+//+---------------------------------------------------------------------------
+// Class:     ITrnSimpleAudioInput
+//
+// Purpose:   Interface implemented by each input channel of Trinity audio
+//            mixer boards
+//
+// Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e630-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnSimpleAudioInput : IUnknown
+{
+  typedef enum tagETrnEQFilterTypes
+  {
+    FiltFlat	    = 1,
+    FiltNotch	    = 2,
+    FiltLowShelf	= 4,
+    FiltHighShelf	= 8,
+    FiltPeak	    = 16,
+  } ETrnEQFilterTypes;
+
+  typedef enum tagETrnACParamType
+  {
+    ACFader,            // volume control (no longer includes pan)
+	  ACPan,              // Pan control (indexed) *** NEW
+	  ACPanLeftOutputNbr, // Pgm out # assigned to pan left (indexed) *** NEW
+	  ACPanRightOutputNbr,// Pgm out # assigned to pan right (indexed) *** NEW
+    ACGain,             // channel gain (also called "input trim")
+    ACFXSend,           // FX send gain (indexed)
+    ACEQGain,           // EQ gain (indexed)
+    ACEQCenter,         // EQ center frequency (indexed)
+    ACEQQFactor,        // EQ Q factor (indexed)
+    ACEQFilterType,     // EQ filter type (indexed)
+    ACDelay,            // Delay in fields
+    ACClipIndication,   // True if input is clipping (read only)
+    ACSteroMode,        // True if input is paired with another for stereo
+    ACSteroPair,        // Input # which is paired with this input
+    ACCrossPoint,       // Which program outs does this input contribute to (indexed)
+    ACFaderLinear       // volume control in linear units
+  } ETrnACParamType;
+
+  typedef struct tagSTrnACEQBandCapabilities
+  {
+    STrnGainCapabilities gain;
+
+    DWORD                centerMin;      // scaled: half Hz
+    DWORD                centerMax;
+    DWORD                centerDefault;  // an index rather than a value
+
+    DWORD                qFactorMin;     // scaled: hundredths
+    DWORD                qFactorMax;
+    DWORD                qFactorDefault; // an index rather than a value
+
+    ETrnEQFilterTypes    filterTypeMask;
+    ETrnEQFilterTypes    filterTypeDefault;
+
+    ETrnEQFilterTypes    variableQMask;       // which filter types have variable Q
+    ETrnEQFilterTypes    variableGainMask;    // which filter types have variable gain
+    ETrnEQFilterTypes    variableCenterMask;  // which filter types have variable center
+    
+  } STrnACEQBandCapabilities;
+
+  typedef struct tagSTrnACCapabilities
+  {
+    DWORD                 numEQBands;
+
+    STrnGainCapabilities  gain;
+
+    DWORD                 numPans;             // number of pan controls
+   	DWORD                 panMin;			         // scaled: tenths of degrees
+	  DWORD                 panMax;
+	  DWORD                 panGranularity;
+
+    DWORD                 delayMin;            // Scaled: 1/100 of a TV frame
+    DWORD                 delayMax;
+    DWORD                 delayGranularity;
+
+    signed long           inputOperatingLevel; // scaled: tenths of dB
+
+    DWORD                 nFXSends;            // Number of effects send channels
+
+  } STrnACCapabilities;
+
+  // Returns the minimum and maximum QIndex values which have meaning
+  // for the SetParameter function applied to the Q setting.
+
+  HRESULT QueryQRange(
+    [in]  DWORD BandIndex,
+    [out] LONG* pdwUpperLimit,    // Highest QIndex value
+    [out] LONG* pdwLowerLimit);   // Lowest QIndex value
+
+  // This function must be called separately for every value in the range
+  // lowerLimit to upperLimit returned by QueryQRange to determine what
+  // the actual Q value will be for that QIndex.  The value
+  // is returned scaled in hundredths (100 = Q of 1).
+
+  HRESULT QueryQValue(
+    [in]  DWORD BandIndex,
+    [in]  LONG QIndex,      // QIndex value to return Q for.
+    [out] DWORD* pdwQ);     // Q in hundredths.
+
+  // Returns the minimum and maximum CenterFreqIndex values which have meaning
+  // for the SetParameter function applied to the CenterFreq setting.
+
+  HRESULT QueryCenterFreqRange(
+    [in]  DWORD  BandIndex,        // Which EQ band
+    [out] LONG* pdwUpperLimit,    // Highest CenterFreqIndex value
+    [out] LONG* pdwLowerLimit);   // Lowest CenterFreqIndex value
+
+  // This function must be called separately for every value in the range
+  // lowerLimit to upperLimit returned by CenterFrequeryCenterFreqRange to determine what
+  // the actual CenterFreq value will be for that CenterFreqIndex.  The value
+  // is returned scaled in half Hertz (100 = CenterFreq of 50 Hz).
+
+  HRESULT QueryCenterFreqValue(
+    [in] DWORD BandIndex,
+    [in] LONG CenterFreqIndex,    // CenterFreqIndex value to return CenterFreq for.
+    [out] DWORD* pdwCenterFreq);  // CenterFreq in half Hz.
+
+  HRESULT QueryChannelNum(
+    [out] DWORD *pChannelNum);
+
+  HRESULT QueryChannelEQBandCaps(
+    [in]  DWORD band,
+    [out] STrnACEQBandCapabilities *pCaps);
+
+  HRESULT QueryChannelVolumeCaps(
+    [in]  DWORD index,
+    [out] STrnGainCapabilities *pCaps);
+
+  HRESULT QueryChannelFXSendCaps(
+    [in]  DWORD index,
+    [out] STrnGainCapabilities *pCaps);
+
+  HRESULT QueryChannelCaps(
+    [out] STrnACCapabilities *pCaps);
+
+  HRESULT QueryLevel(
+    [in]  ETrnACParamType whichParm,
+    [in]  DWORD index,
+    [out] DWORD *pLevel);
+
+  HRESULT SetParameter(
+    [in] ETrnACParamType whichParm,
+    [in] DWORD index,
+    [in] STrnTimeType *pTime,
+    [in] STrnPlayList *pList);
+
+  HRESULT SetMute(
+    [in] STrnTimeType *pTime,
+    [in] BOOL mute);
+
+  HRESULT SetSolo(				// Note: requires side effects on other inputs
+    [in] STrnTimeType *pTime,	//   Assumption: GUI will handle them.
+    [in] BOOL solo);
+
+  // given a linear value (of ACFaderLinear), calculate the
+  // tenths of decibels value (used with ACFader)
+  HRESULT ConvertLinearToDB( 
+    [in]  signed long linearValue, 
+    [out] signed long *decibelValue );
+
+  // the inverse of the above function
+  // use this to get the min/max values of the ACFaderLinear
+  // from the min/max tenths of decibel values
+  HRESULT ConvertDBToLinear( 
+    [in]  signed long decibelValue , 
+    [out] signed long *linearValue);
+
+}
+
+//+---------------------------------------------------------------------------
+//  structs:    For the SEMPRINI protocol: STrnTaggedAudioUpdate and
+//              STrnTaggedAudioUpdatePacket
+//
+//  Purpose:    Defines the SEMPRINI protocol for communicating audio mixer
+//              updates from the audio mixer hardware to the GUI.
+//
+//  Notes:
+//
+//  The SEMPRINI protocol is a simple communication mechanism that
+//  uses a series of "tagged blobs" of data to convey changes in the
+//  audio mixer hardware to the audio mixer GUI.
+//
+//  The basic building block of SEMPRINI is the STrnTaggedAudioUpdate
+//  structure.  It looks like this:
+//
+//  typedef struct tagSTrnTaggedAudioUpdate
+//  {
+//
+//      DWORD        dest;      // 0 is mixer, >= 1 is input #
+//      DWORD        index;     // for indexed values, e.g. EQ gain
+//      DWORD        whichParam;// member of ETrnAMParamType or ETrnACParamType
+//      signed long level;      // The value to which the parameter should be set
+//
+//  } STrnTaggedAudioUpdate;
+//
+//  The destination field should be set to one or greater when addressing
+//  audio input channels (1 is input 1, 2 is input 2, etc.)  When updating
+//  a parameter specific to the whole mixer rather than a channel (such as
+//  the main fader or metering data) use the number zero.
+//
+//  The index field specifies an index for indexed parameters.  This can be
+//  used to specify the EQ band for an EQ value, for instance.
+//
+//  The whichParam field should be:
+//
+//     - An element of ETrnACParamType if "dest" is an audio channel ( 1 or greater)
+//     - An element of ETrnAMParamType if "dest" is the mixer (0).
+//
+//  The level field is the value to which the parameter should be set.
+//
+//  Ex 1:
+//
+//     {
+//        2,            // Address audio input #2
+//        ACEQCenter,   // The eq center freq param
+//        2,            //   ... third one (i.e. EQ band #3)
+//        120           // Set to 60 Hz
+//     }
+//
+//  Ex 2:
+//
+//     {
+//        0,              // Address Mixer
+//        AMMonitorLeft,  // Left monitor control
+//        0,              //   ... first one
+//        -60             // Set to -6dB
+//     }
+//
+//
+//  Additionally, STrnTaggedAudioUpdate structs can be concatenated together
+//  in any order to indicate more than one state change.  They are packed
+//  together into a struct as follows:
+//
+//  typedef struct tagSTrnTaggedAudioUpdatePacket
+//  {
+//
+//    DWORD                   numTaggedAudioUpdates;  // # of TaggedAudioUpdates in packet
+//    DWORD                   reserved;               // Always set to 0L
+//    STrnTaggedAudioUpdate   pTaggedAudioUpdate[];   // An array of TaggedAudioUpdates
+//
+//  } STrnTaggedAudioUpdatePacket;
+//
+//  This is a simple container struct that binds a count with an array of
+//  STrnTaggedAudioUpdate elements.
+//
+//  STrnTaggedAudioUpdatePacket structs are what get sent to the AdviseSink() method of
+//  the audio mixer.
+//
+//
+//
+//----------------------------------------------------------------------------
+
+typedef struct tagSTrnTaggedAudioUpdate
+{
+  DWORD dest;        // 0 is mixer, >= 1 is input #
+  DWORD index;       // for indexed values, e.g. EQ gain
+  DWORD whichParam;  // member of ETrnAMParamType or ETrnACParamType
+  DWORD level;       // The value to set the parameter to
+} STrnTaggedAudioUpdate;
+
+typedef struct tagSTrnTaggedAudioUpdatePacket
+{
+  DWORD                 nTaggedAudioUpdates;    // # of TaggedAudioUpdates in packet
+  DWORD                 reserved;               // For future use; always set to 0L
+  STrnTaggedAudioUpdate pTaggedAudioUpdate[];   // An array of TaggedAudioUpdates
+} STrnTaggedAudioUpdatePacket;
+
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnSimpleAudioAdviseSink
+//
+//  Purpose:    Defines the interface of clients of the Trinity audio mixer.
+//
+//
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e631-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnSimpleAudioAdviseSink : IUnknown
+{
+  HRESULT OnAudioMixerUpdate(
+    [in] STrnTaggedAudioUpdatePacket *pTaggedAudioUpdatePacket );
+}
+
+//+---------------------------------------------------------------------------
+// Class:     ITrnSimpleAudio
+//
+// Purpose:   Interface implemented by Trinity audio mixer boards
+//
+// Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e632-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+
+interface ITrnSimpleAudio : IUnknown
+{
+  // Parameters that can be set in the mixer
+  typedef enum tagETrnAMParamType
+  {
+    AMMeterScale,     // vu or ppm (indexed)
+    AMFader,          // fader level (indexed)
+    AMMonitor,        // fader level (indexed)
+    AMMeterData,      // Metering level data (VU or PPM) (indexed) (read only)
+    AMMeterPeak,      // Meter peak indicator (indexed) (read only)
+  } ETrnAMParamType;
+
+  // Mixer capabilities
+  typedef struct tagSTrnAMCapabilities
+  {
+    DWORD     nPgmOuts;     // Number of program outputs
+    DWORD     nMonitorOuts; // Number of monitor outs
+    DWORD     nMeters;      // Number of meters
+    DWORD     nInputs;      // Number of inputs
+    DWORD     nFXReturns;   // Number of return inputs
+    DWORD     nBits;        // Bits/sample, 0=analog
+    DWORD     nSamples;     // Samples/second, ignored for analog
+  } STrnAMCapabilities;
+
+  // Names for the monitor and meter
+  typedef enum tagEMonMeter
+  {
+    MMonitor = 0,
+    MMeter   = 1,
+  } EMonMeter;
+
+  // Names for the metering scales
+  typedef enum tagEMeteringScale
+  {
+    MSVu	= 0,
+    MSPpm	= 1,
+  } EMeteringScale;
+
+  // Metering scale capabilities (must be queried
+  // each time the scale is changed).
+
+  typedef struct tagSTrnMeteringScaleCapabilties
+  {
+    signed long       min;           // scaled: tenths of dB (indexed)
+    signed long       max;           // implicitly logarithmic
+    DWORD             nSegments;     // Number of values returned
+    DWORD             zeroSegment;   // Which value corresponds to zero dB
+  } STrnMeteringScaleCapabilties;
+
+  // The monitor and meter can use the following as sources
+  typedef enum tagEMonMeterSwitchPositions
+  {
+    MMSoloBus,
+    MMSendBus,
+    MMProgramBus,
+  } EMonMeterSwitchPositions;
+
+  // Use this function to set up the asynchronous notification
+  // of the app when audio mixer events occur.
+  HRESULT Advise(
+    [in]  ITrnSimpleAudioAdviseSink *AdvSink,
+    [out] DWORD *pConnectionId);
+
+  //
+  // Use this function to terminate an Advise link established by Advise()
+  //
+  HRESULT UnAdvise(
+    [in] DWORD ConnectionId);
+
+  HRESULT QueryFaderCaps(
+    [in]  DWORD index,
+    [out] STrnGainCapabilities *pCaps);
+
+  HRESULT QueryMonitorCaps(
+    [in]  DWORD index,
+    [out] STrnGainCapabilities *pCaps);
+
+  HRESULT QueryMeterCaps(
+    [in]  DWORD index,
+    [out] STrnMeteringScaleCapabilties *pCaps);
+
+  HRESULT QueryCapabilities(
+    [out] STrnAMCapabilities *pCaps);
+
+  HRESULT EnumInputs(
+    [out] IEnumUnknown **ppenum);
+
+  HRESULT QueryLevel(
+    [in]  ETrnAMParamType whichParam,
+    [in]  DWORD index,
+    [out] DWORD *pLevel);
+
+  HRESULT SetParameter(
+    [in] ETrnAMParamType whichParam,
+    [in] DWORD index,
+    [in] STrnTimeType *pTime,
+    [in] STrnPlayList *pList);
+
+  // Set any single monitor or meter channel to any monitorable/
+  // meterable source
+  HRESULT SetMonitorOrMeterSwitch(
+    [in] EMonMeter                monitorOrMeter,       // Specify monitor or meter
+    [in] DWORD                    monitorOrMeterIndex,  // 0 .. # monitors or meters
+    [in] EMonMeterSwitchPositions switchPosition,       // Specify input or send or pgm
+    [in] STrnTimeType            *pTime);               // At what time
+
+  HRESULT SetMonitorMute(
+    [in] STrnTimeType *pTime,
+    [in] DWORD index,
+    [in] BOOL mute);
+}
+
+//+---------------------------------------------------------------------------
+// Class:     ITrnBASAudioInput
+//
+// Purpose:   Interface implemented by each input channel of Trinity BAS audio
+//            mixer boards.  Contains extensions to ITrnSimpleAudioInput for
+//            the Base Audio Solution.  This interface can be obtained from
+//            ITrnSimpleAudioInput through a QueryInterface() call.
+//
+// Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e633-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnBASAudioInput : ITrnSimpleAudioInput
+{
+  typedef enum tagETrnBASReturnCapabilities
+  {
+    RCInput            = 0x0001,              // Can be normal input only
+    RCReturn           = 0x0010,              // Can be return only
+    RCInputOrReturn    = RCInput | RCReturn,  // Can choose between normal input and return
+  } ETrnBASReturnCapabilities;
+
+  // Every time the mic/line level switch is flipped for a channel,
+  // that channel's QueryChannelCaps() method needs to be called to
+  // get the new channel gain capabillities.  Additionally, since the
+  // boost applies to pairs of channels due to a hardware limitation,
+  // the complementary channel (if L, R; if R, L)'s QueryChannelCaps()
+  // should also be invoked.
+  typedef enum tagETrnBASLevelBoostCapabilities
+  {
+    BCLineLevel       = 0x0001,                   // No special input boost
+    BCMicLevel        = 0x0010,                   // +20 dB gain for microphones hardwired
+    BCLineOrMicLevel  = BCLineLevel | BCMicLevel, // Can choose between +0 or +20 dB gain
+  } ETrnBASLevelBoostCapabilities;
+
+  typedef enum tagETrnBASACParamType
+  {
+    BASACIsReturn,			// Use normal input or return input
+    BASACIsMicLevel,		// If possible, add +20 dB gain if true
+  } ETrnBASACParamType;
+
+  typedef struct tasSTrnBASACCapabilities
+  {
+    ETrnBASReturnCapabilities     returnCapabilityMask;
+    ETrnBASLevelBoostCapabilities inputLevelBoostCapability;  // Not animatable
+  } STrnBASACCapabilities;
+
+  HRESULT QueryBASChannelCaps(
+    [in]  DWORD channel,
+    [out] STrnBASACCapabilities *pCaps);
+
+  HRESULT QueryBASLevel(
+    [in]  ETrnBASACParamType whichParm,
+    [out] DWORD *pLevel);
+
+  HRESULT SetBASParameter(
+    [in] ETrnBASACParamType whichParm,
+    [in] STrnTimeType *pTime,
+    [in] STrnPlayList *pList);
+
+}
+
+
+// End of Trnity.Idl

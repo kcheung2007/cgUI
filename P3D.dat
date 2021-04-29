@@ -1,0 +1,57 @@
+Driver Install Service Already Exsits
+StartService Already Running
+
+Got valid handle for Ntdacg driver.
+
+
+MATCH CANDIDATE:
+fn0 dev13 vendor 104c dev_id 3d07  IRQ 11
+ Command 6 Status 290 Rev 11 SubClas 0 BaseClass 0
+   ControlAdd f5000000 
+        FBAdd f4800000 
+       ROMAdd f4000000 
+CC1=79b99e5d CC2=79bcba94
+0 f5000000  #11
+bank 0 errors= 0
+bank 1 errors= 0
+bank 2 errors= 0
+bank 3 errors= 0
+CS = 95931812
+LC = 189
+MCon e6000021
+MBoot       31
+VSConfig      1f0
+VSStatus        0
+VSSerialBusControl       4e
+VSAControl        0
+VSAInterrupt        0
+VSACurrentLine        0
+VSAAddressHost        3
+VSAAddressIndex        0
+VSAAddress0    41f40
+VSAAddress1    41f40
+VSAAddress2    41f40
+VSAVideoStride       c0
+VSAVideoStartLine        a
+VSAVideoEndLine       ff
+VSAVideoStartData        0
+VSAVideoEndData      7ff
+VSAFifoControl      808
+VSBControl        0
+VSBInterrupt        0
+VSBCurrentLine        0
+VSBAddressHost        2
+VSBAddressIndex        2
+VSBAddress0      700
+VSBAddress1      700
+VSBAddress2      700
+VSBVideoStride      190
+VSBVideoStartLine       13
+VSBVideoEndLine      20d
+VSBVideoStartData       64
+VSBVideoEndData      380
+VSBFifoControl      808
+Configure Encoder
+Video in enable ln 1 -- 1 
+
+PCS  MP=1958814  NLP=0  TP=1356  L=0  MDW 816

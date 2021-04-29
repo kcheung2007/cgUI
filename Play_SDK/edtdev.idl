@@ -1,0 +1,101 @@
+/*===========================================================================*\
+||                                                                           ||
+||  Copyright 1995 by Play Incorporated                                      ||
+||  PLAY CONFIDENTIAL                                                        ||
+||                                                                           ||
+||  All Specifications subject to change.                                    ||
+||                                                                           ||
+||  FILE:           EDTDEV.IDL                                               ||
+||                                                                           ||
+||  DESCRIPTION:    Interface description for API used to talk to devices by ||
+||                  used in the editor.                                      ||
+||                                                                           ||
+||  INTERFACES:     IEditorDevice                                            ||
+||                                                                           ||
+||  MODIFICATIONS:  8/20/96     T.Sprague       created                      ||
+\*===========================================================================*/
+
+// interface for talking to devices that can be selected
+// by the device buttons on the editor.  This interface
+// is designed to directly correspond to the device
+// controls on the GUI.
+[
+    local,
+    object,
+    uuid(8335e627-ab3b-11ce-8468-0000b468276b)
+]    
+interface IEditorDevice : IUnknown
+{
+    import "unknwn.idl";
+    import "wtypes.idl";
+    import "autoct.idl";
+    import "trnity.idl";
+
+    HRESULT Pause( STrnTimeType *pTime );
+    HRESULT FwdFrame( );
+    HRESULT RevFrame( );
+    HRESULT FwdPlay( STrnTimeType *pTime );
+    HRESULT RevPlay( STrnTimeType *pTime );
+    HRESULT FwdFast( void );
+    HRESULT RevFast( void );
+
+    HRESULT Select( BOOL bSelOnBus, long *plTransportDisableMask );
+    HRESULT DeSelect();
+
+    HRESULT Stop( STrnTimeType *pTime );
+    HRESULT IsStopped();
+    HRESULT SetStandby( STrnTimeType *pTime, DWORD bOn );
+    HRESULT CueToFrame( ULONG uFrame );
+    HRESULT Eject();
+
+    HRESULT ShuttleSpeed( STrnTimeType *pTime, signed long lSpeed );
+
+    // Tells the frame number of the current position
+    HRESULT GetFrame( ULONG *pdwCurFrame );
+
+    // doesn't do anything yet.  Returns ID of TC type
+    // I guess 0 will be NTSC, non drop-frame.
+    HRESULT GetTCType( ULONG *pTCType );
+
+    // returns an internally-defined number to 
+    // tell the editor if this is an interface to a CVtr 
+    // or not
+    HRESULT GetDevType( LONG *plType );
+
+    // Get the ID of the reel in the device
+    HRESULT GetReel( [out,string] LPSTR name, DWORD size );
+
+    // Set the ID of the reel in the device
+    void SetReel( [in,string] LPSTR name );
+
+    // Return TRUE if given GUID is that of the 
+    // currently-inserted reel
+    BOOL HasReel( [in,string] LPSTR name );
+
+    HRESULT SetAudLevel( STrnTimeType *pTime, long vtrinput, ETrnACParamType Param, long index, STrnPlayList *plist );
+
+    DWORD GetVidPort(); // returns 0 for no connection
+    
+    // returns 0 for no connection, channel is 0=based
+    DWORD GetAudInput( DWORD dwChannel ); 
+
+	void SetInPoint( long lIn ); // -1 means set to none
+	void SetOutPoint( long lOut );
+
+	long GetInPoint( ); // -1 means none set
+	long GetOutPoint( );
+
+    HRESULT Record( STrnTimeType *pTime );
+
+    DWORD GetAudOutput( DWORD dwChannel );
+    DWORD GetVidOutput();
+
+    BOOL IsRecordDeck();
+
+    DWORD GetInputComponentMask(); // what physical connections exist, uses IC_ flags
+    DWORD GetOutputComponentMask();
+
+    DWORD GetSerialPort(); // return port number, 1-16, 0 if N/A
+
+}
+

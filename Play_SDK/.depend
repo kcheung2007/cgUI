@@ -1,0 +1,60 @@
+bitmaplib.h: bitmaplib.idl \
+        gxlate.idl pcbitmap.idl
+
+bitmaprgn.h: bitmaprgn.idl \
+        gxlate.idl
+
+brender.h: brender.idl
+
+color.h: color.idl
+
+cursor.h: cursor.idl
+
+gxlate.h: gxlate.idl
+
+gxlate3d.h: gxlate3d.idl
+
+ihelp1.h: ihelp1.idl
+
+ihelp2.h: ihelp2.idl
+
+panel.h: panel.idl \
+        gxlate.idl pcadvs.idl plyctl.idl psttab.idl
+
+pcadvs.h: pcadvs.idl \
+        gxlate.idl pcadvs.idl plyctl.idl
+
+pcbitmap.h: pcbitmap.idl \
+        gxlate.idl
+
+picons.h: picons.idl \
+        gxlate.idl
+
+playui1.h: playui1.idl \
+        color.idl gxlate.idl pcadvs.idl plyctl.idl props.idl spline.idl \
+        timeline.idl
+
+plyctl.h: plyctl.idl \
+        gxlate.idl pcadvs.idl plyctl.idl
+
+plyglo.h: plyglo.idl \
+        gxlate.idl
+
+plytxt.h: plytxt.idl \
+        gxlate.idl
+
+props.h: props.idl
+
+pstrlist.h: pstrlist.idl
+
+psttab.h: psttab.idl
+
+seglist.h: seglist.idl
+
+spline.h: spline.idl
+
+stdbg.h: stdbg.idl
+
+timeline.h: timeline.idl \
+        gxlate.idl pcadvs.idl plyctl.idl spline.idl
+

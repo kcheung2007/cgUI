@@ -1,0 +1,337 @@
+//+---------------------------------------------------------------------------
+//
+//  Trinity Core API
+//  Copyright (C) Play Incorporated, 1995
+//
+//  PRELIMINARY - ALL SPECIFICATIONS SUBJECT TO CHANGE
+//  PLAY CONFIDENTIAL - DO NOT DISTRIBUTE
+//
+//  File:       autoct.idl
+//
+//  Contents:   definition for Trinity automation controller
+//
+//  History:    November 8, 1995  cpdaniel  created
+//              August 13,  1996  cpdaniel  last modified
+//
+//----------------------------------------------------------------------------
+import "wtypes.idl";
+import "unknwn.idl";
+import "plylst.idl";
+
+interface ITrnEventAdviseSink;
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnAutomationController
+//
+//  Purpose:    Defines the interface to a multi-track real-time automation
+//              controller.
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3eb-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnAutomationController : IUnknown
+{
+  cpp_quote("//+-------------------------------------------------------------------------")
+  cpp_quote("//")
+  cpp_quote("//  Trinity Core API")
+  cpp_quote("//  Copyright (C) Play Incorporated, 1995.")
+  cpp_quote("//  PRELIMINARY - ALL SPECIFICATIONS SUBJECT TO CHANGE")
+  cpp_quote("//  PLAY CONFIDENTIAL - DO NOT DISTRIBUTE")
+  cpp_quote("//")
+  cpp_quote("//--------------------------------------------------------------------------")
+
+  cpp_quote("#define TRACK_ASAP     0xFFFFFFFDL")
+  cpp_quote("#define TRACK_NEXTVBL  0xFFFFFFFEL")
+  cpp_quote("#define TRACK_ABSOLUTE 0xFFFFFFFFL")
+
+  //----------------------------------------------------------
+  //  Struct STrnTimeType
+  //  Defines the execution time of deferred changes.
+  //  baseTime - time, in fields, from the start time of
+  //             the associated Track.
+  //  Track - the Track number
+  //----------------------------------------------------------
+  typedef struct tagSTrnTimeType
+  {
+    DWORD   baseTime;     // !!! TBD: Add line resolution
+    DWORD   trackNumber;
+  } STrnTimeType;
+
+  //
+  // Return the current system time, in ticks.
+  //
+  HRESULT QuerySystemTime(
+    [ out ] DWORD *pTime
+    );
+
+  //
+  // Query the rate at which the system reference clock runs.
+  // For example, an NTSC reference of 59.94 fields/second would be
+  // returned as 5,994 TicksPerInterval, 100,000,000 MicrosecondsPerInterval
+  //
+  HRESULT QuerySystemClockRate(
+    [out] DWORD *pTicksPerInterval,
+    [out] DWORD *pMicrosecondsPerInterval
+    );
+
+  //
+  // Set the system time to 0 ticks.
+  //
+  HRESULT ResetSystemTime();
+
+  //
+  // Return the number of tracks (numbered 0..n-1) supported by this timeline
+  //
+  HRESULT QueryNumTracks(
+    [ out ] DWORD *pnTracks);
+
+  // 
+  // Return an available track number.  Returns an error if no more tracks
+  // are available for allocation.  The allocated track is flushed and reset
+  // before the function returns.
+  //
+  HRESULT AllocTrack(
+    [out] DWORD*  pdwTrack
+    );
+
+  // 
+  // Release a track allocated with AllocTrack.  No check of ownership is made
+  //
+  HRESULT FreeTrack(
+          DWORD   dwTrack
+    );
+
+  // 
+  // Set the current position for a track.  If the track is active, it will
+  // remain active after stabilization at the new time.  If the track is
+  // paused, it will remain paused, but at the new time.
+  //
+  HRESULT PositionTrack(
+    [ in ] DWORD TrackNumber,
+    [ in ] DWORD fieldNumber,
+    [ in ] BOOL  forcePause
+    );
+
+  //
+  // Schedule the activation of a track.  The target track (dwTrackNumber)
+  // will become active when the target time (pTiggerTime) is reached, and will
+  // roll from it's position at that time (e.g. if the track was previously
+  // paused, it will resume rolling from the pause time).
+  //
+  HRESULT TriggerTrack(
+    [ in ] DWORD dwTrackNumber,
+    [ in ] STrnTimeType *pTriggerTime
+    );
+
+  //
+  // Bind one track into a given position on another track.  If the trigger time
+  // specifies any of the reserved tracks (Absolute, NextVbl, ASAP), this function
+  // has the same effect as TriggerTrack.  If, however, the trigger time specifies
+  // another positionable track, this funciton has the effect of making the
+  // target track (dwTrackNumber) a "subroutine" of the trigger track 
+  // (pTriggerTime.trackNumber).  If the tigger track is positioned, the target 
+  // track will be positioned as if the entire target track was a single item 
+  // inserted into the trigger track. The only way to "un-bind" a track is to 
+  // flush the trigger track.
+  //
+  // Once a track has been bound, items should not be inserted which will cause
+  // the preroll time of the track to increase.
+  //
+  HRESULT BindTrack(
+    [ in ] DWORD dwTrackNumber,
+    [ in ] STrnTimeType *pTriggerTime
+    );
+
+  //
+  // Schedule a pause of a track.  When the trigger time is reached, the target
+  // track will enter the Paused (or Pausing) state, at it's current position
+  // at that time.  The track will remain paused until it is restarted with
+  // trigger track (or indirectly as a result of BindTrack).
+  //
+  HRESULT PauseTrack(
+    [ in ] DWORD dwTrackNumber,
+    [ in ] STrnTimeType *pTriggerTime
+    );
+
+  //
+  // Return the internal state of a track to Paused at time=0, but with no
+  // external side-effects.
+  //
+  HRESULT ResetTrack(
+    [ in ] DWORD dwTrackNumber
+    );
+
+  // 
+  // Same as ResetTrack, but all side-effects of the track are un-done.
+  // The track may take time to undo all effects - use QueryTrackState to
+  // determine when the track has entered the Paused state before assuming that
+  // all side-effects have been undone.
+  //
+  HRESULT UndoTrack(
+    [ in ] DWORD dwTrackNumber
+    );
+
+  //
+  // Delete all items from the target track and leave the track paused at time 0
+  //
+  HRESULT FlushTrack(
+    [ in ] DWORD dwTrackNumber
+    );
+
+  //
+  // Same as calling FlushTrack on ALL tracks (including the absolute tracks)
+  //
+  HRESULT FlushAllTracks();
+
+  typedef enum tagETrnTrackState 
+  {
+    TSReset,
+    TSPaused,
+    TSPreroll,
+    TSRunning,
+    TSPositioning,
+    TSPausing,
+    TSResetting
+  } ETrnTrackState;
+
+  typedef struct tagSTrnTrackInfo
+  {
+    DWORD           prerollTime;
+    DWORD           stablizationTime;
+    DWORD           trackTime;
+    unsigned        bindCount;
+    ETrnTrackState  state;
+  } STrnTrackInfo;
+
+  //
+  // Query for info about the current state of a track.
+  //
+  HRESULT QueryTrackInfo(
+    [ in ] DWORD dwTrackNumber,
+    [ out ] STrnTrackInfo *pInfo
+    );
+
+  //
+  // Schedule the activation of a system event.  The effects of system events
+  // are defined by the items which are inserted into the system timeline.
+  // (e.g. playlists use system events to exit loops, and skip conditional
+  // blocks).
+  //
+  HRESULT FireSystemEvent(
+    [ in ] DWORD dwEventNumber,
+    [ in ] STrnTimeType *pEventTime
+    );
+
+  //
+  // Return the "preroll" time for an event.  This is minimum time in the future
+  // at which the event can be fired.  Events have preroll to allow multiple
+  // timeline items with different prerolls to make seamless exits from loops -
+  // the event is not fired until all items can act on it for a seamless effect.
+  //
+  HRESULT QueryEventPreroll(
+    [ in ] DWORD  dwEventNumber,
+    [ out] DWORD* preRoll
+    );
+
+  //
+  // Schedule an event-based TriggerTrack.  When the target time (pTime) is 
+  // reached, the trigger becomes active.  Once the tigger is active, a subsequent
+  // firing of the specified event (dwEventNumber) will result in a trigger or
+  // the target track (dwTrackNumber).
+  //
+  HRESULT TriggerTrackOnEvent(
+    [ in ] STrnTimeType* pTime,
+    [ in ] DWORD  dwEventNumber,
+    [ in ] DWORD  dwTrackNumber
+    );
+
+  //
+  // Schedule an application callback.  The advise sink will be called every time
+  // the specified time is reached (if the time specifies a positionable track,
+  // then the time may occur more than once!).  The *pdwEventId paarameter recevies
+  // an identifying value by which the callback may identify call associated with
+  // this particular instance.  pdwEventId may be NULL if the event id is not needed.
+  // The dwClientInfo parameter is simply echoed back to the callback function
+  // unchanged and has no meaning internally.
+  //
+  // The callbacks which result from this function will pass a flag in the 
+  // dwSystemInfo parameter of ITrnEventAdviseSink::OnEvent which identifies whether
+  // the time-point was reached in the forward direction (normal play, or positioning
+  // forward), or the reverse direction (positioning backwards). The values of this
+  // parameter are defined by the ETrnTimelineCallbackInfo enumeration.
+  //
+
+  typedef enum tagETrnTimelineCallbackInfo
+  {
+    TCIItemDone,      // scheduled callback was reached playing or positioning forward
+    TCIItemUndone     // scheduled callback was reached positioning backward
+  } ETrnTimelineCallbackInfo;
+
+  HRESULT ScheduleCallback(
+    [in]  STrnTimeType*         pTime,
+    [in]  ITrnEventAdviseSink*  pAdvise,
+    [in]  DWORD                 dwClientInfo,
+    [out] DWORD*                pdwEventId
+    );
+
+  //
+  // Cancel all timeline callbacks associated with the specified advise interface.
+  //
+  HRESULT CancelCallback(
+    [in]  ITrnEventAdviseSink*  pAdvise
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnAutomationController2
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e441-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnAutomationController2 : ITrnAutomationController
+{
+  // 
+  // Set the current position for one or more tracks.
+  //
+  HRESULT PositionTrackEx(
+    [ in ] unsigned       numTracks,      // how many elements in paTrackTimes
+    [ in ] STrnTimeType*  paTrackTimes,   // track/time pairs
+    [ in ] BOOL           forcePause
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnEventAdviseSink
+//
+//  Purpose:    Defines the interface to a client implemented interface 
+//              which receives notifications (callbacks) from real-time
+//              events on Trinity.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e400-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnEventAdviseSink : IUnknown
+{
+  HRESULT OnEvent(
+    [in]  DWORD   dwSystemTime,   // the system time at which the event occurred
+    [in]  DWORD   dwEventId,      // correlates with the call which scheduled this callback
+    [in]  DWORD   dwClientInfo,   // client defined info associated with this callback
+    [in]  DWORD   dwSystemInfo    // system defined info (see the description of the function which scheduled the callback)
+    );
+
+  HRESULT OnCancel(
+    [in]  DWORD   dwEventId       // the event with which an advise was associated has been deleted
+    );
+}
+
+// End of AutoCt.Idl

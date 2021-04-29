@@ -1,0 +1,67 @@
+// TabValue.cpp : implementation file
+//
+
+#include "stdafx.h"
+#include "cgui.h"
+#include "TabValue.h"
+
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+// CTabValue
+
+CTabValue::CTabValue()
+{
+	m_tabNum	= 0;
+	m_alignType = 0;
+	m_tabPos    = 0;
+}
+
+CTabValue::~CTabValue()
+{
+}
+
+
+BEGIN_MESSAGE_MAP(CTabValue, CWnd)
+	//{{AFX_MSG_MAP(CTabValue)
+		// NOTE - the ClassWizard will add and remove mapping macros here.
+	//}}AFX_MSG_MAP
+END_MESSAGE_MAP()
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+// CTabValue message handlers
+////////////////////////////////////////////////////////////////////////////////////////
+DWORD CTabValue::GetTabNum()
+{
+	return( m_tabNum );
+}//end of CTabValue::GetTabNum()
+////////////////////////////////////////////////////////////////////////////////////////
+DWORD CTabValue::GetAlignType()
+{
+	return( m_alignType );
+}//end of CTabValue::GetAlignType
+////////////////////////////////////////////////////////////////////////////////////////
+double CTabValue::GetTabPos()
+{
+	return( m_tabPos );
+}//end of CTabValue::GetTabPos
+////////////////////////////////////////////////////////////////////////////////////////
+VOID CTabValue::SetTabPos(double pos)
+{
+	m_tabPos = pos;
+}//end of CTabValue::SetTabPos
+////////////////////////////////////////////////////////////////////////////////////////
+VOID CTabValue::SetTabNum(UINT tab)
+{
+	m_tabNum = tab;
+}//end of CTabValue::SetTabNum
+////////////////////////////////////////////////////////////////////////////////////////
+VOID CTabValue::SetAlignType(DWORD type)
+{
+	m_alignType = type;
+}//end of CTabValue::SetAlignType

@@ -1,0 +1,202 @@
+//*****************************************************************************************
+// picons.idl
+// Copyright © 1999 Play Incorporated
+// PLAY CONFIDENTIAL
+// 
+// Created on Wednesday, August 11, 1999 by Andy Preston
+//*****************************************************************************************
+/******************************************************************************************
+Version         : $Revision: 2$
+Vault File		  : $Archive: \\Source_server\Software\Shared\Picons\Picons.VLT\VV7.VVF$
+Project  		    : $Project: Picons$
+Sub Project     : $Subproject: Interface$
+Checked in by	  : $Author: apreston$ 
+Locked by	      : $Locker: apreston$
+Purpose		      : IDL File for definition of the Picon Interfaces
+Modification History :
+$Log: 
+    2   09/22/99    apreston        Added ADDOverlay function
+    1   08/11/99    apreston        Initial Version
+$
+$NoKeywords$
+******************************************************************************************/
+
+#define PICONS 1
+
+
+import "gxlate.idl";
+
+
+
+typedef enum tagPiconOpt {
+ NoOpt        = 0x00,
+ AddSprockets = 0x01
+
+} PiconOpt;
+
+
+typedef enum tagPiconSize {
+ Picon_20x15   = 0x01,
+ Picon_32x24   = 0x02,
+ Picon_64x48   = 0x04,
+ Picon_96x72   = 0x08,
+ Picon_128x96  = 0x10
+
+} PiconSize;
+
+
+
+[
+  object,
+  uuid(8335e6c7-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXStorageUtils : IUnknown
+{
+/* ==================================================================
+ 
+   FUNCTION :  HRESULT SavePiconToStorage()
+   
+   * Description : Saves an IGXIntBitmap to a stream as a picon
+   
+   * Author : [Andy Preston], Created : [7/30/99 3:51:57 PM]
+   * Returns : [] - S_OK  - cool
+                    E_INVALIDARG - passed me NULL pointers
+                    E_FAIL - some kinda storage problem
+                    ?????? - OLE Error
+   * Function parameters : 
+   [Stg] -   Open Storage file
+   [*pIBmp] - IGXIntBitmap to Save as Picon
+   
+   * Example Usage :
+ 
+   ==================================================================*/                                           
+
+ HRESULT SavePiconToStorage( 
+   [in] IStorage * Stg,
+   [in] IGXIntBitmap2 *pIBmp,
+   [in] PiconOpt Opt);
+
+/* ==================================================================
+   FUNCTION :  HRESULT SavePiconToFile()
+   * Description : Opens/creates a file and stores a Picon to a stream
+                   within. This basically opens/creates the storage file,
+                   then calls the SavePiconToStorage function. 
+   
+   * Author : [Andy Preston], Created : [7/30/99 3:53:28 PM]
+   * Returns : [] - S_OK  - cool                            
+                    E_INVALIDARG - passed me NULL pointers  
+                    E_FAIL - some kinda storage problem/ filename 
+                             couldn't be created     
+                    ?????? - OLE Error                      
+
+   * Function parameters : 
+   [FileName] - FileName for storage file
+   [*pIBmp]   - IGXIntBitmap to Save as Picon
+   
+   * Example Usage :
+ 
+   ==================================================================*/
+ HRESULT SavePiconToFile(
+   [in] LPTSTR FileName,
+   [in] IGXIntBitmap2 *pIBmp,
+   [in] PiconOpt Opt);
+
+/* ==================================================================
+   FUNCTION :  HRESULT LoadPiconFromStorage()
+   * Description : Loads a Picon from a Storage file. Creates the
+                   IGXIntBitmap for you.
+   
+   * Author : [Andy Preston], Created : [7/30/99 3:53:59 PM]
+   * Returns : [] - S_OK  - cool                                 
+                    E_INVALIDARG - passed me NULL pointers       
+                    E_FAIL - some kinda storage problem/ filename
+                             couldn't be created                 
+                    ?????? - OLE Error                           
+   * Function parameters : 
+   [Stg]     - Storage to load from
+   [**pIBmp] - Pointer to Pointer to receive the bitmap
+   
+   * Example Usage :
+ 
+   ==================================================================*/
+ HRESULT LoadPiconFromStorage(
+   [in] IStorage * Stg,
+   [in] PiconSize PSize,
+   [out] IGXIntBitmap2 **pIBmp);
+
+/* ==================================================================
+   FUNCTION :  HRESULT LoadPiconFromFile()
+   * Description : Loads Picon from File. Opens storage within file, 
+                   then calls LoadPiconFromStorage.
+   
+   * Author : [Andy Preston], Created : [7/30/99 3:54:15 PM]
+   * Returns : [] -
+   * Function parameters : 
+   [FileName] -
+   [**pIBmp] -
+   
+   * Example Usage :
+ 
+   ==================================================================*/
+ HRESULT LoadPiconFromFile(
+   [in] LPTSTR FileName,
+   [in] PiconSize PSize,
+   [out] IGXIntBitmap2 **pIBmp);
+
+
+
+
+/* ==================================================================
+   FUNCTION :  CStorageUtils::GetPiconSizeDimensions()
+   * Description : Given a Picon Size, resolves it into a width and a
+                   height                                            
+
+   * Author : [Andy Preston], Created : [8/11/99 4:17:28 PM]
+   * Returns : [HRESULT] - S_OK - everything is OK
+                           E_INVALIDARG - NULL pointers passed, or 
+                           unknown PiconSize
+
+   * Function parameters : 
+   [ PSize] -    PSize - Size to get Width and Height for
+   [ *Width] -   &Width - variable to receive width
+   [ *Height] -  &Height - variable to receive height
+   
+   * Example Usage :
+ 
+   ==================================================================*/
+ HRESULT GetPiconSizeDimensions(
+    [in]  PiconSize PSize,
+    [out] DWORD * Width,
+    [out] DWORD * Height);
+
+
+
+/* ==================================================================
+   FUNCTION :  CStorageUtils::Add()
+   * Description :
+   
+   * Author : [Andy Preston], Created : [9/22/99 3:41:33 PM]
+   * Returns : [HRESULT] - S_OK - everything is OK                 
+						   E_INVALIDARG - NULL pointers passed, or 
+						   unknown PiconSize                       
+   * Function parameters : 
+   [ *pBmpIn] - Image to create Picon for
+   [ **pBmpOut] - Image containing picon in the given size and with 
+                  chosen overlay
+   [ Opt] -      what overlay option to choose
+   [ PSize] -    size of resulting Picon
+   
+   * Example Usage :
+ 
+   ==================================================================*/
+ HRESULT AddOverlay(
+     IGXIntBitmap2 *pBmpIn,
+     IGXIntBitmap2 **pBmpOut,
+     PiconOpt Opt,
+     PiconSize PSize);
+
+
+
+};
+

@@ -1,0 +1,32 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "cgUI"=.\cgUI.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+    {BD6D5970-614A-11D2-883C-82729A77E70C}
+    {F9043C85-F6F2-101A-A3C9-08002B2F49FB}
+    {FE38753A-44A3-11D1-B5B7-0000C09000C4}
+}}}
+
+###############################################################################
+

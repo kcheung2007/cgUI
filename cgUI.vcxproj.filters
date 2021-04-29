@@ -1,0 +1,926 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{37cd661a-ee6b-49dc-a986-65b63f852713}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{459daf20-d325-4645-ad30-031386429807}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{d8019f3a-5f2a-4b3b-a19d-6b0d149e383c}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AcgMsgBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AddPic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AlphaDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AttribBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AttribCurve.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AttribFill.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AttribImport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AttribLine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AttribOval.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AttribPolygon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AttribText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Baseline.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Captest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cgUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cgUIDoc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cgUIView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CharMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChildFrm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommDnld.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommFinder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommModem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="commondialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommReciver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommSender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Communicate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Dca_acq.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Dca_glue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgAttrib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgBarBottom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgBarCir.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgBarFbg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgBarGrd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgBarLeft.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgBarLne.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgBarPal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgBarTopBin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgCapPic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgCapture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgCast.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgFace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgFilter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgGetPath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgLine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgOutline1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgOutline2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgPage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgPrefer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgPreset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSelect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSelEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgShadow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgTypeFace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectBin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileReq.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FontLocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Global.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImgCharMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImgPalBin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IXFontCombo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IXMruManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IXTabCtrl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IXTipWnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PageSetupDLg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PalDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PalSliderCtrl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PgAnnot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PgTemplate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgSetting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpellCheck.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Table.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TabSetup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TabValue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleVdoSetup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Twd_com.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VMVdoSetup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="cgUI.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AcgMsgBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AddPic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlphaDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AttribBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AttribCurve.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AttribFill.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AttribImport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AttribLine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AttribOval.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AttribPolygon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AttribText.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Baseline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Captest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ACGS_Inc\CGS_ValDefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ACGS_Inc\CGServerDll.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cgUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cgUIDoc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cgUIView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CharMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ChildFrm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dca_acq.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dca_glue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgAttrib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgBarBottom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgBarCir.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgBarFbg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgBarGrd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgBarLeft.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgBarLne.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgBarPal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgBarTopBin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgCapPic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgCapture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgCast.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgFace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgGetPath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgLayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgLine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgOutline1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgOutline2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgPage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgPrefer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgPreset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSelect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSelEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgShadow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgTypeFace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectBin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileReq.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="flatsb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FontLocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FontPicker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImgCharMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImgPalBin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IXFontCombo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IXMruManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IXTabCtrl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IXTipWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PageSetupDLg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PalDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PalSliderCtrl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PgAnnot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgSetting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Special.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpellCheck.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Switch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TabSetup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TabValue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleVdoSetup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Triplets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Twain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Twd_com.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Twd_type.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VMVdoSetup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\3dRotate.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\3dwarro.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\3dwmove.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\3dwnesw.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\3dwns.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\3dwnwse.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\3dwwe.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\cgUI.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="DlgAttrib.ctl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\Alpha.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\AlphaGRAD.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\AttribTab.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Back.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\BackMinus.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Bevel.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\BLalignbot.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\BLaligntop.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\BLcircle.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\BLcurve.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Bld.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\BLdefault.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bmp64x48.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bold.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Box-dn.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Box.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\browse.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\cgUI.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\cgUIDoc.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\ClrAdd.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\ClrInv.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\ClrShft.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\ClrSpc.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\ClrSub.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Cnt.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\curve-dn.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\curve.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\delete.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dirdn.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dirdnlft.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dirdnrt.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dirleft.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dirrt.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dirup.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\diruplft.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\diruprt.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\ellipse-dn.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\ellipse.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Export.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Feather.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Fheight.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\filetypes.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\FontHeight.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\FontWidth.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Formatbar.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Forward.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\ForwardPlus.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Fwidth.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Grid.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\ico00001.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\icon1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\icon2.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Import.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\italic.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Itl.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Jbot.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\jctr.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\jleft.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Jmid.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\jright.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Jst.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Jtop.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\JustBot.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\JustCtr.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\justify.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\JustTop.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Kern.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Lft.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\line-dn.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\line.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\lite_txt.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Lock.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\mag.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\MagMinus.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\MagPlus.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\more2.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\newpage.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Offsetx.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Offsety.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\OffSwitch.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\onswitch.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\open.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\palette.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\palette.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\panelBar.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\PercentH.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\PercentW.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\pointer.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\polygon-dn.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\polygon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\printer.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\redo.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Rotate.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Rotate.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Rt.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\save.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\SavePreset.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Size.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\smallcap.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Space.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Spr4Pt.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\SprCirc.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\SprLine.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\SprSol.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Sub.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Super.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\tabImage.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Text-dn.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Text.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textgrap.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Toolbar.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\toolbar1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\TTFlogo.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\TxGrf.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\typedirauto.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\typedirdn.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\typedirlr.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\typedirup.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\underlin.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\undo.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Undrln.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Unlock.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\up_right.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="cgUI_Lib\ACGS.lib" />
+    <Library Include="cgUI_Lib\libpng.lib" />
+    <Library Include="cgUI_Lib\zlibstat.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Communicate.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

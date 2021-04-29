@@ -1,0 +1,96 @@
+/*===========================================================================*\
+||                                                                           ||
+||  Copyright 1997 by Play Incorporated                                      ||
+||  PLAY CONFIDENTIAL                                                        ||
+||                                                                           ||
+||  All Specifications subject to change.                                    ||
+||                                                                           ||
+||  FILE:           SPLINE.IDL                                               ||
+||                                                                           ||
+||  DESCRIPTION:    Interface description for a general spline object		 ||
+||                                                                           ||
+||  INTERFACES:     IPlaySpline                                              ||
+||                                                                           ||
+||  MODIFICATIONS:  11/20/97    T.Sprague       created                      ||
+\*===========================================================================*/
+
+import "objidl.idl";
+
+[
+    local,
+    object,
+    uuid(8335e621-ab3b-11ce-8468-0000b468276b)
+]
+
+#define MAX_COEFF	6
+
+interface IPlaySpline : IUnknown
+{
+    typedef enum tagESplineAttribute
+    {
+        SASplineType = 0,      // global to whole spline
+        SASplineTension = 1,   // settable for each point on the spline for the segment following it.  use -1 for index to apply tension to all points in spline.
+                               // should range from 0.0 to 1.0 ... 1.0 being linear interpolation.
+        SASplineInterpolation = 2, // should be a ESplineInterpolator, same as above for ind. pts or whole spline
+    } ESplineAttribute;
+
+    typedef enum tagESplineType
+    {
+        PSMNaturalCubic = 0.0,
+        PSMBlending = 1.0
+    } ESplineType;
+
+    typedef enum tagESplineInterpolator
+    {
+        SILinear = 0.0, // must be 0.0 for backwards compatibility
+        SICubic =  2.0,	// must be 2.0 for backwards compatibility
+		SIBezier = 3.0,
+		SIHold = 4.0
+    } ESplineInterpolator;
+
+	typedef struct tagSSplinePoint
+	{
+		double dValue;
+		double dTime;
+		double dTension;
+		long   lFlags;
+		double c[MAX_COEFF];
+	} SSplinePoint;
+
+	long	QueryNumPoints();
+	
+	// reserved may be to query nth derivative value later...
+	HRESULT QueryKeyValueByIndex( long index, long reserved, double *pdTime, double *dpValue );
+
+	HRESULT SetAttr( long lAttribute, long indexOfKey, double value );
+	HRESULT GetAttr( long lAttribute, long indexOfKey, double *pValue );
+
+	// add/replace value at given time
+    // if index != NULL, the index of the key will be filled-in.
+	HRESULT AddKey( double dTime, double dValue, long *index );
+	
+	// move a key from one time to another
+    // if index != NULL, the index of the key will be filled-in.
+	HRESULT MoveKey( double dOldTime, double dNewTime, long *index );
+
+    // find the index of the key whose time is closest to the given
+    // time but now larger.  (ie keyTime <= dTime)
+    // Returns key's actual time optionally in the last parameter.
+    // If the time passed in is before the time of the first key, 
+    // it will return index 0 and the time of that key, but return S_FALSE.
+    HRESULT FindKeyIndex( double dTime, long *pIndex, double *pdTrueTime );
+
+	HRESULT RemoveKeyByIndex( long index );
+
+	// returns E_FAIL if there's no key at that time 
+	HRESULT RemoveKeyAtTime( double dTime );
+
+	// reserved may be to query nth derivative value later...
+	HRESULT GetValue( long reserved, double dTime, double *pdValue );
+
+	HRESULT Clone( IPlaySpline **ppSpline );
+
+	// Get the SplinePoint Structure
+	HRESULT GetSplinePoints ( SSplinePoint * pSpline, DWORD dwTime );
+
+}

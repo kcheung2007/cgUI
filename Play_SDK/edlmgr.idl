@@ -1,0 +1,52 @@
+// edlmgr.idl : IDL source for edlmgr.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (edlmgr.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+	[
+		object,
+		uuid(31FDC9C0-3892-11D3-B409-0060081C257E),
+	
+		helpstring("ICEdlManager Interface"),
+		pointer_default(unique)
+	]
+	interface ICEdlManager : IUnknown
+	{
+		[helpstring("method Init")] HRESULT Init(void);
+		[helpstring("method Read")] HRESULT Read([in] BSTR filename, [in] IUnknown *pUnk );
+		[helpstring("method Write")] HRESULT Write([in] BSTR filename, [in] BSTR type, [in] IUnknown *pUnk);
+	};
+
+[
+	uuid(31FDC9B1-3892-11D3-B409-0060081C257E),
+	version(1.0),
+	helpstring("edlmgr 1.0 Type Library")
+]
+library EDLMGRLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(31FDC9C2-3892-11D3-B409-0060081C257E),
+		helpstring("_ICEdlManagerEvents Interface")
+	]
+	dispinterface _ICEdlManagerEvents
+	{
+		properties:
+		methods:
+	};
+
+	[
+		uuid(31FDC9C1-3892-11D3-B409-0060081C257E),
+		helpstring("CEdlManager Class")
+	]
+	coclass CEdlManager
+	{
+		[default] interface ICEdlManager;
+		[default, source] dispinterface _ICEdlManagerEvents;
+	};
+};

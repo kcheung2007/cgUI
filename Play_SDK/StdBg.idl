@@ -1,0 +1,40 @@
+/*===========================================================================*\
+||                                                                           ||
+||  Copyright 1995 by Play Incorporated                                      ||
+||  PLAY CONFIDENTIAL                                                        ||
+||                                                                           ||
+||  All Specifications subject to change.                                    ||
+||                                                                           ||
+||  FILE:           STDBG.IDL                                                ||
+||                                                                           ||
+||  DESCRIPTION:    Interface description for API to get pointers to standard||
+||                  bitmaps for a user interface.                            ||
+||                                                                           ||
+||  INTERFACES:     IPlayStdBackground                                       ||
+||                                                                           ||
+||  MODIFICATIONS:  3/27/95     T.Sprague       created                      ||
+\*===========================================================================*/
+
+[
+    local,
+    object,
+    uuid(8335e429-ab3b-11ce-8468-0000b468276b)
+]
+interface IPlayStdBackground : IUnknown
+{
+    import "unknwn.idl";
+    import "wtypes.idl";
+
+    // this function will return S_OK if the standard bitmap ID passed to
+    // it is supported by the current implementation of this interface.
+    HRESULT IsStdSupported( DWORD dwStdBitmapID );
+
+    // this function will return a text description of the standard bitmap
+    // designated by the given ID
+    HRESULT GetBitmapDescription( DWORD dwStdBitmapID, LPSTR pszBuffer, DWORD dwMaxChars );
+
+    // this function will set the caller's pointers to point to the standard
+    // bitmap that they asked for.
+    HRESULT GetBitmap( DWORD dwStdBitmapID, LPVOID *ppBMIH, unsigned char **ppBits );
+
+}

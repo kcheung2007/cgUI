@@ -1,0 +1,542 @@
+//+---------------------------------------------------------------------------
+//
+//  Trinity Core API
+//  Copyright (C) Play Incorporated, 1995
+//
+//  PRELIMINARY - ALL SPECIFICATIONS SUBJECT TO CHANGE
+//  PLAY CONFIDENTIAL - DO NOT DISTRIBUTE
+//
+//  File:       plylst.idl
+//
+//  Contents:   definition for Trinity playlist interface
+//
+//  History:    August 21,  1996  cpdaniel  created
+//              October 2,  1996  cpdaniel  minor interface tweaks
+//
+//----------------------------------------------------------------------------
+import "wtypes.idl";
+import "unknwn.idl";
+import "objidl.idl";
+
+interface ITrnPlayList;
+interface ITrnPlayListElement;
+interface ITrnPlayListRamp;
+interface ITrnPlayListLoop;
+interface ITrnPlayListIterator;
+interface ITrmPlayListConditional;
+interface ITrnPlayListCubic;
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnPlayList
+//
+//  Purpose:    Defines the interface to a general purpose playlist which
+//              describes how to iterate through a set of values over time.
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e5df-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnPlayList : IPersistStream
+{
+  //----------------------------------------------------------
+  //  Struct STrnPlayList
+  //  Contains description of a scheme for producing a 
+  //  series of values over time.  The format of the 
+  //  data at pIterationScheme is private.
+  //----------------------------------------------------------
+  typedef struct tagSTrnPlayList
+  {
+    DWORD   schemeSize;     // size of iteration scheme data
+    [size_is(schemeSize)]
+	LPVOID  pIterationScheme;
+    DWORD   tableSize;      // size of remap table in elements
+    DWORD   tableEltSize;   // size of table elements in bytes (1,2,4)
+    [size_is(tableSize*tableEltSize) ]
+	LPVOID  pMapTable;
+  } STrnPlayList;
+
+  //========================================================================
+  // PlayList construction functions
+  //========================================================================
+  
+  //
+  //  Replace the interior of this playlist with the given data
+  //
+  HRESULT LoadFromMemory(
+      STrnPlayList* pList
+  );
+
+  //
+  // Replace the interior of this playlist with a ramp and a byte-table
+  //
+  HRESULT LoadWithByteTable(
+    BYTE*     pTable,
+    unsigned  tableSize
+    );
+
+  //
+  // Replace the interior of this playlist with a ramp and a word-table
+  //
+  HRESULT LoadWithWordTable(
+    WORD*     pTable,
+    unsigned  tableSize
+    );
+
+  //
+  // Replace the interior of this playlist with a ramp and a dword-table
+  //
+  HRESULT LoadWithDWordTable(
+    DWORD*    pTable,
+    unsigned  tableSize
+    );
+
+  //
+  //  Add a single-valued ramp to the end of this playlist
+  //
+  HRESULT ConcatLiteral(
+    unsigned long value
+    );
+
+  //
+  //  Add a ramp to the end of this playlist
+  //
+  HRESULT ConcatRamp(
+    unsigned long start,
+    long          increment,
+    unsigned long duration
+    );
+
+  //
+  //  Add a ramp to the end of this playlist given the cannonical form coefficients
+  //
+  HRESULT ConcatRampCannonical(
+    double        linearCoeff, 
+    double        constCoeff,
+    double        scale,
+    unsigned long duration
+    );
+
+  //
+  // Add a cubic to the end of this playlist, given the difference terms
+  //
+  HRESULT ConcatCubic(
+    unsigned long initx,    // x at t=0
+    long          initdx,   // d1 at t=0
+    long          initddx,  // d2 at t=0
+    long          dddx,     // d3 (constant)
+    unsigned long duration
+    );
+
+  //
+  // Add a cubic to the end of this playlist, given the polynomial coefficients
+  //
+  HRESULT ConcatCubicCannonical(
+    double        a,        // cubic term
+    double        b,        // quadratic term
+    double        c,        // linear term
+    double        d,        // constant term
+    double        scale,    // time scale 
+    unsigned long duration
+  );
+
+  //
+  // Append a second playlist to the end of this playlist
+  //
+  HRESULT ConcatPlayList(
+    ITrnPlayList*  secondList
+    );
+
+  //
+  // wrap the interior of this playlist in an iteraor
+  //
+  HRESULT WrapWithIterator(
+    unsigned long     duration,
+    unsigned long     exitevent
+    );
+
+  //
+  // wrap the interior of this playlist with a loop
+  //
+  HRESULT WrapWithLoop(
+    unsigned long     exitEventId
+    );
+
+  //
+  // wrap the interior of this playlist with a conditional
+  //
+  HRESULT WrapWithConditional(
+    unsigned long     seteventid,
+    unsigned long     clreventid,
+    unsigned long     initialvalue
+    );
+
+  //
+  // Add (or replace) a map table to this playlist.
+  //
+  HRESULT SetMapTable(
+    unsigned   tableSize,
+    unsigned   tableEltSize,
+    LPVOID     pMapTable
+    );
+
+  //
+  // Fill in an STrnPlayList struct with a copy of the data from this playlist
+  //
+  HRESULT SaveToMemory(
+    STrnPlayList* pCoreData
+    );
+
+  //
+  // Copy this playlist and return a pointer to the copy.  Memory for the
+  // table (if present) and iteration scheme is allocated using the
+  // standard COM Task Allocator (see IMalloc).
+  //
+  HRESULT Clone(
+    ITrnPlayList** ppList
+    );
+
+  //========================================================================
+  // Playlist execution functions
+  //========================================================================
+
+  //
+  // Prepare a play list for use.  Return the initial parameter
+  // value, and update the start pointer as appropriate for a valid
+  // initial state.  Optionally initialize all ramps, loops and conditionals.
+  //
+  long Init(
+    BOOL initialize);
+
+  //
+  // Given a system event id, perform the following actions:
+  //  - update the status of all downstream conditional blocks which are
+  //    controlled by the event.
+  //  - exit all downstream or current loops which are controlled by the
+  //    event, or are nested within a loop or iterator controlled by the event.
+  //  - exit all iterators controlled by the event
+  //
+  BOOL ProcessSystemEvent(
+    unsigned long id);
+
+  //
+  // Advance the internal state of the playlist and return the next parameter 
+  // value. Return NOVALUE if the scheme is complete.  
+  //
+  long Advance();
+
+  //========================================================================
+  // Query functions
+  //========================================================================
+
+  // 
+  // Fill in a buffer with a list of event numbers accepted by this playlist.
+  //
+  HRESULT EnumerateEvents(
+    LPDWORD   pBuffer,
+    unsigned  dwBufferSize,       // size of buffer, in elements
+    unsigned  *pEventsReturned);  // number of elements returned
+
+  //
+  // return the total
+  // running time of the scheme, assuming all indefinite loops run only
+  // one time, all iterators run to their full count, and all conditional
+  // blocks retain their current (enabled/disabled) state.
+  //
+  long SchemeLength();
+
+  //
+  // Value returned for parameter value when the time index is beyond the
+  // range of the iteration scheme
+  //
+  enum { NOVALUE = -1 };
+
+  //
+  // return the parameter
+  // value which corresponds to a given time index.  Return NOVALUE if the time
+  // index is out of range of the iteration scheme.  Ignore all indefinite
+  // loops in the calculation (i.e. calculate as one pass throgh the loop).
+  // Process conditional blocks according to their present state (enabled or
+  // not).  Assume that iterators run for their full count.
+  // May be used on currently active iteration schemes (does not modifiy any
+  // internal state variables).
+  //
+  long ValueAt(
+    long t);
+
+  //
+  // Given a time index, return the
+  // parameter value which corresponds to the time, adjust the playlist so
+  // that subsequent calls to Advance will proceed from this point.
+  // Return NOVALUE if the time index is out of range of the play list.
+  //
+  long SetPosition(
+    long t);
+
+  //
+  // return the current element of the playlist directly.  
+  // 
+  HRESULT CurrentElement(ITrnPlayListElement **ppV);
+
+  //
+  // return an iterator which will visit all of the elements of the playlist
+  //
+  HRESULT EnumElements(IEnumUnknown **ppEnum);
+
+  //
+  // Return a pointer to an internal STrnPlayList.
+  //
+  // The result of this function should be passed to other Trinity API
+  // functions which take a parameter of type STrnPlayList*.
+  //
+  // The return value should be treated as const, even though it is
+  // not declared const.
+  //
+  // The use of this function will be deprecated (and unnecessary) when
+  // the Trinity API function are update to accept ITrnPlayList* 
+  // rather than STrnPlayList*.
+  //
+  // The returned pointer should be abandoned once it has been used -
+  // the memory should not be freed in any way!
+  //
+  STrnPlayList* Data();
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnPlayListElement
+//
+//  Purpose:    Defines the interface to a single playlist element.
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e5e0-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnPlayListElement : IUnknown
+{
+  //
+  // return the next element in the enclosing structure
+  //
+  HRESULT Next(ITrnPlayListElement** ppElt);
+
+  //
+  // return an iterator which will visit all of the elements internal to 
+  // this element.
+  //
+  HRESULT EnumElements(IEnumUnknown **ppEnum);
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnPlayListRamp
+//
+//  Purpose:    Defines the interface to a single playlist ramp element.
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e5e1-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnPlayListRamp : ITrnPlayListElement
+{
+  //
+  //  Duration property 
+  //
+  DWORD   GetDuration();
+  void    SetDuration(DWORD duration);
+
+  //
+  //  CurrentPosition property
+  //
+  DWORD   GetCurrentPosition();
+  void    SetCurrentPosition(DWORD position);
+
+  //
+  //  Current value - a function of current position
+  //
+  long    GetCurrentValue();
+
+  //
+  //  Adjust the difference parameters of the ramp to scale time by
+  //  'scale'.  e.g. if scale=2.0, the ramp will take twice as long
+  //  to reach the same final value.  
+  //
+  //  This function modifies the duration, and all difference terms.
+  //
+  void    ScaleTime(double scale);
+
+  //
+  //  Set all difference terms from a cannonical-form linear equation
+  //
+  void    SetFromLinear(
+            double        linearCoeff, 
+            double        constCoeff,
+            double        scale
+            );
+
+  //
+  //  Start value property
+  //
+  DWORD   GetStartValue();
+  void    SetStartValue(DWORD value);
+
+  //
+  //  First difference property
+  //
+  long    GetFirstDifference();
+  void    SetFirstDifference(long diff);
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnPlayListCubic
+//
+//  Purpose:    Defines the interface to a single playlist cubic element.
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e5e5-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnPlayListCubic : ITrnPlayListRamp
+{
+  //
+  //  First difference value - a function of current position
+  //
+  long  GetCurrentFirstDifference();
+
+  // 
+  //  Second difference property
+  //
+  long  GetSecondDifference();
+  void  SetSecondDifference(long diff);
+
+  //
+  //  Second difference property - a function of current position
+  //
+  long  GetCurrentSecondDifference();
+
+  // 
+  //  Third difference property
+  //
+  long  GetThirdDifference();
+  void  SetThirdDifference();
+
+  //
+  //  Set all difference terms from a cannonical-form cubic equation
+  //
+  void  SetFromCubic(
+          double        a,        // cubic term
+          double        b,        // quadratic term
+          double        c,        // linear term
+          double        d,        // constant term
+          double        scale     // time scale 
+          );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnPlayListIterator
+//
+//  Purpose:    Defines the interface to a single playlist iterator element.
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e5e2-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnPlayListIterator : ITrnPlayListElement
+{
+  //
+  //  MaxCount property
+  //
+  DWORD  GetMaxCount();
+  void  SetMaxCount(DWORD duration);
+
+  //
+  //  CurrentCount property
+  //
+  DWORD  GetCurrentCount();
+  void  SetCurrentCount(DWORD count);
+
+  //
+  //  ExitEvent property
+  //
+  DWORD  GetExitEvent();
+  void  SetExitEvent(DWORD event);
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnPlayListLoop
+//
+//  Purpose:    Defines the interface to a single playlist loop element.
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e5e3-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnPlayListLoop : ITrnPlayListElement
+{
+  //
+  //  ExitEvent property
+  //
+  DWORD GetExitEvent();
+  void SetExitEvent(DWORD event);
+
+  //
+  //  Triggered property
+  //
+  BOOL  GetTriggeredFlag();
+  void  SetTriggeredFlag(BOOL triggered);
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnPlayListConditional
+//
+//  Purpose:    Defines the interface to a single playlist conditional element.
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e5e4-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnPlayListConditional : ITrnPlayListElement
+{
+  //
+  //  EnableEvent property
+  //
+  DWORD GetEnableEvent();
+  void  SetEnableEvent(DWORD event);
+
+  //
+  //  DisableEvent property
+  //
+  DWORD GetDisableEvent();
+  void  SetDisableEvent(DWORD event);
+
+  //
+  //  InitialState property
+  //
+  BOOL  GetInitialState();
+  void  SetInitialState(BOOL initial);
+
+  //
+  //  Enabled property
+  //
+  BOOL  GetEnabled();
+  void  SetEnabled(BOOL enabled);
+}
+
+// End of plylst.idl

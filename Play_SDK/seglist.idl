@@ -1,0 +1,101 @@
+/*===========================================================================*\
+||                                                                           ||
+||  Copyright 1998 by Play Incorporated                                      ||
+||  PLAY CONFIDENTIAL                                                        ||
+||                                                                           ||
+||  All Specifications subject to change.                                    ||
+||                                                                           ||
+||  FILE:           SEGLIST.IDL                                              ||
+||                                                                           ||
+||  DESCRIPTION:    Interface description for a time-ordered list of valid/  ||
+||                  invalid intervals.                                       ||
+||                                                                           ||
+||  INTERFACES:     IValidSegmentList                                        ||
+||                  IValidSegmentList2                                       ||
+||                                                                           ||
+||  MODIFICATIONS:  2/21/98     T.Sprague       created, moved from editor.idl|
+\*===========================================================================*/
+
+import "unknwn.idl";
+import "wtypes.idl";
+
+[
+    local,
+    object,
+    uuid(8335e626-ab3b-11ce-8468-0000b468276b)
+]    
+interface IValidSegmentList : IUnknown
+{
+    // find the next invalid interval anytime after
+    // or including startTime.
+    HRESULT GetInvalidInterval( [in] long startTime, [out] long *actualStart, [out] long *actualLength );
+
+    // invalidate a given interval
+    HRESULT InvalidateInterval( [in] long startTime, [in] long length );
+
+    // validate a given interval
+    HRESULT ValidateInterval( [in] long startTime, [in] long length );
+
+    // find the start and length of invalid interval surrounding
+    // (including) startTime.  Returns E_FAIL if startTime does not
+	// lie within an invalid interval.
+    HRESULT GetSurroundingInvalidInterval( [in] long startTime, [out] long *actualStart, [out] long *actualLength );
+
+}
+
+// this interface grew out of the above interface from a desire to
+// be able to validate/invalidate specific components at whatever times.
+// The CValidSegmentList object will support both interfaces, and
+// if the IValidSegmentList interface above is used, it validates/invalidates
+// all components at once.
+[
+    local,
+    object,
+    uuid(8335e61a-ab3b-11ce-8468-0000b468276b)
+]    
+interface IValidSegmentList2 : IValidSegmentList
+{
+    // find the next invalid interval anytime after
+    // or including startTime where any of the interest components are invalid.
+    // The one passed out is the mask at the end of the interval.
+    // The returned interval will be the longest contiguous interval where any of
+    // the interested Components are invalid without any of the
+    // endInterval components changing within the interval.
+    // if endInterval mask == 0, it will go until all interestcomponents are valid again.
+    HRESULT GetInvalidIntervalMask( [in] long startTime, [in] ULONG interestMask, [in] ULONG endIntervalMask, [out] long *actualStart, [out] long *actualLength, [out] ULONG *mask );
+
+    // invalidate a given interval
+    HRESULT InvalidateIntervalMask( [in] long startTime, [in] long length, [in] ULONG mask );
+
+    // validate a given interval
+    HRESULT ValidateIntervalMask( [in] long startTime, [in] long length, [in] ULONG mask );
+
+    // find the start and length of invalid interval surrounding
+    // (including) startTime.  Returns E_FAIL if startTime does not
+	// lie within an invalid interval.
+    HRESULT GetSurroundingInvalidIntervalMask( [in] long startTime, [in] ULONG interestMask, [out] long *actualStart, [out] long *actualLength, [out] ULONG *mask );
+
+    // find out status of a given time.  non-zero bits are valid, zeros are invalid
+    // each bit is one component.
+    HRESULT GetValidMaskAtTime( [in] long time, [out] ULONG *mask );
+
+    // find out how many masks are in the list.
+    DWORD   QueryNumMasks( void );
+
+    // find out mask of a given index.  non-zero bits are valid, zeros are invalid
+    // each bit is one component.  Returns time of the index and its mask and S_OK,
+    // E_INVALIDARG for invalid index.  Either or both of the pointers may be NULL
+    HRESULT GetValidMaskAtIndex( [in] long index, [out] ULONG *mask, [out] LONG *plTime );
+
+    // make a copy of this segment list
+    HRESULT Clone( [out] IValidSegmentList2 **ppSegList );
+
+    // make all the valid areas in the passed-in list valid in the
+    // list whose member function is called.  (OR the two lists together)
+    HRESULT ORValidAreas( [in] IValidSegmentList2 *pSegList );
+
+    // make all valid areas valid only if they're also valid in the passed-in list
+    // (AND the two lists together)
+    HRESULT ANDValidAreas( [in] IValidSegmentList2 *pSegList );
+}
+

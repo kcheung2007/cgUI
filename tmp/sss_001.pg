@@ -1,0 +1,984 @@
+InnoVision Title Document
+DocVersion{17}
+*************************
+SEC_PageInfo{}
+PageTypeStill{}
+DocVersion{17}
+PageExportsAlpha{1}
+PageResolution{720 486 1.333333 }
+PageMargins{100.000000 900.000000 133.333303 1199.999730}
+PageGrids{-842150451 -842150451 -842150451 -842150451 -842150451 -842150451 -842150451 0}
+ExportFilename{""""}
+PageTab{0.166667 0}
+PageTab{0.233333 0}
+PageTab{0.300000 0}
+PageTab{0.366667 0}
+PageTab{0.433333 0}
+PageTab{0.500000 0}
+PageTab{0.566667 0}
+PageTab{0.633333 0}
+PageTab{0.700000 0}
+PageTab{0.766667 0}
+LineSpacing{0}
+LineJustify{left}
+SEC_End{}
+*******************************
+*******************************
+SEC_StyleList{}
+**************************************************
+BeginStyle{0}
+ObjectType{0}
+FontGraphicName{""Arial""}
+FontType{4}
+SizeCur{136.921688 306.926834}
+SizeOrig{10.000000 10.000000}
+BaselineUserPivotRotation{25.941084}
+ItalicAngle{0.000000}
+Boldness{400.000000}
+SmallCapsSizeScale{0.900000}
+SmallCapsEnable{0}
+Roundness{0.000000}
+FlashEnable{0}
+SubscriptMode{0.000000}
+SubscriptScale{0.500000}
+SubscriptOffsetFromDefaultPos{0.000000}
+UnderlineEnable{0}
+UnderlineHeight{0.000000}
+UnderlineOffset{0.000000}
+GraphicAlphaMode{0}
+GraphicBlackTrimLevel{0}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{255}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ RGBP{255 255 255 0.000000} RGBP{124 124 255 0.500000} RGBP{49 49 124 1.000000} Rot{0} }   }
+AlphaMask{ Spread{ RGBP{255 255 255 0.000000} Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{2.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ RGBP{0 0 0 0.000000} Rot{0} }   }
+AlphaMask{ Spread{ RGBP{0 0 0 0.000000} Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ RGBP{0 0 0 0.000000} Rot{0} }   }
+AlphaMask{ Spread{ RGBP{0 0 0 0.000000} Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{6.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ RGBP{32 76 32 0.000000} RGBP{48 194 143 0.142857} RGBP{32 76 32 0.285714} RGBP{48 194 143 0.428571} RGBP{32 76 32 0.571429} RGBP{48 194 143 0.714286} RGBP{32 76 32 0.857143} RGBP{48 194 143 1.000000} Rot{130} }   }
+AlphaMask{ Spread{ RGBP{0 0 0 0.000000} Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ RGBP{0 0 0 0.000000} Rot{0} }   }
+AlphaMask{ Spread{ RGBP{0 0 0 0.000000} Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{2.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ RGBP{0 0 0 0.000000} Rot{0} }   }
+AlphaMask{ Spread{ RGBP{0 0 0 0.000000} Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ RGBP{0 0 0 0.000000} Rot{0} }   }
+AlphaMask{ Spread{ RGBP{0 0 0 0.000000} Rot{0} }   }
+EndSurface{}
+EndStyle{}
+**************************************************
+BeginStyle{1}
+ObjectType{0}
+FontGraphicName{""Comic Sans MS""}
+FontType{4}
+SizeCur{124.649948 313.645621}
+SizeOrig{10.000000 10.000000}
+BaselineUserPivotRotation{0.000000}
+ItalicAngle{0.000000}
+Boldness{400.000000}
+SmallCapsSizeScale{0.900000}
+SmallCapsEnable{0}
+Roundness{0.000000}
+FlashEnable{0}
+SubscriptMode{0.000000}
+SubscriptScale{0.500000}
+SubscriptOffsetFromDefaultPos{0.000000}
+UnderlineEnable{0}
+UnderlineHeight{0.000000}
+UnderlineOffset{0.000000}
+GraphicAlphaMode{0}
+GraphicBlackTrimLevel{0}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{255}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ RGBP{175 129 69 0.000000} RGBP{255 255 127 0.500000} RGBP{255 255 255 1.000000} Rot{45} }   }
+AlphaMask{ Spread{ RGBP{255 255 255 0.000000} Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{2.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{12.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ RGBP{128 32 32 0.000000} RGBP{240 224 64 0.735714} RGBP{128 16 16 1.000000} Rot{90} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{2.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+EndStyle{}
+**************************************************
+BeginStyle{2}
+ObjectType{0}
+FontGraphicName{""Comic Sans MS""}
+FontType{4}
+SizeCur{124.649948 313.645621}
+SizeOrig{10.000000 10.000000}
+BaselineUserPivotRotation{0.000000}
+ItalicAngle{0.000000}
+Boldness{400.000000}
+SmallCapsSizeScale{0.900000}
+SmallCapsEnable{0}
+Roundness{0.000000}
+FlashEnable{0}
+SubscriptMode{0.000000}
+SubscriptScale{0.500000}
+SubscriptOffsetFromDefaultPos{0.000000}
+UnderlineEnable{0}
+UnderlineHeight{0.000000}
+UnderlineOffset{0.000000}
+GraphicAlphaMode{0}
+GraphicBlackTrimLevel{0}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{255}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ RGBP{175 129 69 0.000000} RGBP{255 255 127 0.500000} RGBP{255 255 255 1.000000} Rot{45} }   }
+AlphaMask{ Spread{ RGBP{255 255 255 0.000000} Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{2.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{12.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ RGBP{128 32 32 0.000000} RGBP{240 224 64 0.735714} RGBP{128 16 16 1.000000} Rot{90} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{2.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+EndStyle{}
+**************************************************
+BeginStyle{3}
+ObjectType{0}
+FontGraphicName{""Comic Sans MS""}
+FontType{4}
+SizeCur{124.649948 313.645621}
+SizeOrig{10.000000 10.000000}
+BaselineUserPivotRotation{0.000000}
+ItalicAngle{0.000000}
+Boldness{400.000000}
+SmallCapsSizeScale{0.900000}
+SmallCapsEnable{0}
+Roundness{0.000000}
+FlashEnable{0}
+SubscriptMode{0.000000}
+SubscriptScale{0.500000}
+SubscriptOffsetFromDefaultPos{0.000000}
+UnderlineEnable{0}
+UnderlineHeight{0.000000}
+UnderlineOffset{0.000000}
+GraphicAlphaMode{0}
+GraphicBlackTrimLevel{0}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{255}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ RGBP{175 129 69 0.000000} RGBP{255 255 127 0.500000} RGBP{255 255 255 1.000000} Rot{45} }   }
+AlphaMask{ Spread{ RGBP{255 255 255 0.000000} Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{2.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{12.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ RGBP{128 32 32 0.000000} RGBP{240 224 64 0.735714} RGBP{128 16 16 1.000000} Rot{90} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{2.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+EndStyle{}
+**************************************************
+BeginStyle{4}
+ObjectType{0}
+FontGraphicName{""Comic Sans MS""}
+FontType{4}
+SizeCur{124.649948 313.645621}
+SizeOrig{10.000000 10.000000}
+BaselineUserPivotRotation{0.000000}
+ItalicAngle{0.000000}
+Boldness{400.000000}
+SmallCapsSizeScale{0.900000}
+SmallCapsEnable{0}
+Roundness{0.000000}
+FlashEnable{0}
+SubscriptMode{0.000000}
+SubscriptScale{0.500000}
+SubscriptOffsetFromDefaultPos{0.000000}
+UnderlineEnable{0}
+UnderlineHeight{0.000000}
+UnderlineOffset{0.000000}
+GraphicAlphaMode{0}
+GraphicBlackTrimLevel{0}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{255}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ RGBP{175 129 69 0.000000} RGBP{255 255 127 0.500000} RGBP{255 255 255 1.000000} Rot{45} }   }
+AlphaMask{ Spread{ RGBP{255 255 255 0.000000} Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{2.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{12.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ RGBP{128 32 32 0.000000} RGBP{240 224 64 0.735714} RGBP{128 16 16 1.000000} Rot{90} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{2.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+EndStyle{}
+**************************************************
+BeginStyle{5}
+ObjectType{0}
+FontGraphicName{""Comic Sans MS""}
+FontType{4}
+SizeCur{124.649948 313.645621}
+SizeOrig{10.000000 10.000000}
+BaselineUserPivotRotation{0.000000}
+ItalicAngle{0.000000}
+Boldness{400.000000}
+SmallCapsSizeScale{0.900000}
+SmallCapsEnable{0}
+Roundness{0.000000}
+FlashEnable{0}
+SubscriptMode{0.000000}
+SubscriptScale{0.500000}
+SubscriptOffsetFromDefaultPos{0.000000}
+UnderlineEnable{0}
+UnderlineHeight{0.000000}
+UnderlineOffset{0.000000}
+GraphicAlphaMode{0}
+GraphicBlackTrimLevel{0}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{255}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ RGBP{175 129 69 0.000000} RGBP{255 255 127 0.500000} RGBP{255 255 255 1.000000} Rot{45} }   }
+AlphaMask{ Spread{ RGBP{255 255 255 0.000000} Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{2.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{12.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ RGBP{128 32 32 0.000000} RGBP{240 224 64 0.735714} RGBP{128 16 16 1.000000} Rot{90} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{2.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+EndStyle{}
+SEC_End{}
+*******************************
+*******************************
+SEC_LayerList{}
+
+*******************************
+Layer{ 100.000000 900.000000 133.333303 1199.999730  0 }
+Paragraph{0 0 0}
+Line{ 0 12.000000 0.000000 0.000000 0.000000  0 10.000000 10.000000  0.000000 0.000000  381.663518 306.926834 381.663518 89.315709  }
+Line{ 0 12.000000 0.000000 0.000000 0.000000  0 0.000000 0.000000  0.000000 0.000000  381.663518 306.926834 852.642745 89.315709  }
+Style{0}
+CharSpacing{0.000000}
+ObjPriority{64}
+ObjOffset{0.000000 0.000000 -19.857880 -39.094510}
+T{0x72}
+ObjOffset{0.000000 0.000000 -18.097662 -45.836597}
+T{0x74}
+ObjOffset{0.000000 0.000000 -14.655805 -52.149208}
+T{0x67}
+ObjOffset{0.000000 0.000000 -9.678616 -65.608487}
+T{0x72}
+ObjOffset{0.000000 0.000000 -6.900630 -72.349151}
+T{0x67}
+ObjOffset{0.000000 0.000000 -1.923441 -85.808430}
+T{0x72}
+ObjOffset{0.000000 0.000000 -1.032184 -93.423389}
+T{0x65}
+ObjOffset{0.000000 0.000000 4.776022 -105.558198}
+T{0x73}
+ObjOffset{0.000000 0.000000 10.067985 -116.547387}
+T{0x67}
+ObjOffset{0.000000 0.000000 13.989462 -129.556492}
+T{0x73}
+ObjOffset{0.000000 0.000000 19.281426 -140.545681}
+T{0x67}
+ObjOffset{0.000000 0.000000 24.132779 -153.182023}
+T{0x67}
+ObjOffset{0.000000 0.000000 974.651356 -179.544240}
+T{0x73}
+Paragraph{0 0 0}
+Line{ 0 12.000000 357.787845 357.787845 0.000000  1 491.121148 193.482688  0.000000 0.000000  252.314815 185.185185 93.482688 76.944444  }
+Paragraph{0 0 0}
+Line{ 0 12.000000 696.702025 696.702025 0.000000  1 830.035328 221.995927  0.000000 0.000000  432.046843 313.645621 121.995927 114.323829  }
+Style{1}
+ObjPriority{65}
+ObjOffset{0.000000 0.000000 -145.587331 303.462322}
+T{0x63}
+Style{2}
+ObjOffset{0.000000 0.000000 -144.820592 303.462322}
+T{0x6f}
+Style{3}
+ObjOffset{0.000000 0.000000 -145.711328 303.462322}
+T{0x6d}
+Style{4}
+ObjOffset{0.000000 0.000000 -146.034798 303.462322}
+T{0x61}
+Style{5}
+ObjOffset{0.000000 0.000000 -146.327072 303.462322}
+T{0x73}
+Paragraph{1 0 0}
+Line{ 0 12.000000 0.000000 0.000000 0.000000  0 10.000000 10.000000  0.000000 0.000000  81.876543 65.843621 81.876543 19.160494  }
+SEC_End{}
+*******************************

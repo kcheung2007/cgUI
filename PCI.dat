@@ -1,0 +1,2820 @@
+
+
+
+PCI ------------------------------------------
+
+fn0 dev 0 vendor 8086 dev_id 7190  IRQ 0
+ Command 106 Status 2210 Rev 3 SubClas 0 BaseClass 6
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= f8000008
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev 1 vendor 8086 dev_id 7191  IRQ 0
+ Command 11f Status 220 Rev 3 SubClas 4 BaseClass 6
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 40010100
+   BaseAddr[3]= 22a000f0
+   BaseAddr[4]= f780f700
+   BaseAddr[5]= fcf0fc00
+
+fn0 dev 2 vendor ffff dev_id 0  IRQ 0
+ Command 11f Status 220 Rev 3 SubClas 4 BaseClass 6
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 40010100
+   BaseAddr[3]= 22a000f0
+   BaseAddr[4]= f780f700
+   BaseAddr[5]= fcf0fc00
+
+fn0 dev 3 vendor ffff dev_id 0  IRQ 0
+ Command 11f Status 220 Rev 3 SubClas 4 BaseClass 6
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 40010100
+   BaseAddr[3]= 22a000f0
+   BaseAddr[4]= f780f700
+   BaseAddr[5]= fcf0fc00
+
+fn0 dev 4 vendor ffff dev_id 0  IRQ 0
+ Command 11f Status 220 Rev 3 SubClas 4 BaseClass 6
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 40010100
+   BaseAddr[3]= 22a000f0
+   BaseAddr[4]= f780f700
+   BaseAddr[5]= fcf0fc00
+
+fn0 dev 5 vendor ffff dev_id 0  IRQ 0
+ Command 11f Status 220 Rev 3 SubClas 4 BaseClass 6
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 40010100
+   BaseAddr[3]= 22a000f0
+   BaseAddr[4]= f780f700
+   BaseAddr[5]= fcf0fc00
+
+fn0 dev 6 vendor ffff dev_id 0  IRQ 0
+ Command 11f Status 220 Rev 3 SubClas 4 BaseClass 6
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 40010100
+   BaseAddr[3]= 22a000f0
+   BaseAddr[4]= f780f700
+   BaseAddr[5]= fcf0fc00
+
+fn0 dev 7 vendor 8086 dev_id 7110  IRQ 0
+ Command f Status 280 Rev 2 SubClas 1 BaseClass 6
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev 8 vendor ffff dev_id 0  IRQ 0
+ Command f Status 280 Rev 2 SubClas 1 BaseClass 6
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev 9 vendor ffff dev_id 0  IRQ 0
+ Command f Status 280 Rev 2 SubClas 1 BaseClass 6
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev10 vendor ffff dev_id 0  IRQ 0
+ Command f Status 280 Rev 2 SubClas 1 BaseClass 6
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev11 vendor ffff dev_id 0  IRQ 0
+ Command f Status 280 Rev 2 SubClas 1 BaseClass 6
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev12 vendor ffff dev_id 0  IRQ 0
+ Command f Status 280 Rev 2 SubClas 1 BaseClass 6
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev13 vendor 104c dev_id 3d07  IRQ 11
+ Command 6 Status 290 Rev 11 SubClas 0 BaseClass 0
+   Reserved1[0] 0 
+   Reserved1[1] 24242424 
+   BaseAddr[0]= f5000000
+   BaseAddr[1]= f4800000
+   BaseAddr[2]= f4000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev14 vendor ffff dev_id 0  IRQ 11
+ Command 6 Status 290 Rev 11 SubClas 0 BaseClass 0
+   Reserved1[0] 0 
+   Reserved1[1] 24242424 
+   BaseAddr[0]= f5000000
+   BaseAddr[1]= f4800000
+   BaseAddr[2]= f4000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev15 vendor 10b5 dev_id 1031  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev16 vendor 10b7 dev_id 9055  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev17 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev18 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev19 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev20 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev21 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev22 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev23 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev24 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev25 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev26 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev27 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev28 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev29 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev30 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn0 dev31 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev 0 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev 1 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev 2 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev 3 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev 4 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev 5 vendor 104c dev_id 3d07  IRQ 11
+ Command 6 Status 290 Rev 11 SubClas 0 BaseClass 0
+   Reserved1[0] 0 
+   Reserved1[1] 24242424 
+   BaseAddr[0]= f5000000
+   BaseAddr[1]= f4800000
+   BaseAddr[2]= f4000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev 6 vendor ffff dev_id 0  IRQ 11
+ Command 6 Status 290 Rev 11 SubClas 0 BaseClass 0
+   Reserved1[0] 0 
+   Reserved1[1] 24242424 
+   BaseAddr[0]= f5000000
+   BaseAddr[1]= f4800000
+   BaseAddr[2]= f4000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev 7 vendor 10b5 dev_id 1031  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev 8 vendor ffff dev_id 0  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev 9 vendor ffff dev_id 0  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev10 vendor ffff dev_id 0  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev11 vendor ffff dev_id 0  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev12 vendor ffff dev_id 0  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev13 vendor 104c dev_id 3d07  IRQ 11
+ Command 6 Status 290 Rev 11 SubClas 0 BaseClass 0
+   Reserved1[0] 0 
+   Reserved1[1] 24242424 
+   BaseAddr[0]= f5000000
+   BaseAddr[1]= f4800000
+   BaseAddr[2]= f4000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev14 vendor ffff dev_id 0  IRQ 11
+ Command 6 Status 290 Rev 11 SubClas 0 BaseClass 0
+   Reserved1[0] 0 
+   Reserved1[1] 24242424 
+   BaseAddr[0]= f5000000
+   BaseAddr[1]= f4800000
+   BaseAddr[2]= f4000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev15 vendor 10b5 dev_id 1031  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev16 vendor ffff dev_id 0  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev17 vendor ffff dev_id 0  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev18 vendor ffff dev_id 0  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev19 vendor ffff dev_id 0  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev20 vendor ffff dev_id 0  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev21 vendor ffff dev_id 0  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev22 vendor ffff dev_id 0  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev23 vendor ffff dev_id 0  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev24 vendor ffff dev_id 0  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev25 vendor ffff dev_id 0  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev26 vendor ffff dev_id 0  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev27 vendor ffff dev_id 0  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev28 vendor ffff dev_id 0  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev29 vendor ffff dev_id 0  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev30 vendor ffff dev_id 0  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn1 dev31 vendor ffff dev_id 0  IRQ 10
+ Command 117 Status 280 Rev 5 SubClas 80 BaseClass 7
+   Reserved1[0] 0 
+   Reserved1[1] 908010b5 
+   BaseAddr[0]= f5020000
+   BaseAddr[1]= 1001
+   BaseAddr[2]= f6000000
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev 0 vendor 10b7 dev_id 9055  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev 1 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev 2 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev 3 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev 4 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev 5 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev 6 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev 7 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev 8 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev 9 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev10 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev11 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev12 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev13 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev14 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev15 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev16 vendor 10b7 dev_id 9055  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev17 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev18 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev19 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev20 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev21 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev22 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev23 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev24 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev25 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev26 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev27 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev28 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev29 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev30 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn2 dev31 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev 0 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev 1 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev 2 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev 3 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev 4 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev 5 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev 6 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev 7 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev 8 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev 9 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev10 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev11 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev12 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev13 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev14 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev15 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev16 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev17 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev18 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev19 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev20 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev21 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev22 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev23 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev24 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev25 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev26 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev27 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev28 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev29 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev30 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn3 dev31 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn4 dev 0 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn4 dev 1 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn4 dev 2 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn4 dev 3 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn4 dev 4 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn4 dev 5 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn4 dev 6 vendor ffff dev_id 0  IRQ 9
+ Command 117 Status 210 Rev 30 SubClas 0 BaseClass 2
+   Reserved1[0] 0 
+   Reserved1[1] 905510b7 
+   BaseAddr[0]= 1401
+   BaseAddr[1]= f5020400
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 0
+   BaseAddr[5]= 0
+
+fn4 dev 7 vendor 8086 dev_id 7111  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev 8 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev 9 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev10 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev11 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev12 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev13 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev14 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev15 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev16 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev17 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev18 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev19 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev20 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev21 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev22 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev23 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev24 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev25 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev26 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev27 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev28 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev29 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev30 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn4 dev31 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev 0 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev 1 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev 2 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev 3 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev 4 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev 5 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev 6 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev 7 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev 8 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev 9 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev10 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev11 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev12 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev13 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev14 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev15 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev16 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev17 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev18 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev19 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev20 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev21 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev22 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev23 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev24 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev25 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev26 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev27 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev28 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev29 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev30 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn5 dev31 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev 0 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev 1 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev 2 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev 3 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev 4 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev 5 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev 6 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev 7 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev 8 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev 9 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev10 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev11 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev12 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev13 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev14 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev15 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev16 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev17 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev18 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev19 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev20 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev21 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev22 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev23 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev24 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev25 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev26 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev27 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev28 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev29 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev30 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn6 dev31 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev 0 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev 1 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev 2 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev 3 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev 4 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev 5 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev 6 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev 7 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev 8 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev 9 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev10 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev11 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev12 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev13 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev14 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev15 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev16 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev17 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev18 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev19 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev20 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev21 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev22 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev23 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev24 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev25 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev26 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev27 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev28 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev29 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev30 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0
+
+fn7 dev31 vendor ffff dev_id 0  IRQ 0
+ Command 5 Status 280 Rev 1 SubClas 1 BaseClass 1
+   Reserved1[0] 0 
+   Reserved1[1] 0 
+   BaseAddr[0]= 0
+   BaseAddr[1]= 0
+   BaseAddr[2]= 0
+   BaseAddr[3]= 0
+   BaseAddr[4]= 14a1
+   BaseAddr[5]= 0

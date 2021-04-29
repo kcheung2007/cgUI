@@ -1,0 +1,152 @@
+//+---------------------------------------------------------------------------
+//
+//  GlobeCaster API
+//  Copyright (C) Play Incorporated, 1995
+//
+//  PRELIMINARY - ALL SPECIFICATIONS SUBJECT TO CHANGE
+//  PLAY CONFIDENTIAL - DO NOT DISTRIBUTE
+//
+//  File:       GlobeCaster.idl
+//
+//  Contents:   definition for all GlobeCaster interfaces
+//
+//  History:    December 2, 1998    cmdaniel  created
+//              Febuary 4, 1999     SLee      modified Start method parameters
+//              March 2, 1999       SLee      modified Advise method parameters
+//                                            add DoMulticastParamDlg method
+//----------------------------------------------------------------------------
+//
+// The GlobeCaster COM server (implemented in CastDLL.dll) provides a means
+// to transmit a stream of images from Trinity's ClipGrab system onto a 
+// network using IP multicasting.  The client application can also gain
+// access to the image stream through one of the interfaces defined here.
+//
+//----------------------------------------------------------------------------
+
+import "wtypes.idl";
+import "unknwn.idl";
+import "objidl.idl";
+import "gxlate.idl";
+import "trnity.idl";
+//import "autoct.idl";
+//import "props.idl";
+
+
+  // Image formats supported by GlobeCaster
+  typedef enum tagETrnGlobeCasterFormat
+  {
+    UYVY = 1,
+	HH_UYVY,
+	YV12,
+	HH_YV12,
+	YVU9,
+	HH_YVU9,
+	BI_RGB_24,
+	HH_BI_RGB_24,
+	BI_RGB_16,
+	HH_BI_RGB_16
+  } ETrnGlobeCasterFormat;
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnMultiCaster
+//
+//  Purpose:
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e7e8-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnMultiCaster: IUnknown
+{
+  //
+  // Displays the Dialog that allows the user to select the Multicast
+  // send parameters, such as NIC, Multicast Address, and UDP dataport.
+  // Upon IDOK, the new parameters will be saved in the registry.
+  // It is not neccessary for the client to call this prior to casting.
+  // Upon instatiation, default values are provided (those in the registry)
+  //
+  HRESULT DoMulticastParamDlg(
+	[in ] HWND          hWndParent
+	);
+	
+  //
+  // This function starts the asynchronous clip grab running.  The connection ID
+  // returned by GrabImageEx is passed out through pdwConnectionId.
+  //
+  // The dwWidth and dwHeight parameters are used to determine the size of the
+  // SPlayBitMap used for GrabImageEx().  The wFieldsPerGrab parameter correlates
+  // to the ratel parameter for GrabImageEx().
+  //
+  // If the client has used the Advise function to connect an advise sink, then
+  // When pAdvise->OnClipUpdate() is called by this object, it carries the
+  // same ConnectionId that was returned from this function. This can be used
+  // to identify the SPlayBitMap* that identifies the image.
+  //
+  HRESULT Start( 
+    [in ] unsigned int	uiGrabSource,
+	[in ] STrnRect*     pSourceRect,
+	[in ] ETrnGlobeCasterFormat eFormat,
+    [in ] WORD          wWidth,
+	[in ] WORD          wHeight,
+	[in ] WORD          wFieldsPerGrab,
+    [out] DWORD*        pdwConnectionId );
+  
+  HRESULT Stop();
+
+  HRESULT QueryImageFormat( 
+	[in ][out] BITMAPINFOHEADER *pBmi,
+    [in ][out] EPlayFrameType	*pFormat);
+
+
+  //
+  // A client calls the advise function to inform the multicaster object that
+  // it wants to be notified each time a new image is available.  The 
+  // ppClipSPlayBitMap parameter specifies an address where this function will
+  // place a pointer to an SPlayBitMap.  That SPlayBitMap will be a member of
+  // the object that implements this function and will persist as long as the
+  // object exists.  That SPlayBitMap specifies the image format and the address
+  // of the bits but take note that these values will change and in fact the
+  // pixelData may point to NULL at times! *pbQueuedToSend indicates if the
+  // image is being sent or is being dropped.  A client app can use this
+  // boolean to do something nifty like turn a UI element red if a frame is
+  // dropped or green if it is being sent.
+  //
+  // The client can get access to the clipped image in two ways:
+  // 1) If ppClientBuffer is non-NULL when Advise is called then if it points
+  // to a non-NULL value when a clip comes in, GlobeCaster will copy the clipped
+  // image to a buffer which *ppClientBuffer points to prior to the Client's
+  // ITrnClipAdviseSink being called.  The client's AdviseSink can then alter
+  // *ppClientBuffer to point to another buffer (or NULL) so the next clip will
+  // copy data elsewhere (or not at all).  Note that the client must ensure that
+  // sufficient buffer space is allocated for the copy.
+  // 2) If ppClipSPlayBitMap is non-NULL when Advise is called then GlobeCaster
+  // will set *ppClipSPlayBitMap to the SPlayBitMap used by ClipGrab.  Note that
+  // the pixelData will get stomped every time a clipgrab is performed.
+  //
+  // To cancel the advise connection, call Advise and pass NULL to pAdvise.
+  // To change advise options (ppClientBuffer, ppClipSPlayBitMap, ppbQueuedToSend)
+  // simply call Advise with new options but the same pAdvise.
+  //
+  // NOTE: It does not matter whether Advise is called before or after Start.
+  //
+  // SPECIAL NOTES!: 1) The SPlayBitMap data is only valid while the GlobeCaster
+  //                 stream is running (after Start is called.)  The image format
+  //                 and size are set when Start is called and the image
+  //                 pixelData is allocated at that time.
+  //                 2) The client should call QueryImageFormat *after* the
+  //                 stream is started to determine what format will be copied
+  //                 into ppClientBuffer (and thus how much memory needs to be
+  //                 allocated for the buffer(s).)  It is the client's responsibility
+  //                 to ensure that *ppClientBuffer points to a valid buffer of
+  //                 sufficient size for the current image.
+  //
+  HRESULT Advise( 
+    [in]  ITrnClipAdviseSink*   pAdvise,        // Where to send update notifications
+    [in ] BYTE**				pClientBuffer, // Pointer to client buffer
+    [out] SPlayBitMap**         ppClipSPlayBitMap,// returns a pointer to an SPlayBitMap
+	[out] BOOL**				ppbQueuedToSend // flags if image is being sent or dropped
+    );
+}
+

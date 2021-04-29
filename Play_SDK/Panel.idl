@@ -1,0 +1,251 @@
+/*===========================================================================*\
+||                                                                           ||
+||  Copyright 1995 by Play Incorporated                                      ||
+||  PLAY CONFIDENTIAL                                                        ||
+||                                                                           ||
+||  All Specifications subject to change.                                    ||
+||                                                                           ||
+||  FILE:           PANEL.IDL                                                ||
+||                                                                           ||
+||  DESCRIPTION:    Interface description for control panels in Play UI      ||
+||                  Control library.                                         ||
+||                                                                           ||
+||  INTERFACES:     IPlayPanel, IPlayPanel2                                  ||
+||                                                                           ||
+||  MODIFICATIONS:  10/27/95    T.Sprague       created                      ||
+||                  01/18/99	T.Ocel			added IPagedPanel2           ||
+||                                                                           ||
+\*===========================================================================*/
+
+[
+    local,
+    object,
+    uuid(8335e423-ab3b-11ce-8468-0000b468276b)
+]
+interface IPlayPanel : IUnknown
+{
+    import "unknwn.idl";
+    import "wtypes.idl";
+    import "plyctl.idl";
+	import "psttab.idl";
+
+    // add a control to the panel.  Control must have been previously created
+    // and had its properties set, but NOT added to any window yet.  
+    // Note that the panel will AddRef() the COM controls you add, so
+    // you can Release() them after you add them to the panel.  Then, when the
+    // panel itself is Release()'d, all the controls will be released automatically.
+    // If the given placement is zero, the control will be the next one in the current row, 
+    //  centered vertically within the row, and spaced out evenly horizontally.
+    //  These positionings allow controls to be in rows left to right, top to bottom.
+    //  The controls will be spaced out evenly across and top-bottom, except where noted.
+    //  Where it makes sense, they may be  OR'd together, like PPLACE_ALIGNTOP|PPLACE_ADJACENT
+    //      PPLACE_NEWROW - start a new row down with this control
+    //      PPLACE_ADJROW - combine with PPLACE_NEWROW to make a row that starts immediately below previous row (or top edge)
+    //      PPLACE_ADJACENT - the left border of this control will start right after
+    //                        the right border of the previous control ( or left edge )
+    //      PPLACE_ALIGNTOP - this control's top border will be lined up with the top edge of
+    //                        the row
+    //      PPLACE_ALIGNBOTTOM - this control's bottom border will be lined up with the bottom 
+    //                          edge of the row
+    // This function will return E_FAIL if panel->PutInWindow() has already been successfully called.
+    HRESULT AddControl( IPlayControl *pipc, DWORD dwPlacement );
+
+    // tell the panel what window to live in.  It will assume it owns the entire
+    // visible area of the window. The string is used as a filename to save 
+    // position/hidden flags and customized control colors, etc, for each control 
+    // within it, so that future instances of panels with this string will 
+    // retain the same configuration.  Note, the client should always add all the necessary
+    // controls to the panel before calling this routine, as no additions will be allowed after
+    // this.  Also, client should always add the same number of controls, same type and order 
+    // for a particular filename so that configuration info will be valid. This function returns E_FAIL
+    // if no controls have been put in the panel yet, or if this panel already has a window to call home.
+    HRESULT PutInWindow( HWND hWnd, [string] char *pszPanelSaveFilename );
+
+    // reset the panel to original layout placements instead of saved config.
+    // this will also unhide any controls that have been "deleted" from the 
+    // panel
+    HRESULT Reset();
+
+    // for setting miscellaneous parameters of the panel.  
+    //      PCATTR_USER_POPUP - will set the app popup for the panel.  It will fail if the
+    //                          popup has no AdviseSink.  (Cast IPlayPopup* to DWORD)
+	// Currently, control must be put in panel before setting its text.
+    HRESULT SetAttr( DWORD dwAttr, DWORD dwSubAttr, DWORD dwValue );
+
+    // for getting miscellaneous parameters of the panel.  
+    // same attributes used as SetAttrDW()
+    HRESULT GetAttr( DWORD dwAttr, DWORD dwSubAttr, DWORD *pValue );
+
+    // this routine is normally for the controls themselves to call when they've been told which panel 
+    // they belong to.  It should be called when the right mouse button goes DOWN on a particular control.
+    // hWndParent is the window handle of the control and lParam describes mouse position.
+    // Normal client uses of this COM interface shouldn't use this routine.
+    HRESULT ShowProperties( IPlayControl* pipc, HWND hWndParent, LPARAM lParam );
+
+    // this routine is so a panel can be closed to be later re-used.  Note: if the parent window of the panel
+    // is destroyed without this being called, it has the same effect.  The object isn't released, it just
+    // doesn't have any open windows.
+    HRESULT Close( void );
+
+    // this is a routine that can be used by clients to cause the panel to draw the part of itself 
+    // described by pUpdRect into the given DIB, assuming that the
+    // client area of the panel starts at the POINT pUpdOfs within the DIB.  pUpdOfs
+    // can point to a point above or to the left of (0,0), indicating that only part
+    // of the control overlapps the DIB that's being updated.
+    // The updrect is relative to the panel window's client area.
+    // The LPVOID is really a (BITMAPINFOHEADER*), which should have been previously filled-in
+    // with the appropriate width & height & bitcount, which should be 24.
+    HRESULT DrawToDIB( LPVOID pBMIH, BYTE *pBits, RECT *pUpdRect, POINT *pUpdOfs );
+
+	// This routine allows one to have "modal" buttons on a panel.
+	// ie, buttons that cause one set of buttons to appear while another
+	// set disappears.
+	HRESULT ShowAndHide( IPlayControl **ppShowList, ULONG nNumShow, IPlayControl **ppHideList, ULONG nNumHide );
+
+	// This routine gets an interface to the String Table.
+	HRESULT GetStringTable([out] IPlayStringTable** ppStringTable);
+
+	// This routine sets the panel's file name. Previously this was done in PutInWindow (which still
+	// works the same way, for backward compatibility). This routine is needed for cases where the
+	// client needs information from the panel's string table prior to calling PutInWindow. If this
+	// routine is called prior to PutInWindow, the filename in PutInWindow will be ignored. If 
+	// PutInWindow is called first, the filename passed here will be ignored.
+	// If you are using a panel as a subpanel (ie. queryinterface for an IPlayControl from IPlayPanel),
+	// you must call this on the subpanel before adding the subpanel to the parent panel.
+	HRESULT SetName([string] char* panelName);
+
+//
+//
+//
+//		These are no longer part of this interface. You should not use them. They are only here
+//		temporarily until I'm sure that everything still works.
+//
+//
+//
+//
+	// This routine sets which control the panel thinks is excited. A panel will only
+	// allow one control to be excited at a time.
+//	void SetExcitedControl([in] IPlayControl *pControl);
+}
+
+
+[
+    local,
+    object,
+    uuid(8335e607-ab3b-11ce-8468-0000b468276b)
+]
+interface IPlayPanel2 : IPlayPanel
+{
+	// This routine sets which control the panel thinks is excited. A panel will only
+	// allow one control to be excited at a time.
+	void SetExcitedControl([in] IPlayControl *pControl);
+
+	// Find a control that has been added to a panel with the given user dword set.
+	// Returns NULL if the control is not found.
+	IPlayControl * FindControl(DWORD dwUserDWORD);
+
+	// Find a control that has been added to a panel with the given user id set.
+	// Returns NULL if the control is not found.
+	IPlayControl * FindControlID(DWORD dwUserID);
+
+	// Set a bitmap for the panel to use as its background.
+	HRESULT SetBackgroundBitmap(IGXIntBitmap *pBitmap);
+}
+
+[
+    local,
+    object,
+    uuid(8335e493-ab3b-11ce-8468-0000b468276b)
+]
+interface IPlayPagedPanelAdviseSink : IUnknown
+{
+    // Tell the app to store Revert info for the given page.
+    // If the app returns anything but S_OK, the revert
+    // button will be ghosted and disabled for this page.
+    HRESULT StoreRevertInfo( DWORD dwPageID );
+
+    // Tell the app to revert to its stored info for the 
+    // given page.  The return value is ignored.
+    HRESULT Revert( DWORD dwPageID );
+
+	// This will be called between the time when the page is selected from the
+	// popup menu, but before the page is actually shown. This can allow the app
+	// to update the controls on the page if it wants/needs to.
+	HRESULT OnShowPage(DWORD dwPageID);
+
+	// Called when the close button is pushed.
+	HRESULT OnClose();
+}
+
+[
+    local,
+    object,
+    uuid(8335e433-ab3b-11ce-8468-0000b468276b)
+]
+interface IPlayPagedPanel : IUnknown
+{
+    import "unknwn.idl";
+    import "wtypes.idl";
+    import "plyctl.idl";
+
+	// Add a page onto a PagedPanel. A name for the page must be supplied as it
+	// will be used in the popup through which users can turn pages. An ID will
+	// be returned through which all subsequent references to the page are made.
+	HRESULT __stdcall AddPage(LPSTR pszPageName, DWORD *dwPageID);
+
+	// Add a control to a page. The page the control should be added to is referred
+	// to through the page ID given.  The flags are the same as
+    // IPlayPanel::AddControl.
+	HRESULT __stdcall AddControl(DWORD dwPageID, IPlayControl *pControl, DWORD dwFlags);
+
+	// Display a page. The page that should be shown is referred to through 
+	// the page ID.
+	HRESULT __stdcall ShowPage(DWORD dwPageID);
+
+	// This will remove the page from the popup list, thus not allowing users to 
+	// switch to the page given. (An app can still switch to it using ShowPage.)
+	HRESULT __stdcall UnlistPage(DWORD dwPageID);
+
+	// This will put a page back into the popup list if it has been removed.
+	HRESULT __stdcall RelistPage(DWORD dwPageID);
+
+	// Change the name of the page as it is displayed in the popup list to users.
+	HRESULT __stdcall ChangePageName(LPSTR pszPageName, DWORD dwPageID);
+
+    // Tell the panel how to revert using this advise sink.
+    // The revert button will not appear unless the panel
+    // is given an advisesink.  To unadvise, call Advise(NULL);
+    HRESULT Advise( IPlayPagedPanelAdviseSink *pAdviseSink );
+
+}
+
+[
+    local,
+    object,
+    uuid(8335e7ee-ab3b-11ce-8468-0000b468276b)
+]
+interface IPlayPagedPanel2 : IUnknown
+{
+    import "unknwn.idl";
+    import "wtypes.idl";
+    import "plyctl.idl";
+
+	// Do a pop-up of currently available (i.e. NOT unlisted ) pages
+	// at the location of the supplied control, plus or minus the supplied offset.
+	// The user's selected page will be shown with ShowPage().
+	HRESULT __stdcall DoPageSelectionPopup( IPlayControl *pControl, int xOffset, int yOffset );
+}
+
+[
+	local,
+	object,
+	uuid(8335e430-ab3b-11ce-8468-0000b468276b)
+]
+interface IPlayColorPanel : IUnknown
+{
+	import "unknwn.idl";
+	import "wtypes.idl";
+	import "plyctl.idl";
+
+	HRESULT PutInWindow(HWND hWnd, unsigned char *pszFileName);
+}

@@ -1,0 +1,3991 @@
+/******************************************************************************************
+FileName		    : W:\shared\Interface\gxlate.idl
+Version         : $Revision: 51$
+Vault File		  : $Archive: \\Source_Server\Software\Shared\GXlate\GXlate.VLT\VV610.VVF$
+Project  		    : $Project: GXlate$
+Sub Project     : $Subproject: Interface$
+Checked in by	  : $Author: apreston$ 
+Locked by	      : $Locker: apreston$
+Original Author	: Micheal Helmke
+Purpose		      : COM interfaces for file translation object
+Date Of Creation: 4/23/96
+Copyright       : Play Incorporated 1996
+Modification History :
+$Log: 
+    51  10/18/99    apreston        Added cscOwnConfig to csc enum
+    50  10/14/99    apreston        Sizing and moving window working correctly
+    49  10/13/99    apreston        Changed PlayXlator callback
+    48  10/11/99    apreston        Added CanSetCompression to PlayXlatorOpt
+    47  10/11/99    apreston        EMF
+    46  08/17/99    apreston        EMF
+    45  08/16/99    apreston        Improved commenting and GetSizeofImageData
+    44  08/16/99    apreston        EMF
+    43  08/12/99    apreston        EMF
+    42  08/07/99    apreston        Added DoesInterlacedFrames 
+    41  08/05/99    apreston        Added Overlay function for IGXBasicImageProcessing
+    40  08/04/99    apreston        Added more image attributes fo IGXIntBitmap
+    39  07/30/99    apreston        Added Storage Options 
+    38  07/30/99    apreston        Added IGXStorageUtils
+    37  07/29/99    apreston        EMF
+    36  07/29/99    apreston        Set MIN_ENUM_COMP_LEN
+    35  07/29/99    apreston        Added UseBruteForce and GetCompressionRatio to 
+                                    translator
+    34  07/29/99    apreston        Improved documentation for queryimageheader in 
+                                    translator
+    33  07/28/99    apreston        Config dialog returns S_FALSE for cancel hit
+    32  07/21/99    apreston        Added more image attributes
+    31  07/19/99    apreston        Added Scale with IGXIntBitmap2 in BasicImage Proc
+    30  07/19/99    slee            Added methods to MemClientIO & IntBitmap2 versions of 
+                                    the Layer functions to Translator4.
+    29  07/12/99    apreston        EMF
+    28  07/07/99    apreston        initial TM + EIM
+    27  07/02/99    apreston        Flesh out IGXintBitmap Options
+    26  07/01/99    apreston        EMF
+    25  06/30/99    apreston        SCI First working checkin
+    24  04/28/99    apreston        Added Default Color Types
+    23  04/08/99    apreston        AC Enums for Bit depths + Default Alpha Colours
+    22  12/17/98    slee            IGXTranFact3 and IGXTranslator3 interface 
+                                    additions/changes
+    21  12/09/98    slee            
+    20  12/09/98    slee            
+    19  12/08/98    slee            
+    18  12/08/98    slee            
+    17  12/04/98    slee            
+    16  11/12/98    slee            
+    15  11/10/98    slee            
+    14  04/24/98    bross           
+    13  04/15/98    bross           
+    12  01/30/98    bross           
+    11  10/21/97    bross           
+    10  10/21/97    bross           
+    9   10/17/97    bross           
+    8   09/18/97    bross           
+    7   09/16/97    bross           
+    6   09/12/97    bross           Changed my system from Pacific Standard Time to Pacific
+                                    Daylight Time.  This causes StarTeam to think all these
+                                    files need to be checked in.
+    5   08/18/97    bross           
+    4   08/11/97    bross           
+    3   08/07/97    bross           
+    2   05/09/97    bross           
+    1   04/23/97    bross           Initial Version
+$
+$NoKeywords$
+******************************************************************************************/
+
+
+//+------------------------------------------------------------------
+//
+// 	Project:	GXlate - graphic file translation. version 2
+//
+//  Copyright (C) Play Incorporated, 1996
+//
+//  File:       gxlate.idl
+//
+//  Contents:   COM interfaces for file translation object
+//
+//  Author:     Michael Helmke
+//
+//  Change History:
+//  4/23/96     initial creation of 2nd version
+//  2/5/97		Brian Ross - Added QueryImageHeader to 
+//                IGXTransFact and IGXTranslator
+//  3/10/97     Brian Ross - Added QuerySize to IGXClientIO
+//  3/12/97     Brian Ross - Added IsMovieFile to IGXAbsBitmap
+//  3/12/97     Brian Ross - Added QueryFrameRate and QueryNumberFrames
+//                to IGXTransFact and IGXTranslator (TEMPORARY).
+//  1/29/98		B.Ross - Added IGXBasicImageProcess3 and FieldFreeze
+//  11/11/98	SLee -- Added IEnumTranslator2, IGXTransFact3, and
+//                IGXTranslator3.
+//	12/09/98    SLee -- Changed some S_FALSE returns to E_FAILs
+//                to better reflect COM standards.
+//-------------------------------------------------------------------
+
+import "objidl.idl";
+
+// forward declarations
+interface IEnumTranslators;
+interface IEnumCompressors;
+interface IGXTransFact;
+interface IGXTranslator;
+interface IGXTranslator2;
+interface IGXTranslator3;
+interface IGXTranslator4;
+interface IGXIntBitmap;
+interface IGXIntBitmap2;
+interface IGXAbsBitmap;
+interface IGXClientIO;
+interface IGXStreamIO;
+interface IGXProgressAdviseSink;
+interface IGXOptionsCallback ;
+
+
+
+
+//+------------------------------------------------------------------
+//  Class:      IGXTypes
+//
+//  Purpose:    Defines types used by the file translator interfaces
+//
+//	Last changed:	4/23/96
+//+------------------------------------------------------------------
+[
+  uuid(8335e5f0-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IGXTypes
+{
+
+
+
+
+
+
+
+
+
+  //----------------------------------------------------------
+  //  Enum EPlayFrameType
+  //  Enumerates frame-store formats
+  //----------------------------------------------------------
+
+  typedef enum tagEPlayFrameType {
+
+    FTALPHA8      = 0x00000001,   // 8 bit alpha only
+    FTALPHA10     = 0x00000002,   // 10 bit alpha only
+    FT422YUV8     = 0x00000004,   // 4:2:2 YUV 8 bits per component (ntsc compatible)
+    FT4224YUVA8   = 0x00000008,   // 4:2:2:4 YUVA 8 bits per component (ntsc compatible)
+    FT422YUV10    = 0x00000010,   // 4:2:2 YUV 10 bits per component
+    FT4224YUVA10  = 0x00000020,   // 4:2:2:4 YUVA 10 bits per component
+    FT444YUV8     = 0x00000040,   // 4:4:4 YUV 8 bits per component
+    FT4444YUVA8   = 0x00000080,   // 4:4:4:4 YUVA 8 bits per component
+    FT444YUV10    = 0x00000100,   // 4:4:4 YUV 10 bits per component
+    FT4444YUVA10  = 0x00000200,   // 4:4:4:4 YUVA 10 bits per component
+    FTRGB8        = 0x00000400,   // RGB, 8 bits per color
+    FTRGBA8       = 0x00000800,   // RGBA, 8 bits ber component
+    FTRGB10       = 0x00001000,   // RGB, 10 bits per color
+    FTRGBA10      = 0x00002000,   // RGBA, 10 bits per component
+    FT256Palette8 = 0x00004000,   // RGB, 256 colors, 8 bits per color in palette
+	FT65KRGB16    = 0x00008000,   // RGB, 65K colors, 16 bits per color
+	FT16Palette4  = 0x00010000,   // RGB, 16 colors, 4 bits per pixel
+    FT422YUV8p    = 0x00020000,	  // 4:2:2 YUV 8 bits/component (pal compatible)
+	FT4224YUVA8p  = 0x00040000,	  // 4:2:2:4 YUVA 8 bits/component (pal compatible)
+//                  0x00080000,
+    FTADV601      = 0x00100000,   // ADV601 wavelet compressed interlaced CbYCr data
+
+//	FTInterlaced  = 0x80000000    // Indicates that frame is interlaced
+
+  } EPlayFrameType;
+
+  // NOTE:  YUV bitmaps must have an even height.  bitmaps being
+  // converted to YUV must also have even height.
+
+
+  //--------------------------------------------------------------//
+  //  Enumerated flags defining a given compressor's properties.  //
+  //--------------------------------------------------------------//
+  typedef enum tagECompressFlag {
+
+      CF_QUALITY  = 0x00000001,  //-- Indicates quality control
+	  CF_TEMPORAL = 0x00000002,  //-- Indicates interframe compression ratio
+	  CF_SCALE    = 0x00000004   //-- Indicates user-definable frame size
+
+  } ECompressFlag;
+
+  //-----------------------------------------------------------//
+  //  Enumerated flags defining various supported bit depths.  //
+  //  Andy Preston 4/8/1999 Expanded.                          //
+
+  //Andy Preston 6/7/99- There is a bit depth enumeration for this
+  // in Gxlateutils
+  //-----------------------------------------------------------//
+  typedef enum tagEBitDepths {
+
+      BD_1  = 0x0001,
+ 	    BD_2  = 0x0002,
+ 	    BD_4  = 0x0004,
+	    BD_8  = 0x0008,
+	    BD_16 = 0x0010,
+	    BD_24 = 0x0020,
+	    BD_32 = 0x0040,  // those above are in this order to try and maintain compatibility
+	    BD_7  = 0x0080,
+	    BD_15 = 0x0100,
+
+      BD_ALPHA =0x80000000
+  } EBitFlag;
+
+
+
+
+//Andy Preston 6/7/99- Used to eneumerate the names of bitdepths in GXLateUtils
+typedef struct tagBitDepthEnum 
+ {
+  EBitFlag BitDepth;
+  LPTSTR Name;
+ } BitDepthEnum;
+
+
+
+
+
+  //----------------------------------------------------------
+  //  Color Space
+  //  Defines the possible source color spaces.
+  //----------------------------------------------------------
+//Andy Preston 5/5/99-There is a type check in GXUtil.h which will
+//                    need to be done as well when adding
+  typedef enum tagEGXColorSpace
+  {
+		COLOR_UNKNOWN = 0,
+        RGB = 1,
+        YUV = 2,
+        CMYK = 4,
+		GREY = 8,
+    HSV =16
+  } EGXColorSpace;
+
+    // SLOW is a 2 pass quantization algorithm.
+    // FAST is a 1 pass dither using the system palette
+    // or a user supplied palette
+  typedef enum tagEQuantSpeed
+  {
+		GXSLOW = 0,
+        GXFAST = 1
+  } EQuantSpeed;
+
+  typedef struct tagBITMAPINFOHEADER BITMAPINFOHEADER;
+
+  typedef struct tagRGBQUAD RGBQUAD;
+
+  typedef struct tagBITMAPINFO BITMAPINFO;
+
+  typedef struct tagSPlaySPBmp
+  {
+        BITMAPINFOHEADER *imageHeader;
+        EPlayFrameType pixelFormat;
+        BYTE *pixelData;
+  } SPlayBitMap;
+
+
+
+typedef enum tagCanSetCompression
+{
+ cscNo,			 // can't set compression , say BMP
+ cscYes,		 // can set compression , format is always compressed comehow, either ratio or type of codec , e.g JPG 
+ cscCodec,		 // depends on codec e.g. TIF
+ cscOwnConfig,	 // I should bring up my own configuration dialog e.g AVI
+
+} CanSetCompression;
+
+
+
+/*Andy Preston 5/21/99- These are options for FileName matching when you use a set of
+                        numbered files as a movie. There is a Class in GXUtil.h that will
+                        default this structure.
+                        If Adding to this structure, please add to this default class as well
+
+following below will default a variable MatchOptions :
+  DefaultFileNameMatchOptions StdDefaultOptions(&MatchOptions);
+
+*/
+//Andy Preston 5/6/99- Please note ! This structure should only be added to and the order shouldn't
+//                     be rearranged, as this structure is written out to disk
+// PLEASE ALWAYS code ...... size=sizeof(FileNameMatchOptions);
+
+
+cpp_quote("#pragma pack(push,2)")
+typedef struct tagFileNameMatchOptions
+{
+
+ DWORD Size;              // this is used for versioning !i.e. greater size, then greater version
+ BOOL ExtMustMatch;       // this123.tfs and this124.bmp are only equal when false. All ext comparisons are upper case (tfs = TFS)
+ BOOL P1NoCase;           // we check part one without regard to case i.e. this123.bmp and THIS123.bmp are equal when true        
+ BOOL P3Important;        // do we even care about after the number                                                               
+ BOOL P3NoCase;           // if we're looking at P3, is it case sensitive ?                                                       
+ BOOL P3AsText;           // Treat P3 as text, or as a final numeric part                                                         
+ BOOL UseFileNameMatching;// True if we are actually using FileName Matching
+} FileNameMatchOptions;
+cpp_quote("#pragma pack(pop)")
+
+
+
+//Andy Preston 5/6/99- Please note ! This structure should only be added to and the order shouldn't
+//                     be rearranged, as this structure is written out to disk
+// PLEASE ALWAYS code ...... Size=sizeof(PlayXlatorOpt);
+cpp_quote("#pragma pack(push,2)")
+
+ typedef struct tagPlayXlatorOpt
+ {
+        DWORD Size;   // this is used for versioning !i.e. greater size, then greater version
+        WORD QualityFactor;
+        DWORD FrameRateRate;
+        DWORD FrameRateScale;
+        DWORD LoadScaleNumerator;
+        DWORD LoadScaleDenominator;
+        WORD DefaultColorCol1;      
+        WORD DefaultColorCol2;    
+        WORD DefaultColorCol3;     
+        WORD AlphaColorCol1;        
+        WORD AlphaColorCol2;        
+        WORD AlphaColorCol3;        
+        BOOL ApplyAlphaToNonAlphaDest;
+        BOOL ApplyAlphaToAlphaDest;
+        FileNameMatchOptions FNameMatchOpt;
+        DWORD Compressor;
+        double LoadFrameNumber;
+		CanSetCompression SetCompression;
+		DWORD ID; // ID of translator - same as getXlatorID
+ } PlayXlatorOpt;
+cpp_quote("#pragma pack(pop)")
+
+cpp_quote("#define SIZE_1_PlayXlatorOpt 82")
+cpp_quote("#define SIZE_2_PlayXlatorOpt 90")
+
+
+  //----------------------------------------------------------
+  //  LayerAttribute --
+  //  Defines the Layer Attributes that can be supported
+  //  by IGXTranlator3 objects that support layers.
+  //  pBuffer is the parameter used when invoking the
+  //  GetLayerAttribute() and SetLayerAttribute() methods.
+  //----------------------------------------------------------
+  typedef enum tagELayerAttribute
+  {
+		LA_NAME = 1,		// Layer Name
+							//    pBuffer is a pointer to a null terminated string
+		LA_XOFF = 2,		// X-Offset of the layer 
+							//    pBuffer is a pointer to a LONG
+		LA_YOFF = 3,		// Y-Offset of the layer
+							//    pBuffer is a pointer to a LONG
+		LA_BLENDMODE = 4,	// Blend Mode Key
+							//    pBuffer is a pointer an EBlendModeKey
+		LA_OPACITY = 5		// Opacity value for blend mode
+							//    pBuffer is a pointer to a WORD
+  } ELayerAttribute;
+
+
+  //----------------------------------------------------------
+  //  BlendModeKey --
+  //  Defines the Blend Mode Key Layer Attribute that may be
+  //  supported by IGXTranlator3 objects that support layers.
+  //  The pBuffer parameter used in GetLayerAttribute() and
+  //  SetLayerAttribute() method calls should be a pointer to
+  //  an EBlendModeKey.
+  //----------------------------------------------------------
+  typedef enum tagEBlendModeKey
+  {
+		BMK_NORMAL = 0,
+		BMK_DARKEN = 1,
+		BMK_LIGHTEN = 2,
+		BMK_HUE = 3,
+		BMK_SATURATION = 4,
+		BMK_COLOR = 5,
+		BMK_LUMINOSITY = 6,
+		BMK_MULTIPLY = 7,
+		BMK_SCREEN = 8,
+		BMK_DISSOLVE = 9,
+		BMK_OVERLAY = 10,
+		BMK_HARDLIGHT = 11,
+		BMK_SOFTLIGHT = 12,
+		BMK_DIFFERENCE = 13
+  } EBlendModeKey;
+}
+
+
+//+------------------------------------------------------------------
+//  Class:      IEnumTranslators
+//
+//  Purpose:    Access to list of installed file translators.  This
+//              is provided from IGXTransFact.  Clients use this
+//              to get the string names of the installed file
+//              translators.
+//
+// Last changed: ??? (before Nov '95)
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e5f1-ab3b-11ce-8468-0000b468276b)
+]
+interface IEnumTranslators : IUnknown
+{
+    // return a string with the name of the next file type in
+    // the list.  The minimum string length is 4 (including
+	// the null terminator.  
+	// Return string example:  "BMP"  (NOTE:  fileTypeSize == 4)
+	// Return S_OK on success
+	//        S_FALSE on end of list
+	//        E_FAIL if enumerator has not been initialized
+HRESULT Next(
+    [in] DWORD fileTypeSize,
+	[in] DWORD fileDescripSize,
+    [out] char *szFileTypeName,
+	[out] char *szFileDescrip);
+
+    // skip the next celt elements in the list.  return S_FALSE
+    // if skip would move beyond end of list
+	// E_FAIL if enumerator has not been initialized
+HRESULT Skip(
+    [in] ULONG celt);
+
+    // reset enumeration to beginning of list
+HRESULT Reset();
+
+    // produce a copy of this enumeration.  E_OUTOFMEMORY if
+    // unable to allocate space
+HRESULT Clone(
+    [out] IEnumTranslators **ppenum);
+}
+
+
+//+------------------------------------------------------------------
+//  Class:      IEnumTranslators2
+//
+//  Purpose:    Same as IEnumTranslators, but allow access to
+//              Translator objects based upon IDs rather than by
+//              a single file extension string.  This accessed through
+//              IGXTransFact3.
+//
+// Last changed: 11/11/98 SLee
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e6ba-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IEnumTranslators2 : IEnumTranslators
+{
+    // return a string with the name of the next file type in
+    // the list.  The minimum string length is 4 (including
+	// the null terminator.  
+	// pdwID is a unique identifier for this translation object.
+	// Return string example:  "BMP"  (NOTE:  fileTypeSize == 4)
+	// Return S_OK on success
+	//        S_FALSE on end of list
+	//        E_FAIL if enumerator has not been initialized
+HRESULT Next(
+	[in]  DWORD	dwFileTypeSize,
+	[in]  DWORD	dwFileDescripSize,
+	[out] char	*szFileTypeName,
+	[out] char	*szFileDescrip,
+	[out] DWORD	*pdwID);
+
+    // produce a copy of this enumeration.  E_OUTOFMEMORY if
+    // unable to allocate space
+HRESULT Clone(
+    [out] IEnumTranslators2 **ppenum);
+}
+
+
+//+------------------------------------------------------------------
+//  Class:      IEnumCompressors
+//
+//  Purpose:    Access to list of available file compressors.  This
+//              is provided from IGXTranslator. Clients use this
+//              to get the string names and and associated numerical
+//              values for each compressor.
+//
+// Last changed:  7-29-97
+//+------------------------------------------------------------------
+cpp_quote("#define MIN_ENUM_COMP_NAME_LEN 16")
+cpp_quote("#define MIN_ENUM_COMP_DESC_LEN 128")
+[
+  object,
+  uuid(8335e69b-ab3b-11ce-8468-0000b468276b)
+]
+interface IEnumCompressors : IUnknown
+{
+
+
+//------------------------------------------------------------------//
+//  Return a set of strings and numerical values describing the     //
+//  current compressor.  The caller is responsible for allocating   //
+//  the buffers for each of the two strings.  The strings have the  //
+//  following MINIMUM SIZE restrictions:                            //
+//                                                                  //
+//		CompressionName        (minimum size = 16  bytes)           //
+//      CompressionDescription (minimum size = 128 bytes)           //
+//   Use the two defines above, to match the code                   //
+//                                                                  //
+//  All returned strings will be NULL terminated.                   //
+//                                                                  //
+//  The CompCode is a unique ID code which is used in the selection //
+//  of Compressors.                                                 //
+//                                                                  //
+//  The CompFlags will indicate which user-definable properties are //
+//  available for the given compressor.                             //
+//                                                                  //
+//  Returns:  S_OK on success.                                      //
+//            S_FALSE on end of list.                               //
+//            E_FAIL  on error.                                     //
+//------------------------------------------------------------------//
+
+HRESULT Next(
+    [out] BYTE  *CompName,
+	[out] BYTE  *CompDescrip,
+	[out] ECompressFlag *CompFlags,
+	[out] DWORD *CompBits,
+	[out] DWORD *CompCode);
+
+//------------------------------------------------------------//
+//  Skip the next celt elements in the list.  return S_FALSE  //
+//  if skip would move beyond end of list                     //
+//  E_FAIL if enumerator has not been initialized             //
+//  Sets to just before the "celt"th element.
+//  i.e. to retrieve #3 , call reset, then skip 3, then call  //
+//       next.
+//------------------------------------------------------------//
+HRESULT Skip(
+    [in ] ULONG celt);
+
+    //-------------------------------------------//
+    //  Reset enumeration to beginning of list.  //
+	//-------------------------------------------//
+HRESULT Reset();
+
+    //---------------------------------------------------------//
+    //  Produce a copy of this enumeration.  E_OUTOFMEMORY if  //
+    //  unable to allocate space.                              //
+	//---------------------------------------------------------// 
+HRESULT Clone(
+    [out] IEnumCompressors **ppenum);
+}
+
+
+
+
+
+//+------------------------------------------------------------------
+//  Class:      IEnumCompressors
+//
+//  Purpose:    Access to list of available file compressors.  This
+//              is provided from IGXTranslator. Clients use this
+//              to get the string names and and associated numerical
+//              values for each compressor.
+//
+// Last changed:  7-29-97
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e6c2-ab3b-11ce-8468-0000b468276b)
+]
+interface IEnumCompressors2 : IEnumCompressors
+{
+/* This function is called by whatever setups the strings etc for the interface.
+   This was added to the interface , so that a program didn't have to "new" a 
+   copy of the interface, since that was the only way to access the Initialize 
+   function before.
+
+                                                  */
+   HRESULT __stdcall Initialize(
+	   [in ]  BYTE **CNames,
+     [in ]  BYTE **CDescriptions, 
+		 [in ]  ECompressFlag *CFlags,
+		 [in ]  DWORD *CBits,
+		 [in ]  DWORD *CIds,
+		 [in ]  DWORD CCount);
+
+
+
+}
+//+------------------------------------------------------------------
+//  Class:      IGXGlobalOpts
+//
+//  Purpose:  Allow global graphics options to be set and queried.
+//            Currently this includes quantization speed,
+//            whether dithering should be used, and specifying
+//            the palette to be used for dithering.
+//
+// Last changed: 6/2/96
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e600-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXGlobalOpts : IUnknown
+{
+    // quantization occurs when converting to 8, 4, or 1 bpp.
+    // slow speed is a 2 pass algorithm, fast is a 1 pass dither.
+    // setting a fast speed will automatically turn on dithering.
+HRESULT SetQuantizeSpeed(
+    [in] EQuantSpeed speed);
+
+void GetQuantizeSpeed(
+    [out] EQuantSpeed *speed);
+
+    // true causes dithering to occur when converting to 256
+    // colors and 65K colors
+HRESULT SetDither(
+    [in] BOOL dither);
+
+void GetDither(
+    [out] BOOL *dither);
+
+    // user can only set a palette for dithering to 256 colors.
+    // this replaces any previously set palette
+HRESULT SetUserPalette(
+    [in] PALETTEENTRY *pal,
+    [in] WORD numentries);
+
+    // replaces any previously set user palette with the system
+    // palette.  used if dithering has been enabled.
+HRESULT UseSystemPalette(void);
+}
+
+
+//+------------------------------------------------------------------
+//  Class:      IGXTransFact
+//
+//  Purpose:    graphic file translator factory.
+//				Allows interfaces for specific file types to be
+//				obtained.
+//
+//	This class will return interfaces to other file types for
+//	clients to translate to and from.  CLSIDs for other installed
+//	interfaces must be stored in the system registry (which this
+//	class will read information from).  clients can obtain a list
+//	of installed translators from this class.  the list can then
+//	be presented to the user.  user choices can be fed back through
+//  here to instantiate the proper classes.
+//
+// Last changed: 4/23/96
+// CMcVay (8/22/96) Added FrameNumber functions.
+// Ross (2/5/97)  Added QueryImageHeader function.
+// Ross (3/12/97) Added QueryFrameRate & QueryNumberFrames.
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e5f2-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXTransFact : IUnknown
+{
+    // get the type of this file and return a pointer to a
+    // translator that can load/save it.
+    // params:
+    //      pszFileName - name of file to get type of
+    //      filetypeSize - size of type name buffer 
+	//        (including null terminator; min size = 4)
+    //      szfileTypeName - the name of this file type
+    //      ppXlator - pointer to a translator interface
+    // return S_OK if a file type is found
+    //        E_FAIL if no installed translator can validate() (was S_FALSE)
+    //        E_... on other failure
+HRESULT GetFileType(
+    [string,in] char *pszFileName,
+    [in] DWORD fileTypeSize,
+    [out] char *szFileTypeName,
+    [out] IGXTranslator **ppXlator);
+
+    // given the name of a file translator, return an interface.
+    // return S_FALSE if type name is unknown.
+    // params:
+    //      szFileTypeName - name of a file type.  names are
+    //                       available from an IEnumTranslators
+    //      ppXlator - pointer to a translator interface
+    // return S_OK if a translator is returned ok
+    //        S_FALSE if no translator is found
+    //        E_... on other failure
+HRESULT GetFileXlator(
+    [string,in] char *szFileTypeName,
+    [out] IGXTranslator **ppXlator);
+
+    // given a file name, load the file and return an IGXIntBitmap
+    // and, optionally, the IGXTranslator used to load the bitmap.
+    // if client doesn't want a translator, a NULL pointer can be
+    // passed in instead.  progress allows clients to monitor
+    // progress on the operation.  this function is provided as
+    // a shortcut to getting a translator and then loading the file
+    // as a 2 step operation.
+    // return S_OK on success
+    //        E_FAIL if object can't load (was S_FALSE)
+    //        E_OUTOFMEMORY if components couldn't be created
+HRESULT LoadFile(
+    [string,in] char *pszFileName,
+    [in] EPlayFrameType format,
+    [out] IGXIntBitmap **pIBmp,
+    [in] IGXProgressAdviseSink *progress,
+    [out] IGXTranslator **pITrans);
+
+    // save a file with the given name.  the IGXTranslator held by
+    // the bitmap is used to save the file with the same settings it
+    // was loaded with.  if the bitmap has no associated
+    // IGXTranslator, return E_INVALIDARG as failure.
+    // return S_OK on success.
+    // (if there is no translator held in the bitmap, one must be
+    // obtained through other functions in this interface)
+  	// E_FAIL indicates failure.
+    // E_NOTIMPL if the translator doesn't support saving
+HRESULT SaveFile(
+    [string,in] char *pszFileName,
+    [in] IGXIntBitmap *pIBmp,
+    [in] IGXProgressAdviseSink *progress);
+
+    // the following two return enumeration interfaces to list
+    // installed file loaders and file savers.
+    // return S_OK on success
+    //        E_OUTOFMEMORY if enum can't be created
+HRESULT GetEnumLoaders(
+    [out] IEnumTranslators **ppIenum);
+
+    // return S_OK on success
+    //        E_OUTOFMEMORY if enum can't be created
+HRESULT GetEnumSavers(
+    [out] IEnumTranslators **ppIenum);
+
+    // if client wishes to provide its own low level IO routines,
+    // it provides an implementation of IGXClientIO and passes it
+    // in here for future use by all other translators.
+void SetClientIO(
+    [in] IGXClientIO *pClientIO);
+
+}
+
+
+//+------------------------------------------------------------------
+//  Class:      IGXTransFact2
+//
+//  Purpose:    Same as IGXTransFact, but with added functionality
+//
+//  Last changed: 4/16/97 B.Ross - Moved functions from IGXTransFact
+//				  4/23/97 B.Ross - Added IGXTranslator2 compatible functions
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e604-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXTransFact2 : IGXTransFact
+{
+
+	// Set the number of the frame to process.
+	// Note:  The first frame is frameNumber = 0 (frameNumber >= 0)
+HRESULT SetFrameNumber(
+    [in] DWORD frameNumber);
+
+	// Get the current frame number.
+HRESULT QueryFrameNumber(
+    [out] DWORD *frameNumber);
+
+    // Given a file name, read the file header and fill in the 
+	// the header structure and format.  The caller is responsible 
+	// for allocating space for the input header structure.  If 
+	// successful, QueryImageHeader will fill in the header with 
+	// the appropriate values.  The returned format will represent
+	// the closest match between the supported EPlayFrameTypes and
+	// the actual format of the file in question.  On failure, the 
+	// header structure and format will be initialized to zero.
+	// You can pass a NULL in place of the header or the format.
+	// Return:  S_OK on success.
+	//          E_FAIL on failure
+HRESULT QueryImageHeader(
+    [string, in] char *pszFileName,
+	[out] BITMAPINFOHEADER *pBmi,
+	[out] EPlayFrameType *format);
+
+	// Purpose:  Return the number of image frames in the file.
+	// Returns:  S_OK on success.
+	//           E_FAIL on error.
+HRESULT QueryNumberFrames(
+    [in ][string]  unsigned char *pszFileName,
+	[out]          DWORD *numFrames);
+
+	// Purpose:  Return the frame rate of the movie file.  The
+	//           rate is in Frames per Second.  
+	//			 FrameRate = Rate / Scale;
+	// Example:	 30.0 fps -> Rate = 30, Scale = 1;
+	//			 0.25 fps -> Rate =  1, Scale = 4;
+	// Returns:  S_OK on success.
+	//           E_FAIL on error.
+HRESULT QueryFrameRate(
+    [in ][string]  unsigned char *pszFileName,
+    [out]          DWORD *Scale,
+	[out]		   DWORD *Rate);
+
+	// Purpose:  Set the frame rate to be used upon file creation.
+	//           The rate is in Frames per Second.  
+	//			 FrameRate = Rate / Scale;
+	// Example:	 30.0 fps -> Rate = 30, Scale = 1;
+	//			 0.25 fps -> Rate =  1, Scale = 4;
+	// Returns:  S_OK on success.
+	//           E_FAIL on error.
+HRESULT SetFrameRate(
+    [in ]          DWORD Scale,
+	[in ]		   DWORD Rate);
+
+	// Purpose:  Set the frame rate of an existing movie file.
+	//           The rate is in Frames per Second.  
+	//			 FrameRate = Rate / Scale;
+	// Example:	 30.0 fps -> Rate = 30, Scale = 1;
+	//			 0.25 fps -> Rate =  1, Scale = 4;
+	// Returns:  S_OK on success.
+	//           E_FAIL on error.
+HRESULT UpdateFrameRate(
+    [in ][string]  unsigned char *pszFileName,
+    [in ]          DWORD Scale,
+	[in ]		   DWORD Rate);
+
+	// Just like GetFileType for original IGXTransFact with an 
+	// IGXTranslator2 [out] parameter
+HRESULT GetFileType(
+    [string,in] char *pszFileName,
+    [in] DWORD fileTypeSize,
+    [out] char *szFileTypeName,
+    [out] IGXTranslator2 **ppXlator2);
+
+	// Just like GetFileXlator for original IGXTransFact with an 
+	// IGXTranslator2 [out] parameter
+HRESULT GetFileXlator(
+    [string,in] char *szFileTypeName,
+    [out] IGXTranslator2 **ppXlator2);
+
+	// Just like LoadFile for original IGXTransFact with an 
+	// IGXTranslator2 [out] parameter
+HRESULT LoadFile(
+    [string,in] char *pszFileName,
+    [in] EPlayFrameType format,
+    [out] IGXIntBitmap **pIBmp,
+    [in] IGXProgressAdviseSink *progress,
+    [out] IGXTranslator2 **pITrans2);
+
+	// Purpose:  Return the class ID for the associated translator.
+//REFCLSID QueryCLSID(
+//	[in ][string] unsigned char *pszFileName);
+
+}
+
+
+//+------------------------------------------------------------------
+//  Class:      IGXTransFact3
+//
+//  Purpose:    Same as IGXTransFact2, but with functionality for
+//              specifying translation objects with unique IDs and
+//              support for IGXTranslator3 objects.
+//
+// Last changed: 12/08/98 SLee
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e6b9-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXTransFact3 : IGXTransFact2
+{
+	// Just like GetFileType for original IGXTransFact with an 
+	// IGXTranslator3 [out] parameter
+HRESULT GetFileType(
+    [string,in] char *pszFileName,
+    [in] DWORD fileTypeSize,
+    [out] char *szFileTypeName,
+    [out] IGXTranslator3 **ppXlator3);
+
+	// Similar to GetFileXlator for original IGXTransFact but
+	// the desired translator is specified by its ID and an
+	// IGXTranslator3 is returned.
+HRESULT GetFileXlator(
+    [in] DWORD dwID,
+    [out] IGXTranslator3 **ppXlator3);
+
+	// Just like LoadFile for original IGXTransFact with an 
+	// IGXTranslator3 [out] parameter
+HRESULT LoadFile(
+    [string,in] char *pszFileName,
+    [in] EPlayFrameType format,
+    [out] IGXIntBitmap **pIBmp,
+    [in] IGXProgressAdviseSink *progress,
+    [out] IGXTranslator3 **pITrans3);
+
+	
+	// Purpose:  Returns an enumeration interface to list
+	//           of installed file loaders.  Also returns
+	//           the length of the space required to store
+	//           the longest szFileTypeName and szFileDescrip
+	//           strings that will be returned.
+	// Returns:  S_OK on success.
+	//           E_OUTOFMEMORY if enum can't be created.
+HRESULT GetEnumLoaders(
+	[out] IEnumTranslators2 **ppIenum,
+	[out] DWORD *pdwMaxTypeSize,
+	[out] DWORD *pdwMaxDescripSize);
+
+	// Purpose:  Returns an enumeration interface to list
+	//           of installed file savers.  Also returns
+	//           the length of the space required to store
+	//           the longest szFileTypeName and
+	//           szFileDescrip strings.
+	// Returns:  S_OK on success.
+	//           E_OUTOFMEMORY if enum can't be created.
+HRESULT GetEnumSavers(
+	[out] IEnumTranslators2 **ppIenum,
+	[out] DWORD *pdwMaxTypeSize,
+	[out] DWORD *pdwMaxDescripSize);
+
+	// Purpose:  Determines if GetFileType() will perform a
+	//           brute force attempt (try every known translator)
+	//           to find the translator for a file if it can't
+	//           find one from the file extension alone.  This
+	//           is TRUE by default to maintain compatible
+	//           behavior with previous versions of gxlate.  A
+	//           client that wants absolute speed can set this
+	//           to FALSE to turn off the brute force attempt
+	//           to validate.  All IGXTransFact methods which
+	//           act on files will be affected by a call to
+	//           this method as they all use GetFileType() within
+	//           their implementations to find the appropriate
+	//           translator object.
+	// Returns:  S_OK always.
+HRESULT UseBruteForce2Find( 
+	[in] BOOL bUseBruteForce);
+
+	// Purpose:  Returns an enumeration interface to list
+	//           of installed STILL file loaders.  Also returns
+	//           the length of the space required to store
+	//           the longest szFileTypeName and szFileDescrip
+	//           strings that will be returned.
+	// Returns:  S_OK on success.
+	//           E_OUTOFMEMORY if enum can't be created.
+HRESULT GetEnumStillLoaders(
+	[out] IEnumTranslators2 **ppIenum,
+	[out] DWORD *pdwMaxTypeSize,
+	[out] DWORD *pdwMaxDescripSize);
+
+	// Purpose:  Returns an enumeration interface to list
+	//           of installed STILL file savers.  Also returns
+	//           the length of the space required to store
+	//           the longest szFileTypeName and
+	//           szFileDescrip strings.
+	// Returns:  S_OK on success.
+	//           E_OUTOFMEMORY if enum can't be created.
+HRESULT GetEnumStillSavers(
+	[out] IEnumTranslators2 **ppIenum,
+	[out] DWORD *pdwMaxTypeSize,
+	[out] DWORD *pdwMaxDescripSize);
+	
+	// Purpose:  Returns an enumeration interface to list
+	//           of installed MOVIE file loaders.  Also returns
+	//           the length of the space required to store
+	//           the longest szFileTypeName and szFileDescrip
+	//           strings that will be returned.
+	// Returns:  S_OK on success.
+	//           E_OUTOFMEMORY if enum can't be created.
+HRESULT GetEnumMovieLoaders(
+	[out] IEnumTranslators2 **ppIenum,
+	[out] DWORD *pdwMaxTypeSize,
+	[out] DWORD *pdwMaxDescripSize);
+
+	// Purpose:  Returns an enumeration interface to list
+	//           of installed MOVIE file savers.  Also returns
+	//           the length of the space required to store
+	//           the longest szFileTypeName and
+	//           szFileDescrip strings.
+	// Returns:  S_OK on success.
+	//           E_OUTOFMEMORY if enum can't be created.
+HRESULT GetEnumMovieSavers(
+	[out] IEnumTranslators2 **ppIenum,
+	[out] DWORD *pdwMaxTypeSize,
+	[out] DWORD *pdwMaxDescripSize);
+}
+
+
+
+//+------------------------------------------------------------------
+//  Class:      IGXTransFact4
+//
+//  Purpose:    Same as IGXTransFact3.
+//              Now suppprts Translators as seperate DLL's ,and that a 
+//              translator may be just a loader or saver for a type.
+//              i.e. loader and saver may be different translators
+
+//Andy Preston 4/28/99- created.
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e6bc-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXTransFact4 : IGXTransFact3
+{
+	typedef enum tagTranslatorType {
+    TYPENULL = 0x00,
+		TYPELOAD = 0x01,  
+		TYPESAVE = 0x02,   
+    TYPELOADSAVE = (TYPELOAD | TYPESAVE )
+
+	 } TranslatorType;
+
+
+	// Just like GetFileType for original IGXTransFact with an 
+	// IGXTranslator4 [out] parameter
+HRESULT GetFileType(
+    [string,in] LPTSTR pszFileName,
+    [in] DWORD fileTypeSize,
+    [out] LPTSTR szFileTypeName,
+    [out] IGXTranslator4 **ppXlator4,
+    [in] TranslatorType Type);
+
+	// Similar to GetFileXlator for original IGXTransFact but
+	// the desired translator is specified by its ID and an
+	// IGXTranslator4 is returned.
+HRESULT GetFileXlator(
+    [in] DWORD dwID,
+    [out] IGXTranslator4 **ppXlator4);
+
+
+	// Just like LoadFile for original IGXTransFact with an 
+	// IGXTranslator4 [out] parameter
+HRESULT LoadFile(
+    [string,in] LPTSTR pszFileName,
+    [in] EPlayFrameType format,
+    [out] IGXIntBitmap2 **pIBmp,
+    [in] IGXProgressAdviseSink *progress,
+    [out] IGXTranslator4 **pITrans4,
+    [in] TranslatorType Type);
+
+
+/*
+     load a file into a particular internal format.
+     The file is loaded into a buffer you supply
+     params:
+          pszFileName - name of file to load
+          format      - what internal form we want the bitmap to be in
+          ppIBmp      - bitmap. Buffer and header is attached to this.
+          progress    - progress monitor
+          imageHeader - Image Header to recieve the image details. Attached 
+                        to  ppIBmp
+          buffer      - buffer to hold the image
+          size        - sizeof buffer. If this isn't big enough for the image, 
+                        then the required size will be placed in here
+          Type        - a constant for what type of translator you want, loader or saver or both
+     return S_OK on success
+            E_FAIL if object can't load - possible buffer wasn't big enough !
+            E_NOTIMPL - not implemented yet
+            E_OUTOFMEMORY if components couldn't be created
+            MEM_E_INVALID_SIZE if buffer isn't big enough
+
+
+Example
+   // NOTE - For Speed, the Buffers shouldn't be local, but rather allocated once, and resized only if necessary
+    char * MemBuffr=NULL;
+    DWORD SizeofMemBuffer=0;
+
+    int paletteSize = 256 * sizeof(RGBQUAD);
+
+    // allocate space for imageHeader
+    (BITMAPINFOHEADER*) *ImageHeader = (BITMAPINFOHEADER*)new BYTE[sizeof(BITMAPINFOHEADER) + paletteSize];
+
+     hr = pIGXTrans->LoadFileToBuffer(FileName, Format, pIntBmp, Progress, ImageHeader,MemBuffer,&SizeofMemBuffer);
+     if (hr == MEM_E_INVALID_SIZE)
+      {
+       if (MemBuffer) delete[] MemBuffer;
+
+       SizeofMemBuffer= ((SizeofMemBuffer+15) / 16) * 16;   // make multiple of 16 - not neccessary but maybe useful in future !
+       MemBuffer=new unsigned char[SizeofMemBuffer];
+       hr = pIGXTransFact4->LoadFileToBuffer(FileName, Format, pIntBmp, Progress, ImageHeader,MemBuffer,&SizeofMemBuffer);
+      }
+	   if(FAILED(hr)) 
+      {
+       MessageBox("COM:  Unable to load file.", "GXView Error", MB_ICONEXCLAMATION);
+		   goto CLEANUP1;
+      }
+
+
+
+*/
+
+HRESULT LoadFileToBuffer( 
+  [string,in] LPTSTR pszFileName,
+  [in] EPlayFrameType format,
+  [out] IGXIntBitmap2 **ppIBmp,
+  [in] IGXProgressAdviseSink *progress,
+  [out] IGXTranslator4 **pITrans4,
+	[in] BITMAPINFOHEADER *imageHeader,
+  [string,in] char * buffer,
+  [in] DWORD *size,
+  [in] TranslatorType Type);
+
+
+
+// ==================================================================
+// 
+// FUNCTION :  SetAlphaColor()
+// 
+// * Description : Sets the Alpha Color Used to Composite over. This 
+//                 is passed to any translators created.
+// 
+// * Author : [Andy Preston], Created : [5/6/99 9:41:14 AM]
+// * Returns : [HRESULT] -  S_OK - everything fine
+//                          E_FAIL - may give this, but should never
+//                          E_NOTIMPL - we just don't support that  
+//                                      eg GREY for color space
+// * Function parameters : 
+//  [in] WORD col1             : Colour 1 for user color, R 
+//  [in] WORD col2             : Colour 2 for user color, G 
+//  [in] WORD col3             : Colour 3 for user color, B 
+//
+// 
+// * Example Usage :
+/* 
+   SetAlphaColor(0,0,0);
+   SetAlphaColor(255,255,255);  //White
+*/ 
+// ==================================================================
+HRESULT SetAlphaColor( 
+  [in] WORD col1,
+  [in] WORD col2,
+  [in] WORD col3);
+
+// ==================================================================
+// 
+// FUNCTION :  SetDefaultImageColor()
+// 
+// * Description : Sets the Default Image color used when an image
+//                 just contains alpha data, such as a wipe. This is 
+//                 passed to any translators created.
+// 
+// * Author : [Andy Preston], Created : [5/6/99 9:41:34 AM]
+// 
+// * Returns : [HRESULT] -  S_OK - everything fine
+//                          E_FAIL - may give this, but should never
+//                          E_NOTIMPL - we just don't support that  
+//                                      eg GREY for color space
+// 
+// * Function parameters : 
+//  [in] WORD col1             : Colour 1 for user color, R 
+//  [in] WORD col2             : Colour 2 for user color, G 
+//  [in] WORD col3             : Colour 3 for user color, B 
+// * Example Usage :
+/* 
+   SetDefaultImageColor(0,0,0);
+   SetDefaultImageColor(255,255,255);  //White
+*/ 
+// ==================================================================
+HRESULT SetDefaultImageColor( 
+  [in] WORD col1,
+  [in] WORD col2,
+  [in] WORD col3);
+
+
+
+/* ==================================================================
+ 
+   FUNCTION :  SetFilematchOptions()
+   
+   * Description : Will Set the current FileName matching options to
+                   the structure pointed to by opt.
+                   Normally best to do a "Get" first to load you structure,
+                   then just modify the one you want.
+   
+   * Author : [Andy Preston], Created : [5/21/99 2:59:27 PM]
+   
+   * Returns : [HRESULT] - S_OK           - okey dokey
+                           E_INVALIEDARG  - Duh, pass me something !
+                           E_FAIL         - Arguments out of range - includeing size param!
+   
+   * Function parameters : 
+   
+   * Example Usage :
+  
+   FileNameMatchOptions MatchOptions;
+   DefaultFileNameMatchOptions StdDefaultOptions(&MatchOptions); // defaults structure including size param !
+
+   GetFileMatchOptions(&MatchOptions);     // get current options for that translator
+   MatchOptions->ExtMustMatch=FALSE;       // change the one we want
+   SetFileNameMatchOptions(&MatchOptions); // reset the options
+
+ 
+   ==================================================================*/
+HRESULT SetFileMatchOptions(
+         [in] FileNameMatchOptions *Opt);
+
+
+
+/* ==================================================================
+ 
+   FUNCTION :  GetFilematchOptions()
+   
+   * Description :  Loads the structure pointed to by Opt with the current
+                    file name options.
+                    MAKE SURE you set the size param first !
+   
+   * Author : [Andy Preston], Created : [5/21/99 2:59:56 PM]
+   
+   * Returns : [HRESULT] -  S_OK           - okey dokey              
+                            E_INVALIEDARG  - Duh, pass me something !
+                            E_FAIL         - Arguments out of range - includeing size param!
+   * Function parameters : 
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/                                      
+HRESULT GetFileMatchOptions(
+         [in] FileNameMatchOptions *Opt);
+
+
+
+
+
+// ==================================================================
+// 
+// FUNCTION :  ConfigDialogExecute()
+// 
+// * Description : Brings up a PLAYUI config dialog for the translator.
+//                 The translator configures itself from the setup
+//                 changes made by the dialog. If ReadOnly is true, then
+//                 the Dialog is made  readOnly and is just used to 
+//                 display information (i.e. an Information screen )
+// 
+//   NOTE : if more than 1 panel file is used, then it constructs the 
+//          name from the previous name. Also , a path may just be
+//          supplied, and it will make the name form that
+// 
+// * Author : [Andy Preston], Created : [5/6/99 10:40:52 AM]
+// 
+// * Returns : [HRESULT] - S_OK - displayed and setup OK, OK hit
+//                         S_FALSE - displayed and setup, Cancel hit
+//                         E_FAIL - a setup error or display error
+//                         E_NOTIMPL - unable to implement- Config
+//                                     dialog is a seperate interface
+//                                     and dll and may not always be
+//                                     available 
+// 
+// * Function parameters : pszFileName - PLAYUI panel file name
+//                         ReadOnly    - Show the Dialog as readOnly
+//                         Callback    - callback interfcae for changes
+// 
+// * Example Usage :
+/* 
+
+*/ 
+// ==================================================================
+HRESULT ConfigDialogExecute(
+  [string,in] LPTSTR pszFileName,
+  [in] IGXOptionsCallback *Callback);
+
+
+
+
+// ==================================================================
+// 
+// FUNCTION :  LoadConfigFromStream()
+// 
+// * Description : Loads any config data from the stream. On error, or
+//                 no config data, attempts to return stream pointer
+//                 to the inital position. It will also  take care of
+//                 any versioning information relavent to this
+// 
+// 
+// * Author : [Andy Preston], Created : [5/6/99 9:59:10 AM]
+// 
+// * Returns : [HRESULT] - S_OK - able to do
+//                         E_FAIL -  a stream error, or no data to read
+//                         E_NNOTIMPL - hasn't been implemented yet
+// * Function parameters : Istream to read from
+// 
+// * Example Usage :
+/* 
+   pXlator->LoadConfigFromStream(stream);
+*/ 
+// ==================================================================
+HRESULT LoadConfigFromStream(
+  [in] IStream * stream);
+
+// ==================================================================
+// 
+// FUNCTION :  SaveConfigToStream()
+// 
+// * Description : Saves any config data to a stream. On error does
+//                 NOT attempt to reposition the file pointer.
+// 
+// 
+// * Author : [Andy Preston], Created : [5/6/99 9:59:17 AM]
+// 
+// * Returns : [HRESULT] - S_OK - able to do
+//                         E_FAIL -  a stream error, or no data to read
+//                         E_NNOTIMPL - hasn't been implemented yet
+// * Function parameters : Istream to save to
+// 
+// * Example Usage :
+/* 
+   pXlator->SaveConfigToStream(stream);
+*/ 
+// ==================================================================
+HRESULT SaveConfigToStream(
+  [in] IStream * stream);
+
+
+// ==================================================================
+// 
+// FUNCTION :  SaveConfig()
+// 
+// * Description :
+// 
+// 
+// * Author : [Andy Preston], Created : [5/6/99 2:14:25 PM]
+// 
+// * Returns : [HRESULT] -E_INVALIDARG - passed a NULL pointer
+//						  S_OK - hokely dokely	( in the words of Ned Flanders!) 
+//						  E_FAIL - set the size param to something usefule will ya !
+// 
+// * Function parameters : 
+// 
+// * Example Usage :
+/* 
+
+*/ 
+// ==================================================================
+HRESULT SaveConfigToBuffer(
+  [in] PlayXlatorOpt * Opt);
+
+
+// ==================================================================
+// 
+// FUNCTION :  LoadConfig()
+// 
+// * Description :
+// 
+// 
+// * Author : [Andy Preston], Created : [5/6/99 2:14:14 PM]
+// 
+// * Returns : [HRESULT] -
+// 
+// * Function parameters : 
+// 
+// * Example Usage :
+/* 
+
+*/ 
+// ==================================================================
+HRESULT LoadConfigFromBuffer(
+  [in] PlayXlatorOpt * Opt);
+
+
+
+HRESULT SetDefaultCompressionLevel(
+  [in] WORD compressLevel);
+
+    // get the previously set value
+	// return S_OK
+HRESULT GetDefaultCompressionLevel(
+  [out] WORD *compressLevel);
+
+
+
+	// Purpose:  Return the frame rate of the movie file.  The
+	//           rate is in Frames per Second.  
+	//			 FrameRate = Rate / Scale;
+	// Example:	 30.0 fps -> Rate = 30, Scale = 1;
+	//			 0.25 fps -> Rate =  1, Scale = 4;
+	// Returns:  S_OK on success.
+	//           E_FAIL on error.
+HRESULT GetDefaultFrameRate(
+    [out]          DWORD *Scale,
+	[out]          DWORD *Rate);
+
+	// Purpose:  Set the desired frame rate of a non-existing file.
+	//           The value specified will be recorded upon file creation.
+	//			 The rate is in Frames per Second.
+	//			 FrameRate = Rate / Scale;
+	// Example:	 30.0 fps -> Rate = 30, Scale = 1;
+	//			 0.25 fps -> Rate =  1, Scale = 4;
+	// Returns:  S_OK on success.
+	//			 S_FALSE on error.
+HRESULT SetDefaultFrameRate(
+    [in ] DWORD Scale,
+	[in ] DWORD Rate);
+
+
+	// Purpose:  Request that a Translator load images at the specified
+	//           Scale.
+	// Returns:  S_OK if the translator can load at the specified scale.
+	//           E_INVALIDARG if the translator can *not* load at this scale.
+	//           E_NOTIMPL if the translator does not support scaled loading.
+HRESULT SetDefaultLoadScale(
+	[in]	DWORD	dwNumerator,
+	[in]	DWORD	dwDenominator);
+
+
+	// Purpose:  Request that a Translator load images at the specified
+	//           Scale.
+	// Returns:  S_OK if the translator can load at the specified scale.
+	//           E_INVALIDARG if the translator can *not* load at this scale.
+	//           E_NOTIMPL if the translator does not support scaled loading.
+HRESULT GetDefaultLoadScale(
+	[out]	DWORD	*dwNumerator,
+	[out]	DWORD	*dwDenominator);
+
+
+
+}
+
+
+
+
+//+------------------------------------------------------------------
+//  Class:      IGXProgressAdviseSink
+//
+//  Purpose:    Clients implement this to receive notification
+//              that progress has been made during an image
+//              operation.  progress isn't guaranteed to be
+//              by consecutive rows.  rows may be skipped if data
+//              is operated on by strip or tile (as in TIFF files).
+//              progress isn't guaranteed to be a linear progression
+//              (one layer of an operation may see progress while
+//              lower layers are buffering data which gets operated
+//              upon later).
+//
+// Last changed: 8/8/96
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e5f3-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXProgressAdviseSink : IUnknown
+{
+    typedef struct tagSTrnProgress
+    {
+        DWORD currentRow;
+        DWORD maxRow;
+        DWORD currentPass;
+        DWORD maxPass;
+    } STrnProgress;
+
+		// these calls are made simply to tell the client exactly
+		// when and operation begins or ends
+	void StartOperation(void);
+	void EndOperation(void);
+		// this will be called before an operation really begins
+		// work and will be the real maximum number of passes.
+		// (at present, the maxPass value in STrnProgress may not
+		// be correct in all implementations.  this will change
+		// soon).
+	void SetMaxPasses(DWORD maxPass);
+
+        // tell the client which row of how many the translation
+        // is operating on.  multiple passes over the image may occur
+        // when palettes are generated from a true-color image, for
+        // example.  client can do anything it wants with this
+        // information.
+        // returns S_OK normally
+        //         S_FALSE if client wants to abort operation
+    HRESULT ProgressNotify(
+        [in] STrnProgress *progress);
+}
+
+//+------------------------------------------------------------------
+//  Class:      IGXClientIO
+//
+//	Purpose:	the client should implement this if it has special
+//				disk I/O needs (for example trying to multi-task
+//				Win95 disk operations with high-performance
+//				graphics operations).  client will provide an
+//				instantiation of this interface.  library will then
+//              use this interface for subsequent operations on
+//              the given disk entity.
+//
+//				the client is assumed to have already successfully
+//				opened the file.  successful destruction
+//              of this object will close the file or stream.
+//
+//				client is responsible for providing the appropriate
+//				byte ordering.
+//
+//				should this do something about streams?
+//
+//	No code presently uses this.
+//
+// Last changed: 12/11/95
+//               3/10/97  B.Ross - Added QuerySize()
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e5f4-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXClientIO: IUnknown
+{
+	typedef enum tagSeekOrig
+	{
+		PlaySEEK_START = 0,
+		PlaySEEK_END,
+		PlaySEEK_CURRENT
+	} SeekOrig;
+
+	typedef enum tagEEndianess {
+		UNKNOWN = 0,
+		INTEL,      // little endian
+		MOTOROLA,   // big endian
+	} EEndianess;
+
+        // open a file with the given name.  mode is the same
+        // as for Win32 CreateFile
+    HRESULT FileOpen(
+        [in] char *pszFileName,
+        [in] DWORD mode);
+
+        // close the open file.  it is not an error to close
+        // a file that is already closed.  releasing all
+        // references to this object will also close it.
+    HRESULT FileClose(void);
+
+        // report about the state of the object.  if a file
+        // is open and seems usable, return S_OK, otherwise
+        // return S_FALSE
+    HRESULT IsValid(void);
+
+        // tell what is the format of the data.  (big or small
+        // endian)
+	void GetMediaEndianess(
+		[out] EEndianess *end);
+
+        // set the format of the data.
+	void SetMediaEndianess(
+		[in] EEndianess end);
+
+
+//Andy Preston 7/26/99-   dir can be PlaySEEK_CURRENT,PlaySEEK_START, or PlaySEEK_END
+    HRESULT Seek([in] LONG distance, [in] SeekOrig dir);
+
+    HRESULT ReadByte([out] BYTE* b);
+    HRESULT ReadWord([out] WORD* w);
+    HRESULT ReadDWord([out] DWORD* dw);
+    HRESULT ReadBuffer([out] BYTE* buf, [in] DWORD* count);
+
+    HRESULT WriteByte([in] BYTE b);
+    HRESULT WriteWord([in] WORD w);
+    HRESULT WriteDWord([in] DWORD dw);
+    HRESULT WriteBuffer([in] BYTE* buf,[in] DWORD* count);
+
+    // Determine the size of the open file.
+	// Returns:  S_OK   - if success
+	//           E_FAIL - if an error occured
+    HRESULT QuerySize([out] DWORD *Size);
+
+	// Determine the offset of the current location in the file.
+	// Returns:  S_OK   - if success
+	//           E_FAIL - if an error occured
+	HRESULT QueryOffset([out] DWORD *Offset);
+
+    // force any buffering to flush to the underlying medium
+    void FlushIO(void);
+
+}
+
+/*
+//+------------------------------------------------------------------
+//  Class:      IGXClientIO2
+//
+//  Purpose:    Same as IGXClientIO, but with added functionality
+//
+//  Last changed: 4/16/97 B.Ross - Moved function from IGXClientIO
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e60c-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXClientIO2 : IGXClientIO
+{
+
+        // Determine the size of the open file.
+		// Returns:  S_OK   - if success
+		//           E_FAIL - if an error occured
+    HRESULT QuerySize([out] DWORD *Size);
+
+}
+*/
+
+// TODO: Insert IGXStreamIO interface here.
+[
+  object,
+  uuid(d38c4cc0-01c0-11d0-98b2-002018311f37),
+  local
+]
+interface IGXStreamIO: IGXClientIO//IUnknown
+{
+// Open stream is passed in to function. This can be set in the class
+// object inheriting this interface.
+    HRESULT SetStorage(IStorage *pStorage);
+}
+
+
+
+//Andy Preston 6/17/99- This allows us to have a simple memory based file, for things like
+//file preview and finding out compression levels
+
+[
+  object,
+  uuid(8335e6c1-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXMemClientIO: IGXClientIO//IUnknown
+{
+  // Suggests a size for the initial buffer allocation.
+	// This must be called prior to the first FileOpen() to be of any
+	// effect.  A length of zero indicates the normal memory allocation
+	// size should be used.
+    void SuggestSize(
+	    [in] DWORD length);
+
+  // Returns a pointer to the buffer and the number of bytes used.
+	// For safety reasons, this can only be done if the file is not
+	// currently open.  The pointer returned should only be considered
+	// to be valid until the next MemClientIO call is performed or the
+	// MemClientIO object is destroyed.
+  // returns  S_OK   if successful
+  //          E_FAIL if not (file not closed?)
+	//          E_INVALIDARG
+    HRESULT GetBuffer(
+        [out] BYTE **buf,
+        [out] DWORD *length);
+
+  // Supplies a client allocated buffer for MemClientIO to use. 
+	// "length" indicates the length in bytes of the buffer and "used"
+	// indicates the amount of preloaded data in the buffer.  While 
+	// MemClientIO is using the client supplied buffer, it cannot
+	// extend the "file" if necessary.  To tell MemClientIO to start
+	// using it's own buffer and copy the current contents of the client
+	// supplied buffer to it, call UseBuffer() with a NULL buffer.  If
+	// the file is currently open, the only valid call is one with a
+	// NULL buffer.
+    // returns  S_OK   if successful
+    //          E_OUTOFMEMORY (only possible if buf is NULL)
+	//          E_INVALIDARG
+    HRESULT UseBuffer(
+        [in] BYTE *buf,
+	    [in] DWORD length,
+	    [in] DWORD used);
+
+}
+
+
+
+
+
+//+------------------------------------------------------------------
+//  Class:      IGXTranslator
+//
+//  Purpose:    load and save files.  this interface will be attached
+//              to file specific translator classes.
+//
+//				clients should receive this from IGXTransFact.
+//				clients should not instantiate this themselves!
+//
+// Last changed: 4/23/96
+// CMcVay (8/22/96) added FrameNumber functions.
+// Ross   (2/5/97)  Added QueryImageHeader Function.
+// Ross   (3/12/97) Added QueryFrameRate & QueryNumberFrames
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e5f5-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXTranslator: IUnknown
+{
+    // given a file name, return S_OK or S_FALSE based on whether
+    // the file type can be validated for this translator.  normally
+    // used by IGXTransFact.
+    // return S_OK if file is recognized by this translator
+    //        S_FALSE if it isn't
+    //        E_OUTOFMEMORY if internal components couldn't be
+    //                      allocated
+HRESULT ValidateFile( 
+  [string,in] char *pszFileName);
+
+    // return values of the two following indicate if a
+    // translator can load and/or save in this format.
+    // return S_OK if object can load or save a format
+    //        S_FALSE if it cannot
+HRESULT CanILoad(void);
+HRESULT CanISave(void);
+
+    // return the string name of this translator in a buffer.
+	// Note:  fileTypeSize is the size of the string buffer
+	//   including the null terminator;  min buffer size = 4
+    // return S_OK on success
+    //        E_... on failure
+HRESULT GetXlatorName(
+  [in] DWORD fileTypeSize,
+  [out] char *szFileTypeName);
+
+HRESULT GetXlatorDescription(
+  [in] DWORD fileDescripSize,
+  [out] char *szFileDescripName);
+
+    // if client wishes to provide its own low level IO routines,
+    // it provides an implementation of IGXClientIO and passes it
+    // in here for future use by this translator.
+void SetClientIO(
+    [in] IGXClientIO *pClientIO);
+
+    // load a file into a particular internal format.
+	// we allocate space for the bitmap.  we even AddRef() the
+	// interface (so don't you do that yourself).
+    // params:
+    //      pszFileName - name of file to load
+    //      format - what internal form we want the bitmap to be in
+    //      ppIBmp - the loaded bitmap (which contains file format
+    //               specific information available through another
+    //               interface).
+    // return S_OK on success
+    //        E_FAIL if object can't load (was S_FALSE)
+    //        E_OUTOFMEMORY if components couldn't be created
+HRESULT LoadFile( 
+  [string,in] char *pszFileName,
+  [in] EPlayFrameType format,
+  [out] IGXIntBitmap **ppIBmp,
+  [in] IGXProgressAdviseSink *progress);
+
+    // save the bitmap to a file
+    // return S_OK on success
+    //        E_FAIL if object can't save (was S_FALSE)
+    //        E_OUTOFMEMORY if components couldn't be created
+HRESULT SaveFile(
+  [string,in] char *pszFileName,
+  [in] IGXIntBitmap *pIBmp,
+  [in] IGXProgressAdviseSink *progress);
+
+}
+
+
+//+------------------------------------------------------------------
+//  Class:      IGXTranslator2
+//
+//  Purpose:    Same as IGXTranslator, but with added functionality
+//
+// Last changed: 4/16/97 B.Ross - Moved functions from IGXTranslator
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e605-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXTranslator2 : IGXTranslator
+{
+
+	// Set the number of the frame to process.
+	// Note:  The first frame is frameNumber = 0 (frameNumber >= 0)
+HRESULT SetFrameNumber(
+    [in] DWORD frameNumber);
+
+	// Get the current frame number.
+HRESULT QueryFrameNumber(
+    [out] DWORD *frameNumber);
+
+    // Given a file name, read the file header and fill in the 
+	// the header structure and format.  The caller is responsible 
+	// for allocating space for the input header structure.  If 
+	// successful, QueryImageHeader will fill in the header with 
+	// the appropriate values.  The returned format will represent
+	// the closest match between the supported EPlayFrameTypes and
+	// the actual format of the file in question.  On failure, the 
+	// header structure and format will be initialized to zero.
+  // header and format are optional !
+	// Return:  S_OK on success.
+	//          E_FAIL on failure
+HRESULT QueryImageHeader(
+    [string, in] char *pszFileName,
+	[out] BITMAPINFOHEADER *pBmi,
+	[out] EPlayFrameType *format);
+
+	// Purpose:  Return the number of image frames in the file.
+	// Returns:  S_OK on success.
+	//           E_FAIL on error.
+HRESULT QueryNumberFrames(
+    [in ][string]  unsigned char *pszFileName,
+	[out]          DWORD *numFrames);
+
+	// Purpose:  Return the frame rate of the movie file.  The
+	//           rate is in Frames per Second.  
+	//			 FrameRate = Rate / Scale;
+	// Example:	 30.0 fps -> Rate = 30, Scale = 1;
+	//			 0.25 fps -> Rate =  1, Scale = 4;
+	// Returns:  S_OK on success.
+	//           E_FAIL on error.
+HRESULT QueryFrameRate(
+    [in ][string]  unsigned char *pszFileName,
+    [out]          DWORD *Scale,
+	[out]          DWORD *Rate);
+
+	// Purpose:  Set the desired frame rate of a non-existing file.
+	//           The value specified will be recorded upon file creation.
+	//			 The rate is in Frames per Second.
+	//			 FrameRate = Rate / Scale;
+	// Example:	 30.0 fps -> Rate = 30, Scale = 1;
+	//			 0.25 fps -> Rate =  1, Scale = 4;
+	// Returns:  S_OK on success.
+	//			 S_FALSE on error.
+HRESULT SetFrameRate(
+    [in ] DWORD Scale,
+	[in ] DWORD Rate);
+
+	// Purpose:  Update the frame rate of an existing file.
+	//           The rate is in Frames per Second.
+	//			 FrameRate = Rate / Scale;
+	// Example:	 30.0 fps -> Rate = 30, Scale = 1;
+	//			 0.25 fps -> Rate =  1, Scale = 4;
+	// Returns:  S_OK on success.
+	//			 S_FALSE on error.
+HRESULT UpdateFrameRate(
+    [in ][string]  unsigned char *pszFileName,
+    [in ]          DWORD Scale,
+	[in ]          DWORD Rate);
+
+HRESULT GetEnumCompressors(
+    [out] IEnumCompressors **ppIenum);
+
+HRESULT SetCompressor(
+	[in ] DWORD CompCode);
+
+HRESULT GetCompressor(
+	[out] DWORD *CompCode);
+
+	// Purpose:  Return the class ID for the associated translator.
+REFCLSID QueryCLSID(void);
+
+}
+
+
+//+------------------------------------------------------------------
+//  Class:      IGXTranslator3
+//
+//  Purpose:    Same as IGXTranslator2, but with added functionality
+//
+// Last changed: 11/10/98 SLee
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e6b8-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXTranslator3 : IGXTranslator2
+{
+	// Purpose:  Request that a Translator load images at the specified
+	//           Scale.
+	// Returns:  S_OK if the translator can load at the specified scale.
+	//           E_INVALIDARG if the translator can *not* load at this scale.
+	//           E_NOTIMPL if the translator does not support scaled loading.
+HRESULT SetLoadScale(
+	[in]	DWORD	dwNumerator,
+	[in]	DWORD	dwDenominator);
+
+
+	// Purpose:  Determines how many layers are available in the
+	//           requested file.  A translator who's format does not
+	//           support layers will always return one.  The client
+	//           can then call QueryLayer() or LoadLayer() with a layer
+	//           number ranging from zero to one less than the value
+	//           returned by this method.
+	// Returns:  S_OK upon success.
+	//           E_FAIL if the number can not be determined (such as
+	//                   this is the wrong translator for the file.)
+	//           E_... upon failure.
+HRESULT QueryNumberLayers(
+	[string, in]	char	*pszFileName,
+	[out]			DWORD	*pdwNumLayers);
+
+
+	// Purpose:  Given a file name and layer number, fill in the 
+	//           header structure, format, and retrieve the layerinfo
+	//           (such as layer name, etc.) for later retrieval.  The 
+	//           caller is responsible for allocating space for the
+	//           header structure.  If successful, QueryLayer will
+	//           fill in the header with the appropriate values.  The
+	//           returned format will represent the closest match
+	//           between the supported EPlayFrameTypes and the actual
+	//           format of the file/layer in question.  On failure, the 
+	//           header structure and format will be initialized to
+	//           zero.  The layer number is zero based.  A format that
+	//           does not support layers will be considered to have one
+	//           layer referenced as layer number zero.
+	// Returns:  S_OK upon success.
+	//           E_FAIL upon failure. (does the file contain that layer?)
+HRESULT QueryLayer(
+	[string, in] char *pszFileName,
+	[in ] DWORD dwLayerNumber,
+	[out] BITMAPINFOHEADER *pBmi,
+	[out] EPlayFrameType *format);
+
+
+	// Purpose:  Like LoadFile() but loads a specified layer.  The 
+	//           layer number is zero based and thus you can ask
+	//           for layer number zero to one less than the number
+	//           returned by QueryNumberLayers().  A format that does
+	//           not support layers will consider layer number zero
+	//           to be the image that would be loaded by LoadFile().
+	// Returns:  S_OK upon success.
+	//           E_FAIL if object cannot load the specified layer
+    //           E_OUTOFMEMORY if components couldn't be created
+HRESULT LoadLayer( 
+	[string,in] char *pszFileName,
+	[in ] DWORD dwLayerNumber,
+	[in ] EPlayFrameType format,
+	[out] IGXIntBitmap **ppIBmp,
+	[in ] IGXProgressAdviseSink *progress);
+
+
+	// Purpose:  Returns the desired attribute of the Layer that was
+	//           previously acted on by a QueryLayer() or LoadLayer()
+	//           call.
+	// Returns:  S_OK upon success.
+	//           E_NOTIMPL if the format does not support the attribute
+	//           E_INVALIDARG if dwBufferSize indicates pBuffer not appropriate.
+	//           E_UNEXPECTED if the attributes value was not valid.
+	//           E_FAIL if the last operation was not a QueryLayer()
+	//                  or a LoadLayer().
+HRESULT GetLayerAttribute( 
+	[in] ELayerAttribute eAttribute,
+	[in] DWORD dwBufferSize,
+	[out] void *pBuffer);
+
+
+	// Purpose:  Set the desired attribute of the next Layer to be saved
+	// Returns:  S_OK upon success.
+	//           E_NOTIMPL if the format does not support the attribute
+	//           E_INVALIDARG if the attributes value was not valid.
+HRESULT SetLayerAttribute( 
+	[in] ELayerAttribute eAttribute,
+	[in] void *pBuffer);
+
+	// Purpose:  Returns whether the translator is capable of saving
+	//           layers.
+	// Returns:  S_OK if layers are supported.
+	//           S_FALSE if layers are not supported.
+HRESULT CanISaveLayers(void);
+
+	// Purpose:  Begins a layered save to the specified filename.
+	//           This method is called once to begin the save.  The client
+	//           can then call all the Set methods relating to layer info
+	//           such as SetLayerName() followed by a single call to
+	//           SaveLayer().  This is repeated (calling the Set methods
+	//           followed by SaveLayer()) for each of the layers in the
+	//           image.  SaveLayer() must be called nNumLayers times or
+	//           the resulting file will be corrupt.  The layered save
+	//           is completed by calling EndLayeredSave().
+    // Return:   S_OK on success
+    //           E_FAIL if object can't save
+    //           E_OUTOFMEMORY if components couldn't be created
+HRESULT BeginLayeredSave(
+	[string,in] char *pszFileName,
+	[in] DWORD nNumLayers,
+	[in] IGXProgressAdviseSink *progress);
+
+	// Purpose:  Saves the next layer in a layered save begun by calling
+	//           BeginLayeredSave().  Prior to each call to this method,
+	//           the client can call the Set methods relating to layer
+	//           info such as SetLayerName().  SaveLayer will use any
+	//           values Set since the last call to BeginLayeredSave() or
+	//           SaveLayer().  (BeginLayeredSave() and SaveLayer() will
+	//           set defaults for the next layer in case the client does
+	//           not explicitly Set a layer info value.
+    // Return:   S_OK on success
+    //           E_FAIL if object can't save
+    //           E_OUTOFMEMORY if components couldn't be created
+HRESULT SaveLayer(
+	[in] IGXIntBitmap *pIBmp,
+	[in] IGXProgressAdviseSink *progress);
+
+	// Purpose:  Finishes a layered save started with BeginLayeredSave().
+	//           The bitmap passed in is the composite bitmap of all the
+	//           layers.  Note that if SaveLayer() was not called *exactly*
+	//           the number of times indicated by nNumLayers when 
+	//           BeginLayeredSave() was invoked then the file will most
+	//           likely be corrupt and invalid.
+    // Return:   S_OK on success
+    //           E_FAIL if object can't save
+    //           E_OUTOFMEMORY if components couldn't be created
+HRESULT EndLayeredSave(
+	[in] IGXIntBitmap *pIBmp,
+	[in] IGXProgressAdviseSink *progress);
+
+	// Purpose:  Returns the unique identifier for this translation
+	//           object.  This identifier can be used in calls to
+	//           IGXTransFact3.
+	// Returns:  S_OK on success
+	//           E_... on failure
+HRESULT GetXlatorID(
+	[out]	DWORD	*pdwID);
+
+}
+
+
+
+
+//+------------------------------------------------------------------
+//  Class:      IGXTranslator4
+//
+//  Purpose:    Same as IGXTranslator3, but with added functionality
+//
+
+//Andy Preston 5/5/99-
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e6bb-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXTranslator4 : IGXTranslator3
+{
+/*
+     load a file into a particular internal format.
+     The file is loaded into a buffer you supply
+     params:
+          pszFileName - name of file to load
+          format      - what internal form we want the bitmap to be in
+          ppIBmp      - bitmap. Buffer and header is attached to this.
+          progress    - progress monitor
+          imageHeader - Image Header to recieve the image details. Attached 
+                        to  ppIBmp
+          buffer      - buffer to hold the image
+          size        - sizeof buffer. If this isn't big enough for the image, 
+                        then the required size will be placed in here
+     return S_OK on success
+            E_FAIL if object can't load - possible buffer wasn't big enough !
+            E_NOTIMPL - not implemented yet
+            E_OUTOFMEMORY if components couldn't be created
+            MEM_E_INVALID_SIZE if buffer isn't big enough
+
+Example
+   // NOTE - For Speed, the Buffers shouldn't be local, but rather allocated once, and resized only if necessary
+    char * MemBuffr=NULL;
+    DWORD SizeofMemBuffer=0;
+
+    int paletteSize = 256 * sizeof(RGBQUAD);
+
+    // allocate space for imageHeader
+    (BITMAPINFOHEADER*) *ImageHeader = (BITMAPINFOHEADER*)new BYTE[sizeof(BITMAPINFOHEADER) + paletteSize];
+
+     hr = pIGXTrans->LoadFileToBuffer(FileName, Format, pIntBmp, Progress, ImageHeader,MemBuffer,&SizeofMemBuffer);
+     if (hr == MEM_E_INVALID_SIZE)
+      {
+       if (MemBuffer) delete[] MemBuffer;
+
+       SizeofMemBuffer= ((SizeofMemBuffer+15) / 16) * 16;   // make multiple of 16 - not neccessary but maybe useful in future !
+       MemBuffer=new unsigned char[SizeofMemBuffer];
+       hr = pIGXTransFact4->LoadFileToBuffer(FileName, Format, pIntBmp, Progress, ImageHeader,MemBuffer,&SizeofMemBuffer);
+      }
+	   if(FAILED(hr)) 
+      {
+       MessageBox("COM:  Unable to load file.", "GXView Error", MB_ICONEXCLAMATION);
+		   goto CLEANUP1;
+      }
+
+
+*/
+
+HRESULT LoadFileToBuffer( 
+  [string,in] LPTSTR pszFileName,
+  [in] EPlayFrameType format,
+  [out] IGXIntBitmap2 **ppIBmp,
+  [in] IGXProgressAdviseSink *progress,
+	[in] BITMAPINFOHEADER *imageHeader,
+  [string,in] unsigned char * buffer,
+  [in] DWORD *size);
+
+
+    // load a file into a particular internal format.
+	// we allocate space for the bitmap.  we even AddRef() the
+	// interface (so don't you do that yourself).
+    // params:
+    //      pszFileName - name of file to load
+    //      format - what internal form we want the bitmap to be in
+    //      ppIBmp - the loaded bitmap (which contains file format
+    //               specific information available through another
+    //               interface).
+    // return S_OK on success
+    //        E_FAIL if object can't load (was S_FALSE)
+    //        E_OUTOFMEMORY if components couldn't be created
+HRESULT LoadFile( 
+  [string,in]  LPTSTR pszFileName,
+  [in] EPlayFrameType format,
+  [out] IGXIntBitmap2 **ppIBmp,
+  [in] IGXProgressAdviseSink *progress);
+
+
+    // save the bitmap to a file
+    // return S_OK on success
+    //        E_FAIL if object can't save (was S_FALSE)
+    //        E_OUTOFMEMORY if components couldn't be created
+HRESULT SaveFile(
+  [string,in]  LPTSTR pszFileName,
+  [in] IGXIntBitmap2 *pIBmp,
+  [in] IGXProgressAdviseSink *progress);
+
+
+
+// ==================================================================
+// 
+// FUNCTION :  SetAlphaColor()
+// 
+// * Description : Sets the Alpha Color Used to Composite over
+// 
+// * Author : [Andy Preston], Created : [5/6/99 9:41:14 AM]
+// * Returns : [HRESULT] -  S_OK - everything fine
+//                          E_FAIL - may give this, but should never
+//                          E_NOTIMPL - we just don't support that  
+//                                      eg GREY for color space
+// * Function parameters : 
+//  [in] WORD col1             : Colour 1 for user color, R or Y
+//  [in] WORD col2             : Colour 2 for user color, G or U
+//  [in] WORD col3             : Colour 3 for user color, B or V
+//
+// 
+// * Example Usage :
+/* 
+   SetAlphaColor(PlayBlack,COLOR_UNKNOWN,0,0,0);
+   SetAlphaColor(PlayUser,RGB,255,255,255);  //White
+   SetAlphaColor(PlayUser,YUV,235,128,128);  //White
+*/ 
+// ==================================================================
+HRESULT SetAlphaColor( 
+  [in] WORD col1,
+  [in] WORD col2,
+  [in] WORD col3);
+
+// ==================================================================
+// 
+// FUNCTION :  SetDefaultImageColor()
+// 
+// * Description : Sets the Default Image color used when an image
+//                 just contains alpha data, such as a wipe Currently
+//                 only used by TFS files
+// 
+// * Author : [Andy Preston], Created : [5/6/99 9:41:34 AM]
+// 
+// * Returns : [HRESULT] -  S_OK - everything fine
+//                          E_FAIL - may give this, but should never
+//                          E_NOTIMPL - we just don't support that  
+//                                      eg GREY for color space
+// 
+// * Function parameters : 
+//  [in] WORD col1             : Colour 1 for user color, R or Y
+//  [in] WORD col2             : Colour 2 for user color, G or U
+//  [in] WORD col3             : Colour 3 for user color, B or V
+// * Example Usage :
+/* 
+   SetDefaultImageColor(PlayBlack,COLOR_UNKNOWN,0,0,0);
+   SetDefaultImageColor(PlayUser,RGB,255,255,255);  //White
+   SetDefaultImageColor(PlayUser,YUV,235,128,128);  //White
+*/ 
+// ==================================================================
+HRESULT SetDefaultImageColor( 
+  [in] WORD col1,
+  [in] WORD col2,
+  [in] WORD col3);
+
+
+
+// ==================================================================
+// 
+// FUNCTION :  LoadConfigFromStream()
+// 
+// * Description : Loads any config data from the stream. On error, or
+//                 no config data, attempts to return stream pointer
+//                 to the inital position. It will also  take care of
+//                 any versioning information relavent to this
+// 
+// 
+// * Author : [Andy Preston], Created : [5/6/99 9:59:10 AM]
+// 
+// * Returns : [HRESULT] - S_OK - able to do
+//                         E_FAIL -  a stream error, or no data to read
+//                         E_NNOTIMPL - hasn't been implemented yet
+// * Function parameters : Istream to read from
+// 
+// * Example Usage :
+/* 
+   pXlator->LoadConfigFromStream(stream);
+*/ 
+// ==================================================================
+HRESULT LoadConfigFromStream(
+  [in] IStream * stream);
+
+// ==================================================================
+// 
+// FUNCTION :  SaveConfigToStream()
+// 
+// * Description : Saves any config data to a stream. On error does
+//                 NOT attempt to reposition the file pointer.
+// 
+// 
+// * Author : [Andy Preston], Created : [5/6/99 9:59:17 AM]
+// 
+// * Returns : [HRESULT] - S_OK - able to do
+//                         E_FAIL -  a stream error, or no data to read
+//                         E_NNOTIMPL - hasn't been implemented yet
+// * Function parameters : Istream to save to
+// 
+// * Example Usage :
+/* 
+   pXlator->SaveConfigToStream(stream);
+*/ 
+// ==================================================================
+HRESULT SaveConfigToStream(
+  [in] IStream * stream);
+
+
+// ==================================================================
+// 
+// FUNCTION :  SaveConfig()
+// 
+// * Description :
+// 
+// 
+// * Author : [Andy Preston], Created : [5/6/99 2:14:25 PM]
+// 
+// * Returns : [HRESULT] -
+// 
+// * Function parameters : 
+// 
+// * Example Usage :
+/* 
+
+*/ 
+// ==================================================================
+HRESULT SaveConfigToBuffer(
+  [in] PlayXlatorOpt * Opt);
+
+
+// ==================================================================
+// 
+// FUNCTION :  LoadConfig()
+// 
+// * Description :
+// 
+// 
+// * Author : [Andy Preston], Created : [5/6/99 2:14:14 PM]
+// 
+// * Returns : [HRESULT] -
+// 
+// * Function parameters : 
+// 
+// * Example Usage :
+/* 
+
+*/ 
+// ==================================================================
+HRESULT LoadConfigFromBuffer(
+  [in] PlayXlatorOpt * Opt);
+
+
+
+
+
+// ==================================================================
+// 
+// FUNCTION :  ConfigDialogExecute()
+// 
+// * Description : Brings up a PLAYUI config dialog for the translator.
+//                 The translator configures itself from the setup
+//                 changes made by the dialog. If ReadOnly is true, then
+//                 the Dialog is made  readOnly and is just used to 
+//                 display information (i.e. an Information screen )
+// 
+//   NOTE : if more than 1 panel file is used, then it constructs the 
+//          name from the previous name. Also , a path may just be
+//          supplied, and it will make the name form that
+// 
+// * Author : [Andy Preston], Created : [5/6/99 10:40:52 AM]
+// 
+// * Returns : [HRESULT] - S_OK - displayed and setup OK
+//                         S_FALSE - displayed and setup, Cancel hit
+//                         E_FAIL - a setup error or display error
+//                         E_NOTIMPL - unable to implement- Config
+//                                     dialog is a seperate interface
+//                                     and dll and may not always be
+//                                     available 
+// 
+// * Function parameters : pszFileName - PLAYUI panel file name
+//                         pBmp        - Bitmap details
+//                         ReadOnly    - Show the Dialog as readOnly
+//                         Callback    - callback interfcae for changes
+// 
+// * Example Usage :
+/* 
+
+*/ 
+// ==================================================================
+HRESULT ConfigDialogExecute(
+  [string,in] LPTSTR pszFileName,
+  [in] IGXIntBitmap2 *pIBmp,
+  [in] BOOL ReadOnly,
+  [in] IGXOptionsCallback *Callback);
+
+
+
+
+
+
+/* ==================================================================
+ 
+   FUNCTION :  GetLastLoadFileName()
+   
+   * Description : Loads FileName with a pointer to a buffer containing
+                   the last loaded or validated filename. Read this 
+                   buffer to find out the actual filename loaded when 
+                   loading frames.
+                   Writing to this buffer is a very BIG NO-NO !
+   
+   * Author : [Andy Preston], Created : [5/18/99 11:08:23 AM]
+   
+   * Returns : [HRESULT] - S_OK go wild
+   
+   * Function parameters : 
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+HRESULT GetLastLoadFileName(
+         [string,out] LPTSTR * FileName);
+
+
+
+/* ==================================================================
+ 
+   FUNCTION :  GetMasterLoadFileName()
+   
+   * Description : Loads FileName with a pointer to a buffer containing
+                   the Master loaded or validated filename. Read this 
+                   buffer to find out the actual filename used as the key
+                   filename when loading frames.
+                   Writing to this buffer is a very BIG NO-NO !
+   
+   * Author : [Andy Preston], Created : [5/18/99 11:08:23 AM]
+   
+   * Returns : [HRESULT] - S_OK go wild
+   
+   * Function parameters : 
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+HRESULT GetMasterLoadFileName(
+         [string,out] LPTSTR * FileName);
+
+
+
+/* ==================================================================
+ 
+   FUNCTION :  SetFilematchOptions()
+   
+   * Description : Will Set the current FileName matching options to
+                   the structure pointed to by opt.
+                   Normally best to do a "Get" first to load you structure,
+                   then just modify the one you want.
+   
+   * Author : [Andy Preston], Created : [5/21/99 2:59:27 PM]
+   
+   * Returns : [HRESULT] - S_OK           - okey dokey
+                           E_INVALIEDARG  - Duh, pass me something !
+                           E_FAIL         - Arguments out of range - includeing size param!
+   
+   * Function parameters : 
+   
+   * Example Usage :
+  
+   FileNameMatchOptions MatchOptions;
+   DefaultFileNameMatchOptions StdDefaultOptions(&MatchOptions); // defaults structure including size param !
+
+   GetFileMatchOptions(&MatchOptions);     // get current options for that translator
+   MatchOptions->ExtMustMatch=FALSE;       // change the one we want
+   SetFileNameMatchOptions(&MatchOptions); // reset the options
+
+ 
+   ==================================================================*/
+HRESULT SetFileMatchOptions(
+         [in] FileNameMatchOptions *Opt);
+
+
+
+/* ==================================================================
+ 
+   FUNCTION :  GetFilematchOptions()
+   
+   * Description :  Loads the structure pointed to by Opt with the current
+                    file name options.
+                    MAKE SURE you set the size param first !
+   
+   * Author : [Andy Preston], Created : [5/21/99 2:59:56 PM]
+   
+   * Returns : [HRESULT] -  S_OK           - okey dokey              
+                            E_INVALIEDARG  - Duh, pass me something !
+                            E_FAIL         - Arguments out of range - includeing size param!
+   * Function parameters : 
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/                                      
+HRESULT GetFileMatchOptions(
+         [in] FileNameMatchOptions *Opt);
+
+
+
+/* ==================================================================
+ 
+   FUNCTION :  GetEnumCompressors()
+   
+   * Description : This is just a newer version of this old property
+   
+   * Author : [Andy Preston], Created : [6/22/99 11:37:54 AM]
+   
+   * Returns : [HRESULT] - S_OK for OK
+                           E_FAIL for problem
+                           E_OUTOFMEMORY for out of mem
+                           E_INVALIDARG - a NULL pointer or such was passes
+   * Function parameters : 
+   [**ppIenum] -
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+HRESULT GetEnumCompressors(
+      [out] IEnumCompressors2 **ppIenum);
+
+
+
+
+/* ==================================================================
+ 
+   FUNCTION :  UseEnumCompressors()
+   
+   * Description : This flag tells a translator that the requested
+                   way of dealing with compression schemes is thru 
+                   the GetEnumCompressors interface. The one translator 
+                   this currently effects is TIFF, since it returns the
+                   four compression steps thru the GetCompressionSteps
+                   property, so that it is then impossible to set the 
+                   quality factor for JPEG. The default for a translator 
+                   is false to maintain backwards compatability.
+   
+   * Author : [Andy Preston], Created : [6/22/99 11:44:00 AM]
+   
+   * Returns : [HRESULT] - S_OK - everything was OK
+   
+   * Function parameters : 
+   [Flag] - true for use EnumCompressors as the primary interface.
+            false, use old way.
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+HRESULT UseEnumCompressors(
+      [in] BOOL Flag);
+
+
+
+/* ==================================================================
+ 
+   FUNCTION :  CanSetClientIO()
+   
+   * Description :  Is used by a translator to specify if ClientIO can
+                    be overriden. An example may be AVI, where a low level
+                    system library does all IO, and so Client may not be 
+                    overriden .
+                     Also a client may use a temporary file, such as WMF,
+                     but the end result is that your file ends up in your 
+                     clientIO
+   
+   * Author : [Andy Preston], Created : [6/23/99 9:14:40 AM]
+   
+   * Returns : [HRESULT] - S_OK - Flag contains valid flags
+                           E_INVALIDARG - a NULL pointer or such was passed
+   
+   * Function parameters : 
+   [*Flag] -   OR'd together list of flags, see SetClientIOFlag
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+
+  typedef enum tagSetClientIOFlag {
+
+     NoRedirectIO     = 0x01,   // clientIO cannot be redirected
+     RedirectIO       = 0x02,   // clientIO may be redirected
+     UsesTemporary    = 0x04,   // Uses a temporary intermediate file
+  } SetClientIOFlag;
+
+
+HRESULT CanSetClientIO(      
+      [out] SetClientIOFlag *Flag);
+
+
+
+
+
+/* ==================================================================
+ 
+   FUNCTION :  CanCompressorBeChanged()
+   
+   * Description :Can the compressor be changed ? 
+                  e.g. TFS files support two types, but a "system" can
+                  only deal with one type. (Note , this may or may not be 
+                  true,just an example);
+   
+   * Author : [Andy Preston], Created : [6/23/99 9:16:25 AM]
+   
+   * Returns : [HRESULT] - S_OK Flag contains valid data
+                           E_INVALIDARG a NULL pointer or such was passed
+
+   * Function parameters : 
+   [*Flag] - variable to recieve the flags
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+HRESULT CanCompressorBeChanged(
+      [out] BOOL *Flag);
+
+
+	// Purpose:  Determines how many layers are available in the
+	//           requested file.  A translator who's format does not
+	//           support layers will always return one.  The client
+	//           can then call QueryLayer() or LoadLayer() with a layer
+	//           number ranging from zero to one less than the value
+	//           returned by this method.
+	// Returns:  S_OK upon success.
+	//           E_FAIL if the number can not be determined (such as
+	//                   this is the wrong translator for the file.)
+	//           E_... upon failure.
+HRESULT QueryNumberLayers(
+	[string, in]	LPTSTR pszFileName,
+	[out]			DWORD  *pdwNumLayers);
+
+
+	// Purpose:  Given a file name and layer number, fill in the 
+	//           header structure, format, and retrieve the layerinfo
+	//           (such as layer name, etc.) for later retrieval.  The 
+	//           caller is responsible for allocating space for the
+	//           header structure.  If successful, QueryLayer will
+	//           fill in the header with the appropriate values.  The
+	//           returned format will represent the closest match
+	//           between the supported EPlayFrameTypes and the actual
+	//           format of the file/layer in question.  On failure, the 
+	//           header structure and format will be initialized to
+	//           zero.  The layer number is zero based.  A format that
+	//           does not support layers will be considered to have one
+	//           layer referenced as layer number zero.
+	// Returns:  S_OK upon success.
+	//           E_FAIL upon failure. (does the file contain that layer?)
+HRESULT QueryLayer(
+	[string, in] LPTSTR	pszFileName,
+	[in ] DWORD dwLayerNumber,
+	[out] BITMAPINFOHEADER *pBmi,
+	[out] EPlayFrameType *format);
+
+
+	// Purpose:  Like LoadFile() but loads a specified layer.  The 
+	//           layer number is zero based and thus you can ask
+	//           for layer number zero to one less than the number
+	//           returned by QueryNumberLayers().  A format that does
+	//           not support layers will consider layer number zero
+	//           to be the image that would be loaded by LoadFile().
+	// Returns:  S_OK upon success.
+	//           E_FAIL if object cannot load the specified layer
+    //           E_OUTOFMEMORY if components couldn't be created
+HRESULT LoadLayer( 
+	[string,in] LPTSTR pszFileName,
+	[in ] DWORD dwLayerNumber,
+	[in ] EPlayFrameType format,
+	[out] IGXIntBitmap2 **ppIBmp,
+	[in ] IGXProgressAdviseSink *progress);
+
+	// Purpose:  Begins a layered save to the specified filename.
+	//           This method is called once to begin the save.  The client
+	//           can then call all the Set methods relating to layer info
+	//           such as SetLayerName() followed by a single call to
+	//           SaveLayer().  This is repeated (calling the Set methods
+	//           followed by SaveLayer()) for each of the layers in the
+	//           image.  SaveLayer() must be called nNumLayers times or
+	//           the resulting file will be corrupt.  The layered save
+	//           is completed by calling EndLayeredSave().
+    // Return:   S_OK on success
+    //           E_FAIL if object can't save
+    //           E_OUTOFMEMORY if components couldn't be created
+HRESULT BeginLayeredSave(
+	[string,in] LPTSTR pszFileName,
+	[in] DWORD nNumLayers,
+	[in] IGXProgressAdviseSink *progress);
+
+	// Purpose:  Saves the next layer in a layered save begun by calling
+	//           BeginLayeredSave().  Prior to each call to this method,
+	//           the client can call the Set methods relating to layer
+	//           info such as SetLayerName().  SaveLayer will use any
+	//           values Set since the last call to BeginLayeredSave() or
+	//           SaveLayer().  (BeginLayeredSave() and SaveLayer() will
+	//           set defaults for the next layer in case the client does
+	//           not explicitly Set a layer info value.
+    // Return:   S_OK on success
+    //           E_FAIL if object can't save
+    //           E_OUTOFMEMORY if components couldn't be created
+HRESULT SaveLayer(
+	[in] IGXIntBitmap2 *pIBmp,
+	[in] IGXProgressAdviseSink *progress);
+
+	// Purpose:  Finishes a layered save started with BeginLayeredSave().
+	//           The bitmap passed in is the composite bitmap of all the
+	//           layers.  Note that if SaveLayer() was not called *exactly*
+	//           the number of times indicated by nNumLayers when 
+	//           BeginLayeredSave() was invoked then the file will most
+	//           likely be corrupt and invalid.
+    // Return:   S_OK on success
+    //           E_FAIL if object can't save
+    //           E_OUTOFMEMORY if components couldn't be created
+HRESULT EndLayeredSave(
+	[in] IGXIntBitmap2 *pIBmp,
+	[in] IGXProgressAdviseSink *progress);
+
+
+/* ==================================================================
+ 
+   FUNCTION :  CanBeBruteForced()
+   
+   * Description : If the file format contains little header info
+                   for finding out if easily if the file is valid for 
+                   that translator, then this stops it from being 
+                   asked to load the file if th extension doesn't match
+   
+   * Author : [Andy Preston], Created : [7/29/99 11:36:13 AM]
+   
+   * Returns : [HRESULT] - S_OK - Flag contains valid data
+                           E_INVALIDARG - a NULL pointer or something 
+                                          was passed
+   
+   * Function parameters : 
+   [*Flag] - variable to receive the flag
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+HRESULT CanBeBruteForced(      
+          [out] BOOL *Flag);
+
+
+
+/* ==================================================================
+ 
+   FUNCTION :  GetCompressionRatio()
+   
+   * Description : Tries to estimate the compression ratio for a file
+                   Ratio may be -ve for bad compression
+                   Function uses GetSizeofImageData for size of image 
+                   data on disk. If the file has multiple images per 
+                   file  e.g. Electric Image, gives compression ratio
+                   for the current frame number.
+                   Ratio = 0 , No Compression
+                   Ratio = 100 , zero image data in file
+                   The ratio is set to a maximum of two decimal places
+
+Ratio = ((Sizeofdataforframetype-SizeofImageData)/Sizeofdataforframetype) * 100
+   
+   * Author : [Andy Preston], Created : [7/29/99 11:45:05 AM]
+   
+   * Returns : [HRESULT] - S_OK          - successful
+                           E_NOTIMPL     - Not Implememnted 
+                           S_FALSE       - This format doesn't support this
+                           E_FAIL        - Invalid File or Filename. Also 
+                                           if asking for a frame greater 
+                                           than the number of frames in a 
+                                           file.
+                           E_INVALIDARD  - NULL pointers or such passed
+
+   
+   * Function parameters : 
+   [pszFileName] - FileName to estimate
+   [Ratio] -       Variable to recieve the ratio
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+
+HRESULT GetCompressionRatio(
+	[string,in] LPTSTR pszFileName,
+  [out] float *Ratio );
+
+/* ==================================================================
+   FUNCTION :  GetSizeofImageData()
+   * Description : Gets Sizeof Raw Image Data in a file.
+                   If the file has multiple images per 
+                   file  e.g. Electric Image, gives compression ratio
+                   for the current frame number.
+
+   
+   * Author : [Andy Preston], Created : [8/16/99 11:59:25 AM]
+   * Returns : [HRESULT] - S_OK          - successful                       
+                           E_NOTIMPL     - Not Implememnted                 
+                           S_FALSE       - This format doesn't support this 
+                           E_FAIL        - Invalid File or Filename         
+                           E_INVALIDARD  - NUll pointers or such passed     
+
+   * Function parameters : 
+   [ pszFileName] - FileName to check
+   [SizeofImageData] - var to receive size
+   * Example Usage :
+ 
+   ==================================================================*/
+HRESULT GetSizeofImageData(	
+ [string,in] LPTSTR pszFileName,
+ [out] DWORD *SizeofImageData);
+
+
+/* ==================================================================
+   FUNCTION :  DoesInterlacedFrames()
+   * Description : Query's a translator to find out if it can deal with 
+                   interlaced frames
+   
+   * Author : [Andy Preston], Created : [8/7/99 11:23:00 PM]
+   * Returns : [HRESULT] -
+   * Function parameters : 
+   [*Interlace] -
+   
+   * Example Usage :
+ 
+   ==================================================================*/
+HRESULT DoesInterlacedFrames(
+  [out] BOOL *Interlace);
+
+}
+
+
+
+//+------------------------------------------------------------------
+//  Class:      IGXAbsBitmap
+//
+//  Purpose:    Provide abstract operations for files without using
+//				a format specific interface.  A client program could
+//				perform some manipulations on files without knowing
+//				their specific interface (allows new formats to be
+//				added and used without the client being rewritten).
+//              This interface is provided by IGXTranslator objects.
+//
+//
+// Last changed: 5/11/96
+//               3/12/97  B.Ross - Added IsMovieFile.
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e5f6-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXAbsBitmap : IUnknown
+{
+
+
+
+
+/////////// Image Load/Save settings ////////////////////
+
+	// returns a DWORD with bits set to 1 for each bit depth that
+	// is allowed (up to 32-bits)
+void GetBitDepths(
+	[out] DWORD *depthMask);
+
+	// set the bit depth of subsequent save operations.  returns
+	// S_FALSE if one is chosen that is not supported.
+HRESULT SetBitDepth(
+	[in] DWORD depth);
+
+	// returns a DWORD masked with values from EGXColorSpace that
+	// this file format can support.
+void GetColorSpaces(
+	[out] DWORD *colorSpaces);
+
+	// set the colorspace of subsequent operations
+HRESULT SetColorSpace(
+	[in] EGXColorSpace color);
+
+	// return S_OK if this format supports palettes
+	// return S_FALSE if not.
+HRESULT PaletteBased(void);
+
+	// returns a mask showing which bit depths support palettes
+void PaletteBitDepths(
+	[out] DWORD *paletteMask);
+
+///////////// Compression/Decompression //////////////////////
+
+    // does this file format support compression
+HRESULT DoesCompression(); // S_OK/S_FALSE for results
+
+    // is the compression method lossy
+HRESULT CompressionLossy(); // S_OK/S_FALSE
+
+	// how many levels of compression?
+	// higher level is more compressed.
+	// returns S_OK (if no compression, value is 0)
+void NumCompressionSteps(
+  [out] WORD *compressSteps);
+
+    // set the compression to some level (less than the returned
+    // value in NumCompressionSteps above)
+	// return S_OK/S_FALSE for success/fail
+HRESULT SetCompressionLevel(
+  [in] WORD compressLevel);
+
+    // get the previously set value
+	// return S_OK
+void GetCompressionLevel(
+  [out] WORD *compressLevel);
+}
+
+
+//+------------------------------------------------------------------
+//  Class:      IGXAbsBitmap2
+//
+//  Purpose:    Same as IGXAbsbitmap, but with added functionality
+//
+// Last changed: 4/16/97 B.Ross - Moved function from IGXAbsBitmap
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e60b-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXAbsBitmap2 : IGXAbsBitmap
+{
+
+	// Determine wether or not the file is a movie file
+	// Return TRUE  - if it is
+	//        FALSE - if it isn't
+BOOL IsMovieFile(void);
+
+}
+
+
+
+//+------------------------------------------------------------------
+//  Class:      IGXIntBitmap
+//
+//  Purpose:    The memory representation of a bitmap.  Holding
+//              a pointer to this interface allows access to the
+//              loaded bitmap.  Original external
+//              format state is stored in this so that if a bitmap
+//              is saved in the same format it was loaded from,
+//              the external data can be saved.
+//              Format specific classes will typically implement
+//              this interface plus IGXAbsBitmap and IGXxxxBitmap
+//              where "xxx" is a specific file format
+//
+// Last changed: 4/23/96
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e5f7-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXIntBitmap: IUnknown
+{
+        // discard whatever bitmap was held in this and allocate
+        // space for one with the given dimensions and
+        // EPlayFrameType.  until this is called on a
+        // CoCreateInstanced bitmap, the bitmap can hold no data.
+        // this also sets the pixelFormat of the held SPlayBitMap
+    HRESULT AllocateSpace(
+        [in] DWORD width,
+        [in] DWORD height,
+        [in] EPlayFrameType ftype);
+
+		// client supplies a header pointer, image pointer, and
+		// a format.  we trust these values and attach them to
+		// ourself and let the client deallocate the memory when
+		// done.
+	HRESULT AttachSpace(
+		[in] BITMAPINFOHEADER *imageHeader,
+		[in] EPlayFrameType pixelFormat,
+		[in] BYTE *pixelData);
+
+        // allocate space for a copy of this bitmap and copy this
+        // into that and return it.  we AddRef the object for you.
+        // cloning an uninitialized (0 size) bitmap is a legal
+        // (though maybe silly) operation.
+        // return S_OK on success and E_OUTOFMEMORY if the copy
+        // failed.
+    HRESULT CloneBitmap(
+        [out] IGXIntBitmap **pIGXBmp);
+
+        // create a file with the given name and write out the
+        // framestore
+    HRESULT WriteFrameStore(
+        [in] const char *pFSName,
+        [in] IGXProgressAdviseSink *progress);
+
+        // discard whatever bitmap was held in this and allocate
+        // space for the framestore and read it in from the named
+        // file.
+    HRESULT ReadFrameStore(
+        [in] const char *pFSName,
+        [in] IGXProgressAdviseSink *progress);
+
+        // gives client a pointer to the bitmap data.  client
+        // can change the fields and actual bitmap contents at
+        // will.  if this bitmap contains no data yet, the
+        // parameter will be returned NULL.
+        // return S_OK unless there is some failure
+    void GetSPlayBitMap(
+        [out] SPlayBitMap **pSPBmp);
+
+		// this includes the size of the palette, if any.
+	void GetHeaderSize(
+		[out] DWORD *size);
+
+	void GetBitmapSize(
+		[out] DWORD *size);
+
+        // if this bitmap was loaded from a file, it should have
+        // a translator object associated with it.  this function
+        // returns the object and S_OK if it exists.  S_FALSE if
+        // there is no translator.  I will AddRef the returned
+        // object (and return NULL if there is no translator).
+    void GetTranslator(
+        [out] IGXTranslator **pTrans);
+
+        // set the IGXTranslator held by this bitmap to a particular
+        // value.  this should only be needed by implementators of
+        // IGXTranslator for additional file types.
+    void SetTranslator(
+        [in] IGXTranslator *pTrans);
+
+        // perform a memory to memory transformation of this
+        // bitmap.  a copy of the bitmap is produced
+        // return S_OK on success
+		// return E_... on failure
+    HRESULT TranslateMem2Mem(
+        [in] EPlayFrameType dstFmt, // format to translate to
+        [out] IGXIntBitmap **ppDstBmp,
+        [in] IGXProgressAdviseSink *progress);
+
+		// how big in bytes is the YUV palette that will be
+		// returned by GetYUVPalette.  palette size of 0 is returned
+		// if there is no palette in this bitmap.
+		// returns S_OK always.
+	void GetYUVPaletteSize(
+		[out] DWORD *pPalSize);
+
+		// if this bitmap is palette based, return the palette
+		// converted into YUV space.  client provides a buffer to
+		// hold the data.  call GetYUVPaletteSize to see how big a
+		// buffer to use.
+		// returns S_OK on success, S_FALSE if there is no palette
+		// to convert, E_FAIL on failure.
+	HRESULT GetYUVPalette(
+		[out] BYTE *pYUVPal);
+
+        // return the number of bytes in a row of data
+    void GetRowBytes(
+        [out] LONG *numBytes);
+
+        // this will probably get moved to IGXBasicImageProcess
+    HRESULT InsertAlpha(
+        [in] IGXIntBitmap *Alpha);
+}
+
+
+
+
+//+------------------------------------------------------------------
+//  Class:      IGXIntBitmap2
+//
+//  Purpose:    The memory representation of a bitmap.  Holding
+//              a pointer to this interface allows access to the
+//              loaded bitmap.  Original external
+//              format state is stored in this so that if a bitmap
+//              is saved in the same format it was loaded from,
+//              the external data can be saved.
+//              Format specific classes will typically implement
+//              this interface plus IGXAbsBitmap and IGXxxxBitmap
+//              where "xxx" is a specific file format
+//
+//Andy Preston 5/17/99-
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e6bd-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXIntBitmap2: IGXIntBitmap
+{
+        // perform a memory to memory transformation of this
+        // bitmap.  a copy of the bitmap is produced
+        // return S_OK on success
+		// return E_... on failure
+    HRESULT TranslateMem2Buffer(
+        [in] EPlayFrameType dstFmt, // format to translate to
+        [out] IGXIntBitmap2 **ppDstBmp,
+        [in] IGXProgressAdviseSink *progress,
+   	    [in] BITMAPINFOHEADER *imageHeader,
+        [string,in] char *buffer,
+        [in] DWORD *size);
+
+        // perform a memory to memory transformation of this
+        // bitmap.  a copy of the bitmap is produced
+        // return S_OK on success
+		// return E_... on failure
+    HRESULT TranslateMem2Mem(
+        [in] EPlayFrameType dstFmt, // format to translate to
+        [out] IGXIntBitmap2 **ppDstBmp,
+        [in] IGXProgressAdviseSink *progress);
+
+
+        // allocate space for a copy of this bitmap and copy this
+        // into that and return it.  we AddRef the object for you.
+        // cloning an uninitialized (0 size) bitmap is a legal
+        // (though maybe silly) operation.
+        // return S_OK on success and E_OUTOFMEMORY if the copy
+        // failed.
+    HRESULT CloneBitmap(
+        [out] IGXIntBitmap2 **pIGXBmp);
+
+
+        // if this bitmap was loaded from a file, it should have
+        // a translator object associated with it.  this function
+        // returns the object and S_OK if it exists.  S_FALSE if
+        // there is no translator.  I will AddRef the returned
+        // object (and return NULL if there is no translator).
+    void GetTranslator(
+        [out] IGXTranslator4 **pTrans);
+
+        // set the IGXTranslator held by this bitmap to a particular
+        // value.  this should only be needed by implementators of
+        // IGXTranslator for additional file types.
+    void SetTranslator(
+        [in] IGXTranslator4 *pTrans);
+
+
+
+		// client supplies a header pointer, image pointer, and
+		// a format.  we trust these values and attach them to
+		// ourself and let the client deallocate the memory when
+		// done. If DefaultHeader is true, it will default the 
+    // header information to the same as if AllocateSpace was called
+    // although the width and height measurements would be wrong
+	HRESULT AttachSpace(
+		[in] BITMAPINFOHEADER *imageHeader,
+		[in] EPlayFrameType pixelFormat,
+		[in] BYTE *pixelData,
+    [in] DWORD pixelDataSize,
+    [in] BOOL DefaultHeader);
+
+
+
+/*Andy Preston 5/24/99- This builds a preprocess controllor for saving. This code is really only used by
+                        the bitmap saving code, but it uses quite a lot of functions in this interface/class
+                        so it makes sense to do it this way. Since GXFileHeader and GXCtrlPost are classes 
+                        that MIDL doesn't know about, these must be cast to void, messy but true !
+
+ These next few functions are here so that the translators don't carry this code around and duplicate code
+ and functionality
+*/
+    HRESULT BuildPreProcessCtrl(
+    [in] SPlayBitMap *spbmp,
+    [in] EPlayFrameType format, 
+    [in] void *hdr,
+    [out] void **pre);
+
+
+    HRESULT GetPreProcessPalette(
+    [in] void *pre,
+    [out] void **pal);
+
+
+
+/* ==================================================================
+ 
+   FUNCTION :     HRESULT SaveToClipboard()
+   
+   * Description : Puts the contents of the IGXIntBitmap onto 
+                   the clipboard
+   
+   * Author : [Andy Preston], Created : [6/3/99 8:51:20 AM]
+   
+   * Returns : [] -
+   
+   * Function parameters : 
+   [void] -
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+    HRESULT CopyToClipboard(void);
+
+
+/* ==================================================================
+ 
+   FUNCTION :     HRESULT LoadFromClipboard()
+   
+   * Description : Gets the bitmap contents of the clipboard and 
+                   constructs a bitmap from it.
+                    Currently supports onlt a 24 bit image
+   
+   * Author : [Andy Preston], Created : [6/3/99 8:51:31 AM]
+   
+   * Returns : [] -
+   
+   * Function parameters : 
+   [void] -
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+    HRESULT CopyFromClipboard(void);
+
+/* ==================================================================
+ 
+   FUNCTION :     HRESULT ValidBitmapOnClipboard()
+   
+   * Description :  Checks to see if there is a valid bitmap on the 
+                    clipboard.  If there is the value in Flag is
+                    a flag as indicated below, else cbNoData.
+   
+   * Author : [Andy Preston], Created : [6/30/99 5:07:33 PM]
+   
+   * Returns : [] -
+   
+   * Function parameters : 
+   [*Flag] -
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+	typedef enum tagClipboardType {
+    cbNoData=     0x00,
+    cbValidBitmap=0x01,
+    cbValidText  =0x02,
+
+	} ClipboardType;
+
+
+    HRESULT ValidBitmapOnClipboard(
+      /* [in] */ ClipboardType *Flag);
+
+
+
+
+
+/* ==================================================================
+ 
+   FUNCTION :    HRESULT SetImageOptions()
+   
+   * Description :
+   
+   * Author : [Andy Preston], Created : [6/28/99 5:14:58 PM]
+   
+   * Returns : [] -
+   
+   * Function parameters : 
+   [Opt] -
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+   HRESULT SetImageOptions(
+     [in] PlayXlatorOpt * Opt);
+
+
+/* ==================================================================
+ 
+   FUNCTION :    HRESULT SetAttr()
+   
+   * Description : Sets an attribute. 
+   
+   * Author : [Andy Preston], Created : [7/1/99 6:12:42 PM]
+   
+   * Returns : [] -
+   
+   * Function parameters : 
+   [dwAttr] -
+   [dwValue] -
+   
+   * Example Usage :
+  
+
+
+//Andy Preston 7/6/99- Notes
+Job Timers
+Although not implememnted yet, I envisige this being a simple start stop thing. Job time will
+reflect total time, plus any since the timer was started. Saving will take a current snapshot
+of the time. When timer stopped, accumalated time is added, so if the timer isn't stopped i.e.
+program crashes, then that accumalated time is lost. If TobTime is asked for, then it adds the 
+current time, and resets the Starttime.
+e.g. Start timer: remember current time. 
+     Stop timer : JobTime=JobTime+currentTime-StartTime.
+
+     JobTime : JobTime=JobTime+currentTime-StartTime.
+               StartTime=currentTime.
+
+At Best 1 second resolution.
+
+ 
+   ==================================================================*/
+
+	typedef enum tagInfoAttribute {
+// Control Attributes
+    iaInvalidAttr  =0x00,           // invalid attribute
+    iaAttributesChanged = 0x01,     // Some attributes have been modified, i.e. store to disk  . Invalid to set yourself
+// Image Attributes
+    iaOrigFileSize     =0x81,       // FS total file size on disk, returns ptr to a IAFileSize Struct
+    iaOrigImageSize    =0x82,       // FS Size on the disk for this image
+    iaBitmapInfoHeader =0x83,       // bitmapinfoeheader describing original file on disk
+    iaLastModifiedTime =0x84,       // Time When last modified
+    iaCreatedTime      =0x85,       // Time When created
+    iaLastModifiedBy   =0x86,       // strRtn Who last modified
+    iaCreatedBy        =0x87,       // strRtn Who created
+    iaNumberFrames     =0x88,       // dwAttr Number of frames in orig image
+    iaFormatVersion    =0x89,       // dwAttr Version of the format on disk hi 16, major, low 16 minor
+                                    // dwAttr= (VerMaj << 16) +VerMin
+// HouseKeeping Attributes
+    iaJobTime      =0x103,          // Total Accumalated time on this image/Job
+    iaJobResetTime =0x104,          // Reset the Time on this image
+    iaJobStart     =0x105,          // Start Timer for job accumalated time for this image
+    iaJobStop      =0x106,          // Stop Timer for job accumalated time for this image
+
+	} InfoAttribute;
+
+typedef struct tagAttributeVar
+ {
+  union
+   {
+    LARGE_INTEGER  FS;
+    LPTSTR         *StrRtn;
+    LARGE_INTEGER  lgAttr;
+    DWORD          dwAttr;
+    WORD           wAttr;
+    BYTE           bAttr;
+    BOOL           lAttr;      // hey, logical attribute , I'd already used bAttr - AP !
+    FILETIME       Time;
+    EPlayFrameType FType;
+   };
+
+ }AttributeVar;
+
+   HRESULT SetAttr(     
+      [in] InfoAttribute Attr,
+      [in] AttributeVar * Value);
+
+
+
+/* ==================================================================
+ 
+   FUNCTION :    HRESULT GetAttr()
+   
+   * Description :  See the SetAttr notes
+   
+   * Author : [Andy Preston], Created : [7/1/99 6:13:03 PM]
+   
+   * Returns : [] -
+   
+   * Function parameters : 
+   [dwAttr] -
+   [**dwValue] -
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+   HRESULT GetAttr(
+        [in] InfoAttribute Attr,
+        [out] AttributeVar *Value);
+
+
+}
+
+
+
+
+
+//+------------------------------------------------------------------
+//  Class:      IGXBasicImageProcess
+//
+//  Purpose:    allows image processing operations on an IGXIntBitmap.
+//              Instantiation of this interface may be heavy due to
+//              initialization of the RGB to YUV converter.  Clients
+//              should avoid creating this often but should instead
+//              cache references to it.
+//
+// Last changed: 4/23/96
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e5f8-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXBasicImageProcess: IUnknown
+{
+
+
+
+
+        // assuming we have an RGBA something, treat the given
+        // IGXIntBitmap as an alpha bitmap and insert it into
+        // the alpha channel of this bitmap.  presently this
+		// only works with FTRGBA8 and FTALPHA8.
+		// this puts the alpha info in the upper 8 bits of each
+		// 32-bit RGB pixel.
+        // returns S_OK on success
+        //         E_... on failure
+    HRESULT InsertAlpha(
+        [in] IGXIntBitmap *RGBABmp,
+        [in] IGXIntBitmap *Alpha);
+
+		// convert RGB data to 4:2:2 YUV data
+	void Convert2YUV(BYTE* dest, BOOL destAlpha,
+		BYTE* source, BOOL sourceAlpha, int w);
+
+		// convert 4:2:2 YUV data to RGB data
+	void Convert2RGB(BYTE* dest, BOOL destAlpha,
+		BYTE* source, BOOL sourceAlpha, int w);
+
+        // convert a Win32 RGBQuad palette to YUV (4:4:4 + a final
+        // byte set to 0 for RGBQuad compatibility)
+    void PaletteRGB2YUV(BYTE *source, BYTE *dest, DWORD width);
+
+ }
+
+
+//+------------------------------------------------------------------
+//  Class:      IGXBasicImageProcess2
+//
+//  Purpose:    Same as IGXBasicImageProcess, but with added functionality
+//
+// Last changed: 4/23/96
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e60a-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXBasicImageProcess2 : IGXBasicImageProcess
+{
+        // given a 24-bit RGB bitmap, shrink it to something smaller.
+        // it is illegal to shrink it to something larger.
+    HRESULT ShrinkRGB24(IGXIntBitmap *origBmp,
+        IGXIntBitmap **dstBmp, WORD width, WORD height);
+
+}
+
+
+
+//+------------------------------------------------------------------
+//  Class:      IGXBasicImageProcess3
+//
+//  Purpose:    Same as IGXBasicImageProcess1-2, but with added functionality
+//
+// Last changed: 1/29/98
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e6a7-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXBasicImageProcess3 : IGXBasicImageProcess2
+{
+
+	//  DESCRIPTION:
+	//		-Given a source bitmap, this method will create an output bitmap
+	//		using the field specified.  For example, if field=1 then the 
+	//		output bitmap will consist of an identical field #1, and field #2
+	//		will be computed by interpolating between the lines of field #1.
+	//
+	//  REQUIREMENTS:
+	//		-The source bitmap must be in one of four FrameStore formats:
+	//			a)  FT422YUV8    (ntsc)		c)  FT4224YUVA8  (ntsc with alpha)
+	//			b)  FT422YUV8p   (pal)		d)	FT4224YUVA8p (pal with alpha)
+	//		-Field must be either 1 or 2, respectively.
+	//		-The caller is responsible for Releasing the bitmap.
+	//
+	//	RETURNS:
+	//		- S_OK on success
+	//		- E_INVALIDARG if the inputs do not meet the above requirements
+	//		- E_FAIL if there was an error processing
+	//  
+	HRESULT FieldFreeze(IGXIntBitmap *srcBmp,
+						IGXIntBitmap **dstBmp,
+						BYTE Field);
+
+    // add other functions from Todd's CDIB class here
+    // such as shrink, alpha mix, put to DC, return HBITMAP,
+    // create from HBITMAP, etc
+}
+
+
+
+//+------------------------------------------------------------------
+//  Class:      IGXBasicImageProcess4
+//
+//  Purpose:    Same as IGXBasicImageProcess1-3, but with added functionality
+//
+// Last changed: 4/13/98
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e6a6-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXBasicImageProcess4 : IGXBasicImageProcess3
+{
+
+	typedef enum tagScaleType {
+    ST_DEFAULT_SCALE=0,
+		ST_ASPECT = 1,  //-- Maintain aspect ratio
+		ST_FILTER = 2   //-- Use bi-linear interpolation (slower)
+
+	} ScaleType;
+
+	//-------------------------------------------------------------------------------------
+	//  DESCRIPTION:	This function will scale any IGXIntBitmap to any size.
+	//				The default mode is a fast scale that does not maintain
+	//				the image aspect ratio.  The ScaleType argument can be set
+	//				to ZERO for default mode, or any combination of the 
+	//				enumerated types.
+	//
+	//  REQUIREMENTS:
+	//				- The source and destination IGXIntBitmap pointers must	be valid.
+	//				- The Width and Height must be greater than zero.
+	//				- The ScaleType can be ZERO or any combination of the enumerated types.
+	//
+	//  RETURN VALUE:
+	//				S_OK on success
+	//				E_FAIL on failure
+	//				E_INVALIDARG if above requirements are not met
+	//-------------------------------------------------------------------------------------
+	HRESULT Scale(
+		[in ] IGXIntBitmap *srcBmp, 
+		[out] IGXIntBitmap **dstBmp, 
+		[in ] DWORD Width, 
+		[in ] DWORD Height, 
+		[in ] ScaleType Flags);
+
+    // add other functions from Todd's CDIB class here
+    // such as shrink, alpha mix, put to DC, return HBITMAP,
+    // create from HBITMAP, etc
+}
+
+
+
+[
+  object,
+  uuid(8335e6c3-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXBasicImageProcess5 : IGXBasicImageProcess4
+{
+/* ==================================================================
+ 
+   FUNCTION :    HRESULT SetImageOptions()
+   
+   * Description :
+   
+   * Author : [Andy Preston], Created : [6/28/99 5:14:58 PM]
+   
+   * Returns : [] -
+   
+   * Function parameters : 
+   [Opt] -
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+   HRESULT SetImageOptions(
+     [in] PlayXlatorOpt * Opt);
+
+
+	//-------------------------------------------------------------------------------------
+	//  DESCRIPTION:	This function will scale any IGXIntBitmap to any size.
+	//				The default mode is a fast scale that does not maintain
+	//				the image aspect ratio.  The ScaleType argument can be set
+	//				to ZERO for default mode, or any combination of the 
+	//				enumerated types.
+	//
+	//  REQUIREMENTS:
+	//				- The source and destination IGXIntBitmap pointers must	be valid.
+	//				- The Width and Height must be greater than zero.
+	//				- The ScaleType can be ZERO or any combination of the enumerated types.
+	//
+	//  RETURN VALUE:
+	//				S_OK on success
+	//				E_FAIL on failure
+	//				E_INVALIDARG if above requirements are not met
+	//-------------------------------------------------------------------------------------
+
+//Andy Preston 7/19/99- Same as previous version, except uses IGXIntBitmap2
+	HRESULT Scale(
+		[in ] IGXIntBitmap2 *srcBmp, 
+		[out] IGXIntBitmap2 **dstBmp, 
+		[in ] DWORD Width, 
+		[in ] DWORD Height, 
+		[in ] ScaleType Flags);
+
+
+/* ==================================================================
+   FUNCTION :   HRESULT Overlay()
+   * Description : This is a very basic function for overlaying one 
+                   bitmap over another. The bitmaps must be RGB8 
+                   i.e. no alpha. If the Top Bitmap has 0,0,0 then the
+                   bottom shines thru, else the top bitmap is used for 
+                   that pixel. 
+   
+   * Author : [Andy Preston], Created : [8/5/99 4:59:23 PM]
+   * Returns : [] -
+   * Function parameters : 
+   [*BottomBmp] -
+   [*TopBmp] -
+   
+   * Example Usage :
+ 
+   ==================================================================*/
+  HRESULT Overlay(
+  		[in ] IGXIntBitmap2 *BottomBmp,
+   		[in ] IGXIntBitmap2 *TopBmp);
+    
+}
+
+
+
+
+//+------------------------------------------------------------------
+//  Class:      IGXMovie
+//
+//  Purpose:    movie stuff.  this will move after Comdex'96.
+//
+// Last changed: 11/8/96
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(3cbaa060-0ffd-11d0-98bc-002018311f37),
+  local
+]
+interface IGXMovie : IUnknown
+{
+    HRESULT GetImageHolder(
+		[out] IGXIntBitmap **pIBmp);
+
+    HRESULT UncompressFile(
+		[in ] unsigned char *pszDest, 
+		[in ] unsigned char *pszSource,
+		[in ] IGXProgressAdviseSink *progress);
+
+	HRESULT CompressFile(
+		[in ] unsigned char *pszDest, 
+		[in ] unsigned char *pszSource,
+		[in ] IGXProgressAdviseSink *progress);
+
+	HRESULT CompressFileWithAudio(
+		[in ] unsigned char *pszDest, 
+		[in ] unsigned char *pszSource, 
+	  [in ] unsigned char *pszSourceAudio, 
+		[in ] IGXProgressAdviseSink *progress);
+}
+
+
+
+
+//+------------------------------------------------------------------
+//  Class:      IGXMovieAudio
+//
+//  Purpose:    movie Audio stuff.
+//
+// Last changed: 11/8/96
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e6c4-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXMovieAudio : IUnknown
+{
+
+
+}
+
+
+
+[
+  object,
+  uuid(8335e6be-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXLateUtils : IUnknown
+{
+
+// ==================================================================
+// 
+// FUNCTION :  HRESULT IsMMX()
+// 
+// * Description : Determines if the current processor is a MMX chip
+//                 This is cached so that it is only tested once.
+//                 If the chip is in a weird floating point mode when 
+//                 tested, then this function may set MMX to false,
+//                 even though it's a MMX chip
+// 
+// * Author : [Andy Preston], Created : [5/11/99 12:40:55 PM]
+// 
+// * Returns : [] - S_OK on success
+//                  E_FAIL for some weird reason
+// 
+// * Function parameters : 
+//                         *MMX variable to receive the answer
+// * Example Usage :
+/* 
+
+*/ 
+// ==================================================================
+ HRESULT IsMMX(
+    [out] BOOL *MMX);
+
+/* ==================================================================
+ 
+   FUNCTION :  HRESULT SetFileName()
+   
+   * Description : Setsup the filename to be used for the 
+   
+   
+   * Author : [Andy Preston], Created : [5/11/99 4:35:54 PM]
+   
+   * Returns : [] -
+   
+   * Function parameters : 
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+ HRESULT SetSqnceFileName(
+    [string,in] LPTSTR Filename,
+    [out] DWORD *step);
+
+/* ==================================================================
+ 
+   FUNCTION :  HRESULT GetSqnceSteps()
+   
+   * Description :
+   
+   
+   * Author : [Andy Preston], Created : [5/11/99 5:45:02 PM]
+   
+   * Returns : [] -
+   
+   * Function parameters : 
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+ HRESULT GetNumberSqnceSteps(
+    [out] DWORD *Steps);
+
+/* ==================================================================
+ 
+   FUNCTION :   HRESULT GetSqnceFileName()
+   
+   * Description : Gets the filename for a step in a sequence
+   
+   
+   * Author : [Andy Preston], Created : [5/11/99 5:44:11 PM]
+   
+   * Returns : [] -
+   
+   * Function parameters : 
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+  HRESULT GetSqnceFileName(
+    [in] DWORD step,
+    [string,out] LPTSTR *Filename);
+
+
+
+  HRESULT SetFileMatchOptions(
+         [in] FileNameMatchOptions *Opt);
+
+
+
+/* ==================================================================
+ 
+   FUNCTION :   HRESULT EnumerateBitDepths()
+   
+   * Description : SetsUp an array of BitDepthEnum pointers to an enumeration
+                   of the bitdepth settings. This array is in order as 
+                   per the EBitFlag enum. This is const static array, so don't modify it
+                   or free it !
+   
+   * Author : [Andy Preston], Created : [6/4/99 5:27:16 PM]
+   
+   * Returns : [] -
+   
+   * Function parameters : 
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+  HRESULT EnumerateBitDepths(
+    [out] BitDepthEnum **BitDepthList,
+    [out] DWORD *Count,
+    [out] DWORD *LongestLen);
+
+
+};
+
+
+/*
+
+
+//Andy Preston 5/21/99- Dialog box for the configuration and information
+of a translator;
+*/
+
+
+[
+  object,
+  uuid(8335e6bf-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXLateOptionsUI : IUnknown
+{
+
+/* ==================================================================
+ 
+   FUNCTION :  HRESULT SetPanelName()
+   
+   * Description : Sets the panel name to use for the dialog. A NULL
+                   value uses the default panel. The extension will
+                   always be set to pnl, no matter what ext is fed in.
+   
+   * Author : [Andy Preston], Created : [5/21/99 11:20:55 AM]
+   
+   * Returns : [] - S_OK everything OK
+                    E_INVALID - if something wrong with the filename
+                    E_FAIL    - panel file can't be found
+   
+   * Function parameters : Filename, or NULL for default panel
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/                                     
+
+ HRESULT SetPanelName(
+    [string,out] LPTSTR Filename);
+
+
+
+/* ==================================================================
+ 
+   FUNCTION :  HRESULT SetReadOnly()
+   
+   * Description : Sets whether the dialog is readonly. In RO mode,
+                   can be used as an file information dialog
+   
+   * Author : [Andy Preston], Created : [5/21/99 11:23:37 AM]
+   
+   * Returns : [] -
+   
+   * Function parameters : 
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+ HRESULT SetReadOnly(
+    [in] BOOL Flag);
+
+/* ==================================================================
+ 
+   FUNCTION :  HRESULT Execute()
+   
+   * Description : Tells the dialog to run
+   
+   * Author : [Andy Preston], Created : [5/21/99 11:25:16 AM]
+   
+   * Returns : [] - S_OK -  Accept the changes
+                    S_FALSE - Ignore the changes
+                    E_FAIL - some problem
+                    E_INVALIDARG - invalid ( or None) translator passed
+   * Function parameters : 
+   [Xlator] - translator to query
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+ HRESULT Execute(
+  [in] IGXTranslator4 *Xlator,
+  [in] IGXIntBitmap2 *pBmp,
+  [in] IGXOptionsCallback *Callback);
+
+
+/* ==================================================================
+ 
+   FUNCTION :  HRESULT SetConfigData()
+   
+   * Description : A pointer to the configuration data for the dialog.
+                   This data may be modified by the dialog as the user 
+                   sees fit. The application calling the dialog, should 
+                   then set the translator's data to match this data.
+   
+   * Author : [Andy Preston], Created : [5/21/99 11:27:24 AM]
+   
+   * Returns : [] -
+   
+   * Function parameters : 
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+ HRESULT SetConfigData(
+  [in] PlayXlatorOpt * Opt);
+
+
+  typedef enum tagUIPanels {
+
+      UIPanel_Compression     = 0x0001,   // Compression Panel
+ 	    UIPanel_ImageAttribute  = 0x0002,   // Image Attribute panel
+ 	    UIPanel_Name            = 0x0004,   // File Name matching panel
+	    UIPanel_ImageColor      = 0x0008,   // image color panel
+	    UIPanel_Preview         = 0x0010,   // preview window
+      UIPanel_FileName        = 0x0020    // filename 
+
+  } UIPanels;
+
+
+
+/* ==================================================================
+ 
+   FUNCTION :  HRESULT SetPanels()
+   
+   * Description : Sets which panels are visible. By default all
+                   panels except preview.
+   
+   * Author : [Andy Preston], Created : [6/24/99 11:03:40 AM]
+   
+   * Returns : [] -
+   
+   * Function parameters : 
+   [Flag] - a list of panels OR'd together which you would like to be 
+           visible
+   
+   * Example Usage :
+  
+       SetPanels((UIPanels)(UIPanel_Name |UIPanel_Compression));
+ 
+   ==================================================================*/
+ HRESULT SetPanels(
+   [in] UIPanels Flag);
+
+
+  typedef enum tagUIPanelOverride {
+
+      UIPanelOvr_QualityOn     = 0x0001,
+  } UIPanelOverride;
+
+
+
+/* ==================================================================
+ 
+   FUNCTION :  HRESULT OverideFlags()
+   
+   * Description : Allows a caller to overide the default action of the 
+                  panel. By default , the panel will take care of what
+                  controls need to be on/off etc. This allows this action to
+                  be overriden.
+   
+   * Author : [Andy Preston], Created : [6/24/99 12:06:39 PM]
+   
+   * Returns : [] -
+   
+   * Function parameters : 
+   [Flag] -
+   
+   * Example Usage :
+  
+
+ 
+   ==================================================================*/
+ HRESULT OverrideFlags(
+   [in] UIPanelOverride Flag);
+
+
+
+ HRESULT SetPreviewWindowSize(
+    [in] DWORD width,
+    [in] DWORD height);
+
+ HRESULT SetCallbackTimerInterval(
+    [in] DWORD milliSecs);
+};
+
+
+
+
+[
+  object,
+  uuid(8335e6c0-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IGXOptionsCallback : IUnknown
+{
+
+
+/*
+  This is called if either the quality or compressor has changed
+*/
+ HRESULT CompressionChanged(
+  [in] PlayXlatorOpt * Opt);
+
+ HRESULT FileMatchNameChanged(
+  [in] PlayXlatorOpt * Opt);
+
+ HRESULT AlphaImageColorChanged(
+  [in] PlayXlatorOpt * Opt);
+
+ HRESULT GetImageStats(			   
+  [out] DWORD *FileSize,		   // used to find out the new file size after the compression has changed
+  [out] DWORD *TimeToDisplay);	   // time to display
+
+}
+
+
+
+
+// end gxlate.idl

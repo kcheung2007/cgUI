@@ -1,0 +1,851 @@
+cpp_quote("// ----------------------------------------------------------------------------")
+cpp_quote("// Play Incorporated Security Provider                                         ")
+cpp_quote("// Copyright 1988, Play Incorporated, All rights Reserved                      ")
+cpp_quote("//                                                                             ")
+cpp_quote("// File: Crypto.idl .h                                                         ")
+cpp_quote("//                                                                             ")
+cpp_quote("// Contents:                                                                   ")
+cpp_quote("//  Declares interfaces for Play Cryptography objects                          ")
+cpp_quote("//                                                                             ")
+cpp_quote("// History:                                                                    ")
+cpp_quote("//    May 1998    cpdaniel  created                                            ")
+cpp_quote("// ----------------------------------------------------------------------------")
+
+import "wtypes.idl";
+import "unknwn.idl";
+import "objidl.idl";
+
+//+---------------------------------------------------------------------------
+// Class:     IPSHash
+//
+// Purpose:   Defines the interface to a block hash function
+//            e.g.: MD5, SHA
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e7d2-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IPSHash : IUnknown
+{
+  // Returns the size of the generated hash, in bytes
+  DWORD   HashSize();
+
+  // Returns the size of the has blocks, in bytes
+  DWORD   BlockSize();
+
+  // Initialize the hash object.  This is the first step of calculating
+  // the hash of an arbitrary length buffer.
+  HRESULT Init();
+
+  // Update the state of the hash object by processing some bytes.
+  // This need not be a multiple of the blocksize (but it might be more
+  // efficient if it is)
+  HRESULT Update(
+    [in]  LPVOID    pData,      // pointer to a chunk of data
+    [in]  unsigned  cbData      // number of bytes in buffer
+    );
+
+  // Calculate the final value of the hash & return it.
+  // Init() must be called again before another hash is calculated
+  HRESULT Finish(
+    [out] LPVOID    pHash       // pointer to HashSize() bytes of storage
+    );
+}
+
+//+---------------------------------------------------------------------------
+// Class:     IPSBlockCipher
+//
+// Purpose:   Defines the interface to a symmetric block cipher
+//            e.g.: IDEA, CAST, DES
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e7d3-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IPSBlockCipher : IUnknown
+{
+  // Return the length of the key for this cipher, in bytes
+  DWORD KeySize();
+
+  // Return the block size for this cipher, in bytes
+  DWORD BlockSize();
+
+  // Set the key for subsequent encryption/decryption with this object.
+  // The key is not passed as a parameter to encrypt/decrypt so that the
+  // cost of key scheduling algorithms is incurred only once for any
+  // number of blocks encrypted/decrypted.
+  HRESULT SetKey(
+    [in]  LPVOID    pKey,
+    [in]  unsigned  keyLen    // <= KeySize()
+    );
+
+  // Encrypt a single block of data
+  HRESULT EncryptBlock(
+    [in]  LPVOID  pPlainText,
+    [out] LPVOID  pCipherText
+    );
+
+  // Decrypt a single block of data
+  HRESULT DecryptBlock(
+    [in]  LPVOID  pCipherText,
+    [out] LPVOID  pPlainText
+    );
+}
+
+
+//+---------------------------------------------------------------------------
+// Class:     IPSStreamProgress
+//
+// Purpose:   Defines a client-implemented interface for reporting progress
+//            in a stream processing operation
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e7dd-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IPSStreamProgress : IUnknown
+{
+  // Indicate progress in a filter operation.
+  // To implement a "progress meter", the client must also know the total
+  // size of the data to be processed (callers of this interface typically
+  // don't have this info).
+  //
+  // % progress = Sum(chunkSize)/totalPasses*totalSize
+  //
+  // WARNING: Might be called from a different thread if an asynchronous
+  // stream is used!
+  //
+  HRESULT OnProgress(
+    unsigned  chunkSize,    // size of chuck which has been processed
+    unsigned  passNumber,   // 1..totalPasses
+    unsigned  totalPasses   // how many times this process will go through the data
+    );
+}
+
+//+---------------------------------------------------------------------------
+// Class:     IPSFilter
+//
+// Purpose:   Defines the interface to a reversible filter
+//            e.g. ZIP compress, ZIP decomress
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e7d8-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IPSFilter : IUnknown
+{
+  typedef enum tagEPSFilterFlags
+  {
+    EPSFForward = 1,
+    EPSFOverlapped = 2
+  } EPSFilterFlags;
+
+  typedef struct tagSPSFilterOverlapped
+  {
+    HRESULT   finalResult;
+    HANDLE    hFinishEvent;
+  } SPSFilterOverlapped;
+
+  HRESULT FilterStream(
+    [in]  IPSStreamProgress*    pProgress,
+    [in]  ISequentialStream*    pInputStream,
+    [out] ISequentialStream*    pOutputStream,
+    [in]  unsigned              cbSuggestedBufferSize,
+    [in]  DWORD                 dwFlags,  // use EPSFilterFlags for bits
+    [in]  SPSFilterOverlapped*  pOverlapped
+    );
+}
+
+//+---------------------------------------------------------------------------
+// Class:     IPSErrorAdvise
+//
+// Purpose:   Notify an object that an error has occurred which should be
+//            returned to all other clients.
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e7e1-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IPSErrorAdvise : IUnknown
+{
+  HRESULT OnError(HRESULT error);
+}
+
+//+---------------------------------------------------------------------------
+// Class:     IPSStreamBlockCipher
+//
+// Purpose:   Defines the interface to a stream cipher which uses a block
+//            cipher. (i.e. a block cipher "mode")
+//            e.g.: ECB, CBC, CFB, OFB
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e7d4-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IPSStreamBlockCipher : IUnknown
+{
+  // Encrypt a stream of data and calculate a hash
+  HRESULT Encrypt(
+    [in]  IPSStreamProgress*    pProgress,
+    [in]  IPSBlockCipher* pCipher,
+    [in]  LPVOID        pKey,
+    [in]  unsigned      keySize,
+    [in]  LPVOID        pSalt,
+    [in]  ISequentialStream*
+                        pPlaintextStream,
+    [in]  unsigned      cbSuggestedBufferSize,
+    [out] ISequentialStream*
+                        pCiphertextStream,
+    [out] unsigned*     pcbCiphertextStream,
+    [in]  IPSHash*      pHash,
+    [out] LPVOID        pHashData
+    );
+
+  // Decrypt a stream of data & verify a hash
+  HRESULT Decrypt(
+    [in]  IPSStreamProgress*    pProgress,
+    [in]  IPSBlockCipher* pCipher,
+    [in]  LPVOID        pKey,
+    [in]  unsigned      keySize,
+    [in]  LPVOID        pSalt,
+    [in]  ISequentialStream*
+                        pCiphertextStream,
+    [in]  unsigned      cbSuggestedBufferSize,
+    [out] ISequentialStream*
+                        pPlaintextStream,
+    [out] unsigned*     pcbPlaintextStream,
+    [in]  IPSHash*      pHash,
+    [in]  LPVOID        pHashData
+    );
+}
+
+//+---------------------------------------------------------------------------
+// Class:     IPSFileProgress
+//
+// Purpose:   Defines an interface which file process clients may implement to
+//            receive progress updates processing
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e7dc-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IPSFileProgress : IPSStreamProgress
+{
+  typedef enum tagEFPProcess
+  {
+    FPEncrypt,
+    FPDecrypt,
+    FPShred
+  } EFPProcess;
+
+  // Called for each file as it's processed.  Return value is ignored
+  HRESULT OnFileStart(
+    const char* pszTargetFile,
+    DWORD       fileSize,
+    DWORD       fileSizeHigh,
+    EFPProcess  process,
+    unsigned    param
+    );
+}
+
+//+---------------------------------------------------------------------------
+// Class:     IPSFileServices
+//
+// Purpose:   Provides a set of easy to use, file level cryptography services
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e7d9-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IPSFileServices : IUnknown
+{
+  // Encrypts a file using CAST5-128 block cipher, CBC protocol, SHA digest.
+  // File contents will be LZ (ZIP) compressed before encryption.
+  HRESULT EncryptFile(
+    IPSFileProgress*
+                pProgress,
+    const char* lpszInFileName,
+          char* lpszPassPhrase, // storage will be zeroed once key is hashed
+          BOOL  bDontHashKey,   // TRUE -> use key as-is
+    const char* lpszOutFileName,
+    const char* lpszUserHint    // hint text the user supplied to help remember
+                                // the passphrase.  Stored as plaintext, not used
+                                // in any way by the encryption.
+    );
+
+  // Decrypts a file produced by EncryptFile or other means which produces
+  // a compatible file header (might be encrypted with algorithms other than
+  // those used by EncryptFile)
+  HRESULT DecryptFile(
+    IPSFileProgress*
+                pProgress,
+    const char* lpszInFileName,
+          char* lpszPassPhrase, // storage will be zeroed once key is hashed
+          BOOL  bDontHashKey,   // TRUE -> use key as-is
+    const char* lpszOutFileName
+  );
+
+  typedef struct
+  {
+    DWORD     dwSizeof;       // intialize to size of this structure
+    char*     pszNameBuffer;  // initialize to pointer to name buffer, or NULL if name not needed
+    unsigned  cbNameBuffer;   // size of name buffer
+    char*     pszHintBuffer;  // initialize to pointer to hint buffer, or NULL if name not needed
+    unsigned  cbHintBuffer;   // size of hint buffer
+    DWORD     dwOrigSize;     // original file size
+    DWORD     dwFileSize;     // encrypted data size
+    FILETIME  origCreateTime; // times from original file
+    FILETIME  origAccessTime;
+    FILETIME  origWriteTime;
+    DWORD     origAttributes; // attributes from original file
+    FILETIME  encryptTime;    // encryption time
+  } SPSFileInfo;
+
+  // Return information about the file wich was encrypted to produce a given file
+  HRESULT QueryEncryptedFileInfo(
+    const char* lpszInFileName,
+    SPSFileInfo*  pFileInfo
+  );
+
+  // Securely delete a file.
+  // Level 0 - file is zero'd, flushed and then deleted
+  // Level 1 - file is written with three patterns, flushed each time, and then deleted
+  // Level 2 - file is written with two patterns and five passes of cryptographically
+  //           strong random data, then deleted
+  HRESULT EraseFile(
+    IPSFileProgress*
+                pProgress,
+    const char* lpszFileName,
+    const char* lpszDisplayName,    // the name to pass to pProgress, if different
+    unsigned    eraseLevel
+  );
+
+  // Fill a buffer with cryptographically strong random data
+  HRESULT RandSet(
+    LPVOID    pBuffer,
+    unsigned  cbBuffer
+  );
+
+  // Get an instance of the default Hash implementation
+  HRESULT GetDefaultHash(
+    IPSHash** ppHash
+  );
+
+  typedef enum tagEPSExportStatus
+  {
+    ESDomestic,       // for use in the local coutry only
+    ESInternational   // for use anywhere
+  } EPSExportStatus;
+
+  // Get an instance of the default Cipher implementation
+  HRESULT GetDefaultCipher(
+    EPSExportStatus   export,
+    IPSBlockCipher**  ppCipher
+  );
+
+  // Get an instance of the default cipher protocol
+  HRESULT GetDefaultProtocol(
+    IPSStreamBlockCipher**  ppStreamBlockCipher
+  );
+}
+
+//+---------------------------------------------------------------------------
+// Class:     IPSFileRecord
+//
+// Purpose:   Defines the interface to a persistable record holding the
+//            information relevant to one file in a repository
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e7da-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IPSFileRecord : IPersistStream
+{
+  typedef struct
+  {
+    DWORD     dwSizeof;
+    FILETIME  ftEntryTime;
+    DWORD     dwFileSizeLow;    // original size - may differ from size of stored file
+    DWORD     dwFileSizeHigh;   //   if the file was compressed on entry
+  } SFRFileInfo;
+
+  HRESULT Init(
+    char*         pInternalName,
+    char*         pExternalName,
+    SFRFileInfo*  pFileInfo
+    );
+
+  typedef enum tagEPSFileNameID
+  {
+    EFNInternalName,
+    EFNExternalName
+  } EPSFileNameID;
+
+  HRESULT GetName(
+    unsigned  whichName,    // use EPSFileNameID
+    char*     pszBuffer,
+    unsigned* pcbBuffer
+    );
+
+  HRESULT GetInfo(
+    SFRFileInfo*  pFileInfo
+    );
+
+  typedef enum tagEPSSortFlags
+  {
+    SFDescending = 1,   // (otherwise ascending)
+    SFByDate     = 2,   // (otherwise by external name)
+    SFBySize     = 4,   // (unless it's by size..)
+    // room for growth...
+
+    SFNoSort     = 32768
+  } EPSSortFlags;
+
+  HRESULT Compare(
+    IPSFileRecord*  pFileOnRight,
+    DWORD           dwSortFlags   // use EPSSortFlags
+    );
+}
+
+//+---------------------------------------------------------------------------
+// Class:     IPSFileCollection
+//
+// Purpose:   Defines the interface to a persistable set of file records
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e7db-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IPSFileCollection : IPersistStream
+{
+  HRESULT AddRecord(
+    IPSFileRecord*  pFileRecord
+    );
+
+  HRESULT RemoveRecord(
+    IPSFileRecord*  pFileRecord
+    );
+
+  HRESULT EnumRecords(
+    IEnumUnknown**  ppEnum
+    );
+
+  HRESULT FindRecord(
+    char*           pwszInternalName,
+    IPSFileRecord** ppItem
+    );
+
+  DWORD RecordCount();
+
+  HRESULT Clear();
+}
+
+//+---------------------------------------------------------------------------
+// Class:     IPSRepository
+//
+// Purpose:   Defines the interface to a collection of quarantined files.
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e7d5-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IPSFileRepository : IUnknown
+{
+  // Open a file repository with the specified root name (a single name, no path!)
+  HRESULT Open(
+    char*       pwcsRootName,
+    BOOL        bDirectoryPerUser,
+    REFCLSID    rFolderClsId
+    );
+
+  // Close the repository
+  HRESULT Close(
+    );
+
+  // Enumerate all the items in the collection (see IPSFileRecord)
+  HRESULT EnumObjects(
+    DWORD           dwEnumFlags,  // use EPSSortFlags
+    IEnumUnknown**  ppEnum
+    );
+
+  // Add a file to the collection.  Moves the original file & renames it
+  HRESULT AddToCollection(
+    char*           pszUserName, // pointer to name to remember as "original path"
+    char*           pszName      // pointer to current full-path to file
+    );
+
+  // Remove an object from the collection.  Moves the file & re-names it
+  // if pszPath is NULL, file is removed from the collection & deleted
+  HRESULT RemoveFromCollection(
+    IPSFileRecord*  pFileToRemove,
+    char*           pszPath      // full-path of new location for object
+    );
+
+  // Get the full internal name of a file in the collection
+  HRESULT GetInternalName(
+    IPSFileRecord*  pFile,
+    char*           pBuffer,
+    unsigned*       pcbBuffer
+    );
+
+  // Clear out the repository - doesn't actually erase any files:
+  // just forgets about them
+  HRESULT Clear();
+
+  typedef struct tagSFRDriveInfo
+  {
+    DWORD         dwSizeof;       // initialize to sizeof(SFRDriveInfo)
+    char          driveLetter;    // 'A'-'Z'
+    HRESULT       status;         // results of last load/save
+    unsigned      itemCount;      // number of items in the repository from this drive
+  } SFRDriveInfo;
+
+  // Get status information about a drive. If the drive is unknown to the repository,
+  // the return vaule will be S_FALSE.
+  HRESULT GetDriveInfo(
+    SFRDriveInfo* pInfo
+    );
+
+  // Re-build the index files for a drive.  Any files in the repository directory
+  // which cannot be added to the index will be deleted.
+  HRESULT Rebuild(
+    char        driveLetter
+    );
+}
+
+//+---------------------------------------------------------------------------
+// Class:     IPSBatchProgress
+//
+// Purpose:   Defines an interface which file process clients may implement to
+//            receive progress updates processing
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e7de-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IPSBatchProgress : IPSFileProgress
+{
+  // Called when there are no more items to process
+  HRESULT OnProcessEnd(
+    );
+}
+
+//+---------------------------------------------------------------------------
+// Class:     IPSChangeNotify
+//
+// Purpose:   Defines an interface which clients can implement to receive
+//            notifications when the persistent state of an object has changed.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e7df-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IPSChangeNotify : IUnknown
+{
+  // Called when an object's persistent state has changed
+  HRESULT OnChange(IUnknown* pUnk);
+}
+
+//+---------------------------------------------------------------------------
+// Class:     IPSNotifyManager
+//
+// Purpose:   Defines an interface through which clients can establish a
+//            change notification relationship with an object.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e7e0-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IPSNotifyManager : IUnknown
+{
+  HRESULT Notify(
+    IPSChangeNotify* pNotifier
+    );
+
+  HRESULT StopNotify(
+    IPSChangeNotify* pNotifier
+    );
+}
+
+//+---------------------------------------------------------------------------
+// Class:     IPSShredder
+//
+// Purpose:   Defines the interface to a collection of files with a secure
+//            delete operation.
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e7d7-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IPSShredder : IUnknown
+{
+  typedef enum
+  {
+    ESSPerMachine,  // one shredder per machine
+    ESSPerUser      // one shredder per user
+  } EShredScope;
+
+  typedef enum
+  {
+    ESMDemand,    // shred files when the user turns the shredder on
+    ESMInstant    // shred files the instant they're put in the shredder
+  } EShredMode;
+
+  typedef enum
+  {
+    ESLWipe,        // fast wipe - overwrite with zeros
+    ESLErase,       // 3-pass wipe
+    ESLDisintegrate,// 7-pass wipe
+    ESLObliterate   // 35-pass super-wipe
+  } EShredLevel;
+
+  typedef enum
+  {
+    ESFPromptBeforeShred = 1, // (UI must enfore this, we just store it)
+    ESFCantChangeScope = 2,
+    // ...
+    ESFNotEmpty = 0x80000000
+  } EShredFlags;
+
+  typedef enum
+  {
+    ESPScope,       // scope. use EShredScope for values
+    ESPMode,        // mode. use EShredMode for values
+    ESPLevel,       // level. use EShredLevel for values
+    ESPFlags        // flags. use EShredFlags for values
+  } EShredderParam;
+
+  DWORD   GetParam(EShredderParam param);
+
+  HRESULT SetParam(EShredderParam param, DWORD value);
+
+  // Shred all files in the shredder holding bin right now
+  HRESULT ShredNow(
+    IPSBatchProgress*  pProgress
+    );
+
+  // Enumerate all the items in the collection (see IPSFileRecord)
+  HRESULT EnumObjects(
+    DWORD           dwEnumFlags,  // use EPSSortFlags
+    IEnumUnknown**  ppEnum
+    );
+
+  // Move a file to the shredder.  If shredmode is ESInstant, the file is
+  // immediately erased & deleted.
+  HRESULT MoveToShredder(
+    IPSFileProgress*  pProgress,
+    char*           pszFileName,
+    char*           pszDisplayName
+    );
+
+  // Remove an object from the shredder.  Moves the file & re-names it
+  HRESULT RemoveFromShredder(
+    IPSFileRecord*  pFileToRemove,
+    char*           pszPath       // full-path of new location for object
+    );
+
+  // Removes & shreds a single file
+  HRESULT RemoveAndShred(
+    IPSFileProgress*  pProgress,
+    IPSFileRecord*    pFileToRemove
+    );
+}
+
+//+---------------------------------------------------------------------------
+// Class:     IPSVault
+//
+// Purpose:   Defines the interface to a collection of encrypted files.
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e7d6-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IPSVault : IUnknown
+{
+  typedef enum
+  {
+    EVSPerMachine,  // one vault per machine
+    EVSPerUser      // one vault per user
+  } EVaultScope;
+
+  typedef enum
+  {
+    EVSMShredImmediate,   // immediately shred plaintext files after encryption
+    EVSMMoveToShredder    // send plaintext files to shredder after encryption
+  } EVaultShredMode;
+
+  typedef enum
+  {
+    EVLMExplicit,         // vault only locks when explicitly told to do so
+    EVLMDelayAfterOpen,   // vault locks automatically after being open longer than EVPLockTime
+    EVLMDelayAfterUse,    // vault locks automatically EVPLockTime after use
+    EVLMOnInsert          // vault locks automatically immediately after a file is added (or files if multi-select)
+  } EVaultLockMode;
+
+  typedef enum
+  {
+    EVPMUseVaultPass,     // use the vault password for files
+    EVPMUseFilePass       // require pass-phrase for each file inserted
+  } EVaultPassMode;
+
+  typedef enum
+  {
+    EVLSLocked,           // vault is locked (or lock it)
+    EVLSUnlocked,         // vault is unlocked (or try to unlock it)
+    EVLSUpdate            // update vault pass-phrase (must be unlocked already)
+  } EVaultLockState;
+
+  typedef enum
+  {
+    EVFNoVaultPassphrase = 1,   // vault has no pass-phrase
+    EVFCantChangeScope = 2,     // user has insufficient privelege to change scope
+    EVFDestroysOriginal = 4     // original file will be immediately destroyed after encryption
+  } EVaultFlags;
+
+  typedef enum
+  {
+    EVPScope,       // scope. use EVaultScope for values
+    EVPShredMode,   // shred mode. use EVaultShredMode for values
+    EVPLockMode,    // lock mode. use EVaultLockMode for values
+    EVPLockTime,    // lock timer. (time in seconds, relevance depends on lock mode)
+    EVPPassMode,    // pass-phrase mode. use EVaultPassMode for values
+    EVPLockState,   // state use EVaultLockState for values (see below for protocols)
+    EVPPassHint,    // password hint, string
+    EVPPassphrase,  // passphrase, string, write-only
+    EVPMultifile,   // multi-file flag.  Set to non-zero when multiple files are being added
+    EVPFlags,       // misc flags. use EVaultFlags for bits
+    EVPKeySize      // encryption key size in bits (read-only)
+  } EVaultParam;
+
+  //
+  // To unlock vault:
+  //  1. Get hint from EVPPassHint
+  //  2. Set EVPPassPhrase to entered pass-phrase
+  //  3. Set EVPLockState to EVLSUnlocked.  Succeeds only if pass-phrase is correct
+  //
+  // To lock vault:
+  //  1. Set EVPLockState to EVLSLocked
+  //
+  // To change vault passphrase
+  //  1. Unlock the vault
+  //  2. Set EVPLockState to EVLSUpdate
+  //  3. Set EVPPassHint to new hint value
+  //  4. Set EVPPassphrase to new pass-phrase
+  //  5. Set EVPLockState to EVLSUnlocked
+  //
+
+  DWORD   GetParam(EVaultParam param);
+  HRESULT GetParamString(EVaultParam param, char* pBuffer, unsigned cbBuffer);
+
+  HRESULT SetParam(EVaultParam param, DWORD value);
+  HRESULT SetParamString(EVaultParam param, char* pBuffer);
+
+  // Enumerate all the items in the collection (see IPSFileRecord)
+  HRESULT EnumObjects(
+    DWORD           dwEnumFlags,  // use EPSSortFlags
+    IEnumUnknown**  ppEnum
+    );
+
+  // Return information about the file wich was encrypted to produce a given file
+  HRESULT QueryVaultFileInfo(
+    IPSFileRecord*  pFileToExamine,
+    SPSFileInfo*    pFileInfo
+  );
+
+  // Move a file to the vault.  The file is optionally compressed, then encrypted
+  // using the specified passphrase.
+  HRESULT MoveToVault(
+    IPSFileProgress*  pProgress,
+    char*           pszPassPhrase,
+    BOOL            bDontHashKey,
+    BOOL            bDontEraseSource,
+    char*           pszFileName,
+    char*           pszUserHint
+    );
+
+  // Remove an object from the vault.  Moves the file & re-names it
+  HRESULT RemoveFromVault(
+    IPSFileProgress*  pProgress,
+    char*           pszPassPhrase,
+    BOOL            bDontHashKey,
+    IPSFileRecord*  pFileToRemove,
+    char*           pszPath      // full-name of destination file
+    );
+
+  // Move a vault file into the vault.  The file is not re-encrypted.
+  // The file must be a vault file for the function to succeed
+  HRESULT Insert(
+    BOOL            bDontEraseSource,
+    char*           lpszPath    // name of file to add to vault
+    );
+
+  // Extract an object from the vault, renaming the file but not decrypting it
+  // The extracted file will have the extention .VLT, regardless of the extension
+  // passed in.
+  HRESULT Extract(
+    IPSFileRecord*  pFileToExtract,
+    char*           lpszPath    // full-name of destination file
+    );
+
+  // Get a copy of a vault file.  The file is not removed from the vault,
+  // the copy is not decrypted.
+  // The copied file will have the extention .VLT, regardless of the extension
+  // passed in.
+  HRESULT Copy(
+    IPSFileRecord*  pFileToCopy,
+    char*           lpszPath    // full-name of destination file
+    );
+
+  // Remove an object from the vault, discarding the object
+  HRESULT Discard(
+    IPSFileProgress*  pProgress,
+    IPSFileRecord*  pFileToRemove
+    );
+}
+
+
+cpp_quote("// End of Crypto.h")

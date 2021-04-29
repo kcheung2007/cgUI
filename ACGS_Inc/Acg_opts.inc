@@ -1,0 +1,503 @@
+// acg_OPTS.inc
+#ifndef _ACG_OPTS_H_DEFINED
+#define _ACG_OPTS_H_DEFINED 1
+
+#define TRACE_CHAR_PLOTS 0
+#define TRACE_CHAR_CACHE 0
+#define TRACE_DISPLAY_PLOTS 0
+#define TRACE_ANIM_PLOTS 1
+
+#define KHOI_VERSION					1
+#define KENT							1
+#define ENABLE_VDO_CLIP_MENU_TAB		0
+#define ENABLE_CAPTURE_MENU_TAB        0
+#define ENABLE_EFFECTS_MENU_TAB        0
+#define ENABLE_PRESET_MENU_TABS 1
+#define ENABLE_AUTO_SAVE_BACKUP 0
+#define ENABLE_ACCUSOFT_LIBS 1
+
+#define ROTATION_FEATURE 1
+
+//HARDWARE CODES --------------------------------------------------
+#define HARDWARE_TYPE_MASK (0x00ff<<8)
+
+#define FAST_VM_HARDWARE   (0x1<<8)
+#define FAST_BLUE_HARDWARE (0x2<<8)
+#define PINNACLE_HARDWARE  (0x3<<8)
+#define PERMEDIA2_HARDWARE (0x4<<8)
+#define PIXELOCK_HARDWARE  (0x5<<8)
+#define PLAY_HARDWARE      (0x6<<8)
+#define STAND_ALONE_HARDWARE  (0x7<<8)
+#define PREMIERE_HARDWARE	  (0x8<<8)
+#define SPEED_RAZOR_HARDWARE  (0x9<<8)
+#define DPS_VIDEO_ACTION_HARDWARE (0xA<<8)
+#define DPS_FUSION_HARDWARE	(0xB<<8)
+#define TOASTER_NT_HARDWARE (0xC<<8)
+//SOFTWARE CODES (with built in hardware code) ----------------------
+
+#define VIDEO_MACHINE_VERSION    (0x0010 | FAST_VM_HARDWARE)
+#define BLUE_VERSION			 (0x0020 | FAST_BLUE_HARDWARE)
+#define ES3_VERSION				 (0x0030 | FAST_BLUE_HARDWARE)
+#define FAST_601_VERSION		 (0x0040 | FAST_BLUE_HARDWARE)
+#define GENIE_VERSION			 (0x0050 | PINNACLE_HARDWARE)
+#define PIXELOCK_CLASSIC_VERSION (0x0060 | PIXELOCK_HARDWARE)
+#define PIXELOCK_2000_VERSION	 (0x0061 | PERMEDIA2_HARDWARE)
+#define TITLE_MACHINE_VERSION	 (0x0068 | PERMEDIA2_HARDWARE)
+#define TITLEWAVE_VERSION		 (0x0070 | PLAY_HARDWARE)
+#define TITLEWAVE_LT_VERSION	 (0x0078 | PLAY_HARDWARE)
+#define STAND_ALONE_VERSION		 (0x0080 | STAND_ALONE_HARDWARE)
+#define PREMIERE_VERSION		 (0x0090 | PREMIERE_HARDWARE)
+#define SPEED_RAZOR_VERSION		 (0x0092 | SPEED_RAZOR_HARDWARE)
+#define DPS_VIDEO_ACTION_VERSION (0x00A0 | DPS_VIDEO_ACTION_HARDWARE)
+#define DPS_FUSION_VERSION		 (0x00A1 | DPS_FUSION_HARDWARE)
+#define TOASTER_AURA_VERSION     (0x00|TOASTER_NT_HARDWARE)
+#define TOASTER_DIRECT_VERSION   (0x10|TOASTER_NT_HARDWARE)
+//*****************************************************************
+//*****************************************************************
+// VERSION SWITCHES ARE HERE !!!!! <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#define SOFTWARE_VERSION STAND_ALONE_VERSION
+#define PROGRAM_VERSION_NUMBER "1.35"
+
+#define ACG_DEMO_VERSION 0
+#define DO_FONT_CD_PROTECT 0
+#define NT_ENABLE 1
+#define DO_STARTUP_SERIAL_NUMBER_CHECK 0
+#define ENABLE_LOAD_PREVIOUS_PROJECT 0
+
+//*****************************************************************
+//*****************************************************************
+
+
+#define VIDEO_HARDWARE (SOFTWARE_VERSION&HARDWARE_TYPE_MASK)
+
+#define SINGLE_PAGE_PROJECTS_ONLY 0
+
+
+#define ENABLE_KHOI_VIDEO_SETUP_DIALOG 0
+#define ENABLE_EXPORT_IMAGE_SPEED_DIALOG 1
+
+#define ENABLE_PULLDOWN_CENTER_THIRD 0
+
+
+#if (VIDEO_HARDWARE==STAND_ALONE_HARDWARE)
+	//disable speed dialog for roll,crawl exports
+	#undef ENABLE_EXPORT_IMAGE_SPEED_DIALOG
+	#define ENABLE_EXPORT_IMAGE_SPEED_DIALOG 0
+#endif
+
+#if (VIDEO_HARDWARE==TOASTER_NT_HARDWARE)
+#undef ENABLE_VDO_CLIP_MENU_TAB
+#define ENABLE_VDO_CLIP_MENU_TAB		1
+#endif
+
+#if (VIDEO_HARDWARE==DPS_VIDEO_ACTION_HARDWARE)
+	#undef SINGLE_PAGE_PROJECTS_ONLY
+	#define SINGLE_PAGE_PROJECTS_ONLY 1
+
+	#define SIGN_ON_BANNER_TIME_MS 0
+
+	//disable speed dialog for roll,crawl exports
+	#undef ENABLE_EXPORT_IMAGE_SPEED_DIALOG
+	#define ENABLE_EXPORT_IMAGE_SPEED_DIALOG 0
+#endif
+
+#if (VIDEO_HARDWARE==FAST_BLUE_HARDWARE)
+	#undef DO_FONT_CD_PROTECT
+	#define DO_FONT_CD_PROTECT 0
+#endif // (VIDEO_HARDWARE==FAST_BLUE_HARDWARE)
+#define ACG_DLL_MODE 1
+#define USE_OLE 1
+
+#define DONGLE_MASTER_DEFEAT 1
+#define CG_LITE_FLAG 0
+#define USE_WIDE_SCREEN_CRAWL 1
+#define AMOVIE_USED 0
+#if AMOVIE_USED
+#if (!USE_OLE)
+#undef USE_OLE
+#define USE_OLE 1
+#endif // (!USE_OLE)
+#endif // AMOVIE_USED
+
+#define USE_NEW_INTERFACE_SCHEME 1
+#define INTERNAL_USE_ONLY 0
+
+//SPECIAL COLORS and HELP FILE ----------------------------------------
+#define CG_HELP_FILE_NAME "ACG.hlp"
+
+//start up with the last used font
+#define CG_RELOAD_LAST_SESSION_FONT 1
+
+#ifndef SIGN_ON_BANNER_TIME_MS
+#define SIGN_ON_BANNER_TIME_MS 4000
+#endif //SIGN_ON_BANNER_TIME_MS
+
+#if(SOFTWARE_VERSION==BLUE_VERSION)
+		#define USE_BLUE_CG_COLORS 1
+		#define USE_SONY_CG_COLORS 0
+		#define USE_601_CG_COLORS 0
+		#define CG_HELP_FILE_NAME "BlueCG.hlp"
+
+		#undef ENABLE_LOAD_PREVIOUS_PROJECT
+		#define ENABLE_LOAD_PREVIOUS_PROJECT 1
+
+#endif
+
+#if(SOFTWARE_VERSION==ES3_VERSION)
+		#define USE_BLUE_CG_COLORS 0
+		#define USE_SONY_CG_COLORS 1
+		#define USE_601_CG_COLORS 0
+		#define CG_HELP_FILE_NAME "ES-3CG.hlp"
+		#undef ENABLE_LOAD_PREVIOUS_PROJECT
+		#define ENABLE_LOAD_PREVIOUS_PROJECT 1
+		
+#endif
+#if(SOFTWARE_VERSION==FAST_601_VERSION)
+		#define USE_BLUE_CG_COLORS 0
+		#define USE_SONY_CG_COLORS 0
+		#define USE_601_CG_COLORS  1
+		#define CG_HELP_FILE_NAME "601CG.hlp"
+		#undef ENABLE_LOAD_PREVIOUS_PROJECT
+		#define ENABLE_LOAD_PREVIOUS_PROJECT 1
+#endif
+
+#if (VIDEO_HARDWARE==FAST_BLUE_HARDWARE)
+	#define USE_BLUE_API_DLL 1
+	#undef ENABLE_PRESET_MENU_TABS
+	#define ENABLE_PRESET_MENU_TABS 0
+#else // (VIDEO_HARDWARE!=FAST_BLUE_HARDWARE)
+	#define USE_BLUE_API_DLL 0
+	#define USE_BLUE_CG_COLORS 0
+	#define USE_SONY_CG_COLORS 0
+#endif // (VIDEO_HARDWARE==FAST_BLUE_HARDWARE)
+
+#if (VIDEO_HARDWARE==PLAY_HARDWARE)
+	/* name string used for Alpha_CG.ini vs. TitleWave.ini, etc */
+	#define CG_APP_NAME "TitleWave"
+	#undef DO_FONT_CD_PROTECT
+	#define DO_FONT_CD_PROTECT 0
+	#undef  ACG_DEMO_VERSION
+	#define ACG_DEMO_VERSION 0
+	#define PLAY_STUFF 1
+	
+	#undef ENABLE_ACCUSOFT_LIBS
+	#define ENABLE_ACCUSOFT_LIBS 0
+
+	#define HAS_PLAYBACK_CAPABILITY 1
+	#define USE_HARDWARE_PRESENT_PROTECTION 0
+	#undef USE_WIDE_SCREEN_CRAWL
+	#define USE_WIDE_SCREEN_CRAWL 1
+	#define USE_SPELL_CHECKER 1
+//	#undef COMPILE_DLL_VERSION
+//	#define COMPILE_DLL_VERSION 1
+	#undef ACG_DLL_MODE
+	#define ACG_DLL_MODE 1 // In TitleWave case, it's always 1 because it's compiled to DLL.
+	#if (!USE_OLE)
+		#undef USE_OLE
+		#define USE_OLE 1
+	#endif // (!USE_OLE)
+	
+	//don't start up with the last used font
+	#undef CG_RELOAD_LAST_SESSION_FONT
+	#define CG_RELOAD_LAST_SESSION_FONT 0
+
+	#undef ENABLE_LOAD_PREVIOUS_PROJECT
+	#define ENABLE_LOAD_PREVIOUS_PROJECT 0
+
+#else
+	/* name string used for Alpha_CG.ini vs. TitleWave.ini, etc */
+	#if (VIDEO_HARDWARE==FAST_BLUE_HARDWARE)
+		#if USE_SONY_CG_COLORS
+			#define CG_APP_NAME "ES3_CG"
+		#endif
+		#if USE_BLUE_CG_COLORS
+			#define CG_APP_NAME "Blue_CG"
+		#endif
+		#if USE_601_CG_COLORS
+			#define CG_APP_NAME "601-CG"
+		#endif // USE_SONY_CG_COLORS
+	#else // (VIDEO_HWARWARE!=FAST_BLUE_HARDWARE)
+		#define CG_APP_NAME "Alpha_CG"
+	#endif // (VIDEO_HARDWARE==FAST_BLUE_HARDWARE)
+	
+	#if (VIDEO_HARDWARE==DPS_VIDEO_ACTION_HARDWARE)
+		#undef CG_APP_NAME
+		#define CG_APP_NAME "Alpha CG Lite"
+		#undef ACG_DLL_MODE
+		#define ACG_DLL_MODE 1
+	#endif
+	#define PLAY_STUFF 0
+	#define USE_SPELL_CHECKER 0
+
+#endif
+
+#if VIDEO_HARDWARE==PIXELOCK_HARDWARE
+	#undef ACG_DLL_MODE
+	#define ACG_DLL_MODE 1
+#endif
+
+#if ACG_DLL_MODE
+	#define WIN_MAIN_FUNCTION Win_Main
+	#if VIDEO_HARDWARE==PIXELOCK_HARDWARE
+//		#define SHOW_INTERFACE_MODE 0 //JIM PUT BACK
+		#define SHOW_INTERFACE_MODE 1
+	#else
+		#define SHOW_INTERFACE_MODE 1
+	#endif
+#else
+	#define WIN_MAIN_FUNCTION WinMain
+	#define SHOW_INTERFACE_MODE 1
+#endif
+
+#if (!PLAY_STUFF)
+	#define DO_DONGLE 0
+#else
+	#define DO_DONGLE 0
+#endif
+
+#if (VIDEO_HARDWARE==FAST_VM_HARDWARE)
+	#define REQUIRE_FAST_VM 1
+	#define HAS_PLAYBACK_CAPABILITY 1
+	#define USE_HARDWARE_PRESENT_PROTECTION 0
+	//1
+#else
+	#define REQUIRE_FAST_VM 0
+#endif
+
+#if (VIDEO_HARDWARE==PIXELOCK_HARDWARE)
+	#define REQUIRE_PIXELOCK 1
+	#define HAS_PLAYBACK_CAPABILITY 1
+	#define USE_HARDWARE_PRESENT_PROTECTION 1
+	#undef DO_DONGLE
+	#define DO_DONGLE 0
+#else
+	#define REQUIRE_PIXELOCK 0
+#endif
+
+#if (VIDEO_HARDWARE==PERMEDIA2_HARDWARE)
+	#define HAS_PLAYBACK_CAPABILITY 1
+	#define PLAYBACK_CLEAR_PLAYERIMAGES_FOLDER 1
+	
+	#undef ENABLE_KHOI_VIDEO_SETUP_DIALOG
+	#define ENABLE_KHOI_VIDEO_SETUP_DIALOG 1
+
+	#undef ENABLE_CAPTURE_MENU_TAB
+	#define ENABLE_CAPTURE_MENU_TAB 1
+	#undef ENABLE_EFFECTS_MENU_TAB
+	#define ENABLE_EFFECTS_MENU_TAB 1
+#endif
+
+#if (VIDEO_HARDWARE==PINNACLE_HARDWARE)
+	#undef DO_DONGLE
+	#define DO_DONGLE 0
+#endif
+
+#if SOFTWARE_VERSION==STAND_ALONE_VERSION
+	#undef ENABLE_EFFECTS_MENU_TAB
+	#define ENABLE_EFFECTS_MENU_TAB 1
+	#define HAS_PLAYBACK_CAPABILITY 1
+#endif
+
+//DISABLE DONGLE FOR DEMO VERSION
+#if ACG_DEMO_VERSION
+	#undef DO_DONGLE
+	#define DO_DONGLE 0
+	#define DO_FONT_CD_PROTECT 0
+#endif
+
+#ifndef HAS_PLAYBACK_CAPABILITY
+	#define HAS_PLAYBACK_CAPABILITY 0
+#endif
+
+#if DONGLE_MASTER_DEFEAT
+	#undef DO_DONGLE
+	#define DO_DONGLE 0
+#endif
+
+
+#define ACG_ENABLE_PATTERN_TRANSPARENCY 0
+#define VGA_CLASS 1
+#define TGA_CLASS 0
+
+/* CHAR RENDERING and ANTIALIAS CONTROL ****************/
+//used in bitgraf.c
+#define FER_GAMMA 1.3
+// 5=25 levels    2.800 ns
+// 7=49 levels    1.428 ns
+// 10=100 levels  0.700 ns
+// 11=121 levels  0.578 ns
+// 12=144 levels  0.486 ns
+#if CG_LITE_FLAG
+	#define FER_SCALE 7
+#else
+	#define FER_SCALE 10
+#endif
+#define USE_FER 1
+
+//max mb for colorscheme storage before purge
+#define OBJ_CS_WB_TOT_BYTES_LIMIT (1024L*1024L*24L)
+
+//used in cg_edlow.c
+#define REND_MAX_FONT_HEIGHT 999
+#define REND_MIN_FONT_HEIGHT 5
+
+// ancillary settings --------------------------------------------------
+
+// Sample window control options ======================
+// used in ed_low_update_cur_attr_sample()
+
+#if (!PLAY_STUFF)
+	#define SAMPLE_WINDOW_FONT_HEIGHT 70
+	#define	SAMPLE_FONT_WINDOW_WIDTH 96
+	#define	SAMPLE_FONT_WINDOW_HEIGHT 96
+	#define	SAMPLE_WINDOW_FONT_X_OFF 20
+	#define	SAMPLE_WINDOW_FONT_Y_OFF 8
+#else // PLAY_STUFF
+	#define SAMPLE_WINDOW_FONT_HEIGHT 46
+	#define	SAMPLE_FONT_WINDOW_WIDTH 64
+	#define	SAMPLE_FONT_WINDOW_HEIGHT 48
+	#define	SAMPLE_WINDOW_FONT_X_OFF 13
+	#define	SAMPLE_WINDOW_FONT_Y_OFF 5
+#endif
+
+#define SAMPLE_CHECKER_WIDTH 16
+#define SAMPLE_CHECKER_HEIGHT 16
+
+#if PLAY_STUFF
+
+	#define SAMPLE_CHECKER_RED_HIGH 140
+	#define SAMPLE_CHECKER_GREEN_HIGH 140
+	#define SAMPLE_CHECKER_BLUE_HIGH 140
+
+	#define SAMPLE_CHECKER_RED_LOW 96
+	#define SAMPLE_CHECKER_GREEN_LOW 96
+	#define SAMPLE_CHECKER_BLUE_LOW 96
+
+	#define DEFAULT_BG_RED 76
+	#define DEFAULT_BG_GREEN 76
+	#define DEFAULT_BG_BLUE 76
+
+	#define SAFE_TITLE_RED 255
+	#define SAFE_TITLE_GREEN 255
+	#define SAFE_TITLE_BLUE 255
+
+	#define GRID_INDICATOR_RED   255
+	#define GRID_INDICATOR_GREEN 200
+	#define GRID_INDICATOR_BLUE 200
+
+#else // (!PLAY_STUFF)
+
+	#define SAMPLE_CHECKER_RED_HIGH 140
+	#define SAMPLE_CHECKER_GREEN_HIGH 140
+	#define SAMPLE_CHECKER_BLUE_HIGH 140
+
+	#define SAMPLE_CHECKER_RED_LOW 96
+	#define SAMPLE_CHECKER_GREEN_LOW 96
+	#define SAMPLE_CHECKER_BLUE_LOW 96
+/*
+	#define DEFAULT_BG_RED 76
+	#define DEFAULT_BG_GREEN 76
+	#define DEFAULT_BG_BLUE 76
+*/
+	#define DEFAULT_BG_RED 48
+	#define DEFAULT_BG_GREEN 48
+	#define DEFAULT_BG_BLUE 128
+
+	#define SAFE_TITLE_RED 160
+	#define SAFE_TITLE_GREEN 160
+	#define SAFE_TITLE_BLUE 255
+
+	#define GRID_INDICATOR_RED   255
+	#define GRID_INDICATOR_GREEN 200
+	#define GRID_INDICATOR_BLUE 200
+
+#endif // PLAY_STUFF
+
+#if (VIDEO_HARDWARE==FAST_BLUE_HARDWARE)
+		#undef DEFAULT_BG_RED
+		#undef DEFAULT_BG_GREEN
+		#undef DEFAULT_BG_BLUE
+
+		#undef SAFE_TITLE_RED
+		#undef SAFE_TITLE_GREEN
+		#undef SAFE_TITLE_BLUE
+
+		#define SAFE_TITLE_RED 255
+		#define SAFE_TITLE_GREEN 255
+		#define SAFE_TITLE_BLUE 255
+
+		#undef SAMPLE_CHECKER_RED_HIGH
+		#undef SAMPLE_CHECKER_GREEN_HIGH
+		#undef SAMPLE_CHECKER_BLUE_HIGH
+		#undef SAMPLE_CHECKER_RED_LOW
+		#undef SAMPLE_CHECKER_GREEN_LOW
+		#undef SAMPLE_CHECKER_BLUE_LOW
+
+	#if USE_BLUE_CG_COLORS 
+		#define DEFAULT_BG_RED 24
+		#define DEFAULT_BG_GREEN 69
+		#define DEFAULT_BG_BLUE 97
+		
+		#define SAMPLE_CHECKER_RED_HIGH 180
+		#define SAMPLE_CHECKER_GREEN_HIGH 188
+		#define SAMPLE_CHECKER_BLUE_HIGH 200
+		#define SAMPLE_CHECKER_RED_LOW 24
+		#define SAMPLE_CHECKER_GREEN_LOW 69
+		#define SAMPLE_CHECKER_BLUE_LOW 97
+
+	#endif
+	#if USE_SONY_CG_COLORS
+		#define DEFAULT_BG_RED 97
+		#define DEFAULT_BG_GREEN 88
+		#define DEFAULT_BG_BLUE 75
+
+		#define SAMPLE_CHECKER_RED_HIGH 219
+		#define SAMPLE_CHECKER_GREEN_HIGH 212
+		#define SAMPLE_CHECKER_BLUE_HIGH 202
+		#define SAMPLE_CHECKER_RED_LOW 97
+		#define SAMPLE_CHECKER_GREEN_LOW 88
+		#define SAMPLE_CHECKER_BLUE_LOW 75
+	#endif
+
+	#if USE_601_CG_COLORS
+		#define DEFAULT_BG_RED 48
+		#define DEFAULT_BG_GREEN 59
+		#define DEFAULT_BG_BLUE 62
+		
+		#define SAMPLE_CHECKER_RED_HIGH 171
+		#define SAMPLE_CHECKER_GREEN_HIGH 171
+		#define SAMPLE_CHECKER_BLUE_HIGH 171
+		#define SAMPLE_CHECKER_RED_LOW 48
+		#define SAMPLE_CHECKER_GREEN_LOW 59
+		#define SAMPLE_CHECKER_BLUE_LOW 62
+	#endif
+
+
+
+#endif //blue hardware
+
+#define GRID_LINE_RED    128
+#define GRID_LINE_GREEN		48
+#define GRID_LINE_BLUE		48
+
+#ifndef DEFAULT_BG_BGRA
+#define DEFAULT_BG_BGRA ((DEFAULT_BG_RED<<16)|(DEFAULT_BG_GREEN<<8)|(DEFAULT_BG_BLUE)|0xFF000000)
+#endif //DEFAULT_BG_BGRA
+
+// PAGE ICON PARAMETERS ===============================
+#define PAGE_MENU_PICON_WIDTH 80
+#define PAGE_MENU_PICON_HEIGHT 60
+#define ACG_PAGE_ICON_WIDTH PAGE_MENU_PICON_WIDTH
+#define ACG_PAGE_ICON_HEIGHT PAGE_MENU_PICON_HEIGHT
+
+//JAPANESE LOCALE =====================================
+#define JAPANESE_MS_MINCIO_FONT_NAME "‚l‚r –¾’©"
+#define JAPANESE_MS_GOTHIC_FONT_NAME "\202\154\202\162 \202\157\203\123\203\126\203\142\203\116"
+
+#ifndef SIGN_ON_BANNER_TIME_MS 
+	#define SIGN_ON_BANNER_TIME_MS 4000
+#endif
+
+#include "Migrate.h"
+
+#endif //if !_ACG_OPTS_H_DEFINED

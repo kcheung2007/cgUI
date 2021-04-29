@@ -1,0 +1,815 @@
+//+---------------------------------------------------------------------------
+//
+//  Simple Tape API
+//  Copyright (C) Play Incorporated, 1995
+//
+//  PRELIMINARY - ALL SPECIFICATIONS SUBJECT TO CHANGE
+//  PLAY CONFIDENTIAL - DO NOT DISTRIBUTE
+//
+//  File:       smedia.idl
+//
+//  Contents:   definition for all Simple Media API interfaces
+//
+//  History:    August 11,    1995  cpdaniel  created
+//              February 15,  1996  cpdaniel  last modified
+//
+//----------------------------------------------------------------------------
+//
+//  The Simple Media API provides hardware independent control of VTR, ATR
+//  DDR and LVD (content storage) devices.
+//
+//----------------------------------------------------------------------------
+
+import "wtypes.idl";
+import "unknwn.idl";
+import "objidl.idl";
+import "autoct.idl";
+import "props.idl";
+
+//+---------------------------------------------------------------------------
+// Forward declarations
+//----------------------------------------------------------------------------
+interface ITapeAdviseSink;
+interface ITapeVtr;
+interface IMediaManager;
+interface IMediaManager2;
+
+cpp_quote("#define Mask(n) (((LONGLONG)(1))<<(n))")
+
+
+//+---------------------------------------------------------------------------
+//  Class:      ITapeAdviseSink
+//
+//  Purpose:    ITapeAdviseSink is implemented by IVidSystem clients to
+//              receive notifications of various events within the video
+//              system.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e3e7-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITapeAdviseSink : IUnknown
+{
+  cpp_quote("//+-------------------------------------------------------------------------")
+  cpp_quote("//")
+  cpp_quote("//  Simple Tape API")
+  cpp_quote("//  Copyright (C) Play Incorporated, 1995.")
+  cpp_quote("//  PRELIMINARY - ALL SPECIFICATIONS SUBJECT TO CHANGE")
+  cpp_quote("//  PLAY CONFIDENTIAL - DO NOT DISTRIBUTE")
+  cpp_quote("//")
+  cpp_quote("//--------------------------------------------------------------------------")
+
+  typedef struct tagSTapeStatus
+  {
+    DWORD           dwPortNum;      // the port number of this device
+
+    DWORD           statusType;     // how should the status info be interpreted
+                                    // use EMediaType for values.
+
+                                    // Use ETapeVtrMode for bit number in the
+                                    // following two fields
+                                    // use ENLRMode if statusType is MTNLR
+    LONGLONG        liCurrentModes; // 1 bits indicate current modes
+    LONGLONG        liChangedModes; // 1 bits indicate change from last report
+
+                                    // Use ETapeVtrStatus for bit number in the
+                                    // following two fields
+                                    // use ENLRStatus if statusType is MTNLR
+    LONGLONG        liCurrentStats; // 1 bits indicate current status
+    LONGLONG        liChangedStats; // 1 bits indicate change from last report
+
+    DWORD           dwTCData;       // recent timecode from tape (in fields)
+    DWORD           dwUBData;       // recent user bits from tape
+  } STapeStatus;
+
+  typedef enum tagETapeVtrAdvise
+  {
+                        // only 1 of the following 3 may be active at one time
+    TATimeCodeLTC  = 1, // advise on LTC change
+    TATimeCodeVITC = 2, // advise on VITC change
+    TATimeCodeGEN  = 4, // advise on TC Gen change
+
+    TATimeCodeUB   = 8, // advise on UB data change
+
+    TAStatus       = 16,// advise on status change
+    TAMode         = 32,// advise on mode change
+
+    TACommand      = 64,// advise on command completion
+
+	TATimeCodeTimer1 = 128 // advise on Timer1 change, should be w/ above, but didn't want to change fcnality
+
+  } ETapeVtrAdvise;
+
+  HRESULT OnStatusChange(
+    [in] DWORD         dwSystemTime,         // system time at which data was obtained
+    [in] DWORD         dwNumStatusElements,  // number of device status blocks
+    [in] STapeStatus*  pStatsArray           // status blocks
+    );
+
+  typedef enum tagETrnCompletionCode
+  {
+    CCAck,            // received ACK from device
+    CCNak,            // received NAK from device
+    CCTimeout,        // No response received by end of field
+    CCBadChecksum,    // Checksum error on device response
+    CCTimeValue,      // a time value was returned
+    CCSpeedValue      // a speed value was returned
+  } ETrnCompletionCode;
+
+  typedef struct tagSTrnCompletionRecord
+  {
+    DWORD               dwPortNum;  // which device produced the advise
+    DWORD               dwCommandId;
+    ETrnCompletionCode  code;
+    union
+    {
+
+      DWORD   timeValue;
+      DWORD   speedValue;
+    } data;
+  } STrnCompletionRecord;
+
+  HRESULT OnCommandComplete(
+    [in] STrnCompletionRecord* pCompletionData
+    );
+
+        // report device errors.  intended for TimeMachine media
+        // errors.  return S_OK to clear the reported error, S_FALSE
+		// to let its state persist.
+//  HRESULT OnDeviceError(
+//	[in] DWORD dwPortNum,
+//	[in,string] char *errorString);
+    
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      IMediaManager
+//
+//  Purpose:	a way to get media devices like tape decks.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e3f6-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IMediaManager : IUnknown
+{
+  typedef enum  tagEMediaType
+  {
+    MTVTR = 0,  // Video Tape Recorder/player
+    MTATR,      // Audio tape recorder
+    MTNLR       // non-linear (disk) storage
+  } EMediaType;
+
+  // Return the number of attached media devices
+  ULONG QueryNumDevices(
+    EMediaType  whichType);
+
+  // Return the automation controller which executes commands for this
+  // manager.
+  HRESULT QueryController(
+    [out] ITrnAutomationController** ppController);
+
+  // Get interface pointers to all attached devices
+  //
+  // MTVTR returns objects with the ITapeVtr interface
+  // MTNLE returns objects with the ITrnNonLinearRecorder interface
+  //
+  HRESULT EnumDevices(
+    EMediaType      whichType,
+    IEnumUnknown**  ppEnum
+    );
+
+  // Set the advise parameters for the specified port.
+  HRESULT Advise(
+    [in] ULONG dwPortNum,           // port number of the VTR to advise about
+    [in] ITapeAdviseSink* pAdv,     // where to call with advise data
+    [in] ULONG filter,              // Use ETapeVtrAdvise for bits
+    [in] LONGLONG statFilter,       // Use ETapeVtrStatus for bit numbers
+    [in] LONGLONG modeFilter        // USe ETapeVtrMode for bit numbers
+    );
+
+  // Cancel advise notification for the specified port.
+  HRESULT UnAdvise(
+    [in] ULONG dwPortNum
+    );
+
+  // Add an advise sink pointer to the list of pointers which may be
+  // called with advise data.
+  HRESULT RegisterAdviseSink(
+    [in] ITapeAdviseSink* pAdv
+    );
+
+  // Remove an advise sink pointer from the list.
+  HRESULT UnRegisterAdviseSink(
+    [in] ITapeAdviseSink* pAdv
+    );
+
+  // Each port/vtr has a set of advise parameters which are set by the Advise
+  // function.  When VTR status has been updated, the MediaManager will call
+  // each registered advise sink call-back and pass status for ALL VTRs which
+  // specify that advise sink pointer AND meet their own advise criteria.
+
+  // NOTE:  Any ITapeAdviseSink* pointers which will be specified in a call
+  //        to Advise must be registered BEFORE calling Advise.  If this
+  //        rule is violated, an error will be returned from Advise.
+  //
+  //        It is permissible to terminate all advising by simply
+  //        UnRegistering all ITapeAdviseSink*'s.  It is not necessary
+  //        to UnAdvise each port individually.
+
+  // To stop advises for a given VTR, call UnAdvise specifying the port number.
+
+		// send a device id request to the specified port.  if no
+		// device has been created yet on this port, 
+	HRESULT AutoConfigDeviceOnPort(
+		[in] DWORD portNumber);
+
+        // remove device info from registry on this port
+    HRESULT DisconnectDeviceFromPort(
+        [in] DWORD portNumber);
+
+    // Get interface to some object (same or internal) 
+    // index may be used to get VTR number X or NLR number X, where
+    // the caller may NOT rely on ordering remaining constant.
+    // Get INLRManager, etc. index doesn't matter.
+	// Interfaces supported:
+	//		ITapeVTR
+	//		ITrnNonLinearRecorder
+	//		INLRManager
+//    HRESULT QueryInternalInterface( REFIID riid, long index, void **ppv );
+}
+
+
+//+---------------------------------------------------------------------------
+//  Class:      IMediaManager2
+//
+//  Purpose:	A way to get media devices like tape decks.
+//              New version which adds some new functions.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e442-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IMediaManager2 : IMediaManager
+{
+    HRESULT AutoConfigDeviceOnPort(
+       [in] DWORD portNumber,
+       [in] REFCLSID ProtocolClass);
+}
+
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnDeviceProfileDB
+//
+//  Purpose:    iface for device profile database
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e42b-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnDeviceProfileDB : IUnknown
+{
+  typedef enum tagETapeFormat
+  {
+    TFVhs       = 0x00000001,
+    TFSvhs      = 0x00000002,
+    TFM2        = 0x00000004,
+    TFBetaCam   = 0x00000008,
+    TFD1        = 0x00000010,
+    TFD2        = 0x00000020,
+    TFD3        = 0x00000040,
+    TF8mm       = 0x00000080,
+    TFDVCam     = 0x00000100,
+    TFDVCPro    = 0x00000200,
+    TFDV        = 0x00000400,
+    TFHi8       = 0x00000800,
+    TF3Quarterin= 0x00001000,
+    TF1in       = 0x00002000,
+    TF2in       = 0x00004000,
+    TFDigBetaCam= 0x00008000,
+    TFDigSVHS   = 0x00010000
+  } ETapeFormat;
+
+
+        // return TRUE if deviceType exists in the device profile
+        // database.
+    BOOL DeviceProfileExists(
+        [in] DWORD deviceType);
+
+    HRESULT CreateDeviceProfile(
+        [in] DWORD deviceType,
+        [in] LONGLONG supportedModes,
+        [in] DWORD tapeFormats, // use ETapeFormat for bit
+        [in,string] LPSTR mfgNameAndModel,
+        [in] IPlayProperties *propSet);
+
+    // get all the info on this device.  If your buffer for
+    // mfgNameAndModel is smaller than what is stored, the
+    // string will be truncated and NOT null-terminated.
+    // Any of the pointer parameters may be NULL if that
+    // info is not desired.
+    // This will return S_FALSE, and fill everything in
+    // with blank, default stuff if the device type isn't
+    // in the database.  (ie the name will be "Unknown",
+    // all modes will be supported, and a blank
+    // properties object will be created)
+    // NB: any propset returned by this function will
+    // have to be released by the caller.
+    HRESULT GetDeviceProfile(
+        [in] DWORD deviceType,
+        [out] LONGLONG* supportedModes,
+        [out] DWORD *tapeFormats, // use ETapeFormat for bit
+        [out,string] LPSTR mfgNameAndModel,
+        [in] DWORD bufferSize,
+        [out] IPlayProperties **propSet);
+
+    HRESULT DeleteDeviceProfile(
+        [in] DWORD deviceType);
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITapeVtr
+//
+//  Purpose:    Defines the interface for an abstract VTR
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3e5-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITapeVtr : IUnknown
+{
+// RS-422 commands:
+  // .device type request
+  // .local enable/disable
+  // .play
+  // .record
+  // .stop
+  // .standby on/off
+  // .eject
+  // .fast forward
+  // .var forward
+  // .rewind
+  // .var reverse
+  // .preroll
+  // .cue with data
+  // .preview
+  // .review
+  // .auto edit
+  // .anti-clog timer enable/disable
+  // .full EE on/off
+  // .select EE on
+  // .edit on/off
+  // .timer 1 preset/reset
+  // .timecode preset
+  // .u-bit preset
+  // .freeze on/off
+  // .in .entry/.preset/.shift+/.shift-/.reset/.recall
+  // .out .entry/.preset/.shift+/.shift-/.reset/.recall
+  // .edit preset
+  // .preroll time preset
+  // .color frame select
+  // .timer mode select
+  // .input check
+  // .auto mode on/off
+  // .video reference enable/disable
+  // .tc gen data sense
+  // .current time sense
+  // .in data sense
+  // .out data sense
+  // edit preset sense
+  // .preroll time sense
+  // timer mode sense
+  // .status sense
+
+  // .sync play (JVC)
+  // .program play +/- (JVC,Pan)
+  // .tension release (JVC)
+  // tape/auto select (JVC)
+  // .servo reference select (JVC,Pan)
+  // .head select (JVC,Pan)
+  // command speed sense (JVC)
+  // var mem speed sense (JVC)
+  // .TCG hold (Pan)
+  // .TCG Run (Pan)
+  // .lost lock reset (Pan)
+  // .PCM/LIN mode select (Pan)
+  // .DA Input select (Pan)
+
+
+//
+// Defines VTR modes which may be passed to the mode parameter or the
+// SetMode, SetTime, and SetVarSpeedMode functions
+//
+  typedef enum tagETapeVtrMode
+  {
+    //
+    // VTR Functions which can be enabled/disabled or activated
+    //
+    VTLocal,        // Local enable/disable
+    VTStandby,      // Standby on/off
+    VTFullEE,       // Full EE mode on/off
+    VTSelectEE,     // turned off with VTEditMode
+    VTEditMode,     // Edit mode on/off
+    VTFreeze,       // Freeze mode on/off
+    VTAutoMode,     // Auto mode on/off
+    VTPlay,         // Disable Play=Stop
+    VTSyncPlay,
+    VTRecord,       // Disable Record=Stop
+    VTEject,
+    VTFastForward,  // Disable FastForward=Stop
+    VTRewind,       // Disable Rewind=Stop
+    VTStop,         // Disable and Enable both mean Stop
+    VTTensionRelease,
+    VTPreroll,
+    VTPreview,
+    VTReview,
+    VTAutoEdit,
+    VTVideoReference,   // Video reference enable/diable
+    VTAntiClog,         // Anti-clog timer enable/disable
+    VTTimeCodeGen,      // TCG run/hold
+    VTLostLockReset,
+    VTDAInputSelect,
+    VTInputCheck,       // on/off
+
+    //
+    // VTR Functions which require a time parameter are used with SetTime.
+    // They may be used with SetMode with modeValue=MVOFF to do Reset.
+    //
+    VTTimer1Set,        // disable -> Timer1 Reset
+    VTTimeCodeSet,
+    VTInTimeSet,
+    VTOutTimeSet,
+    VTUserBitSet,
+    VTPrerollSet,
+    VTCuePointSet,
+
+    //
+    // VTR Functions which require a speed paramater.
+    // These are used only with SetVarSpeedMode.
+    //
+    VTJog,
+    VTShuttle,
+    VTVarSpeedPlay,
+
+    //
+    // VTR Functions which require special mode values.
+    // The special mode values are defined in ETapeVtrModeValue.
+    //
+    VTEditSetup,        // Editing parameter setup
+    VTServoRefSelect,   // Capstan servo reference select
+    VTPlayHeadSelect,   // Select head used for PLAY mode
+    VTColorFrameSelect, // Color frame mode select
+    VTTimerModeSelect,
+    VTVideoInputSelect, // select Composite, Component, Dub, etc.
+    VTAudioModeSelect,  // PCM/Linear audio select
+
+    // new value(s)
+    VTPreReadModeSelect
+  
+  } ETapeVtrMode;
+
+  typedef enum tagENLRMode
+  {
+    NLRStop,
+    NLRPlay,
+    NLRRecord,
+    NLRCopy
+  } ENLRMode;
+
+//
+// Defines mode values which are passed to the modeValue parameter of the
+// SetMode() function.  They are divided into groups of values which
+// are for use with certain modes.
+//
+  typedef enum tagTapeVtrModeValue
+  {
+    //
+    // MVXxx values are generic and can be used with any modes not listed
+    // in one of the special sections below.
+    //
+    MVOFF,      // Turn a mode off
+    MVON,       // Turn a mode on
+
+    //
+    // Edit Mode Values (EMXxx) are used when mode is VTEditSetup.
+    // Use a bitwise OR combination of either EMInsert OR EMAssemble
+    // and any combination of EMEnableXxx values.
+    //
+    EMInsert,
+    EMAssemble,
+    //
+    // The enables (EMEnableXxx) select components to be recorded onto
+    // the tape during the edit.  Any combination of enables is valid.
+    //
+    EMEnableVideo,
+    EMEnableTimeCode,
+    EMEnableAudio1,
+    EMEnableAudio2,
+
+    //
+    // SRXxx values are used when mode is VTServoRefSelect
+    //
+    SRAuto,
+    SRExternal,
+    SRDefault,      // device default (switch setting)
+
+    //
+    // PHXxx values are used when mode is VTPlayHeadSelect
+    //
+    PHRecordPlay,
+    PHPlayback,
+    PHDefault,      // device default (switch setting)
+
+    //
+    // CFXxx values are use when mode is VTColorFrameSelect
+    //
+    CF2Field,
+    CF4Field,
+    CF8Field,
+    CFDefault,      // device default (switch setting)
+
+    //
+    // VIXxx values are used mode is VTVideoInputSelect
+    //
+    VIComposite,
+    VIComponent,
+    VIDub,
+    VIDefault,      // device default (switch setting)
+
+    //
+    // AMXxx values are used when mode is VTAudioModeSelect
+    //
+    AMPCM,
+    AMLinear,
+    AMDefault       // device default (switch setting)
+
+  } ETapeVtrModeValue;
+
+
+//
+// Defines VTR statuses which are unique from modes.
+//
+  typedef enum tagTapeVtrStatus
+  {
+    VSTapeOut,
+    VSTapeTrouble,
+    VSHardError,
+    VSServoLock,
+    VSTSOverride,
+    VSDirection,
+    VSStill,
+    VSCueComplete,
+    VSInsert,
+    VSAssemble,
+    VSVideo,
+    VSTimeCode,
+    VSChangeTC,     // Timecode data is changed
+    VSChangeUB,     // Userbits data is changed
+    VSAudio1,
+    VSAudio2,
+    VSLampStill,
+    VSLampFwd,
+    VSLampRev,
+    VSInOut,
+    VSLostLock,
+    VSNearEndOfTape,
+    VSEndOfTape,
+    VSColorFrameLock,
+    VSRecordInhibit,
+    VSDropFrame,
+	VSTimeCodeVITC,
+	VSTimeCodeLTC,
+	VSTimeCodeCTL
+  } ETapeVtrStatus;
+
+  typedef enum tagENLRStatus
+  {
+    NLRSError,
+    NLRSChangeTC
+  } ENLRStatus;
+
+  // Return the Media Manager which controls this vtr
+  HRESULT QueryManager(
+    [out] IMediaManager** ppManager);
+
+  // Return the modes which the device supports
+  HRESULT QuerySupportedModes(
+    [out] LONGLONG* pdwModes);         // Use ETapeVtrMode for bits
+
+  // Fill in a status record with the VTR's current status.
+  HRESULT QueryStatus(
+    [out] STapeStatus* pStatus);
+
+  // Set a device mode to the value specified by modeValue.
+  HRESULT SetMode(
+    [in] STrnTimeType *pTime,
+    [in] ETapeVtrMode mode,
+    [in] ETapeVtrModeValue modeValue,
+    [out] DWORD* pdwCommandId);
+
+  // Set a device mode to the combination of values specified by
+  // the modeMask.  This is used for modes like VTEditSetup which
+  // take a combination of mode values.
+  HRESULT SetModeMask(
+    [in] STrnTimeType *pTime,
+    [in] ETapeVtrMode mode,
+    [in] LONGLONG modeMask,
+    [out] DWORD* pdwCommandId);
+
+  // Set the device play speed.  This function only affects modes
+  // which require a speed parameter (VTJog, VTShuttle, VTVarSpeedPlay).
+  // It is an error to pass any other modes to this function.
+  HRESULT SetVarSpeedMode(
+    [in] STrnTimeType *pTime,
+    [in] ETapeVtrMode mode,
+    [in] LONG speed,
+    [out] DWORD* pdwCommandId);
+
+  // Set a device time to a specific value. This may only be use with modes
+  // listed above which require a time parameter.
+  // time is assumed to be in fields.
+  HRESULT SetTime(
+    [in] STrnTimeType *pTime,
+    [in] ETapeVtrMode mode,
+    [in] DWORD time,
+    [out] DWORD* pdwCommandId);
+
+  // Sets the current play speed a little faster or a little slower for
+  // use during editing to get all VTRs on the correct frame at the
+  // same time so the edits come out frame acurate.
+  // The SpeedIndex parameter is a signed value which represents an
+  // increment by which the speed may be adjusted.  Use the QueryAdjustRange
+  // and QueryAdjustSpeed to determine the range of SpeedIndex allowed and
+  // the effect each increment of SpeedIndex has on the tape speed.
+  HRESULT EditSpeedAdjust(
+    [in] STrnTimeType *pTime,
+    [in] LONG SpeedIndex,
+    [out] DWORD* pdwCommandId);
+
+  // Returns the minimum and maximum SpeedIndex values which have meaning
+  // for the EditSpeedAdjust function.
+  HRESULT QueryAdjustRange(
+    [out] LONG* pdwPosLimit,    // Highest SpeedIndex value (pos).
+    [out] LONG* pdwNegLimit);   // Lowest SpeedIndex value (neg).
+
+  // This function must be called separately for every value in the range
+  // negLimit to posLimit returned by QueryAdjustRange to determine what
+  // the actual tape speed will be for that SpeedIndex.  The tape speed
+  // is returned as a scaled percentage of normal (1000 = normal speed).
+  HRESULT QueryAdjustSpeed(
+    [in] LONG SpeedIndex,       // SpeedIndex value to return speed for.
+    [out] ULONG* pdwTapeSpeed); // Tape speed as scaled percentage of normal.
+
+  // Query the device for its current tape speed.
+  // Result is returned via ITapeAdviseSink::OnCommandCompletion()
+  HRESULT QueryTapeSpeed(
+    [out] DWORD* pdwCommandId);
+
+  HRESULT QueryTapeFormat(
+    [out] DWORD* pdwFormat); // use ETapeFormat for bits
+
+  // Set the modes which the device supports
+  // this value will be put into the registry only.
+  HRESULT SetSupportedModes(
+    [in] LONGLONG* pdwModes);         // Use ETapeVtrMode for bits
+
+  // Set what tape format this VTR can use.  This should only
+  // be called by config/setup programs...
+  HRESULT SetTapeFormat(
+    [in] DWORD dwFormat); // use ETapeFormat for bits
+
+}
+
+[
+  local,
+  object,
+  uuid(8335e439-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IRemovableMediaDevice : IUnknown
+{
+cpp_quote( "#define S_VOLUMEABSENT 2" )
+    // Get the name of the volume in a device.  String will always be null-term.
+    // Returns S_FALSE and empty string if there's a volume in the device, but its name
+    // is unknown.
+    // If there's no volume in the device, but device has a volume name, fills in the name and returns 2 (S_VOLUMEABSENT)
+    // returns E_FAIL if no tape in device and its name was never known.
+    // S_OK will only happen if volume is inserted and its name is known.
+    // if ( !name || !size ) returns E_INVALIDARG
+    // if pdwActSize is supplied, it will be filled-in with the number of chars needed to hold the volume
+    // name, regardless of returned error.  (It may zero if volume name is unknown or device is empty)
+    HRESULT GetVolumeName( [out,string] LPSTR buffer, [in] DWORD bufsize, [out] DWORD *pdwActSize );
+
+    // Set the name of the volume in a device.
+    // Devices that can detect the name of the inserted volume
+    // may return failure for this function.
+    // one can pass NULL to clear the device's memory of what volume's in it.
+    HRESULT SetVolumeName( [in,string] LPSTR name );
+
+    // Return nonzero if given name is that of the 
+    // currently-inserted volume.  
+    // If pass NULL name, returns TRUE if there's a volume in the device.
+    // This is just a way to avoid an extra copy of the string.
+    // Volume name is case-insensitive for this comparison.
+    ULONG HasVolume( [in,string] LPSTR name );
+
+    // more functions to follow?  CanEject(), Eject(), volumechanged callcack?
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      IMediaConfig
+//
+//  Purpose:    Defines the interface for the media configuration API
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e420-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IMediaConfig : IUnknown
+{
+        // install this media device onto the specified 422 port.
+        // copy data from this object into the registry.
+    HRESULT InstallSelfOnPort(
+        [in] DWORD portNum);
+
+        // re-read defaults from database and install values
+        // in registry
+    HRESULT RefreshSelfFromDatabase(void);
+
+    HRESULT QueryVidInputSlot(
+        [out] DWORD* pSlot);
+
+    // save the slot number in the registry
+    HRESULT SetVidInputSlot(
+        [in] DWORD slot);
+
+    HRESULT QueryVidOutputSlot(
+        [out] DWORD* pSlot);
+
+    // save the slot number in the registry
+    HRESULT SetVidOutputSlot(
+        [in] DWORD slot);
+
+    // NOTE:  for the audio configuration functions, ~1 indicates
+    //        no connection.
+    // given a trinity audio output port,
+    // what device audio input is it connected to
+    HRESULT QueryAudInput(
+        [in] DWORD output,
+        [out] DWORD *input);
+
+    // establish a mapping from trinity audio output to a device audio
+    // input.
+    HRESULT SetAudInput(
+        [in] DWORD output,
+        [in] DWORD input);
+
+    // given a trinity audio input port,
+    // what device output is it connected to
+    HRESULT QueryAudOutput(
+        [in] DWORD input,
+        [out] DWORD *output);
+
+    // establish a mapping from a trinity audio input to a device audio
+    // output
+    HRESULT SetAudOutput(
+        [in] DWORD input,
+        [in] DWORD output);
+
+      // Return the port number to which this device is connected
+      ULONG QueryPortNum();
+
+  // return an identifier for the type of VTR connected
+  // and a name string which provides human-readable device type
+  // e.g. "Sony BVU 950"
+  HRESULT QueryDeviceType(
+    [out] ULONG* pDeviceType,
+    [out,string] char* pDeviceTypeName,
+    [in] ULONG cbNameBuff);
+
+  // Return the user-assigned name for this device
+  // e.g. "VTR-1"
+  HRESULT QueryDeviceName(
+    [out,string] char* pDeviceName,
+    [in] ULONG cbNameBuff
+    );
+
+  HRESULT SetDeviceName(
+    [in, string] char *pDeviceName);
+}
+
+// end SMEDIA.IDL

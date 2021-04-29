@@ -1,0 +1,72 @@
+:Base acg.hlp
+:Title Alpha CG Online Manual
+1 Alpha CG Introduction
+2 Getting Started=Start
+2 Using Alpha CG to Generate Title Graphics=Using_acg
+2 Before Proceeding=Before
+2 System Requirements=Sys_req
+2 ACG Screen Mode Resolution=Acg_scr_mode
+1 The Alpha CG Interface
+2 Navigating Alpha CG=Navigating
+2 Alpha CG Main Menus
+3 Alpha CG Interface Layout=Acg_interface
+3 Pull Down Menus=Pd_menus
+3 Color Palette=Palette
+3 Edit Window=Edit_win
+3 Page Controls=Pg_ctrls
+3 Attribute Presets=Presets
+3 Primary Menus=Primary_menus
+3 Other Controls=Other_ctrls
+2 Editing Elements
+3 Text L-Cursor=L_cursor
+3 Creating New Pages=Creating_pgs
+3 Accessing Existing Pages=Accessing_pgs
+1 Controlling Text & Graphic Objects
+2 Object Selection=Obj_selection
+2 Drawing Bounding Boxes=Drawing_bbox
+2 Advanced Tips in Drawing Bounding Boxes=Advanced_bbox
+2 Moving Selected Objects=Moving_Objects
+2 Moving Objects Using Bounding Boxes=Moving_bbox
+2 Scaling Selected Objects=Scaling_bbox
+1 Creating and Editing Text
+2 Text Menu=Text_menu
+2 Current Font=Current_font
+2 Text Attribute Controls=Text_attr_ctrl
+2 Defining Typefaces=Def_type
+2 Changing Font Size and Width=Changing_font
+2 Italic and Underline Options=Italic_underline
+2 Lock Attributes=Lock_attr
+2 Text Attribute Tab Submenus=Tab_menu
+2 Establishing Color Attributes=Color_attr
+2 Setting up Transparency Attributes=Transparency_attr
+2 Transparency Levels and Video Keying=Trans_video_key
+2 Changing Size and Direction Attributes=Changing_attr
+2 Other Character Related Attributes=Other_attr
+1 Creating and Editing Graphics
+2 Graphics Menu=Gfx_menu
+2 Using Graphic Elements=Using_gfx
+2 Adding Graphic Elements=Adding_gfx
+2 Selecting Load Picture Options=Load_pic
+2 Managing Imported Images=Imported_pix
+2 Selecting Existing Objects for Editing=Selecting_obj
+2 Resizing Graphic Objects=Resizing_gfx
+2 Graphic Attributes and Tab Submenus=Graphic_attr
+2 Adjusting Priority for Graphic Objects=Adjusting_gfx_priority
+1 Creating and Editing Color Schemes
+2 Palette Menu=Palette_menu
+2 Color Boxes=Color_boxes
+2 Types of Alpha CG Color Schemes=Color_schemes
+2 Current Base Color=Current_base
+2 Editing Color Indicators=Editing_color
+2 Rotating Linear Color Gradients=Rotating_gradients
+2 Palette Load and Save=Palette_io
+2 The OK and Cancel Functions=Ok_cancel
+2 Updating Color Boxes =Updating_color
+1 Alpha CG Pull Down Menus
+2 Pull Down Menus=Menus
+2 File Menu=File_pdm
+2 Edit Menu=Edit_pdm
+2 Attributes Menu=Attr_pdm
+2 Line Menu=Line_pdm
+2 Page Menu=Page_pdm
+2 Video Menu=Video_pdm

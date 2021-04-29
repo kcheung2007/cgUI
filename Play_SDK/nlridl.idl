@@ -1,0 +1,1109 @@
+//+---------------------------------------------------------------------------
+//
+//  Trinity Core API
+//  Copyright (C) Play Incorporated, 1995-1998
+//
+//  PRELIMINARY - ALL SPECIFICATIONS SUBJECT TO CHANGE
+//  PLAY CONFIDENTIAL - DO NOT DISTRIBUTE
+//
+//  File:       nlridl.idl
+//
+//  Contents:   definition for core Trinity interfaces and types
+//
+//  History:    August 23, 1996 cpdaniel  split from trnity.idl
+//----------------------------------------------------------------------------
+import "wtypes.idl";
+import "unknwn.idl";
+import "objidl.idl";
+import "autoct.idl";
+import "trnity.idl";
+import "gxlate.idl";
+import "smedia.idl";
+import "simplevid.idl";
+
+//+---------------------------------------------------------------------------
+//  Forward declarations
+//----------------------------------------------------------------------------
+interface ITrnClipConflictDetector;
+interface ITrnNLRManager;
+interface ITrnNonLinearRecorder;
+interface ITrnNonLinearRecorder2;
+interface ITrnMediaClip;
+interface ITrnMediaClip2;
+interface ITrnNonLinearDiskRecorder;
+interface IEnumSTrnVolumeInfo;
+interface IEnumSTrnClipInfo;
+interface ITrnDiskArray;
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnClipConflictDetector
+//
+//  Purpose:    
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e460-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnNLRClipConflictDetector : IUnknown
+{
+	// why:
+	// so createclip and openclip can query the client about where or which
+	// clip to use
+
+  // function to present client with a proposed NLR on which to create
+  // or open the clip.  client says yea or nay and if nay we try to find
+  // another one or fail.
+  // flags passed through from caller (create or open)
+  // client says yas with S_OK, and nay with S_FALSE
+  HRESULT ProposedNLRForClip(
+    ITrnNonLinearRecorder *pTrnNLR,
+		DWORD flags
+    );
+}
+
+cpp_quote("#define OBJREF_NLR_CLIPMEM(n) OBJREF_SIMPLE_VIDEO_ADDON(n,Play.ClipMem)")
+cpp_quote("#define OBJREF_NLR_TIMEMACHINE(n) OBJREF_SIMPLE_VIDEO_ADDON(n,Play.TimeMachine)")
+cpp_quote("#define OBJREF_CLIPMEM_CLIP(n,m) OBJREF_NLR_CLIPMEM(n) L\"!\" L#m")
+cpp_quote("#define OBJREF_TIMEMACHINE_CLIP(n,m) OBJREF_NLR_TIMEMACHINE(n)  L\"!\" L#m")
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnNLRManager
+//
+//  Purpose:    Provides generic access to NLRs
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e461-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnNLRManager : IUnknown
+{
+  ////////////////////
+  // need functions to
+  // generate and return a clip UID that is unique in this world
+  // enumerate the NLR devices that fit a particular criteria
+  //      (for example their form of media (RAM or disk), compression, etc.)
+  // create a primary or temporary instance of a clip id'ed by UID
+  //      specify what kind of device it should go on.
+  //      get the iface to a particular NLR if you really care where the
+  //      clip ends up.
+  // open the primary instance of a clip identified by UID
+  // open the temporary instance of a clip identified by UID given an
+  //      enumeration index (see next fcn)
+  // enumerate over instances of a clip id'ed by UID
+  //      primary clip is always index 0, other indexes are temp
+  // delete a clip id'ed by UID
+  // flush file systems to PC hard disk for local storage
+  // auto copy clip to another device that meets particular requirements
+  //      such as not conflicting with a given clip
+  ////////////////////
+
+  HRESULT QueryNumNLRs(
+    [out] DWORD *numNLRs
+    );
+
+  HRESULT QueryUIDSize(
+    [out] DWORD *uidSize
+    );
+
+  HRESULT GenerateClipUID(
+    [in] DWORD uidLen,
+    [out,string] OLECHAR *pClipUID
+    );
+
+  // returns enumeration of ITrnMediaClips.
+  HRESULT EnumClipInstances(
+    [in,string] const OLECHAR *pClipUID,
+    [out] IEnumUnknown **pEnum
+    );
+
+  // returns enumeration of ITrnNonLinearRecorders.
+  HRESULT EnumNLRs(
+    [out] IEnumUnknown **pEnum
+    );
+
+  // nlrIndex is an index number within the enumeration of
+  // NLRs.  if -1 is given, an NLR will be assigned based on
+  // createFlags
+  // flags: 1 == video, 2 == audio1, 4 = audio2, 8 = audio3, 16 = audio4
+  // flags: 32 == primary/temporary - set is primary, cleared is temp
+  HRESULT CreateClip(
+    [ in,string ] const OLECHAR *pClipUID,
+    [ in ] DWORD createFlags,           // compression, temporary/primary, etc...
+    [ in ] DWORD compressionRatio,      // this is a fraction
+    [ in ] DWORD compressionType,       // use ETrnCompressionQualityRating
+    [ in ] DWORD initialFramesRequested,
+    [ out] DWORD* initialFramesAllocated,
+    [ in ] ITrnNLRClipConflictDetector *pTrnCCD,
+    [ out] ITrnMediaClip **pClip
+    );
+
+  // flags:  is primary is set, open the primary.  if temporary is
+  // set (meaning cleared) then ask the client on a clip by clip basis
+  // starting with the primary
+  HRESULT OpenClip(
+    [ in, string ] const OLECHAR *pClipUID,
+    [ in ] DWORD openFlags, // see create flags above for now
+    [ in ] ITrnNLRClipConflictDetector *pTrnCCD,
+    [ out] ITrnMediaClip **pClip
+    );
+
+  // this will fail (E_ACCESSDENIED) if any instances of the clip are open
+  // flags:  1 == delete all instances, 2 == delete temporary instances
+  HRESULT DeleteClip(
+    [in] const OLECHAR *pClipUID,
+    [in] DWORD flags
+    );
+
+  HRESULT FlushDirtyFileSystems(void);
+
+  // the yet to be defined auto copy function
+}
+
+[
+  local,
+  object,
+  uuid(8335e7e2-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnNLRManager2 : ITrnNLRManager
+{
+	// allow clients to add non-linear recorder devices as appropriate
+	HRESULT AddNLR(
+		[in] ITrnNonLinearRecorder *pNLR
+    );
+
+  // remove NLR's when necessary (disconnected, shutting down, etc.)
+  HRESULT RemoveNLR(
+    [in] ITrnNonLinearRecorder *pNLR
+    );
+}
+
+//+------------------------------------------------------------------
+//  Class:      ITrnNonLinearRecorder
+//
+//  Purpose:    Defines the interface to a non-linear video
+//              record/playback device. 
+//-------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e3d4-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnNonLinearRecorder : IUnknown
+{
+  typedef enum tagETrnNLRType
+  {
+    NTInternalRAM,    // internal RAM based NLR (e.g. ClipMem)
+    NTInternalDisk,   // internal Disk based NLR (e.g. Time Machine)
+    NTExternal        // external NLR (e.g. QuickFrame)
+  } ETrnNLRType;
+
+  typedef struct tagSTrnNLECapabilities
+  {
+    /*in*/  DWORD dwSizeOf;               // must be preset to the sizeof this struct
+    /*in*/  DWORD ccbNameBuffer;          // preset to size of allocated name buffer
+    /*in*/  char* pNameBuffer;            // preset to address of name buffer
+
+    /*out*/ WORD  numAudioChannelsRec;
+    /*out*/ WORD  numAudioChannelsPlay;
+    /*out*/ WORD  numVideoChannelsRec;
+    /*out*/ WORD  numVideoChannelsPlay;
+    /*out*/ WORD  numAlphaChannelsRec;
+    /*out*/ WORD  numAlphaChannelsPlay;
+    /*out*/ WORD  numAudioBits;
+    /*out*/ WORD  numAudioSamplesPerSecond;
+    /*out*/ BOOL  bIndependentAudio;
+    /*out*/ DWORD nativeFormats;            // use EPlayFrameType for bits
+    /*out*/ DWORD convertableFormats;       // use EPlayFrameType for bits
+
+    /*out*/ ETrnNLRType nlrType;
+    /*out*/ CLSID       nlrCLSID;           // not necessarily an implementation CLSID 
+                                            // - merely an unambiguous name for the NLR type
+    /*out*/ EVidSource  physSources[4];     // physical sources (router inputs) where clips can be played
+  } STrnNLECapabilities;
+
+  HRESULT QueryCapabilitiesEx(
+    STrnNLECapabilities *pECaps
+    );
+
+  //
+  // enumerate the OPEN clips on this NLR.  To enumerate all persisted clips on a
+  // disk-type non linear recorder (DDR), use EnumClips in ITrnNonLinearDiskRecorder.
+  //
+  HRESULT EnumClips(
+		[out] IEnumUnknown **pEnum 
+    );
+
+  //
+  // Open a clip with the specified name.  Open clips may be played, recorded, etc.
+  // Clips should be closed when they're no longer needed - open clips consume system
+  // resources (memory) and so there is a limit on how many can be open.  See
+  // ITrnMediaClip2::Close().
+  //
+  HRESULT OpenClip(
+    [in, string ] const OLECHAR *pClipUID,
+    [in ] DWORD openFlags,
+    [in ] REFIID  riid,
+    [out] void** ppvClip
+    );
+
+  HRESULT CreateClip(
+    [in,string ] const OLECHAR *pClipUID,
+    [in ] DWORD createFlags,         // components (ETrnContentComponents), compression, etc...
+    [in ] DWORD compressionRatio,    // this is a fraction
+    [in ] DWORD compressionType,     // use ETrnCompressionQualityRating
+    [in ] DWORD initialFramesRequested,
+    [out] DWORD* initialFramesAllocated,
+    [in ] REFIID  riid,
+    [out] void** ppvClip
+    );
+
+  //
+  // this will fail (E_ACCESSDENIED) if the clip is open.
+  // it is preferred that you call DeleteClip on the NLR Manager since
+  // it will delete a primary clip on one device and all of the temp 
+  // clips on another device.
+  //
+  HRESULT DeleteClip(
+	  [in] const OLECHAR *pClipUID
+    );
+}
+
+//+------------------------------------------------------------------
+//  Class:      ITrnNonLinearRecorder2
+//
+//  Purpose:    Get some feed back from time machine. 
+//-------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e405-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+
+interface ITrnNonLinearRecorder2Advise : IUnknown
+{
+	HRESULT ClipCreated([in] ITrnMediaClip2 *pClip);
+	HRESULT ClipDeleted([in] const OLECHAR *pClipUID);
+	HRESULT ClipOpenned([in] ITrnMediaClip2 *pClip);
+	HRESULT ClipClosed([in] ITrnMediaClip2 *pClip);
+}
+
+//+------------------------------------------------------------------
+//  Class:      ITrnNonLinearRecorder2
+//
+//  Purpose:    Define more non-linear recorder functions. 
+//-------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e406-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnNonLinearRecorder2 : ITrnNonLinearRecorder
+{
+  //
+  // Create a new clip which is composed of a contiguous range of frames from
+  // an existing clip on the same NLR.
+  //
+  HRESULT CreateSubClip(
+    [in ] ITrnMediaClip  *pParentClip,     // the clip we're marking a sub-section of
+    [in,string ] const OLECHAR *pClipUID,  // the name for the new clip
+    [in ] DWORD  inPoint,                  // clip-relative in-point of subclip (in frames)
+    [in ] DWORD  duration,                 // duration of sub-clip in frames
+    [in ] REFIID  riid,
+    [out] void** ppvClip
+    );
+
+  //
+  //  Close a clip opened by the calling process
+  //
+  HRESULT CloseClip(
+    [ in ] IUnknown* pClip
+    );
+
+  //
+  // Get interface to some object
+  // Interfaces which might be supported:
+  //    IBufferManager
+  //    ITrnVideoCompressionCODEC
+  //
+  HRESULT QueryInternalInterface( 
+    REFIID  riid, 
+    long    index,
+    void    **ppv 
+    );
+
+  HRESULT Advise([in] ITrnNonLinearRecorder2Advise *pAdvise);
+
+  HRESULT UnAdvise([in] ITrnNonLinearRecorder2Advise *pAdvise);
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnMediaClip
+//
+//  Purpose:    Defines the interface to an open video clip on the NLE
+//              system hard disk.  An open clip can be played or recorded.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e3ec-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnMediaClip : IUnknown
+{
+#define CLIP_NAME_LENGTH  80
+cpp_quote("#define CLIP_NAME_LENGTH 80")
+
+  typedef enum tagETrnClipFlags
+  {
+    CFWritable  = 1     // clip is writable (recordable)
+  } ETrnClipFlags;
+
+  typedef struct tagSTrnClipInfo
+  {
+    DWORD           dwSizeof;     // initialize to sizeof(this_struct)
+
+    DWORD           dwClipId;     // unique within the volume
+    OLECHAR         szClipName[CLIP_NAME_LENGTH]; // name of the clip
+
+    DWORD           length;       // running time in fields
+    LARGE_INTEGER   storageSize;  // size on disk
+
+    DWORD           components;   // components present.
+                                  // Use ETrnContentComponents for bits
+    EPlayFrameType   format;      // recorded format
+
+    FILETIME        mTime;        // time of last modification
+    FILETIME        cTime;        // time of creation
+
+    DWORD           dwFlags;      // use ETrnClipFlags for bits
+  } STrnClipInfo;
+
+  // Get information about clip contents
+  HRESULT QueryClipInfo(
+    STrnClipInfo  *pInfo
+    );
+
+  // Return a single frame of the clip
+  //
+  // Legal combinations of source and dest rectangle:
+  //    both NULL - access entire frame
+  //    both non-NULL and equal size - access sub-frame
+  //    source non-NULL and dest NULL - access sub-frame
+  //
+  HRESULT ReadFrame(
+    DWORD               frameNumber,    // always even
+    STrnRect            *pSourceRect,   // rectangle within source frame
+    ETrnFrameAccessMode sourceMode,     // which lines of source to read
+    STrnRect            *pDestRect,     // rectangle within dest bitmap
+    SPlayBitMap         *pBitMap,
+    ETrnFrameAccessMode destMode        // which lines of dest to write
+    );
+
+  // Update a single frame of the clip
+  //
+  // Legal combinations of source and dest rectangle:
+  //    both NULL - update entire frame
+  //    both non-NULL and equal size - update sub-frame
+  //    source NULL and dest non-NULL - update sub-frame
+  //
+  // NOTE: Frames or sub-frames written won't be sent to disk until
+  // a different frame is read from or written to.
+  HRESULT WriteFrame(
+    DWORD               frameNumber,    // always even
+    STrnRect            *pDestRect,     // rectangle within dest frame
+    ETrnFrameAccessMode destMode,       // which lines of dest to write
+    STrnRect            *pSourceRect,   // rectangle within source bitmap
+    SPlayBitMap         *pBitMap,
+    ETrnFrameAccessMode sourceMode      // which lines of source to read
+    );
+
+  //
+  // Copy content from one clip to another.  This function is intended to be
+  // used as the basis for a clip management system which moves partial clips
+  // between storage systems to facilitate transitions between clips stored on
+  // the same media.
+  // NOTE that CopyFrom is not a positionable operation.  
+  //
+  HRESULT CopyFrom(
+      [in] DWORD          whichComponents,  // ETrnContentComponents
+      [in] ITrnMediaClip* pSourceClip,
+	  [in] DWORD	      sourceOffset,     // in frames
+	  [in] DWORD          sourceLength,     // in frames
+	  [in] DWORD          destinationOffset // in frames
+    );
+
+  // 
+  // Write a number of whole frames in native (CCIR-601) format to a stream
+  //
+  HRESULT WriteToStream(
+    [in]  unsigned  startingOffset,   // in frames
+    [in]  unsigned  framesToWrite,
+    [in]  unsigned  granularity,
+    [in]  IStream*  pStream
+    );
+
+  //
+  // Read a number of whole frames in native (CCIR-601) format from a stream
+  //
+  HRESULT ReadFromStream(
+    [in]  unsigned  startingOffset,   // in frames
+    [in]  unsigned  framesToRead,
+    [in]  unsigned  granularity,
+    [in]  IStream*  pStream
+    );
+
+  //
+  // Play all or a portion of a clip
+  //
+  HRESULT Play(
+    [in] const STrnTimeType *pTime,
+    [in] DWORD              whichComponents,  // ETrnContentComponents
+    [in] STrnPlayList       *pList
+    );
+
+  //
+  // Record (append) onto a clip
+  // specify a start point within the clip and a duration.
+  //
+  HRESULT Record(
+    [in] const STrnTimeType   *pTime,
+    [in] DWORD                whichComponents,  // ETrnContentComponents
+	[in] DWORD                offsetFromStart,	// how many fields from start of clip
+    [in] DWORD                numFields,        // 0=infinite
+    [in] EVidSource           sourceToRecord    // video - audio channels which are enabled record 
+                                                // from mixer mains
+    );
+
+  //
+  // save clip information to disk.  this is normally done
+  // when this object is deleted but should be done at other
+  // strategic times in case of power failure.
+  //
+  HRESULT UpdateClip(void);
+
+  //
+	// return the UID for the clip used to ID the clip to the NLRManager
+  //
+  HRESULT QueryClipUID(
+	  [in,out] DWORD    *bufSize,
+	  [out] OLECHAR     *pUID
+    );
+
+  //
+	// have the clip delete itself.  don't do this if others have references
+	// to the clip.  only useful action after this is to release the
+	// single reference to the clip
+  //
+  HRESULT DeleteSelf(void);
+
+  //
+	// Get interface to some object
+	// Interfaces which might be supported:
+	//		ITrnNonLinearRecorder (that this clip resides on)
+	//		IPlayProperties
+	//		IVidSource
+  //    ITrnVideoCompressionCODEC
+  //
+  HRESULT QueryInternalInterface( 
+    REFIID  riid, 
+    long    index,
+    void    **ppv 
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnMediaClip2
+//
+//  Purpose:    Adds more functions to ITrnMediaClip.
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e407-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnMediaClip2 : ITrnMediaClip
+{
+  // 
+  // Write a number of whole frames in internal (possibly compressed) format to a stream
+  //
+  HRESULT WriteInternalToStream(
+    [in]  unsigned  startingOffset,   // in frames
+    [in]  unsigned  framesToWrite,
+    [in]  unsigned  granularity,
+    [in]  IStream*  pStream
+    );
+
+  //
+  // Read a number of whole frames in internal (possibly compressed) format from a stream
+  //
+  HRESULT ReadInternalFromStream(
+    [in]  unsigned  startingOffset,   // in frames
+    [in]  unsigned  framesToRead,
+    [in]  unsigned  granularity,
+    [in]  IStream*  pStream
+    );
+
+  //
+  // Get the full name (display name) of this clip.  This name can be passed to
+  // CoGetObject (or MkParseDisplayName) to get a pointer to (or a Moniker for) this clip.
+  // References (shortcuts) to clips should be implemented by persisting the display name 
+  // of the clip in some application defined storage scheme.
+  //
+  // The returned string must be free using the task allocator (see CoTaskMemFree)
+  HRESULT GetDisplayName( 
+    [out] LPOLESTR *ppszDisplayName        // address of variable to receive pointer to display name
+    );
+
+  // 
+  // Return an IStream instance which stores clip-specific data to be defined by
+  // the application (e.g. Picon).  This same stream can be obtained from 
+  // ITrnNonLinearDiskRecorder::GetClipStream without incurring the overhead of
+  // instantiating ITrnMediaClip2. See ITrnNonLinearDiskRecorder::GetClipStream
+  // for valid values of streamId
+  //
+  HRESULT GetClipStream(
+    [in]  DWORD streamId,               // which stream to open
+    [in]  DWORD dwOpenMode,             // use values from Win32 CreateFile()
+    [in]  REFIID  riid,                 // what interface is sought (IStream or IBlockIO)
+    [out] void** ppv                    // variable to receive pointer to new stream object
+    );
+
+  //
+  // Close a clip.  Closing a clip removes it from memory, but does not erase it from
+  // any persistent storage (e.g. hard disk).  After the clip has been closed, the only
+  // legal action a client can perform with it is to call Release().
+  //
+  // benoit 8/12/99 : removed : completely unuseful 
+  //HRESULT CloseClip(
+  //  );
+
+  //
+  // Set the playback routing for a clip component.
+  //
+  HRESULT SetClipRouting(
+    DWORD   dwComponent,                // ETrnContentComponents
+    DWORD   dwDest                      // EVidSource for video, mixer channel for audio
+    );
+
+  //
+  // Read audio samples from a stream
+  // each sample is made of 2 unsigned long
+  // the first store a sample for the left stereo pair
+  // the second store the sample of the right stereo pair
+  // channel is the stereo-pair channel needed (CCAudio1 or CCAudio3)
+  // sampleCount is the number of samples wanted
+  // statingSample is the position (in sample, starting 0) where to begin transfert
+  // samples are read/wrote by aligned pages of 4096 bytes (512 samples)
+  // 
+  //
+  HRESULT ReadAudioFromStream( 
+	[in] DWORD startingSample,
+	[in] DWORD sampleCount,
+	[in] DWORD channel,
+	[in] IStream *pStream);
+
+
+	HRESULT PutField( 
+		[in] unsigned int fieldNumber,
+		[in] DWORD fieldSize,
+		[in] LPVOID pBuffer);
+	HRESULT GetField( 
+		[in]  unsigned int fieldNumber,
+		[out] DWORD *pFieldSize,
+		[in]  LPVOID pBuffer);
+
+
+  //
+  // write audio samples into a stream
+  // each sample is made of 2 unsigned long
+  // the first store a sample for the left stereo pair
+  // the second store the sample of the right stereo pair
+  // channel is the stereo-pair channel needed (CCAudio1 or CCAudio3)
+  // sampleCount is the number of samples wanted
+  // statingSample is the position (in sample, starting 0) where to begin transfert
+  //
+  HRESULT WriteAudioToStream( 
+	[in] DWORD startingSample,
+	[in] DWORD samplesToWrite,
+	[in] DWORD channel,
+	[in] IStream *pStream);
+
+  // 
+  // audio sample definitions
+  //
+  typedef ULONG STrnAudioSample;
+  typedef struct
+  {
+    STrnAudioSample left;
+	STrnAudioSample right;
+  } STrnStereoSample;
+  // 
+  // Read or write audio samples from/to a buffer
+  //
+
+  HRESULT PutAudio( 
+    [in] DWORD startSample,
+    [in] DWORD sampleCount,
+	[in] DWORD channel,
+    [in] STrnStereoSample *pBuffer);
+
+  HRESULT GetAudio( 
+    [in] DWORD startSample,
+    [in] DWORD sampleCount,
+	[in] DWORD channel,
+    [in] STrnStereoSample *pBuffer);
+
+  //
+  // returns the position of the first audio sample of this field
+  //
+  DWORD GetAudioFieldPosition(
+	[in] DWORD field);
+
+  //
+  // returns the length (in samples) of that field
+  //
+  DWORD GetAudioFieldLength(
+    [in] DWORD field);
+
+  // 
+  // returns the sampling rate used to digitized audio 
+  // for that clip
+  //
+  DWORD GetSampleRate(void);
+  //
+  // duplicates the current frame before writting:
+  // if you want to put x times the same frame do
+  // WriteFrame(); DuplicateFrame(x-1);
+  HRESULT DuplicateFrame(
+	[in] DWORD dwCount);
+
+  // return the height of the frames for that clip
+  // depends on install (pal/ntsc)
+  HRESULT GetFrameFormat(
+    [out] DWORD *dwHeight,
+	[out] EPlayFrameType *dwFormat);
+
+  // start/end record couple
+  HRESULT StartRecord(
+    [in] const STrnTimeType   *pTime,
+    [in] DWORD                whichComponents,  // ETrnContentComponents
+	[in] DWORD                offsetFromStart,	// how many fields from start of clip
+    [in] EVidSource           sourceToRecord    // video - audio channels which are enabled record	
+	);
+  HRESULT EndRecord(
+    [in] const STrnTimeType   *pTime
+	);
+
+  typedef enum
+  {
+	ESName,
+	ESDisplayName,
+	ESVideoComponentName,
+	ESAlphaComponentName,
+	ESAudio12ComponentName,
+	ESAudio34ComponentName,
+	ESAuthorName,
+	ESProjectName,
+	ESTapeName,
+	ESComments
+  } EInfoString;
+
+  HRESULT GetInfoString(
+	[in] EInfoString type,
+	[out] OLECHAR *buffer,
+	[in] DWORD dwBufferSize
+  );
+  HRESULT SetInfoString(
+	[in] EInfoString type,
+	[in] OLECHAR *buffer
+  );
+
+  typedef enum
+  {
+	ELComponents,
+	ELVideoRoute,
+	ELAlphaRoute,
+	ELAudio12Route,
+	ELAudio34Route,
+	ELVideoSource1,
+	ELVideoSource2,
+	ELPhysSource1,
+	ELPhysSource2,
+	ELVideoLength,   // in fields
+	ELCurrentFrame,
+	ELFramesAllocated,
+	ELAlphaLength,   // in fields
+	ELAudio12Length, // in samples
+	ELAudio34Length, // in samples
+    ELCompressionRatio,
+	ELCompressionQuality,
+	ELTapeStartPoint,
+	ELTapeEndPoint,
+	ELFrameWidth, // 720
+	ELFrameHeight,
+	ELHandles,
+  } EInfoLong;
+
+  HRESULT GetInfoLong(
+	[in] EInfoLong type,
+	[out] LONG *buffer
+  );
+  HRESULT SetInfoLong(
+	[in] EInfoLong type,
+	[in] LONG buffer
+  );
+
+  typedef enum
+  {
+	EDVideoRate, // fields/sec
+	EDAudioRate, // samples/secs
+	EDVideoSize, // in bytes ...
+	EDAlphaSize,
+	EDAudio12Size,
+	EDAudio34Size,
+  } EInfoDouble;
+  HRESULT GetInfoDouble(
+	[in] EInfoDouble type,
+	[out] double *buffer
+  );
+  HRESULT SetInfoDouble(
+	[in] EInfoDouble type,
+	[in] double buffer
+  );
+
+}
+
+//+------------------------------------------------------------------
+//  Class:      ITrnNonLinearDiskRecorder
+//
+//  Purpose:    Defines the interface to a disk based non-linear video
+//              record/playback device.  
+//-------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e7e5-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnNonLinearDiskRecorder : IUnknown
+{
+	//
+  // perform a software reset of the NLR
+  //
+  HRESULT Reset(void);
+
+  typedef enum tagETrnSizeUnit
+  {
+    SUBytes,            // size is in BYTEs
+    SUKBytes,           // size is in BYTEs >> 10
+    SUMBytes,           // size is in BYTEs >> 20
+    SUGBytes,           // size is in BYTEs >> 30
+
+    SUFields  = 0x100,  // size is in Fields
+    SUFrames            // size is in Frames
+  } ETrnSizeUnit;
+
+  typedef enum tagETrnDDRVolumeFlags
+  {
+    DVFDefault = 1,       // default volume for NLR operations
+    DVFIncomplete = 2     // one or more drives are missing - volume cannot be used
+  } ETrnDDRVolumeFlags;
+
+  typedef struct tagSTrnVolumeInfo
+  {
+    DWORD         dwSizeof;           // preset to sizeof(this_struct)
+    DWORD         dwVolumeId;         // id of volume.  used in space reporting functions, etc
+    OLECHAR       szVolumeName[80];   // name of the volume
+    DWORD         dwVolumeFlags;      // use ETrnDDRVolumeFlags for bits
+    DWORD         dwComponents;       // use ETrnContentComponents for bits
+    ETrnSizeUnit  tsuSizeUnit;        // units in which volume size/freespace is expressed
+    LONGLONG      qwVolumeSize;       // size of the volume.  (see tsuSizeUnit for units)
+    LONGLONG      qwVolumeSpace;      // free-space on the volume (see tsuSizeUnit for units)
+  } STrnVolumeInfo;
+  typedef struct tagSTrnVolumeInfo2
+  {
+    DWORD         dwSizeof;           // preset to sizeof(this_struct)
+    DWORD         dwVolumeId;         // id of volume.  used in space reporting functions, etc
+    OLECHAR       szVolumeName[80];   // name of the volume
+    DWORD         dwVolumeFlags;      // use ETrnDDRVolumeFlags for bits
+    DWORD         dwComponents;       // use ETrnContentComponents for bits
+    ETrnSizeUnit  tsuSizeUnit;        // units in which volume size/freespace is expressed
+    LONGLONG      qwVolumeSize;       // size of the volume.  (see tsuSizeUnit for units)
+    LONGLONG      qwVolumeSpace;      // free-space on the volume (see tsuSizeUnit for units)
+    LONGLONG      qwVolumeVideoSpace;      // free-space on the volume (see tsuSizeUnit for units)
+    LONGLONG      qwVolumeAudioSpace;      // free-space on the volume (see tsuSizeUnit for units)
+    LONGLONG      qwVolumeVideoSize;       // size of the volume.  (see tsuSizeUnit for units)
+    LONGLONG      qwVolumeAudioSize;       // size of the volume.  (see tsuSizeUnit for units)
+  } STrnVolumeInfo2;
+
+  //
+  // Return information about the logical volumes mounted on the DDR
+  //
+  HRESULT EnumVolumes(
+    [out] IEnumSTrnVolumeInfo** ppEnum  // variable to receive pointer to new enumerator
+    );
+
+  typedef enum ETrnVolumeUpdateFlags
+  {
+    VUFSetName = 1,                     // set volume name
+    VUFSetFlags = 2                     // set volume flags
+  } ETrnVolumeUpdateFlags;
+
+  HRESULT UpdateVolumeInfo(
+    [in]  STrnVolumeInfo* pInfo,        // struct identifying volume to udpate and new info
+    [in]  DWORD flags                   // flags specifying which volume info to update
+                                        // use ETrnVolumeUpdateFlags for bits
+    );
+
+  //
+  //  enumerate directory contents
+  //
+  HRESULT EnumClips(
+    [in]  DWORD volumeId,               // which volume to enumerate
+    [out] IEnumSTrnClipInfo** ppEnum    // variable to receive pointer to new enumerator
+    );
+
+  // 
+  // Return an IStream instance which stores clip-specific data to be defined by
+  // the application (e.g. Picon).  This function is on this interface in addition to
+  // ITrnMediaClip because instantiating ITrnMediaClip is expensive in time & memory
+  // (on Trinity).
+  //
+  enum                                  // define values of streamId
+  { 
+    TMSTREAMID_VIDEO = 0, 
+    TMSTREAMID_ALPHA,
+    TMSTREAMID_AUDIO12,                 // audio channels 1-2 (stereo pair #1)
+    TMSTREAMID_AUDIO34,
+    TMSTREAMID_AUDIO56,
+    TMSTREAMID_AUDIO78,
+
+    TMSTREAMID_USERBASE = 1000          // base of user defined clip streams
+  };
+
+  HRESULT GetClipStream(
+    [in]  DWORD volumeId,               // which volume contains the clip
+    [in]  DWORD clipId,                 // which clip to get the stream for
+    [in]  DWORD streamId,               // which stream to access
+    [in]  DWORD dwOpenMode,             // use values from Win32 CreateFile()
+    [in]  REFIID  riid,                 // what interface is sought (IStream or IBlockIO)
+    [out] void** ppv                    // variable to receive pointer to new stream object
+    );
+
+  //
+  // Save the clip file system to disk.  The NLR device will automatically
+  // save it's filesystem data from time to time - this call allows a client
+  // to explicitly request a save.
+  //
+  HRESULT UpdateFileSystem(
+    DWORD volumeId                      // volume to update.
+    );
+
+  //
+  // Get information about a clip without opening it.  (Structure returned will be 
+  // identical to that obtained from EnumClips, above, but specific to this one clip).
+  //
+  HRESULT GetClipInfo(
+    [in]  OLECHAR*  pwszClipName,
+    [out] STrnClipInfo*  pInfo
+    );
+
+  //
+  // Rename a clip
+  //
+  HRESULT RenameClip(
+    [in,string] const OLECHAR*  
+                 pszOldClipName,          // name of clip
+    [in,string] const OLECHAR*  
+                 pszNewClipName           // name of clip
+    );
+
+  HRESULT GetVolumeInfo(
+    [in]   DWORD volumeId,				 // volume Id to query
+    [out]  STrnVolumeInfo* pInfo        // struct to fill
+    );
+
+}
+
+//+------------------------------------------------------------------
+//  Class:      IEnumSTrnVolumeInfo
+//
+//  Purpose:    Defines an enumerator which fits the IEnumXxxxxx
+//              pattern which is used to enumerate information about
+//              DDR disk volumes.  
+//-------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e456-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IEnumSTrnVolumeInfo : IUnknown
+{      
+  HRESULT Next(
+      [in]  ULONG celt,
+      [out] STrnVolumeInfo *rgelt,
+      [out] ULONG *pceltFetched);
+
+  HRESULT Skip(
+      [in]  ULONG celt);
+
+  HRESULT Reset();
+
+  HRESULT Clone(
+      [out] IEnumSTrnVolumeInfo **ppenum);
+}
+
+//+------------------------------------------------------------------
+//  Class:      IEnumSTrnClipInfo
+//
+//  Purpose:    Defines an enumerator which fits the IEnumXxxxxx
+//              pattern which is used to enumerate information about
+//              DDR clips.  
+//-------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e7ea-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IEnumSTrnClipInfo : IUnknown
+{      
+  HRESULT Next(
+      [in]  ULONG celt,
+      [out] STrnClipInfo *rgelt,
+      [out] ULONG *pceltFetched);
+
+  HRESULT Skip(
+      [in]  ULONG celt);
+
+  HRESULT Reset();
+
+  HRESULT Clone(
+      [out] IEnumSTrnClipInfo **ppenum);
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnVideoCompressionCODEC
+//
+//  Purpose:    Define the interface to a video compression/decompression
+//              CODEC.
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3f2-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnVideoCompressionCODEC : IUnknown
+{
+  // 
+  // Get performance/quality information from the CODEC
+  //
+  typedef enum tagETrnCompressionTechnology
+  {
+    CTWavelet,
+    CTJPEG,
+    CTMPEG,
+
+    CTHardwareAccelerated = 0x80000000
+  } ETrnCompressionTechnology;
+
+  typedef struct tagSTrnCODECInfo
+  {
+    DWORD       dwSizeof;             // preset to sizeof(this structure)
+    DWORD       dwInputFrameTypes;    // Frame types (pixel formats) which this CODEC can compress
+                                      // use EPlayFrameType for bits
+    DWORD       dwOutputFrameTypes;   // Frame types (pixel formats) which thie CODEC can create
+                                      // use EPlayFrameType for bits
+    DWORD       dwCODECType;          // use ETrnCompressionTechnology
+  } STrnCODECInfo;
+
+  HRESULT GetCODECInfo(
+    [in,out] STrnCODECInfo*  pInfo
+    );
+
+  //
+  // Set the compression performance of the CODEC.  Return an initialized (but opaque)
+  // buffer of "CODECInfo" which the caller can persist or pass to CompressField.
+  // The compression parameters are set as the default for the CODEC and remain in
+  // effect until SetCompression is called again.
+  //
+  typedef enum tagETrnCompressionQualityRating
+  {
+    CQRBitsPerPixel,    // level is bits-per-pixel in 16.16 (0x10000 == 1 bit/pixel)
+    CQRQualityLevel,    // level is subjective quality level (0..255)
+    CQRCODECInfo        // level is ignored, quality is loaded from CODECInfo buffer
+  } ETrnCompressionQualityRating;
+
+  HRESULT SetCompression(
+    [in]  ETrnCompressionQualityRating         
+                        dwQuality,      // how is desired quality expressed?
+    [in]  DWORD         dwLevel,        // target level (BPP or quality or ???)
+    
+    [in,out] 
+          LPVOID*       ppCODECInfo,    // where to put pointer to CODEC info block.
+                                        // may NOT be NULL
+    [out] DWORD*        pcbCODECInfo    // where to put size of *ppCODECInfo. may be NULL
+    );
+
+  //
+  // Return an initialized (but opaque) buffer containing the CODEC's current
+  // compression parameters.
+  //
+  HRESULT GetCompression(
+    [out] LPVOID*       ppCODECInfo,    // where to put pointer to CODEC info block.
+                                        // may NOT be NULL
+    [out] DWORD*        pcbCODECInfo    // where to put size of *ppCODECInfo. may be NULL
+    );
+
+  //
+  // Compress a field of video.
+  // If pCODECInfo is NULL, the field is compressed using the parameters set by
+  // the most recent call to SetCompression, below, or to a CODEC defined default
+  // set of parameters if SetCompression has never been called.
+  //
+  HRESULT CompressField(
+    [in]  DWORD         dwHeight,       // image height in lines
+    [in]  DWORD         dwWidth,        // image width in pixels
+    [in]  DWORD         dwStride,       // image line stride (usually dwWidth or dwWidth*2)
+    [in]  EPlayFrameType dwPixelFormat,  // pixel format of uncompressed image (use EPlayFrameType)
+    [in]  LPVOID        pImage,         // base of image data
+    [in]  LPVOID        pBuffer,        // where to put compressed image
+    [in]  LPVOID        pCODECInfo,     // how to compress the image (may be NULL)
+    [out] DWORD*        pcbCompSize     // where to store size of compressed field
+    );
+
+  //
+  // Decompress a field of video.
+  // If ppCODECInfo is not NULL, return an initialized (but opaque) buffer containing
+  // the compression parameters with which the field was originally compressed.
+  // The current compression parameters of the CODEC are set to those of the decompressed
+  // field.
+  //
+  HRESULT DecompressField(
+    [in]  LPVOID        pBuffer,        // where compressed data comes from
+	[in]  DWORD			dwBufferSize,	// size of the data to decompress
+	[in]  DWORD			dwWidth,		// width of the image to get from decompression
+	[in]  DWORD			dwHeight,		// height
+    [in]  EPlayFrameType dwPixelFormat,  // requested output format (use EPlayFrameType)
+    [in]  LPVOID        pImage,         // where to put de-compressed image
+    [out] LPVOID*       ppCODECInfo,    // where to put pointer to CODEC info block 
+                                        // may pass NULL
+                                        // if non-null, the returned buffer must 
+                                        // be deallocated using the task allocator.
+    [out] DWORD*        pcbCODECInfo    // where to put size of *ppCODECInfo. may be NULL
+    );
+}
+
+// End of nlridl.idl

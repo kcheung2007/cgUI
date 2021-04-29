@@ -1,0 +1,974 @@
+//+---------------------------------------------------------------------------
+//
+//	PlayUI1 API
+//	Copyright (C) Play Incorporated, 1995,1996 - confidential
+//
+//
+//	File:	PlayUI1.IDL
+//
+//  PlayUI1.idl
+//	Contents:	PlayUI1 Interfaces
+//
+//----------------------------------------------------------------------------
+
+import "oleidl.idl";
+
+import "color.idl";
+
+//import "TimeLine.idl";
+//import "props.idl";
+cpp_quote( "interface IPlayProperties;" )
+
+// ---- forward declarations ----
+
+interface IPlayUI1Window;
+interface IPlayUI1WindowHandler;
+
+interface IPlayUIBinItem;
+interface IPlayUIBinWindow;
+interface IPlayUIBinHandler;
+
+interface IPlayUI1Manager;
+interface IPlayUI1ManagerHandler;
+
+interface IPlayTimeLine;
+interface IPlayProperties;
+
+interface IPlayUI1ColorWindow;
+interface IPlayUI1ColorWndHandler;
+
+interface IPlayFontWindow;
+interface IPlayFontWindowHandler;
+
+//
+// note: "Handler" (aka AdviseSink) interfaces are implemented by Applications
+//
+
+
+
+//**************************************************************************//
+//
+//	Windows items that are not defined in any IDL.
+//
+//**************************************************************************//
+
+cpp_quote( "#include <shlobj.h>" )
+cpp_quote( "/*" )
+
+//   The following is from SHLOBJ.H in the Win32SDK.
+
+//
+// SHITEMID -- Item ID
+//
+typedef struct _SHITEMID        // mkid
+{
+	USHORT      cb;             // Size of the ID (including cb itself)
+	BYTE        abID[1];        // The item ID (variable length)
+} SHITEMID;
+typedef SHITEMID *LPSHITEMID;
+typedef const SHITEMID *LPCSHITEMID;
+
+//
+// ITEMIDLIST -- List if item IDs (combined with 0-terminator)
+//
+typedef struct _ITEMIDLIST      // idl
+{
+	SHITEMID    mkid;
+} ITEMIDLIST;
+typedef ITEMIDLIST * LPITEMIDLIST;
+typedef const ITEMIDLIST * LPCITEMIDLIST;
+
+
+cpp_quote( "*/" )
+
+
+//**************************************************************************//
+//
+//	misc. structures and enums
+//
+//**************************************************************************//
+
+
+typedef struct _PlayUI_LayoutWnd
+{
+	int					maxWidth;	// ignored on non-sizable types
+	int					maxHeight;	//		  "
+	int					minWidth;	//		  "
+	int					minHeight;	//		  "
+	CLSID				clsid;      // ClassID of window (almost always CLSID_CPlayUI1Window)
+} PlayUI_LayoutWnd;
+
+cpp_quote( "/*" )
+
+typedef int (__stdcall *FARPROC)();
+
+cpp_quote( "*/" )
+
+
+//+---------------------------------------------------------------------------
+//	Interface:	IPlayUI1Window
+//
+//	Purpose:	Defines interface to generic PlayUI1 window base class
+//
+//	Methods:
+//		GetHandle
+//		SetWndProc
+//		SetHandler
+//		SetIPlayProperties
+//      GetIPlayProperties
+//		GetPropLong
+//		SetPropLong
+//		GetPropString
+//		SetPropString
+//		SetDropTarget
+//		DefDragEnter
+//		DefDragOver
+//		DefDrop
+//		GetManager
+//		Show
+//		
+//----------------------------------------------------------------------------
+
+[
+	local,
+	object,
+	uuid(8335e440-ab3b-11ce-8468-0000b468276b),
+	pointer_default(unique)
+]
+interface IPlayUI1Window : IUnknown
+{
+	HRESULT GetHandle(
+		HWND* phWnd);
+	
+	HRESULT SetWndProc(
+		FARPROC pWndProc);
+
+	HRESULT SetHandler(
+		IPlayUI1WindowHandler* pHandler);
+
+	HRESULT SetIPlayProperties(
+		[in] IPlayProperties* pProps);
+
+	HRESULT GetIPlayProperties(
+		[out] IPlayProperties** ppProps);
+
+	HRESULT GetPropLong(
+		[in,string] LPSTR pszProperty, 
+		[out]       LONG *plVal );
+
+	HRESULT SetPropLong(
+		[in,string] LPSTR pszProperty, 
+		[in]        LONG lValue, 
+		[in]        LONG flags );
+
+	HRESULT GetPropString(
+		[in,string]  LPSTR pszProperty, 
+		[out,string] LPSTR pszBuffer, 
+		[in]         ULONG uBufSize );
+
+	HRESULT SetPropString(
+		[in,string] LPSTR pszProperty, 
+		[in,string] LPSTR pszValue, 
+		[in]        LONG flags );
+
+
+	HRESULT SetDropTarget(
+		[in] IDropTarget* pDropTarget);
+
+	HRESULT DefDragEnter( 
+		[unique][in] IDataObject *pDataObj,
+		[in] DWORD grfKeyState,
+		[in] POINTL ptl,
+		[out][in] DWORD *pdwEffect);
+
+	HRESULT DefDragOver( 
+		[in] DWORD grfKeyState,
+		[in] POINTL pt,
+		[out][in] DWORD *pdwEffect);
+
+	HRESULT DefDrop( 
+		[unique][in] IDataObject *pDataObj,
+		[in] DWORD grfKeyState,
+		[in] POINTL pt,
+		[out][in] DWORD *pdwEffect);
+
+	HRESULT GetManager(
+		[out] IPlayUI1Manager** ppManager);
+
+	HRESULT Show(
+		[in] int show); //SW_SHOW or SW_HIDE
+
+	HRESULT Init(
+		HWND hwndParent,
+		int x,
+		int y,
+		int nWidth,
+		int nHeight);
+}
+
+
+//+---------------------------------------------------------------------------
+//	Interface:	IPlayUI1WindowHandler
+//
+//	Purpose:	Defines interface for notifications from a IPlayUI1Window
+//
+//	Methods:
+//		OnMouseMove
+//		OnLButtonDown
+//		OnMButtonDown
+//		OnRButtonDown
+//		OnLButtonDblClk
+//		OnMButtonDblClk
+//		OnRButtonDblClk
+//		OnKeyDown
+//		OnKeyUp
+//		OnWindowClose
+//		
+//----------------------------------------------------------------------------
+
+[
+	local,
+	object,
+	uuid(8335e44f-ab3b-11ce-8468-0000b468276b),
+	pointer_default(unique)
+]
+interface IPlayUI1WindowHandler : IUnknown
+{
+	LRESULT OnMouseMove(
+		UINT keys, POINT pt);
+		
+	LRESULT OnLButtonDown(   
+		UINT keys, POINT pt);
+
+	LRESULT OnMButtonDown(   
+		UINT keys, POINT pt);
+
+	LRESULT OnRButtonDown(   
+		UINT keys, POINT pt);
+
+	LRESULT OnLButtonDblClk( 
+		UINT keys, POINT pt);
+
+	LRESULT OnMButtonDblClk( 
+		UINT keys, POINT pt);
+
+	LRESULT OnRButtonDblClk( 
+		UINT keys, POINT pt);
+
+	LRESULT OnKeyDown(
+		int nVirtKey, LONG keyData);
+
+	LRESULT OnKeyUp(
+		int nVirtKey, LONG keyData);
+
+	LRESULT OnWindowClose();
+
+	LRESULT OnPaint(
+		HDC hdc);
+}
+
+
+
+
+//+---------------------------------------------------------------------------
+//  Interface:    IPlayUIBinItem
+//
+//  Purpose:    Defines the interface to PlayUI Bin items
+//
+//  Methods:
+//    Create
+//    CreateFromFile
+//    SetTitle
+//    GetTitle
+//    SetFilename
+//    GetFilename
+//    SetPicon
+//    GetPicon
+//    SetTitle
+//    GetTitle
+//    GetIDList
+//    CreateFromItemIDList
+//	  DoDragDrop
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e411-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IPlayUIBinItem : IUnknown
+{
+	HRESULT Create(
+		IGXIntBitmap *pIBM,
+		IStorage* pStg);
+
+	HRESULT CreateFromFile(
+		LPSTR pFilename);
+
+	HRESULT SetPicon(
+		IGXIntBitmap *pIBM ); 
+
+	HRESULT GetPicon(
+		DWORD	highLight,
+		IGXIntBitmap **ppIBM );
+
+
+	HRESULT SetTitle(
+		LPSTR lpstrLabel);
+
+	HRESULT GetTitle(
+		LPSTR pstrLabel);
+
+	HRESULT SetFilename(
+		LPSTR lpstrLabel);
+
+	HRESULT GetFilename(
+		LPSTR pstrLabel);
+
+	HRESULT SetSubject(
+		LPSTR lpstr);
+
+	HRESULT GetSubject(
+		LPSTR pstr);
+
+	HRESULT SetAuthor(
+		LPSTR lpstr);
+
+	HRESULT GetAuthor(
+		LPSTR pstr);
+
+	HRESULT SetKeywords(
+		LPSTR lpstr);
+
+	HRESULT GetKeywords(
+		LPSTR pstr);
+
+	HRESULT SetComments(
+		LPSTR pstr);
+
+	HRESULT GetComments(
+		LPSTR pstr);
+
+	HRESULT GetItemIDList(
+		ITEMIDLIST* *ppIDL);
+
+	HRESULT CreateFromItemIDList(
+		LPCITEMIDLIST   pIDL);
+
+	HRESULT DoDragDrop(
+		[out] [string] LPSTR pstrPath,
+		[out] IPlayUI1Window** ppWnd,	// can be NULL
+		[out] POINT* pPt);				// can be NULL
+		 
+	HRESULT DoDragDropEffect(
+		[out] [string] LPSTR pstrPath,
+		[out] IPlayUI1Window** ppWnd,	// can be NULL
+		[out] POINT* pPt,				// can be NULL
+		ULONG uldropAttr); 
+
+}
+
+
+//+---------------------------------------------------------------------------
+//  Interface:    IPlayUIBinWindow
+//
+//  Purpose:    Defines the interface for PlayUI Bin windows
+//
+//  Methods:
+//    Back
+//    Forward
+//    Home
+//    Load 
+//	  GetPath
+//    SetHome
+//    GetHome 
+//    AddItem  
+//    DeleteItem 
+//    SelectItem
+//    EnableItem
+//    SetHandler
+//    WndProc
+//    Parent
+//	  LoadFromIDList
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e412-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IPlayUIBinWindow : IUnknown
+{
+	HRESULT Back();
+
+	HRESULT Parent();
+
+	HRESULT Home();
+
+	HRESULT Load(
+		LPSTR lpstrBin);
+
+	HRESULT GetPath(
+		LPSTR pstrBinPath);
+
+	HRESULT Save(
+		LPSTR lpstrFilenme);
+
+	HRESULT SetHome(
+		LPSTR lpstrBin);
+
+	HRESULT GetHome(
+		LPSTR pstrBin);
+
+	HRESULT AddItem(
+		IPlayUIBinItem* pBinItem);
+
+	HRESULT RemoveItem(
+		IPlayUIBinItem* pBinItem);
+
+	HRESULT SelectItem(
+		IPlayUIBinItem* pBinItem);
+
+	HRESULT EnableItem(
+		IPlayUIBinItem* pBinItem, BOOL bEnable);
+
+	HRESULT SetHandler(
+		IPlayUIBinHandler* pHandler);
+
+	HRESULT LoadFromIDList(
+		ITEMIDLIST* pidl);
+
+	HRESULT Forward();
+
+	HRESULT GetFilePicon (
+		LPSTR dirString, 
+		LPSTR filename, 
+		DWORD highlight,		
+		IGXIntBitmap **ppIBM);
+
+//jacks hack
+	HRESULT toggleGUI ( 
+			int GUI );
+//end hack
+
+	HRESULT SetBinWndOptions ( 
+		ULONG options );
+
+	HRESULT Search (LPSTR searchPath,
+					LPSTR filetype, 
+					LPSTR folderPath); 
+
+	HRESULT BuildSubBins (LPSTR pathString); 
+}
+
+
+
+//+---------------------------------------------------------------------------
+//  Interface:    IPlayUIBinWindow
+//
+//  Purpose:    Defines the interface for initializing the Play Bin Explorer
+//				(PBE) properly.
+//
+//  Methods:	Init()
+//
+//	Created:	11/11/98 - BRoss
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e7e6-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IPlayUIBinWindow2 : IPlayUIBinWindow
+{
+	HRESULT InitPBE([in] char *startpath);
+	HRESULT LoadItem([in] unsigned long nItem);
+	HRESULT GetItemCount([out] unsigned long *nItem);
+	HRESULT SetIDRange([in] unsigned long nStart, [in] unsigned long nStop);
+}
+
+
+//+---------------------------------------------------------------------------
+//  Interface:    IPlayUIBinHandler
+//
+//  Purpose:    Defines the interface for PlayUI Bin Item Events
+//
+//  Methods:
+//    OnItemSelect
+//    OnLBtnDblClk
+//    OnItemProperties
+//    OnItemRename
+//    OnItemDelete
+//    OnItemMove
+//    OnItemCopy
+//	  OnLoad
+//    OnClose
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e414-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IPlayUIBinHandler : IUnknown
+{
+	HRESULT OnSelect(
+		IPlayUIBinItem* pBinItem);
+
+	HRESULT OnLBtnDblClk(
+		IPlayUIBinItem* pBinItem);
+
+	HRESULT OnItemProperties (
+		IPlayUIBinItem* pBinItem,
+		LPCSTR pFilename );
+
+	HRESULT OnItemRename(
+		IPlayUIBinItem* pBinItem,
+		LPSTR pstrOldName,
+		LPSTR pstrNewName);
+
+	HRESULT OnItemDelete(
+		IPlayUIBinItem* pBinItem);
+
+
+	HRESULT OnItemMove(
+		IPlayUIBinItem* pBinItem,
+		LPSTR pstrOldName,
+		LPSTR pstrNewName);
+
+	HRESULT OnItemCopy(
+		IPlayUIBinItem* pBinItem,
+		LPSTR pstrNewName);
+
+	HRESULT OnLoad(
+		LPCSTR pstrLoadingBin,
+		ITEMIDLIST* pIDL,
+		ULONG ulAttr);
+
+	HRESULT OnClose();
+
+}
+
+cpp_quote( "interface IPlayTimeLine;" )
+//+---------------------------------------------------------------------------
+//  Interface:	IPlayUI1Manager
+//
+//  Purpose:	Defines the interface for a PlayUI1 Manager.
+//
+//  Methods:
+//		Load
+//		Save
+//		SetManagerHandler
+//		GetManagerHandler
+//		SetBinHandler
+//		GetBinHandler
+//		SetTimeline0
+//		GetTimeline0
+//		SetTitle
+//		SetIcon
+//		SetRequiredWnd
+//		ExcludeWndType
+//		SetPropertyWnd
+//		DoPropertyWnd
+//		RemoveWnd
+//      SetKBWndProc
+//		SetTimeline
+//		GetTimeline
+//		UseLayout
+//		SimpleHelp
+//		Help
+//		SetSaveType
+//		GetSaveType
+//		DoColorWnd
+//		DoVirtualBinWnd
+//		GetColorWnd
+//+---------------------------------------------------------------------------
+[
+	local,
+	object,
+	uuid(8335e459-ab3b-11ce-8468-0000b468276b),
+	pointer_default(unique)
+]
+interface IPlayUI1Manager : IUnknown
+{
+	HRESULT Load(
+		[in] LPSTR pFilename);
+
+	HRESULT Save(
+		[in] LPSTR pFilename);
+
+	HRESULT SetManagerHandler(
+		[in] IPlayUI1ManagerHandler* pHandler);
+
+	HRESULT GetManagerHandler(
+		[out] IPlayUI1ManagerHandler** ppHandler);
+
+	HRESULT SetBinHandler(
+		[in] IPlayUIBinHandler* pHandler);
+
+	HRESULT GetBinHandler(
+		[out] IPlayUIBinHandler** ppHandler);
+
+	HRESULT SetTimeline0(
+		[in] void* pTLine);
+
+	HRESULT GetTimeline0(
+		[out] void** ppTLine);
+
+	HRESULT SetTitle(
+		[in] LPSTR title);
+
+	HRESULT SetIcon(
+		[in] HICON hIcon);
+
+	HRESULT SetRequiredWnd(
+		[in] PlayUI_LayoutWnd layoutWnd,
+		[out] IPlayUI1Window** ppWindow);
+
+	HRESULT ExcludeWndType(
+		[in] CLSID clsidWndType);
+
+	HRESULT SetPropertyWnd(
+		[in] IPlayUI1Window* pWindow);
+
+	HRESULT DoPropertyWnd(
+		[out] IPlayUI1Window** ppWindow);  //may be NULL
+
+	HRESULT RemoveWnd(
+		[in] IPlayUI1Window* pWindow);
+
+	HRESULT SetKBWndProc(
+		FARPROC pWndProc);
+
+	HRESULT SetTimeline(
+		[in] IPlayTimeLine* pTLine);
+
+	HRESULT GetTimeline(
+		[out] IPlayTimeLine** ppTLine);
+
+	HRESULT UseLayout(
+		[in] [string] LPSTR pstr);
+
+	HRESULT SimpleHelp();
+
+	HRESULT Help(
+		[in] int appidApplicationID,
+		[in] int istInvocationType,
+		[in] LPSTR lpstrMessage,
+		[in] LPVOID pvExtraParms);
+
+	HRESULT SetSaveType(
+		[in] [string] LPCSTR pstrExtension);
+
+	HRESULT GetSaveType(
+		[out] [string] LPSTR pstrExtension);
+
+	HRESULT DoColorWnd(
+		IPlayColor* pColor,
+		IPlayUI1ColorWndHandler* pHandler,
+		BOOL bGradient);
+
+	// Open the Font Window - And Set the Handler for Receiving Changes
+	HRESULT DoFontWnd ( [in] [string] LPSTR pszFontName,		// Font Name
+						[in] int iSize,							// Font Size
+						[in] DWORD dwStyle,						// Font Style - See UICLIB
+						[in] IPlayFontWindowHandler *pHandler);	// Font Window Handler
+
+	HRESULT DoVirtualBinWnd(
+		[out] IPlayUIBinWindow* pBinWnd);
+
+	HRESULT GetColorWnd(
+		[out] IPlayUI1ColorWindow** ppColorWnd);
+
+
+	HRESULT GetFontWnd (
+		[out] IPlayFontWindow **ppFontWnd);			// Get the Handle to the Font Window
+
+	HRESULT DoColorWndNew(
+		IPlayColor* pColor,
+		IPlayUI1ColorWndHandler* pHandler,
+		BOOL bGradient,
+		[in,string] LPSTR TitleString);
+}
+
+[
+	local,
+	object,
+	uuid(8335e458-ab3b-11ce-8468-0000b468276b),
+	pointer_default(unique)
+]
+interface IPlayUI1Manager2 : IPlayUI1Manager
+{
+    // get an enumerator for the existing non-bin windows
+    HRESULT EnumWindows( IEnumUnknown **ppEnum );
+    
+    // get an enumerator for the existing bin windows
+    HRESULT EnumBinWindows( IEnumUnknown **ppEnum );
+    
+    // add another window type that should be displayed in the
+    // right-button popup so the user can create them.
+    // object should implement IPlayUI1Window, IPlayProperties,
+    // and IPersistStream.  Some predefined properties
+    // exist that are used inside playui1 that need to be 
+    // defined here instead.
+    HRESULT AddWindowType( LPSTR name, REFCLSID clsid );
+
+    // used to allow/disallow user to create a given type of window
+    // from the right-button popup
+    HRESULT AllowWindowCreation( REFCLSID clsid, BOOL bAllow );
+
+}
+
+//+---------------------------------------------------------------------------
+//  Interface:	IPlayUI1ManagerHandler
+//
+//  Purpose:	Defines the interface that handles notifications from an
+//				object with an IPlayUI1Manager interface.
+//
+//  Methods:
+//		OnTLPreLoad
+//		OnTLPostLoad
+//		OnTLPreViewRemoval
+//		OnTLPostViewRemoval
+//		OnTLPreSave
+//		OnTLPostSave
+//		OnAppActivate
+//		OnLoadLayout
+//+---------------------------------------------------------------------------
+[
+	local,
+	object,
+	uuid(8335e45a-ab3b-11ce-8468-0000b468276b),
+	pointer_default(unique)
+]
+interface IPlayUI1ManagerHandler : IUnknown
+{
+
+	HRESULT OnTLPreLoad(
+		IPlayTimeLine *pTimeLine, 
+		LPSTR filename,
+		IStorage *pStg);
+
+	HRESULT OnTLPostLoad(
+		IPlayTimeLine *pTimeLine, 
+		LPSTR filename,
+		IStorage *pStg);
+
+	HRESULT OnTLPreViewRemoval(
+		IPlayTimeLine *pTimeLine);
+
+	HRESULT OnTLPostViewRemoval(
+		IPlayTimeLine *pTimeLine);
+
+	HRESULT OnTLPreSave(
+		IPlayTimeLine *pTimeLine, 
+		IStorage *pStg);
+
+	HRESULT OnTLPostSave(
+		IPlayTimeLine *pTimeLine, 
+		IStorage *pStg);
+
+	HRESULT OnAppActivate(
+		BOOL bActive);
+
+//	HRESULT OnLoadLayout(
+//		IStorage *pStg);
+
+}
+
+[
+	local,
+	object,
+	uuid(8335e457-ab3b-11ce-8468-0000b468276b),
+	pointer_default(unique)
+]
+interface IPlayUI1ManagerHandler2 : IPlayUI1ManagerHandler
+{
+    HRESULT OnShowWindow( IPlayUI1Window *pWnd,     // the window we're interested in
+                          BOOL bShow,               // TRUE=show, FALSE=hide
+                          DWORD dwReason );         // 0 = individually shown/hidden, 1 = due to layout load
+
+    // called before the layout is loaded, app can return E_FAIL to refuse the load.
+    HRESULT OnPreLoadLayout( IPlayUI1Manager2 *pManager,     // the manager loading the layout
+                          LPSTR pszLayoutFile ); // the file we're going to load
+
+    // called after a layout has been loaded.
+    HRESULT OnPostLoadLayout( IPlayUI1Manager2 *pManager,     // the manager loading the layout
+                              LPSTR pszLayoutFile ); // the file we loaded
+}
+
+//+---------------------------------------------------------------------------
+//  Interface:	IPlayUI1ColorWindow
+//
+//  Purpose:	Defines the IPlayUI1ColorWindow interface.
+//
+//  Methods:
+//		SetColor
+//		SetHandler
+//+---------------------------------------------------------------------------
+[
+	local,
+	object,
+	uuid(8335e450-ab3b-11ce-8468-0000b468276b),
+	pointer_default(unique)
+]
+interface IPlayUI1ColorWindow : IUnknown
+{
+	HRESULT SetColor(
+		IPlayColor* pcolor);
+
+	HRESULT SetHandler(
+		IPlayUI1ColorWndHandler* pHandler);
+}
+
+
+//+---------------------------------------------------------------------------
+//  Interface:	IPlayUI1ColorWndHandler
+//
+//  Purpose:	Defines the IPlayUI1ColorWndHandler interface.
+//
+//  Methods:
+//		OnClose
+//		OnColorChange
+//		OnTypeChange
+//+---------------------------------------------------------------------------
+[
+	local,
+	object,
+	uuid(8335e452-ab3b-11ce-8468-0000b468276b),
+	pointer_default(unique)
+]
+interface IPlayUI1ColorWndHandler : IUnknown
+{
+	HRESULT OnClose(
+		IPlayColor* pcolor);
+
+	HRESULT OnColorChange(
+		IPlayColor* pcolor);
+
+	HRESULT OnTypeChange(
+		IPlayColor* pcolor,
+		EPlayColorSpread type);
+}
+
+/*==========================================================================*\
+||																			||
+||	Copyright 1995 by Play Incorporated										||
+||	PLAY CONFIDENTIAL														||
+||																			||
+||	All Specifications subject to change.									||
+||																			||
+||  FILE:		FontWnd.idl													||
+||																			||
+||	DESCRIPTION: Interface description for Createing and using Font Window	||
+||																			||
+||	INTERFACES:																||
+||		IPlayFontWindow - Defined in FontWnd.h and FontWnd.cpp				||
+||						  Files.											||
+||																			||
+||		IPlayFontWindowHandler - Interface is Defined in FontHandler.h		||
+||								 File in the Class CPlayFontWindowHandler	||
+||								 Use this class to set the Handler for the  ||
+||								 Font window.								||
+||																			||
+||	Written by Hitesh Patel                                                 ||
+||	(c) 1998 by Play Incorporated                                           ||
+||	PLAY CONFIDENTIAL                                                       ||
+||																			||
+||  MODIFICATIONS:  Oct. 15, 1998		Created					H. Patel	||
+||																			||
+\*==========================================================================*/
+
+
+//
+//-------------------- Interface Defination of IPlayFontWindow -------------
+//
+
+[
+	local,
+	object,
+	uuid(8335e7e3-ab3b-11ce-8468-0000b468276b),
+	pointer_default(unique)
+]
+interface IPlayFontWindow : IUnknown
+{
+	// pull in the definitions for all the standard interfaces
+	import "unknwn.idl";
+	import "wtypes.idl";
+
+	// Set Font Type will Allow user to retrive the specific Type of Font in the List Box
+	// TRUETYPE_FONTTYPE | RASTER_FONTTYPE | DEVICE_FONTTYPE, Default All Font Types
+	HRESULT __stdcall SetFontType ([in] DWORD dwType);
+
+	// Set the Attributes for the Font Window - PFW = Play Font Window
+	// dwName	(DWORD) String Value for the Font - Default "Arial"
+	// dwSize	(int) True Type fonts support following Sizes
+	//			8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72 - Default 12
+	// dwStyle	FSTY_BOLD | FSTY_ITALIC | FSTY_UNDERLINE - Default Normal ( 0 )
+	HRESULT __stdcall SetFont ([string]LPSTR szName, [in] DWORD dwSize, [in]DWORD dwStyle );
+	
+	// Get the Currently Selected Font Name cMaxChar is number of chars to Copy
+	// Returns E_FAIL if Font Name is Greater then cMaxChar
+	HRESULT __stdcall GetFontName ([string] LPSTR pszValue, long cMaxChar);
+
+	// Get the Currently Selected Size in the Listbox
+	HRESULT __stdcall GetFontSize ([out] long *plValue);
+
+	// Get Currently Selected Style
+	// lValue will be assigned FSTY_BOLD | FSTY_ITALIC | FSTY_UNDERLINE or 0 for Normal
+	HRESULT __stdcall GetFontStyle ([out] DWORD *pdwValue);
+
+	// Set the Handler to Send Information to the Programmer
+	HRESULT __stdcall SetHandler ([in] IPlayFontWindowHandler *pHandler);
+
+	// Enable or Disable Controls on the Font Panel
+	// dwControls can be Combination of the Following Values - Defined in FontHandler.h
+	//	#define		NORMAL_BUTTON		0x001		- Enable / Disable Normal Button
+	//	#define		BOLD_BUTTON			0x004		- Enable / Disable Bold Button
+	//	#define		ITALIC_BUTTON		0x002		- Enable / Disable Italic Button
+	//	#define		UNDERLINE_BUTTON	0x008		- Enable / Disable Underline Button
+	//	#define		SIZE_LIST			0x010		- Enable / Disable Size List Box & Size Number Box
+	//	#define		FONT_LIST			0x020		- Enable / Disable Font List Box (Why? I don't Know)
+	// bEnableFlag = TRUE Enable Button(s)
+	// bEnableFlag = FALSE Disable Buttons(s)
+	HRESULT __stdcall Enable ([in] DWORD dwControl, [in] BOOL bEnableFlag);
+
+}
+
+//
+//-------------- Interface Defination of IPlayFontWindowHandler -----------
+//
+
+[
+	local,
+	object,
+	uuid(8335e7e4-ab3b-11ce-8468-0000b468276b),
+	pointer_default(unique)
+]
+interface IPlayFontWindowHandler : IUnknown
+{
+	// pull in the definitions for all the standard interfaces
+	import "unknwn.idl";
+	import "wtypes.idl";
+
+	// Notify Parent App when Window is being Closed
+	// if it Returns E_NOTIMPL then the Font window will be Closed and Destroyed
+	// You may want to Implement this function so You can hide the Font window and Show it Later when Needed
+	// instead of letting it destroy itself.
+	HRESULT __stdcall OnClose ();
+
+	// Notify Parent App when user changes the Font
+	// it will send the following information to Programmer
+	// pszName - Name of the Font
+	// dwSize - Size of the Font
+	// dwStyle - Style of the Font - Normal Style = 0 else can be combination of
+	// FSTY_BOLD | FSTY_ITALIC | FSTY_UNDERLINE
+	HRESULT __stdcall OnFontChange ([string] LPSTR pszName,
+									[out] int *pSize,
+									[out] DWORD *pdwStyle);
+
+}

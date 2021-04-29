@@ -1,0 +1,352 @@
+//+---------------------------------------------------------------------------
+//
+//  Trinity Core API
+//  Copyright (C) Play Incorporated, 1998
+//
+//  PRELIMINARY - ALL SPECIFICATIONS SUBJECT TO CHANGE
+//  PLAY CONFIDENTIAL - DO NOT DISTRIBUTE
+//
+//  File:       TMInternal.idl
+//
+//  Contents:   Low-level API for TimeMachine internal
+//
+//  History:    November 13,  1998   cpdaniel  Created
+//
+//----------------------------------------------------------------------------
+import "wtypes.idl";
+import "unknwn.idl";
+import "objidl.idl";
+
+cpp_quote("#undef GetCurrentTime")
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnTimeMachineInternal
+//
+//+---------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e7e7-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnTimeMachineInternal : IUnknown
+{
+  //-----------------------------------------------------------------------------
+  // Time Machine types
+  //-----------------------------------------------------------------------------
+  // General notes about Time Machine API structures
+  //    1. All structs are in BIG ENDIAN byte ordering
+  //    2. TMS_ClipIO* and TMS_ClipInfo* are pointers in the Time Machine's
+  //       address space.  They cannot be de-referenced by code executing on 
+  //       the host PC (but the can be passed around & stored in appropriately
+  //       typed variables).
+  //-----------------------------------------------------------------------------
+
+  typedef unsigned char ubyte;
+  typedef unsigned short uword;
+  typedef unsigned long uquad;
+  typedef DWORD tTIME;
+  typedef DWORD tCHANNEL;
+  typedef DWORD tLBA;
+
+  typedef struct tagClipInfo TMS_ClipInfo;  // private - opaque
+  typedef struct tagDriveInfo TMS_DriveInfo; // private - opaque
+
+  typedef struct tagsense_data
+  {
+    ubyte sensekey;
+    ubyte sensecode;
+    ubyte sensecodequalifier;
+    ubyte senseFRUcode;
+  } TMS_SD;
+
+  /* The following structure stores all of the information that we know about
+   * the attached drives */
+
+  #define NO_DEVICE ((ubyte)~0)
+  typedef struct tagSCSIInfo
+  {
+    ubyte status;   /* last status input */
+    ubyte device_type; /* not $FF, if this ID is attached and running */
+    uword blocklength;/* The length of a block on the disk */
+    uquad lastblock;  /* The last valid address on the drive */
+    ubyte offperiod;  /* The offset and period for sync transfers
+                      * stored in the same form and needed for
+                      * table indirect selects */
+    ubyte sync_clk; /* The synchronous clock divider needed for
+                table indirects -- synchronous divider */
+    ubyte version;
+    ubyte msg_in;   /* last msg in */
+
+    TMS_SD sense;
+  } TMS_SCSIInfo;
+
+  #define DRIVE_INFO_SIZE 36
+  #define REQUEST_SENSE_SIZE  18
+  #define TERMINATOR_SIZE 0xFFFFFFFF
+
+cpp_quote("#define DRIVE_INFO_SIZE 36")
+cpp_quote("#define REQUEST_SENSE_SIZE  18")
+cpp_quote("#define TERMINATOR_SIZE 0xFFFFFFFF")
+
+  typedef struct tagSCSIDriveInfo
+  {
+    uquad sdi_SCSIInfoSize;
+    TMS_SCSIInfo sdi_SCSIInfo;    // always a multiple of 4 in length
+
+    uquad sdi_DriveInfoSize;
+    char sdi_DriveInfo[DRIVE_INFO_SIZE+(256-DRIVE_INFO_SIZE)%4];
+
+    uquad sdi_RequestSenseSize;
+    char sdi_RequestSense[REQUEST_SENSE_SIZE+(256-REQUEST_SENSE_SIZE)%4];
+
+    uquad sdi_TerminatorSize;
+  } TMS_SCSIDriveInfo;
+
+  #define CLIPNAME_SIZE 80
+  #define DRIVENAME_SIZE 80
+  #define DRIVE_MODE_SIZE 256
+  #define BLOCK_SIZE  512
+
+cpp_quote("#define CLIPNAME_SIZE 80")
+cpp_quote("#define DRIVENAME_SIZE 80")
+cpp_quote("#define DRIVE_MODE_SIZE 256")
+cpp_quote("#define BLOCK_SIZE  512")
+
+  typedef struct tagDirEntry
+  {
+    uword de_Hash;        // quick filename comparison hash
+    uword de_Flags;       // clip or regular file (or directory)
+    tTIME de_Time;        // Modified TimeStamp
+    uquad de_Size[2];
+
+    tLBA  de_FirstLBA;      // First Used Block (Size < 4K)
+    tLBA  de_HeaderLBA;     // First Allocated Block (which contains indices to data blocks)
+                            // (Size < 4M)
+    tLBA  de_Indirect2LBA;    // (Size < 4G)
+    tLBA  de_Indirect3LBA;    // (Size < 4T)
+
+    uquad de_LargestFieldSize;  // for future use
+
+    uquad de_NameTag;     // Aux File Type
+    char de_Name[CLIPNAME_SIZE];
+  } TMS_DirEntry;
+
+  // Values for clipType (see ClipCreate)
+  enum
+  {
+    WAVELET_INDEX = 0,
+    AUDIO32_INDEX = 1,
+    CLIPINFO_INDEX = 2,
+    FILE_INDEX = 3,
+    DIRECTORY_INDEX = 4
+  };
+
+  // values for tCHANNEL
+  enum TARDIS_CHANNELS
+  {
+	  VIDEO1_CHANNEL = 0x10001,
+	  VIDEO2_CHANNEL = 0x10002,
+
+	  AUDIO1_CHANNEL = 0x20001,
+	  AUDIO2_CHANNEL = 0x20002,
+	  AUDIO3_CHANNEL = 0x20003,
+	  AUDIO4_CHANNEL = 0x20004,
+
+	  UNUSED_CHANNEL = 0
+  };
+
+cpp_quote("#define de_ClipFields  de_FirstLBA         // valid for Video clips only!")
+cpp_quote("#define de_DiskId      de_LargestFieldSize // valid for disk labels only!")
+
+  typedef struct tagPlayList
+  {
+    LONG  tpca_Duration;
+    LONG  tpca_StartPosition; // 24.8
+    LONG  tpca_LinearDelta; // 24.8 ??? do we need more than linear ???
+    LONG  tpca_SecondDelta; // 24.8
+    LONG  tpca_ThirdDelta;  // 24.8
+  } TMS_PlayList;
+
+  #define STRIPING_MAX  4
+  typedef struct tagStripingInfo
+  {
+    int si_Striping_Factor;       // currently 2 for video
+    int si_DriveIndex[STRIPING_MAX];
+  } TMS_StripingInfo;
+
+  typedef struct tagClipIO
+  {
+	  struct tagClipIO* Next;
+	  LONG Cookie;
+	  LONG Command;
+	  LONG BufferOffset;
+	  LONG BufferSize;
+	  LONG Flags;				// Direction, InUse, Complete, etc...
+	  LONG LastFlags;			// Direction, InUse, Complete, etc...
+	  TMS_ClipInfo* cInfo;
+	  ULONG ClipPosition; 	// (512 byte increments)	(2 Tera)
+	  ULONG TransferAmount;	// (Size in bytes) (will always transfer in 512 blocks)
+	  ULONG CurrentTransferred;
+	  ULONG FieldNumber;	// (ignored for normal files)
+	  ULONG FieldSize;	// file size
+  } TMS_ClipIO;
+
+  cpp_quote("#define CLIPIOFLAGS_COMPLETE    0x00000001    // bitmask")
+
+  typedef struct tagClipBufferStatus
+  {
+    TMS_ClipInfo* cbs_ClipInfo;
+    ULONG cbs_Command;
+    ULONG cbs_CurrentTransferred;
+    ULONG cbs_TransferAmount;
+    ULONG cbs_FieldSize;
+    ULONG cbs_FieldNumber;
+  } TMS_ClipBufferStatus;
+
+  cpp_quote("// Flags values for GetDriveStatus")
+  cpp_quote("#define	ONLY_KNOWN_DRIVES		0x10")
+  cpp_quote("#define	INQUIRE_DRIVE_INFO	0x08")
+  cpp_quote("#define	SPIN_UP_DRIVES		0x04")
+  cpp_quote("#define	BLOCK_UNTIL_READY		0x02")
+  cpp_quote("#define	BYPASS_DRIVE_CACHE	0x01")
+
+  typedef struct tagDriveStatus
+  {
+	  ULONG	Status;		  // Last I/O was ok and 'Ready'
+	  ULONG	Detected;		// The SCSI Bus has a device with the SCSI-ID
+	  ULONG	Ready;		  // 'Detected' and 512 byte blocks and is Disk Storage.
+  } TMS_DriveStatus;
+
+  //=====================================================================
+  // Low-level Time Machine API
+  //=====================================================================
+
+  int SCSI_Lock(int iDrive);
+
+  int SCSI_Unlock(int iDrive);
+
+  int GetSCSIDriveInfo(int iDrive, TMS_SCSIDriveInfo* pSDI);
+
+  int GetSCSIInfo(int iDrive, TMS_SCSIInfo* pSI);
+
+  // query_drive indicates drive should be asked; otherwise, uses cached data
+  // *pDI - TMS_DriveInfo struct
+  int GetDriveInfo(int iDrive, int query_drive, ubyte* pDI);
+
+  // query_sense indicates drive should be asked; otherwise, uses cached data
+  int GetRequestSense(int iDrive, int query_sense, ubyte* pRS);
+
+  int format_unit(int drive);
+
+  int reserve_unit(int drive);
+
+  int release_unit(int drive);
+
+  int d_mode_select(int drive, int page, int length, ubyte *buffer);
+
+  int d_mode_sense(int drive, int page, int length, ubyte *buffer);
+
+  int start_drive(int drive, int start);  // start == 0, spin down
+                                          // start != 0, spin up
+
+  int read_block(int drive, uquad blocknum, ubyte *buffer); // buffer is 512 bytes long
+
+  int write_block(int drive, uquad blocknum, ubyte *buffer); // ... is 512 bytes long
+
+  //////////////////////////////////////////////////
+  // Clip Commands
+
+  // Allocate a ClipInfo management structure
+  TMS_ClipInfo* ClipAlloc(int ClipType);    // use zero for now, for future use
+
+  void ClipFree(TMS_ClipInfo* cInfo);
+
+  void ClipFlush(TMS_ClipInfo* cInfo);
+
+  int PlayClip(TMS_ClipInfo* cInfo, tCHANNEL target, tTIME StartTime, TMS_PlayList* pList);
+
+  int RecordClip(TMS_ClipInfo* cInfo, tCHANNEL target, tTIME StartTime); // cInfo == NULL means stop record (maybe add PlayList???)
+
+  int SetClipDrives(TMS_ClipInfo* cInfo, TMS_StripingInfo* sInfo);
+
+  int ClipDestroy(TMS_ClipInfo* cInfo);
+
+  int ClipCreate(TMS_ClipInfo* cInfo, char* ClipName);
+
+  int ClipExists(TMS_ClipInfo* cInfo, char* ClipName);
+
+  int ClipRename(TMS_ClipInfo* cInfo, char* newClipName);
+
+  int ClipOpen(TMS_ClipInfo* cInfo, char* ClipName);
+
+  int ClipClose(TMS_ClipInfo* cInfo);
+
+  void GetClipInfo(TMS_ClipInfo* cInfo, int EntryMask, TMS_DirEntry* dEntry);
+
+  //////////////////////////////////////////////////
+  // DriveInfo Commands
+
+  TMS_DriveInfo* AllocDriveInfo(int iDrive, uquad nLBAs);
+
+  void FreeDriveInfo(int iDrive);
+
+  void FlushDriveInfo(int iDrive);
+
+  int FormatDriveInfo(int iDrive, uquad ID, char* DriveName);
+
+  //////////////////////////////////////////////////
+  // Directory Commands
+
+  int ListDirAlloc(int iDrive, uquad Directory, TMS_DirEntry* dEntry);
+
+  int ListDirFree(int iDrive, uquad ListDirAllocResult);
+
+  // PreviousResult is ListDirAllocResult for first call, otherwise last pass ListDirEntryResult
+  int ListDirEntry(int iDrive, uquad PreviousResult, TMS_DirEntry* dEntry);
+
+  int ListDirEntryType(int iDrive, ULONG Directory, ULONG TypeValue, ULONG TypeMask, TMS_DirEntry* dEntry);
+
+  //////////////////////////////////////////////////
+  // Miscellaneous Commands
+
+  // Fraction is a longword fixed point fraction
+  void SetCurrentTime(tTIME Seconds, uquad Fraction);
+
+  void GetCurrentTime(tTIME* pSeconds, tTIME* pFraction);
+
+  //////////////////////////////////////////////////
+  // TDM commands
+  int SetTDMInstanceID(int TDMInstanceID);
+
+  int SetAudioChannelSlots(int AudioSlot, int TDMSlot);
+
+  //////////////////////////////////////////////////
+  // ClipIO commands
+  TMS_ClipIO* ClipBufferAlloc(int MaxBufferSize, int Flags);
+  int ClipBufferFree(TMS_ClipIO*);
+  int ClipBufferWrite(TMS_ClipIO*, TMS_ClipInfo*, int FieldNumber, int Position, int Size);
+  int ClipBufferRead(TMS_ClipIO*, TMS_ClipInfo*, int FieldNumber, int Position, int Size);
+  int QueryFieldSize(TMS_ClipInfo*, int Field);
+  int ClipBufferStatus(TMS_ClipIO* pClipIO, TMS_ClipBufferStatus* pCBS);
+  int ClipBufferAbort(TMS_ClipIO* pClipIO);
+
+  //////////////////////////////////////////////////
+  // More misc commands
+  int GetDriveStatus(ULONG  flags, TMS_DriveStatus* pStatus); // pStatus may be NULL. Return is pStatus->Status
+
+  int SetDriveLabel(int iDrive, TMS_DirEntry* dEntry);
+
+  //////////////////////////////////////////////////
+  // Back door function - send a packet to TMI & return the response
+  HRESULT TransactMessage(
+    DWORD commandId,
+    unsigned  paramSize,
+    void* pParamsBuff,
+    unsigned  resultSize,
+    void* pResultBuff
+    );
+
+}
+
+// End of TMInternal.idl

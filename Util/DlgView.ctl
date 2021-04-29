@@ -1,0 +1,17 @@
+[Text String]
+IDC_CK_TAB			"Tabs"
+IDC_CK_SHOW_A_CHANNEL		"Show Alpha Channel"
+IDC_CK_SEL_BOX			"Selection Boxes"
+IDC_CK_SAFE_TITLE		"Safe Title"
+IDC_CK_SAFE_ACTION		"Safe Action"
+IDC_CK_MONITOR_GAMMA		"Monitor Gamma"
+IDC_CK_LNE_MARGIN		"Line Margin"
+IDC_CK_GRIDS			"Grids"
+IDC_CK_CENTER_POINT		"Center Point"
+IDC_CK_BASELINE			"Baseline"
+IDC_CK_ASPECT_CORRECTION	"Aspect Correction"
+IDC_BT_TAB			"Tabs"
+IDC_BT_SETTING			"Settings"
+IDC_GP_INDICATOR		"Indicatiors"
+IDC_GP_PAGE_VIEW		"Page View"
+end

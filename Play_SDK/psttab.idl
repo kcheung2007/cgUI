@@ -1,0 +1,56 @@
+/*===========================================================================*\
+||                                                                           ||
+||  Copyright 1996 by Play Incorporated                                      ||
+||  PLAY CONFIDENTIAL                                                        ||
+||                                                                           ||
+||  All Specifications subject to change.                                    ||
+||                                                                           ||
+||  FILE:           PSTTAB.IDL                                               ||
+||                                                                           ||
+||  DESCRIPTION:    Interface description for string table used by Play      ||
+||                  UI Control library.                                      ||
+||                                                                           ||
+||  INTERFACES:     IPlayStringTable										 ||
+||                                                                           ||
+||  MODIFICATIONS:  08/02/96    Bill Clark					created			 ||
+||                                                                           ||
+\*===========================================================================*/
+
+interface IStream;
+
+[
+    local,
+    object,
+    uuid(4c3eb2c0-ecaa-11cf-aa37-002018313831)
+]
+interface IPlayStringTable: IUnknown
+{
+    import "unknwn.idl";
+    import "wtypes.idl";
+    
+
+	// Get a string from the table. Specify its numeric ID, the buffer to
+	// put it in, and the size of the buffer. At most size bytes will be
+	// copied; the last byte will always be a terminating null, so a string
+	// of exactly size characters will be truncated by 1. 
+    HRESULT GetString(DWORD stringNum, [out,string] LPSTR string, DWORD size);
+
+	// Change a string in or add a string to the table. 
+    // Specify its numeric ID and the new string to put in its place.
+	HRESULT SetString(DWORD stringNum, [in,string] LPSTR string);
+
+	// Remove a string. Specify its numeric ID.
+	HRESULT RemoveString(DWORD stringNum);
+
+	// Loads string table from disk file. Used only by panel.
+	HRESULT Load([in,string] LPSTR filename);
+
+	// Loads string table from stream. Used only by panel.
+	HRESULT LoadStm([in] IStream *pStm );
+
+	// Saves string table to disk file. Used only by panel.
+	HRESULT Save([in,string] LPSTR filename);
+
+	// Saves string table to stream. Used only by panel.
+	HRESULT SaveStm([in] IStream *pStm );
+}

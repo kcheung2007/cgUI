@@ -1,0 +1,106 @@
+/*===========================================================================*\
+||                                                                           ||
+||  Copyright 1995 by Play Incorporated                                      ||
+||  PLAY CONFIDENTIAL                                                        ||
+||                                                                           ||
+||  All Specifications subject to change.                                    ||
+||                                                                           ||
+||  FILE:           PCADVS.IDL                                               ||
+||                                                                           ||
+||  DESCRIPTION:    Interface description for App programmer's advise        ||
+||                  used within UI Control library.                          ||
+||                                                                           ||
+||  INTERFACES:     IPCtrlAdviseSink                                         ||
+||                                                                           ||
+||  NOTES:          All of these functions are to be implemented by the app  ||
+||                  programmer.  If programmer's functions don't return      ||
+||                  S_OK, the default UIC routines will be used.  This is    ||
+||                  how app programmer can define only the functions he wants||
+||                                                                           ||
+||  MODIFICATIONS:  12/22/95    T.Sprague       created, from IOverride      ||
+||                                                                           ||
+\*===========================================================================*/
+
+[
+    local,
+    object,
+    uuid(8335e422-ab3b-11ce-8468-0000b468276b)
+]
+interface IPCtrlAdviseSink : IUnknown
+{
+    import "unknwn.idl";
+    import "wtypes.idl";
+    import "plyctl.idl";
+
+    // Routine called when a control goes down or becomes active
+    // UIC sets state of control before this is called.
+    HRESULT OnCtlDown( [in] IPlayControl *pPlayCtl );
+
+    // Routine called when mouse movement messages come to a control 
+    // (while left mouse button is down and window is capturing mouse)
+    // this won't happen for buttons if PCATTR_NO_VERIFY is turned on,
+    // which it is by default.
+    // UIC sets state of control before this is called.
+    HRESULT OnCtlMove( [in] IPlayControl *pPlayCtl );
+
+    // Routine called when a control is released (btn goes up, etc.)
+	// If PCATTR_NO_VERIFY is OFF (default), this won't be called if 
+	// the mouse is off the control when the button is released.
+    // UIC sets state of control before this is called.
+    HRESULT OnCtlUp( [in] IPlayControl *pPlayCtl );
+
+    // Routine called when left mouse button is released on a control.
+    // UIC sets state of control before this is called.
+    // if this fails, higher level routines like OnCtlUp() will be called
+    HRESULT OnLBtnUp( [in] IPlayControl *pPlayCtl );
+
+    // Routine called when left mouse button is depressed on a control
+    // UIC sets state of control before this is called.
+    // if this fails, higher level routines like OnCtlDown() will be called
+    HRESULT OnLBtnDown( [in] IPlayControl *pPlayCtl );
+
+    // Routine called when right mouse button is released on a control.
+    // UIC sets state of control before this is called.
+    // if this doesn't return S_OK, the control will pass it on to
+    // its home panel (if such exists)
+    HRESULT OnRBtnUp( [in] IPlayControl *pPlayCtl );
+
+    // Routine called when right mouse button is depressed on a control
+    // UIC sets state of control before this is called.
+    // if this doesn't return S_OK, the control will pass it on to
+    // its home panel (if such exists)
+    HRESULT OnRBtnDown( [in] IPlayControl *pPlayCtl );
+
+    // Routine called when mouse is moving over the control.
+    // only called if other routines aren't using the movement info.
+    HRESULT OnMouseMove( [in] IPlayControl *pPlayCtl, WPARAM wParam, LPARAM lParam );
+
+    // Routine called when somebody drags and drops a file (or files) 
+    // onto the control.  If the routine doesn't return S_OK, 
+    // the control will pass the drop on to its parent window.
+    // This will pass an IDataObject in the LPARAM parameter if wParam==0.
+    HRESULT OnDropFiles( [in] IPlayControl *pPlayCtl, WPARAM wParam, LPARAM lParam );
+
+//
+//
+//
+//		These are no longer part of this interface. You should not use them. They are only here
+//		temporarily until I'm sure that everything still works.
+//
+//
+//
+//
+	// Routine called when a control is left in the same state as it started.    
+//    HRESULT OnCtlCancel( [in] IPlayControl *pPlayCtl );
+}
+
+[
+    local,
+    object,
+    uuid(8335e608-ab3b-11ce-8468-0000b468276b)
+]
+interface IPCtrlAdviseSink2 : IPCtrlAdviseSink
+{
+	// Routine called when a control is left in the same state as it started.    
+    HRESULT OnCtlCancel( [in] IPlayControl *pPlayCtl );
+}

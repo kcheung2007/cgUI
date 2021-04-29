@@ -1,0 +1,60 @@
+/*===========================================================================*\
+||                                                                           ||
+||  Copyright 1997 by Play Incorporated                                      ||
+||  PLAY CONFIDENTIAL                                                        ||
+||                                                                           ||
+||  All Specifications subject to change.                                    ||
+||                                                                           ||
+||  FILE:           PCBITMAP.IDL                                            ||
+||                                                                           ||
+||  DESCRIPTION:    Interface description for a compressed RGBA bitmap that  ||
+||                  can create/load/save/composite/decompress itself         ||
+||                                                                           ||
+||  INTERFACES:     IPlayCompressedBitmap                                    ||
+||                                                                           ||
+||  MODIFICATIONS:  9/17/97     T.Sprague       created                      ||
+||                                                                           ||
+\*===========================================================================*/
+
+import "gxlate.idl";
+import "unknwn.idl";
+import "wtypes.idl";
+
+[
+    local,
+    object,
+    uuid(8335e435-ab3b-11ce-8468-0000b468276b)
+]
+interface IPlayCompressedBitmap : IUnknown
+{
+	// Return a mask of EPlayFrameType's that this object can compress/decompress
+	DWORD QuerySupportedFrameTypes( );
+
+    // create a compressed version of the given bitmap.
+    // The bitmap passed in must be of a type in the mask returned above
+    HRESULT Compress( IGXIntBitmap *pIBM );
+    
+    // Decompress the buffer into an uncompressed
+    // bitmap, of whatever type the bitmap originally was
+	// Will return E_FAIL if the object doesn't have image data.
+    HRESULT Decompress( IGXIntBitmap **ppIBM );
+
+    // This function can return E_INVALIDARG if dest bitmap is NULL
+	// or not FTRGB8.
+	// This function can return E_NOTIMPL if a particular type of data
+	// it contains cannot be composited.
+	// Current implementation requires RGB compressed bitmaps to have dx=dy=sx=sy=0
+	// and the cw=destwidth=origwidth and ch=destheight=origheight.
+	// Will return E_FAIL if the object doesn't have image data.
+    // it will return S_FALSE if the copy block gets clipped down to nothing.
+    HRESULT DoComposite( SPlayBitMap *pSPBMDest, // destination bitmap, must be FTRGB8
+                         LONG dx, LONG dy, // destination location of block to copy
+                         LONG sx, LONG sy, // source rectangle location to start copy
+                         LONG cw, LONG ch, // width, height of block to copy
+						 DWORD dwColor ); // color used in composite if the frame type is alpha-only, get from RGB() macro
+
+    // a way to find out what size and format the original bitmap size was
+	// Will return E_FAIL if the object doesn't have image data.
+    HRESULT QueryInfo( LONG *plWidth, LONG *plHeight, EPlayFrameType *peType );
+
+}

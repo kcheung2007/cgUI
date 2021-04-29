@@ -1,0 +1,307 @@
+MakeMake.pl 1.2b June 17, 1997
+scandeps V1.6.2 - w:\shared\interface
+Circular dependency detected: .\panel.idl plyctl.idl pcadvs.idl : plyctl.idl
+Circular dependency detected: .\pcadvs.idl plyctl.idl pcadvs.idl : plyctl.idl
+Circular dependency detected: .\playui1.idl timeline.idl plyctl.idl pcadvs.idl : plyctl.idl
+Circular dependency detected: .\plyctl.idl pcadvs.idl plyctl.idl : pcadvs.idl
+Circular dependency detected: .\timeline.idl plyctl.idl pcadvs.idl : plyctl.idl
+
+Microsoft (R) Program Maintenance Utility   Version 1.62.7022
+Copyright (C) Microsoft Corp 1988-1997. All rights reserved.
+
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none seglist.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\seglist.idl
+seglist.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none timeline.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\timeline.idl
+timeline.idl
+Processing c:\program files\devstudio\vc\include\objidl.idl
+objidl.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+Processing .\spline.idl
+spline.idl
+Processing .\gxlate.idl
+gxlate.idl
+Processing .\plyctl.idl
+plyctl.idl
+Processing .\pcadvs.idl
+pcadvs.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none brender.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\brender.idl
+brender.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none gxlate.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\gxlate.idl
+gxlate.idl
+Processing c:\program files\devstudio\vc\include\objidl.idl
+objidl.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none panel.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\panel.idl
+panel.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+Processing .\plyctl.idl
+plyctl.idl
+Processing .\pcadvs.idl
+pcadvs.idl
+Processing .\gxlate.idl
+gxlate.idl
+Processing c:\program files\devstudio\vc\include\objidl.idl
+objidl.idl
+Processing .\psttab.idl
+psttab.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none bitmaprgn.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\bitmaprgn.idl
+bitmaprgn.idl
+Processing .\gxlate.idl
+gxlate.idl
+Processing c:\program files\devstudio\vc\include\objidl.idl
+objidl.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none pcbitmap.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\pcbitmap.idl
+pcbitmap.idl
+Processing .\gxlate.idl
+gxlate.idl
+Processing c:\program files\devstudio\vc\include\objidl.idl
+objidl.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none bitmaplib.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\bitmaplib.idl
+bitmaplib.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+Processing .\gxlate.idl
+gxlate.idl
+Processing c:\program files\devstudio\vc\include\objidl.idl
+objidl.idl
+Processing .\pcbitmap.idl
+pcbitmap.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none pcadvs.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\pcadvs.idl
+pcadvs.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+Processing .\plyctl.idl
+plyctl.idl
+Processing .\gxlate.idl
+gxlate.idl
+Processing c:\program files\devstudio\vc\include\objidl.idl
+objidl.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none picons.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\picons.idl
+picons.idl
+Processing .\gxlate.idl
+gxlate.idl
+Processing c:\program files\devstudio\vc\include\objidl.idl
+objidl.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none plyctl.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\plyctl.idl
+plyctl.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+Processing .\pcadvs.idl
+pcadvs.idl
+Processing .\gxlate.idl
+gxlate.idl
+Processing c:\program files\devstudio\vc\include\objidl.idl
+objidl.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none plyglo.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\plyglo.idl
+plyglo.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+Processing .\gxlate.idl
+gxlate.idl
+Processing c:\program files\devstudio\vc\include\objidl.idl
+objidl.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none plytxt.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\plytxt.idl
+plytxt.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+Processing .\gxlate.idl
+gxlate.idl
+Processing c:\program files\devstudio\vc\include\objidl.idl
+objidl.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none playui1.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\playui1.idl
+playui1.idl
+Processing c:\program files\devstudio\vc\include\oleidl.idl
+oleidl.idl
+Processing c:\program files\devstudio\vc\include\objidl.idl
+objidl.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+Processing .\color.idl
+color.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none Props.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\Props.idl
+Props.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none pstrlist.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\pstrlist.idl
+pstrlist.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none psttab.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\psttab.idl
+psttab.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none stdbg.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\stdbg.idl
+stdbg.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none ihelp1.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\ihelp1.idl
+ihelp1.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+Processing c:\program files\devstudio\vc\include\objidl.idl
+objidl.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none ihelp2.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\ihelp2.idl
+ihelp2.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+Processing c:\program files\devstudio\vc\include\objidl.idl
+objidl.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none cursor.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\cursor.idl
+cursor.idl
+Processing c:\program files\devstudio\vc\include\oleidl.idl
+oleidl.idl
+Processing c:\program files\devstudio\vc\include\objidl.idl
+objidl.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none gxlate3d.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\gxlate3d.idl
+gxlate3d.idl
+Processing c:\program files\devstudio\vc\include\objidl.idl
+objidl.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none color.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\color.idl
+color.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\objidl.idl
+objidl.idl
+	midl /Oi /ms_ext /c_ext /cpp_cmd cl /I W:\shared\Interface /I W:\Shared\Interface /client none /server none spline.idl
+Microsoft (R) MIDL Compiler Version 3.01.75  
+Copyright (c) Microsoft Corp 1991-1997. All rights reserved.
+Processing .\spline.idl
+spline.idl
+Processing c:\program files\devstudio\vc\include\objidl.idl
+objidl.idl
+Processing c:\program files\devstudio\vc\include\unknwn.idl
+unknwn.idl
+Processing c:\program files\devstudio\vc\include\wtypes.idl
+wtypes.idl

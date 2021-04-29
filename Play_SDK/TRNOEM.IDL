@@ -1,0 +1,598 @@
+//+---------------------------------------------------------------------------
+//
+//  Trinity OEM API
+//  Copyright (C) Play Incorporated, 1995
+//
+//  PRELIMINARY - ALL SPECIFICATIONS SUBJECT TO CHANGE
+//  PLAY CONFIDENTIAL - DO NOT DISTRIBUTE
+//
+//  File:       TrnOem.idl
+//
+//  Contents:   definition for all Trinity OEM interfaces and types
+//
+//  History:    October 6, 1995    cpdaniel  created
+//              February 15, 1996  cpdaniel  last modified
+//
+//----------------------------------------------------------------------------
+//
+//  The Trinity OEM API defines the interfaces which connect Trinity
+//  proxy objects with the Core API.
+//
+//----------------------------------------------------------------------------
+import "wtypes.idl";
+import "unknwn.idl";
+import "objidl.idl";
+import "autoct.idl";
+
+cpp_quote("#define NUM_MAIN_SLOTS    15")
+cpp_quote("#define NUM_INPUT_SLOTS   7")
+cpp_quote("#define NUM_INOUT_SLOTS   5")
+cpp_quote("#define NUM_SERIAL_PORTS  16")
+
+cpp_quote("/* Trinity busses (idealized - not actual hardware config) */")
+cpp_quote("#define BUS_MAIN      0")
+cpp_quote("#define BUS_INPUT     1")
+cpp_quote("#define BUS_INOUT     2")
+cpp_quote("#define BUS_INTERNAL  3")
+cpp_quote("#define BUS_SERIAL    4")
+
+cpp_quote("/* Internal 'bus' slot constants */")
+cpp_quote("#define SLOT_SWITCHER 0")
+cpp_quote("#define SLOT_ROUTER   1")
+cpp_quote("#define SLOT_MIXER    2")
+cpp_quote("#define SLOT_TIMELINE 3")
+cpp_quote("#define SLOT_KERNEL   4")
+
+
+//+---------------------------------------------------------------------------
+//  Forward declarations
+//----------------------------------------------------------------------------
+interface ITrnConnectionClient;
+interface ITrnConnection;
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnConnectionClient
+//
+//  Purpose:    Defines the interface implemented by clients of
+//              ITrnConnection.
+//+---------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e3ed-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+
+interface ITrnConnectionClient : IUnknown
+{
+  //
+  // NOTE that all three of these OnAsyncXxx functions receive the buffer
+  // address as a parameter.  This is so that the module proxy does not have
+  // to keep track of the buffer if it doesn't want to since connection has
+  // to keep track of it anyway.
+  //
+  // Called by a worker thread when an asynchronous DMA receive operation
+  // is completed.
+  //
+  HRESULT OnAsyncReceive(
+    [in] LPVOID pBuffer,                // the buffer where the data was written
+    [in] DWORD socketNumber,            // socket number which received data
+    [in] BOOL repeated                  // repeated flag from the async wait
+    );
+
+  typedef struct tagSTrnMessageHeader *PSTrnMessageHeader;
+
+  //
+  // Called by a worker thread when an asynchronous small message is
+  // received.
+  //
+  HRESULT OnAsyncMessage(
+    [in] PSTrnMessageHeader pBuffer,    // buffer containing data
+    [in] BOOL repeated                  // repeated flag from the async wait
+    );                                  // the implementation must copy this
+                                        // buffer if the data is needed
+  //
+  // Called by a worker thread when an asynchronous wait event
+  // (either DMA or Message) resulted in an error.
+  //
+  HRESULT OnAsyncError(
+    [in] LPVOID pBuffer,                // the original receive buffer
+    [in] DWORD socketNumber,            // socket number which caused error
+    [in] DWORD ErrCode                  // Win32 ERROR_xxx code which occured
+    );
+
+  //
+  // Called from within SyncGetImageXxxxxx to prepare the module to transfer
+  // one block of a synchronous DMA transfer.
+  //
+  HRESULT SetupSyncImageBlock(
+    [in] DWORD socketNumber,            // socket number associated with transfer
+    [in] DWORD offset,                  // offset within transfer
+    [in] DWORD remainder,               // bytes yet to be transferred
+    [in,out] LPDWORD blockSize          // in:suggested, out:actual blocksize
+    );
+}
+
+cpp_quote("#define CONNECT_SIMULATION   0")
+cpp_quote("#define CONNECT_VIDEONET     1")
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnConnection
+//
+//  Purpose:    Defines the interface used by hardware module proxies to
+//              communicate with their hardware.
+//+---------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e3ee-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+
+interface ITrnConnection : IUnknown
+{
+  //
+  // STrnMessageHeader defines the begining of all messages (not DMA
+  // blocks) transferred between the host and Trinity.
+  // DestSocket specifies the destination of the message, ReplySocket
+  // specifies the socket to which replies (reponses) to this message
+  // should be sent.  Commands are sent to a "well known" socket within
+  // Trinity.
+  //
+  typedef struct tagSTrnMessageHeader
+  {
+    ULONG       DestSocket;     // The destination socket number
+    ULONG       ReplySocket;    // The socket where any reply should be sent.
+    ULONG       DataLength;     // length of the Data[] field. May be zero.
+    //  BYTE      Data[];       // variable size data.
+  } STrnMessageHeader;
+
+  //
+  // Return the version number of the underlying connection mechanism.
+  //
+  HRESULT GetConnectionInfo(
+    [out]   ULONG* pVersion,    // version of connection mechanism.
+    [out]   ULONG* pType );     // type of connection. See #define CONNECT_xxx
+
+  //
+  // Obtain a socket number which is currently unassigned
+  //
+  ULONG GetUniqueSocketNumber();
+
+  //
+  // Return the listen-socket for the specified bus and slot.
+  //
+  ULONG GetListenSocketForSlot( ULONG bus, ULONG slot);
+
+  //
+  // Returns the bus and slot for a given well-known socket.
+  //
+  void  GetSlotFromSocket(
+    [in]    ULONG Socket,
+    [out]   ULONG* pBus,
+    [out]   ULONG* pSlot );
+
+  //
+  // Return the maximum message size this connection can support.
+  // This is the largest size which may be passed to any message
+  // function (SendMessage, WaitMessage, TransactMessage).
+  //
+  ULONG GetMaxMsgSize();
+
+  //
+  // Allocate a buffer of at least *pBuffSize bytes in page-locked memory.
+  // Fills in *ppBuffer and *pBuffSize with address and size of buffer.
+  // This assumes that the requested size is small (<=1K).
+  //
+  HRESULT GetMsgBuffer(
+    [in, out]   DWORD*  pBuffSize,
+    [out]       PSTrnMessageHeader* ppBuffer
+    );
+
+  //
+  // Allocate a buffer of at least *pBuffSize bytes in page-locked memory.
+  // Fills in *ppBuffer and *pBuffSize with address and size of buffer.
+  // This assumes that the requested size is LARGE (kilobytes or megabytes).
+  //
+  HRESULT GetDMABuffer(
+    [in, out]   DWORD*  pBuffSize,
+    [out]       LPVOID* ppBuffer
+    );
+
+  //
+  // Free a buffer allocated with GetXxxBuffer
+  //
+  HRESULT FreeBuffer(
+    [in]        LPVOID  pBuffer
+    );
+
+  //
+  // Set the communication timeout for this client.
+  // This is the maximum length of time that any given I/O request
+  // may be outstanding. If the timeout period elapses, the request
+  // will complete with a timeout error.
+  //
+  // This applies only to functions which do not have a timeout parameter
+  //
+  HRESULT SetTimeout(
+    [in]        ULONG   Timeout         // timeout in seconds
+    );
+
+  ULONG   GetTimeout();
+
+  //
+  // For message functions which require buffer parameters, the client is
+  // responsible for management of those buffers.  They should be (but are
+  // not required to be) buffers allocated by ITrnConnection::GetMsgBuffer().
+  // For example, in the case of a repeated tape command, the buffer address
+  // and socket number are passed to ITrnConnectionClient::OnAsyncMessage() when
+  // the message arrives.  That same buffer is re-submitted to the driver
+  // for use on the next wait after this call.  Therefore, the client must
+  // copy the data out of the buffer before returning from OnAsyncMessage
+  // if the data is still required later.
+  //
+  // !! NOTE NOTE !!
+  //
+  // For Transact, and Send Message functions, the relevant
+  // socket numbers MUST be filled in in the STrnMessageHeader structure
+  // by the caller PRIOR to calling these functions.  A slight exception
+  // exists for TransactMessage: The socket numbers in the Receive Buffer
+  // are ignored.  Both Dest and Reply Sockets are taken from the Send Buffer.
+
+  //
+  // Synchronously send a message and wait for a response.  The message is
+  // sent to the receiver specified by pSendBuffer->DestSocket.  The function
+  // then waits for a reply on pSendBuffer->ReplySocket.
+  //
+  HRESULT TransactMessage(
+        PSTrnMessageHeader  pSendBuffer,
+        PSTrnMessageHeader  pRcvBuffer,
+        ULONG               rcvBuffSize,
+        ULONG               Timeout
+        );
+
+  //
+  // Synchrounously send a small (command) message.  The message is sent to
+  // the receiver at pBuffer->Destsocket.
+  //
+  HRESULT SendMessage(
+    PSTrnMessageHeader  pBuffer
+    );
+
+  //
+  // Synchronously wait for a small (response) message.
+  //
+  HRESULT WaitMessage(
+    PSTrnMessageHeader  pBuffer,
+    ULONG               buffSize,
+    ULONG               Timeout,
+    ULONG               waitSocket
+    );
+
+  //
+  // Small object async upload (e.g. tape command response).  Call is
+  // synchronous to caller, data transfer is asynchronous to caller.
+  //
+  // Clients which do not want to use TransactMessage should use this
+  // function and SendMessage.  Call this function before SendMessage.
+  //
+  // Calls ITrnConnectionClient::OnAsyncMessage() when data is available.
+  //
+  // If repeated is TRUE, then the wait will be re-submitted to the driver
+  // with the same socket number and buffer address.  This means that if
+  // the client KNOWS that it is OK to look at this buffer even though it
+  // may be only partially updated, then the client does not need to copy
+  // the data out of the buffer in ITrnConnectionClient::OnAsyncMessage()...
+  // This is an exceptional case which the client must treat carefully.
+  // This is specified so that the performance increase possible by not
+  // copying is available.
+  //
+  // The buffer specified by pBuffer should be (but is not required to be)
+  // one obtained through ITrnConnection::GetMsgBuffer.
+  //
+  // If an error occurs with a repeated Async Wait, then the repeating
+  // aspect of the wait is cancelled. No call to CancelAsyncTransfer is
+  // required.
+  //
+  HRESULT AsyncWaitMessage(
+    PSTrnMessageHeader  pBuffer,        // address to place message
+    ULONG               buffSize,       // size of buffer
+    ULONG               Timeout,        // Timeout in seconds.
+    ULONG               waitSocket,     // socket number to wait on
+    BOOL                repeated,       // TRUE if multiple transfers will occur
+    ITrnConnectionClient*    pCaller         // interface to notify when data is available
+    );
+
+
+  //
+  // Large object download - e.g. anim transfer.  Synchronous to caller.
+  //
+  // Asynchronous download must be implemented by clients using this
+  // interface (and one or more additional threads)
+  //
+  // SyncSendImageXxxxxx
+  //  common parameters:
+  //    size          -    the size of the image to be downloaded
+  //    targetAddress -    the address, in Trinity Coordinator address space
+  //                       which is the destination of the transfer
+  //
+  HRESULT SyncSendImageMemory(
+    LPVOID  start,          // pointer to start of image in client memory
+    ULONG   size,
+    DWORD   targetAddress,
+    BOOL    swapBytes
+    );
+
+  HRESULT SyncSendImageStream(
+    IStream* pStream,       // stream, positioned at start of image
+    ULONG   size,
+    DWORD   targetAddress,
+    BOOL    swapBytes
+    );
+
+  HRESULT SyncSendImageFile(
+    HANDLE  hFile,          // file, positioned at start of image
+    ULONG   size,
+    DWORD   targetAddress,
+    BOOL    swapBytes
+    );
+
+  HRESULT SyncSendImageFileMapping(
+    HANDLE  hMap,           // file mapping
+    ULONG   offset,         // offset in file mapping of start of image
+    ULONG   size,
+    DWORD   targetAddress,
+    BOOL    swapBytes
+    );
+
+  //
+  // Large object upload - e.g. clib grab image. Call is synchronous to caller,
+  // data transfer is asynchronous to caller.
+  //
+  // Calls ITrnConnectionClient::OnAsyncReceive(socketNumber) when data is
+  // transferred.
+  //
+  HRESULT
+  AsyncGetImageMemory(
+    LPVOID  start,                  // pointer to start of buffer
+    ULONG   size,                   // size of buffer
+    DWORD   socketNumber,           // socket number to use for receiving DMA
+    BOOL    repeated,               // TRUE if multiple transfers may occur
+    BOOL    swapBytes,
+    ITrnConnectionClient* pCaller   // interface to notify when transfer occurs
+    );
+
+  HRESULT
+  AsyncGetImageFileMapping(
+    HANDLE  hMap,                   // handle to file mapping
+    ULONG   offset,                 // offset of buffer within file mapping
+    ULONG   size,                   // size of buffer
+    DWORD   socketNumber,           // socket number to use for receiving DMA
+    BOOL    repeated,               // TRUE if multiple transfers may occur
+    BOOL    swapBytes,
+    ITrnConnectionClient* pCaller   // interface to notify when transfer occurs
+    );
+
+  //
+  // Large object upload - synchronous to caller (e.g. NLE Clip Read)
+  //
+  // Calls ITrnConnectionClient::SetupSyncImageBlock
+  // Calls ITrnConnection::AsyncGetImageXxxxxxxx internally to do transfer(s)
+  //
+  HRESULT SyncGetImageMemory(
+    LPVOID  buffer,
+    ULONG   size,               // total transfer size (buffer size)
+    DWORD   socketNumber,       // socket number to use for receiving DMA
+    BOOL    swapBytes,
+    ITrnConnectionClient* pCaller    // interface to call for block setup
+    );
+
+  HRESULT SyncGetImageFileMapping(
+    HANDLE  hMap,               // handle to file mapping
+    ULONG   offset,             // offset of buffer within file mapping
+    ULONG   size,               // total transfer size (buffer size)
+    DWORD   socketNumber,       // socket number to use for receiving DMA
+    BOOL    swapBytes,
+    ITrnConnectionClient* pCaller    // interface to call for block setup
+    );
+
+  HRESULT SyncGetImageStream(
+    IStream* pStream,           // stream, positioned at start of image
+    ULONG   size,               // total transfer size
+    DWORD   socketNumber,       // socket number to use for receiving DMA
+    BOOL    swapBytes,
+    ITrnConnectionClient* pCaller    // interface to call for block setup
+    );
+
+  HRESULT SyncGetImageFile(
+    HANDLE  hFile,              // file, positioned at start of image
+    ULONG   size,               // total transfer size
+    DWORD   socketNumber,       // socket number to use for receiving DMA
+    BOOL    swapBytes,
+    ITrnConnectionClient* pCaller    // interface to call for block setup
+    );
+
+  //
+  // Raw memory read from Trinity's address space - synchronous to caller
+  // The socketNum parameter directs the read and write requests to the
+  // driver for the desired module.  Therefore, the source or dest address
+  // specifies the address from the module's point of view.
+  //
+  HRESULT SyncReadMemory(
+    DWORD   socketNum,
+    DWORD   sourceAddress,
+    DWORD   alignment,          // 1=Byte, 2=Word, 4=DWord
+    DWORD   size,
+    LPVOID  pBuffer
+    );
+
+  //
+  // Raw memory write to Trinity's address space - synchronous to caller
+  //
+  HRESULT SyncWriteMemory(
+    DWORD   socketNum,
+    DWORD   destAddress,
+    DWORD   alignment,          // 1=Byte, 2=Word, 4=DWord
+    DWORD   size,
+    LPVOID  pBuffer
+    );
+
+  //
+  // Cancel an outstanding asynchronous transfer.
+  // This functions performs NO action on Trinity to cancel any outstanding
+  // transfers.  Cancelation of transfers on Trinity is the responsibility
+  // of the caller.
+  //
+  HRESULT CancelAsyncTransfer(
+    DWORD   socketNumber        // socket number to be cancelled
+    );
+
+  //
+  // Wait for VBlank and return the local time.  Note that since performance
+  // on the PC is not guaranteed, local time may increase by more than 1
+  // between successive calls to this function.  This is a blocking function
+  // which returns synchronous with VBlank on Trinity (or as close to
+  // synchronous as we can get).
+  //
+  HRESULT WaitVBlank(
+    [out] LPDWORD pLocalTime
+    );
+
+  //
+  // Structures and functions for segmented (or window) DMA transfers
+  //
+  typedef struct tagSTrnDmaWindow
+  {
+    LPVOID  base;                   // address of first byte of transfer
+    DWORD   height;                 // number of lines in transfer
+    DWORD   width;                  // number of bytes per segment
+    LONG    stride;                 // signed offset from line to line
+  } STrnDmaWindow;
+
+  HRESULT LockWindowBuffer(
+    STrnDmaWindow*  pWindows,       // pointer to base of windows array
+    DWORD           nWindows,       // number of windows in array
+    DWORD*          pdwBufferId     // pointer to variable which receives buffer id
+    );
+
+  HRESULT UnlockWindowBuffer(
+    DWORD           dwBufferId      // buffer id from LockWindowBuffer()
+    );
+
+  HRESULT SyncSendImageMemoryWindow(
+    DWORD           dwBufferId,     // buffer id from LockWindowBuffer()
+    DWORD           socketNumber,   // socket number to use for receiving DMA
+    DWORD           targetAddress,
+    BOOL            swapBytes
+    );
+
+  HRESULT AsyncGetImageMemoryWindow(
+    DWORD           dwBufferId,     // buffer id from LockWindowBuffer()
+    DWORD           socketNumber,   // socket number to use for receiving DMA
+    BOOL            repeated,       // TRUE if multiple transfers may occur
+    BOOL            swapBytes,
+    ITrnConnectionClient* pCaller   // interface to notify when transfer occurs
+    );
+
+  //
+  // Application management functions
+  //
+  ULONG GetApplicationTag();   
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnConnection2
+//
+//  Purpose:    Defines the interface used by hardware module proxies to
+//              communicate with their hardware.
+//+---------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e63d-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+
+interface ITrnConnection2 : ITrnConnection
+{
+  //
+  //  Determine if the connection is up & what state Trinity is in
+  //  
+  //  Return values:  any error hr    - connection is NOT up
+  //                    specifically VNKE_SyncError (E8060201) means Trinity is off or unconnected
+  //                  S_OK            - connection is UP and Trinity is Initialized
+  //                  S_FALSE         - connection is UP but Trinity is NOT initialized
+  //
+  HRESULT GetConnectionStatus();
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnConnectionControl
+//
+//  Purpose:    Defines the "constructor" interface to CTrnConnection.
+//              This is used by CTrnVideoSystem to hook up the connection
+//              to the VideoNet device.
+//
+//  Interface:  Connect       -- Establishes the connection based on
+//                               information stored in the registry key.
+//
+//+---------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e3f8-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnConnectionControl : IUnknown
+{
+  HRESULT Connect( HKEY hSystemKey );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnConnectionControl2
+//+---------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e63f-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnConnectionControl2 : ITrnConnectionControl
+{
+  typedef enum tagETrnConnectOptions
+  {
+    CODontWait = 1
+  } ETrnConnectOptions;
+
+  HRESULT ConnectEx(
+    [ in ] DWORD dwOptions,
+    [ in ] HKEY  hkSystemKey
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ILockMemory
+//
+//  Purpose:    Interface to an abstract memory locking mechanism
+//
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e63c-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ILockMemory : IUnknown
+{
+  HRESULT   LockBuffer(
+    [in]    LPVOID    pBuffer,
+    [in]    DWORD     dwBuffSize
+    );
+
+  HRESULT   UnlockBuffer(
+    [in]    LPVOID    pBuffer,
+    [in]    DWORD     dwBuffSize
+    );
+}
+
+// End of TrnOem.Idl

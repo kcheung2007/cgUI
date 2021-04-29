@@ -1,0 +1,24 @@
+#*************************************************************#
+#** Makefile for Trinity public interface library           **#
+#** Products:                                               **#
+#**   intrface.lib - public interfaces library              **#
+#*************************************************************#
+#
+# Library - the public library in this directory
+# Project - the name of the MSVC project makefile for the product
+#
+# library is now obsolete - only compile the IDL's
+#
+#LIBRARY = INTRFACE.LIB
+#PROJECT = intrface
+IDLFILE = TRNITY
+IDLFILE2= TRNOEM
+IDLFILE3= AUTOCT
+IDLFILE4= SMEDIA
+IDLFILE5= SImpleVid
+IDLFILE6= TFXFILE
+IDLFILE7= PLYLST
+IDLFILE8= NLRIDL
+!include <..\trinity.mak>
+!include .depend
+

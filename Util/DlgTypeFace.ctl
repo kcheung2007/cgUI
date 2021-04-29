@@ -1,0 +1,17 @@
+[Text String]
+IDD_TYPE_FACE_OPT		"Type Face Options"
+IDC_STC_ITALIC_ANGLE		"Italic Angle"
+IDC_STC_SMALL_CAP_HEIGHT	"Small Cap Height"
+IDC_STC_SUPER_SIZE		"Size"
+IDC_STC_SUPER_OFFSET		"Offset"
+IDC_STC_SUB_SIZE		"Size"
+IDC_STC_SUB_OFFSET		"Offset"
+IDC_STC_UNDERLN_SIZE		"Size"
+IDC_STC_UNDERLNE_OFFSET		"Offset"
+IDC_STC_COLOR			"Color"
+IDC_STC_SUPERSCRIPT		"Superscript"
+IDC_STC_SUBSCRIPT		"Subscript"
+IDC_STC_UNDERLINE		"Underline"
+IDOK				"OK"
+IDCANCEL			"Cancel"
+end

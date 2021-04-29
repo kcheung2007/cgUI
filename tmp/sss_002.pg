@@ -1,0 +1,368 @@
+InnoVision Title Document
+DocVersion{17}
+*************************
+SEC_PageInfo{}
+PageTypeStill{}
+DocVersion{17}
+PageExportsAlpha{1}
+PageResolution{720 486 1.333333 }
+PageMargins{100.000000 900.000000 133.333303 1199.999730}
+PageGrids{-842150451 -842150451 -842150451 -842150451 -842150451 -842150451 -842150451 0}
+ExportFilename{""""}
+PageTab{0.166667 0}
+PageTab{0.233333 0}
+PageTab{0.300000 0}
+PageTab{0.366667 0}
+PageTab{0.433333 0}
+PageTab{0.500000 0}
+PageTab{0.566667 0}
+PageTab{0.633333 0}
+PageTab{0.700000 0}
+PageTab{0.766667 0}
+LineSpacing{0}
+LineJustify{left}
+SEC_End{}
+*******************************
+*******************************
+SEC_StyleList{}
+**************************************************
+BeginStyle{1}
+ObjectType{0}
+FontGraphicName{""Wingdings""}
+FontType{4}
+SizeCur{65.843621 76.958460}
+SizeOrig{10.000000 10.000000}
+BaselineUserPivotRotation{0.000000}
+ItalicAngle{0.000000}
+Boldness{400.000000}
+SmallCapsSizeScale{0.900000}
+SmallCapsEnable{0}
+Roundness{0.000000}
+FlashEnable{0}
+SubscriptMode{0.000000}
+SubscriptScale{0.500000}
+SubscriptOffsetFromDefaultPos{0.000000}
+UnderlineEnable{0}
+UnderlineHeight{0.000000}
+UnderlineOffset{0.000000}
+GraphicAlphaMode{0}
+GraphicBlackTrimLevel{0}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{255}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ RGBP{255 255 255 0.000000} RGBP{124 124 255 0.500000} RGBP{49 49 124 1.000000} Rot{0} }   }
+AlphaMask{ Spread{ RGBP{255 255 255 0.000000} Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{2.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{6.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ RGBP{128 32 32 0.000000} RGBP{240 224 64 0.735714} RGBP{128 16 16 1.000000} Rot{90} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{2.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+EndStyle{}
+**************************************************
+BeginStyle{0}
+ObjectType{0}
+FontGraphicName{""MS Mincho""}
+FontType{4}
+SizeCur{185.185185 185.185185}
+SizeOrig{10.000000 10.000000}
+BaselineUserPivotRotation{29.654147}
+ItalicAngle{0.000000}
+Boldness{400.000000}
+SmallCapsSizeScale{0.900000}
+SmallCapsEnable{0}
+Roundness{0.000000}
+FlashEnable{0}
+SubscriptMode{0.000000}
+SubscriptScale{0.500000}
+SubscriptOffsetFromDefaultPos{0.000000}
+UnderlineEnable{0}
+UnderlineHeight{0.000000}
+UnderlineOffset{0.000000}
+GraphicAlphaMode{0}
+GraphicBlackTrimLevel{0}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{255}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ RGBP{255 255 255 0.000000} RGBP{124 124 255 0.500000} RGBP{49 49 124 1.000000} Rot{0} }   }
+AlphaMask{ Spread{ RGBP{255 255 255 0.000000} Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{2.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{12.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ RGBP{128 32 32 0.000000} RGBP{240 224 64 0.735714} RGBP{128 16 16 1.000000} Rot{90} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{1}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{2.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+**************
+BeginSurface{}
+Enabled{1}
+BaseShapeSurface{0}
+StyleType{0}
+GraphicsOp{0}
+GraphicsOpAmt{0}
+DisplayPri{0}
+SizeParam{0.000000}
+FeatherSize{0.000000}
+BevelType{0}
+BevelSize{0.000000}
+DirectionDeg{0.000000}
+DirectionOffset{0.000000}
+ColorMappingMode{0}
+TextureColor{ Spread{ Rot{0} }   }
+AlphaMask{ Spread{ Rot{0} }   }
+EndSurface{}
+EndStyle{}
+SEC_End{}
+*******************************
+*******************************
+SEC_LayerList{}
+
+*******************************
+Layer{ 100.000000 900.000000 133.333303 1199.999730  0 }
+Paragraph{0 0 0}
+Line{ 0 12.000000 0.000000 0.000000 0.000000  0 10.000000 10.000000  0.000000 0.000000  81.876543 65.843621 81.876543 19.160494  }
+Paragraph{0 0 0}
+Line{ 0 12.000000 461.288582 461.288582 0.000000  1 594.621885 529.531568  0.000000 0.000000  185.092593 185.185185 429.531568 30.277778  }
+Style{0}
+CharSpacing{0.000000}
+ObjPriority{64}
+ObjOffset{0.000000 0.000000 -96.586498 -17.985253}
+T{0x4f60}
+ObjOffset{0.000000 0.000000 -91.165807 -24.492542}
+T{0x597d}
+ObjOffset{0.000000 0.000000 -85.062804 -40.340526}
+T{0x5417}
+ObjOffset{0.000000 0.000000 -83.056416 -52.738116}
+T{0xff1f}
+Paragraph{0 0 0}
+Line{ 0 12.000000 290.816779 290.816779 0.000000  1 424.150082 254.582485  0.000000 0.000000  96.658436 65.843621 154.582485 24.493827  }
+Paragraph{0 0 0}
+Line{ 0 12.000000 81.785877 81.785877 0.000000  1 215.119180 319.755601  0.000000 0.000000  89.733565 76.958460 219.755601 21.048139  }
+Style{1}
+ObjOffset{0.000000 0.000000 0.000000 -43.874978}
+T{0x64}
+ObjOffset{0.000000 0.000000 -0.027268 -43.874978}
+T{0x61}
+ObjOffset{0.000000 0.000000 -0.054536 -43.874978}
+T{0x63}
+ObjOffset{0.000000 0.000000 -0.081803 -43.874978}
+T{0x65}
+ObjOffset{0.000000 0.000000 -0.109071 -43.874978}
+T{0x76}
+Paragraph{0 0 0}
+Line{ 0 12.000000 783.967353 783.967353 0.000000  1 917.300656 625.254582  0.000000 0.000000  76.773663 65.843621 525.254582 18.008230  }
+Paragraph{1 0 0}
+Line{ 0 12.000000 0.000000 0.000000 0.000000  0 10.000000 10.000000  0.000000 0.000000  81.876543 65.843621 81.876543 19.160494  }
+SEC_End{}
+*******************************

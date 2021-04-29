@@ -1,0 +1,1098 @@
+//+---------------------------------------------------------------------------
+//
+//  Simple Video API
+//  Copyright (C) Play Incorporated, 1995
+//
+//  PRELIMINARY - ALL SPECIFICATIONS SUBJECT TO CHANGE
+//  PLAY CONFIDENTIAL - DO NOT DISTRIBUTE
+//
+//  File:       svideo.idl
+//
+//  Contents:   definition for all Simple Video API interfaces
+//
+//  History:    June 29,      1995   cpdaniel  created
+//              February 13,  1996   cpdaniel  last modified
+//              July 24,      1996   cmdaniel  near complete re-write
+//              Sept 3,       1996   cpdaniel  minor tweaks
+//              Oct 11,       1996   cpdaniel  added effect interfaces
+//              Dec 12,       1996   cpdaniel  thrashed again
+//              Feb 10,       1997   cpdaniel  still tweaking
+//
+//----------------------------------------------------------------------------
+//
+//  The Simple Video API provides a hardware independent programming interface
+//  which supports the creation of many special and general purpose video
+//  production tools.  The API presents a general purpose effects/switcher
+//  system model which supports most common video production needs.
+//
+//----------------------------------------------------------------------------
+
+import "wtypes.idl";
+import "unknwn.idl";
+import "objidl.idl";
+import "trnity.idl";
+import "autoct.idl";
+import "tfxfile.idl";
+
+//+---------------------------------------------------------------------------
+// Forward declarations - declared in this file
+//----------------------------------------------------------------------------
+interface IVidSource;
+interface IVidLiveSource;
+interface IVidFramestoreSource;
+interface IVidMatteSource;
+interface IVidAdviseSink2;
+interface IVidEffect;
+interface IVidSimpleVideo;
+
+  typedef enum tagEVidSource
+  {
+    VSPgmOut = 0,
+    VSChan1,
+    VSChan2,
+    VSChan3,
+    VSChan4,
+    VSChan5,
+    VSChan6,
+    VSChan7,
+    VSChan8,
+    // ...
+    VSBlack = 100,
+    VSMatte1,
+    VSMatte2,
+    // ...
+    VSFrame1 = 200,
+    VSFrame2,
+    // ...
+    VSClip1  = 300,
+    VSClip2,
+    // ...
+    VSBusSource1 = 400
+    // ...
+  } EVidSource;
+
+cpp_quote("#define VSBusSource(b) EVidSource(VSBusSource1+(b))")
+
+  typedef enum tagEVidBus
+  {
+    VBGraphics = -2,   // special "bus" - only usable by SetPreviewSource
+    VBSystemOut = -1,  // special "bus" - only usable by SetPreviewSource
+    VBProgram = 0,
+    VBPreset,
+    VBKey,
+    VBKeyPreset,
+    VBDSK,
+    VBDSKPreset,
+    VBAux1,       // additional "busses" for multi-source effects
+    VBAux2,
+    VBAux3,
+    VBAux4,
+    VBAux5,
+    VBAux6,
+    VBAux7,
+    VBAlpha1,
+    VBAlpha1Preset,
+    VBAlpha2,
+    VBAlpha2Preset,
+    // ...
+    VBNoBus = 0xff    // special "bus" - used internally only
+  } EVidBus;
+
+  typedef enum tagEVidMixerMode
+  {
+    MMNormal,
+    MMChromaKey,
+    MMAntiColor,
+    MMAntiColorAdd,
+    MMLumaKey,
+    MMExternalKey
+  } EVidMixerMode;
+
+//+---------------------------------------------------------------------------
+//  Class:      IVidAsyncAdvise
+//
+//  Purpose:    Defines the client-implemented interface which receives 
+//              notifications when client-initiated object loads or saves
+//              are complete.
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e5ec-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IVidAsyncAdvise : IUnknown
+{
+  typedef enum tagEVidOperation
+  {
+    VOLoaded,     // loaded from memory/stream
+    VOSaved,      // saved to memory/stream
+    VOGrabbed     // grabbed from live source
+  } EVidOperation;
+
+  HRESULT OnOperationComplete(
+    [in]  EVidSource          whichSource,
+    [in]  DWORD               objectId,
+    [in]  EVidOperation       whatOp,
+    [in]  HRESULT             result
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      IVidSource
+//
+//  Purpose:    Defines the interface for an abstract picture source
+//              which can be routed
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e5ef-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IVidSource : IUnknown
+{
+  // Return the enumerator used to identidfy this source to the router
+  EVidSource QuerySourceId();
+
+  // Return the lowest numbered source in the same category as this one
+  // e.g.  VSBlack, VSChan1, VSPgmOut, VSMatte1, VSClip1, ...
+  EVidSource QuerySourceType();
+
+  //
+  // Return a pointer to an internal interface, if available.  The interfaces
+  // returned by this function may be on the same object as this, or may be
+  // on a different object (i.e. don't make assumptions about what interfaces
+  // you can or cannot obtain by calling QueryInterface() on these pointers).
+  //
+  // Interfaces which are available vary depending on the input type.
+  //
+  HRESULT QueryInternalInterface(
+    [in]  REFIID riid, 
+    [out] void** ppvObj
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      IVidLiveSource
+//
+//  Purpose:    Defines the interface for an abstract live video input
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e5e7-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IVidLiveSource : IVidSource
+{
+  //
+  // Set Strobe/Free-run mode for video source
+  // A rate of zero is frozen.  Setting the rate to zero when it is already
+  // zero will cause another frame to be grabbed.
+  //
+  HRESULT SetStrobe(
+    [in]  STrnTimeType*       pTime,
+    [in]  DWORD               strobeRate,     // 1=freeRun, x=strobe
+    [in]  DWORD               strobePhase     // 0 means frame at pTime is 
+                                              // the first grabbed
+                                              // strobePhase must be < strobeRate
+    );
+
+  //
+  // Save functions - saves a grab from this source without 
+  // disturbing the currently defined framestore sources
+  //
+  // These functions are ASYNC
+  //
+  HRESULT SaveFrameStream(
+    [in]  STrnTimeType*         pTime,
+    [in]  IStream*              pStream,
+    [out] DWORD*                pObjectId,
+    [in]  IVidAsyncAdvise*      pAdvise
+    );
+
+  HRESULT SaveFrameMemory(
+    [in]  STrnTimeType*         pTime,
+    [in]  SPlayBitMap*          pFrameStore,
+    [out] DWORD*                pObjectId,
+    [in]  IVidAsyncAdvise*      pAdvise
+    );
+
+  //
+  // Load an input effect (e.g. color effect).  
+  // Typically the ITrnEffectInput* will have come from 
+  // IVidAdviseSink2::OnInputEffectLoad()
+  //
+  HRESULT LoadEffect(
+    [in]  ITrnEffectFile*   pTfxFile,     // the TFX file
+    [in]  ITrnEffectInput*  pTfxInput,    // the section of the tfx file (see tfxfile.idl)
+    [out] DWORD*            pObjectId,    // pointer to the new effect - get
+                                          // an IVidEffect* by calling 
+                                          // GetEffectInstnace on IVidSimpleVideo
+    [in]  IVidAsyncAdvise*  pAdivse
+    );
+
+  //
+  // Load a specific input effect from an open TFX file.
+  //
+  HRESULT LoadEffectIndexed(
+    [in]  ITrnEffectFile*   pTfxFile,     // the TFX file
+    [in]  unsigned          index,        // which input (0..n) from the file
+    [out] DWORD*            pObjectId,    // pointer to the new effect - get
+                                          // an IVidEffect* by calling 
+                                          // GetEffectInstnace on IVidSimpleVideo
+    [in]  IVidAsyncAdvise*  pAdivse
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      IVidLiveSource2
+//
+//  Purpose:    Defines the interface for an abstract live video input
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e444-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IVidLiveSource2 : IVidLiveSource
+{
+  //
+  // Return the instantaneous strobe rate & phase of the input and the
+  // system time at which the measurement was made.
+  //
+  HRESULT QueryStrobe(
+    DWORD*  pRate,
+    DWORD*  pPhase,
+    DWORD*  pSysTime
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      IVidMatteSource
+//
+//  Purpose:    Defines the interface for a matte source
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e5e8-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IVidMatteSource : IVidSource
+{
+  //
+  // Set the color of a matte source
+  //
+  HRESULT SetMatteColor(
+    [in]  STrnTimeType*       pTime,
+    [in]  DWORD               color             // YCrCb
+    );
+}
+
+//----------------------------------------------------------------------------
+//  Class:      IVidFramestoreSource
+//
+//  Purpose:    Defines the interface for a framestore source
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e5e9-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IVidFramestoreSource : IVidSource
+{
+  //
+  // Load a still store into the specified virtual source ASYNC
+  //
+  HRESULT LoadFrameStoreStream(
+    [in]  IStream*      pStream,
+    [out] DWORD*        pObjectId,
+    [in]  IVidAsyncAdvise* pAdvise
+    );
+
+  HRESULT LoadFrameStoreMemory(
+    [in]  SPlayBitMap*  pFrameStore,
+    [out] DWORD*        pObjectId,
+    [in]  IVidAsyncAdvise* pAdvise
+    );
+
+  //
+  // Save the current contents of a framestore to a stream or bitmap
+  // Functions are ASYNC
+  //
+  HRESULT SaveFrameStoreStream(
+    [in]  IStream*      pStream,
+    [out] DWORD*        pObjectId,
+    [in]  IVidAsyncAdvise* pAdvise
+    );
+
+  HRESULT SaveFrameStoreMemory(
+    [in]  SPlayBitMap*  pFrameStore,
+    [out] DWORD*        pObjectId,
+    [in]  IVidAsyncAdvise* pAdvise
+    );
+
+  //
+  // Grab a frame from a live source into the framestore
+  //
+  HRESULT GrabLiveFrame(
+    [in]  STrnTimeType* pTime,
+    [in]  EVidSource    sourceToFreeze,
+    [out] DWORD*        pObjectId,
+    [in]  IVidAsyncAdvise* pAdvise
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      IVidEffect
+//
+//  Purpose:    Defines the interface to an abstract effect
+//
+//  Interface:
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e41c-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IVidEffect : IUnknown
+{
+  //
+  // Save this effect, along with any modifications in the specified file.
+  // If the file is the one from which the effect was loaded, only property
+  // information is re-written, otherwise, the entire file is copied to
+  // make a new file.
+  //
+  HRESULT SaveAs(
+    [in]  const char*       pszFileName
+    );
+
+  //
+  // Play this effect
+  //
+  HRESULT Play(
+    [in]  STrnTimeType*     pTime,
+    [in]  BOOL              takeResources
+    );
+
+  //
+  //  Create a copy of this effect object and return an interface pointer 
+  //  to the new copy.
+  //
+  HRESULT Clone(
+    [out] IVidEffect**      ppNewEffect
+    );
+
+  //
+  //  Stop this effect, if it's currently playing.  The effect will stop
+  //  "cleanly", and will leave the system state in the specified end state.
+  //
+  //  NOTE: Stopping an effect does NOT imply that the track on which the
+  //  effect was played will become idle.  In particular, an effect (or a client)
+  //  may have scheduled events at the normal end-time of the effect.  In such
+  //  a case, the track will remain active until the normal end-time has been
+  //  reached.
+  //
+  //  If it is necessary to immediately re-trigger the controlling
+  //  track after stopping an effect, the track should be reset upon receipt 
+  //  of any effect-ending notification (see EVidEffectAction, above; in
+  //  particular, EAFinished and EAAborted should reset the track).
+  //
+  //  Note that the above methodology must NOT be applied if the effect has 
+  //  been played onto a track with other things (e.g. in an editor application).
+  //  In such cases, it's unlikely that effects will be explicitly stopped,
+  //  but if they are, the track must be allowed to continue running unless the
+  //  goal is to stop everything (in which case simply resetting the track
+  //  will force the track to go idle, and will stop all running effects on that
+  //  track).
+  //
+  typedef enum  tagEVEStopFlags
+  {
+    VEUndoEffect  = 1,      // go to the beginning of the effect when stopped
+    VEDoEffect    = 2       // go to the end of the effect when stopped
+  } EVEStopFlags;
+
+  HRESULT Stop(
+    [in]  STrnTimeType*     pTime,
+    [in]  DWORD             stopFlags // use EVEStopFlags for bits
+    );
+
+  //
+  //  Prepare the effect data for update.  This function should be called
+  //  before an effect's data (e.g. anims or bitmaps) are updated.
+  //  When the effect data is locked, a callback will be made through
+  //  IVidAdviseSink2::OnEffectAction informing the caller of a successful
+  //  lock.  Once all updates are complete, call Unlock().  The effects of 
+  //  an update may not be visible until after unlock is called!
+  //
+  //  If the effect can be locked immediately (or doesn't require locking),
+  //  the return value will be S_FALSE, and no callback will occur.
+  //
+  //  If another lock is already pending on the effect, an error will be
+  //  returned.
+  //
+  HRESULT LockForUpdate();
+
+  //
+  //  Release an effect which has been locked by LockForUpdate().  This function
+  //  must be called before changes are guaranteed to have visible effect.
+  //
+  HRESULT Unlock();
+
+  //  
+  // All effect parameters are accessed through the IPlayProperties interface,
+  // which is gotten through QueryInterface.
+  //
+  // The following are the properties which will exist for various effect
+  // types.
+  //
+  // Suggested list only - actual milage may vary
+  /*
+    Name                    Type                  User?       ReadWrite?
+    ----------------------- --------------------- ----------- -----------
+    CLSID                   GUID                  n           n
+    ClassName               String                y           n
+    ObjectId                Unsigned              n           n
+    FileName                String                n           n
+    Scalable                Boolean               n           n
+    Duration                Unsigned              y           y* (if Scalable)
+    Reversible              Boolean               n           n
+    Reversed                Boolean               y           y* (if Reversible)
+    Transition              Boolean               y           y
+    OnOffTransition         Boolean               n           n
+    OnForward               Boolean               y           n
+    ChromaKeyTransition     Boolean               y           y* (if OnOffTransition)
+    ChromaKeyType           EVidMixerMode         y           n
+    Overlay                 Boolean               y           n
+    
+    ... SMPTE Wipe properties ...
+
+    WipeNumber              Unsigned              y           y
+    SoftWipe                Boolean               y           y
+    Softness                Float                 y           y
+    Border                  Boolean               y           y
+    BorderColor             Long                  y           y
+    BorderWidth             Unsigned              y           y
+    BorderSoftness          Float                 y           y
+    HorizontalMultiple      Unsigned              y           y
+    VerticalMultiple        Unsigned              y           y
+    AspectRatio             Float                 y           y
+    PositionX               Float                 y           y
+    PositionY               Float                 y           y
+    Checkerboard            Boolean               y           y
+    ShadowX                 Float                 y           y
+    ShadowY                 Float                 y           y
+    TumbleAngle             Float                 y           y
+    TumbleAmplitude         Float                 y           y
+    TumbleSpeed             Float                 y           y
+    ModulatorFrequency      Float                 y           y
+    ModulatorAmplitude      Float                 y           y
+    ModulatorLock           Boolean               y           y
+    Split                   Boolean               y           y
+
+    ... PlaneDve effect properties ...
+
+    CenterXPath             PlayList              y           y
+    CenterYPath             PlayList              y           y
+    CenterZPath             PlayList              y           y
+    (more - 14 total?)
+
+    Well-known classes (GUIDs) will exist for the following effect types:
+    
+      ETDissolve        dissolve transition
+      ETKeyDissolve     dissolve a key on or off
+      ETDSKeyDissolve   dissolve a DS key on or off
+      ETWipe            SMPTE wipe
+      ETPlaneDve        2D Plane in 3D space
+      ETBlackFade       fade to black/from black
+      ETRenderedAnim    rendered effect
+      ETViewManager     view manager effect
+  */
+}                
+
+//+---------------------------------------------------------------------------
+//  Class:      IVidEffect2
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e455-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IVidEffect2 : IVidEffect
+{
+  // returns NOERROR if the effect is happy, or an error if the effect is in
+  // an un-playable state.
+  HRESULT EffectStatus();
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      IVidAdviseSink2
+//
+//  Purpose:    IVidAdviseSink2 is implemented by IVidSystem clients to
+//              receive notifications of various events within the video
+//              system.
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e42c-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IVidAdviseSink2 : IUnknown
+{
+
+  // Application implemented functions (callbacks)
+
+  typedef struct tagSVidRouteInfo
+  {
+    EVidBus     whichBus;
+    EVidSource  whichSource;
+  } SVidRouteInfo;
+
+  HRESULT OnRoutingChange(
+    [in]  unsigned            numUpdates,
+    [in]  SVidRouteInfo*      pUpdates  // must be copied or used before callback returns
+	  );
+
+  HRESULT OnModeChange(
+    [in]  EVidMixerMode   mode
+    );
+
+  HRESULT OnEffectLoad(
+    [in]  DWORD           objectId      // get IVidEffect*, if desired, by calling 
+                                        // IVidSimpleVideo::GetEffectInstance 
+	  );
+
+  HRESULT OnInputEffectLoad(
+    [in]  DWORD             objectId,   // the tfx file which contained this
+    [in]  ITrnEffectFile*   pTfxFile,   // the TFX file
+    [in]  ITrnEffectInput*  pTfxInput   // the section of the tfx file (see tfxfile.idl)
+    );
+
+  HRESULT OnEffectUnload(
+    [in]  DWORD           objectId
+	  );
+
+  HRESULT OnFramestoreComplete(
+    [in]  EVidSource      whichSource,
+    [in]  DWORD           objectId,
+    [in]  EVidOperation   whatOp
+	  );
+
+  HRESULT OnAsyncError(
+    [in]  DWORD           objectId,
+    [in]  HRESULT         loadResult
+    );
+
+  typedef enum tagEVidEffectAction
+  {
+    EAStarted,
+    EAFinished,
+    EAUnDone,
+    EAStartBlocked,   // attempted to start but couldn't get resources
+    EAAborted,        // effect was terminated by another effect starting
+    EAUnloaded,       // effect was unloaded while playing
+    EALocked,         // effect was locked for update
+    EAUnlocked,       // effect was unlocked
+    EALockFailed,     // effect was asked to lock, but something went wrong
+    EAResourceChange  // effect's resource needs have changed (properties have been updated)
+  } EVidEffectAction;
+
+  HRESULT OnEffectAction(
+    [in]  DWORD           objectId,
+    [in]  EVidEffectAction  action
+    );
+
+  //
+  // Conflict notification
+  //
+  HRESULT OnLoadConflict(
+    [in]  DWORD           newObjectId,
+    [in]  DWORD           oldObjectId,
+    [in]  BOOL            resourceWasTaken
+	  );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      IVidAdviseSink3
+//
+//  Purpose:    IVidAdviseSink3 is implemented by IVidSystem clients to
+//              receive notifications of various events within the video
+//              system.
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e40e-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IVidAdviseSink3 : IVidAdviseSink2
+{
+  typedef enum tagEVidSourceAction
+  {
+    SACreated,
+    SADeleted,
+    SALive,
+    SAStrobe,
+    SAFreeze,
+
+    SASignalState = 0x80000000,   // TRUE = SASignalXxxxx bits valid
+    SASignalDetect = 1,           // TRUE = Signal detected
+    SASignalSync   = 2,           // TRUE = Signal is synced with Trinity
+    SASignalFramed = 4            // TRUE = Signal is framed correctly (not field reversed)
+  } EVidSourceAction;
+
+  HRESULT OnSourceAction(
+    [in] EVidSource whichSource,
+    [in] EVidSource sourceType,
+    [in] EVidSourceAction action
+    );
+
+  //
+  // Called for ANY event.  dwEvent is a unique identifier which identifies the
+  // type of event (opaque for now).  dwSystemTime is the "effective time" of 
+  // the event (which is not necessarily the same as the time at which the
+  // event was signalled).
+  //
+  HRESULT OnEvent(
+    [in]  DWORD dwSystemTime,
+    [in]  DWORD dwEvent
+    );
+
+  HRESULT OnSetPreview(
+    [in]  EVidBus previewBus
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      IVidAdviseSink4
+//
+//  Purpose:    IVidAdviseSink4 is implemented by IVidSystem clients to
+//              receive notifications of various events within the video
+//              system.
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e443-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IVidAdviseSink4 : IVidAdviseSink3
+{
+  HRESULT OnSetSystemMode(
+    [in]  DWORD sysMode
+    );
+}
+
+cpp_quote("#define OBJREF_SIMPLE_VIDEO(n) OBJREF_TRINITY_ADDON(n,Play.SimpleVideo)")
+cpp_quote("#define OBJREF_SIMPLE_VIDEO_ADDON(n,m) OBJREF_SIMPLE_VIDEO(n) L\"!\" L#m")
+
+//+---------------------------------------------------------------------------
+//  Class:      IVidSimpleVideo
+//
+//  Purpose:    Interface for an idealized Program/Preview effects system.
+//
+//  Interface:
+//
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e42d-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IVidSimpleVideo : IUnknown
+{
+  //
+  // Return a pointer to an internal interface, if available.  The interfaces
+  // returned by this function may be on the same object as this, or may be
+  // on a different object (i.e. don't make assumptions about what interfaces
+  // you can or cannot obtain by calling QueryInterface() on these pointers).
+  //
+  // Interfaces which are normally available:
+  //    ITrnConnection
+  //    ITrnVideoSystem
+  //    ITrnAutomationController
+  //    ITrnDiagnostics (on ITrnVideoSystem object)
+  //    ITrnVideoEncoder
+  //    ITrnGPIInputOutput
+  //    ITrnClipGrab (indexed)
+  //    ITrnSimpleAudio
+  //    IVidSource (indexed)
+  //    ITrnInputModule (indexed)
+  //
+  HRESULT QueryInternalInterface(
+    [in]  REFIID riid, 
+    [in]  DWORD  index,
+    [out] void** ppvObj
+    );
+
+  //
+  // Return an iterator which will access all the video sources, in slot
+  // order.  The returned objects will have the IVidSource interface.
+  //
+  HRESULT EnumVideoSources(
+    [out] IEnumUnknown**    ppEnum
+    );
+
+  //
+  // Establish the Advise connection with a client application.
+  //
+  HRESULT Advise(
+    [in]  IVidAdviseSink2*   pAdv
+    );
+
+  //
+  // Break ALL advise connections for the calling process.
+  //
+  HRESULT UnAdvise(
+    );
+
+  //
+  // Load an effect, returning an object id.
+  //
+  // If takeNeededResources, other effects will be unloaded to make space 
+  // for this effect.  Regardless of takeNeededResources, 
+  // IVidAdviseSink2::OnLoadConflict will be called for each conflicting
+  // effect.
+  //
+  typedef enum
+  {
+    LOTakeResources = 1,  // unload other effects to make room for this one
+    LOGfxLayer0     = 2,  // these three bits form a priority - 0 = back-most, 7 = front-most
+    LOGfxLayer1     = 4,  //    0 => switcher, 1 => 1st DS card, etc.
+    LOGfxLayer2     = 8
+  } EVidLoadOptions;
+
+  HRESULT LoadEffect(
+    [in]  ITrnEffectFile*   pTfxFile,
+    [in]  DWORD             dwLoadOptions,  // use EVidLoadOptions for bits
+    [out] DWORD*            pObjectId,
+    [in]  IVidAsyncAdvise*  pAdvise
+    );
+
+  //
+  // Unloads an effect with the specified object id.
+  //
+  HRESULT UnloadEffect(
+    [in]  DWORD             objectId
+    );
+
+  //
+  // Get a new interface pointer for an effect type which is already
+  // known (intrinsic or previously loaded).
+  //
+  HRESULT GetEffectInstance(
+    [in]  DWORD             objectId,
+    [out] IVidEffect**      ppEffect
+    );
+
+  //
+  // Create a new, empty "view manager" effect given the sizes of the
+  // buffers to be painted.
+  //
+  HRESULT CreateViewEffect(
+          DWORD             numViews,
+          DWORD             numViewports,
+          DWORD             numBitmaps,
+          DWORD             sizeBitmaps,
+          BOOL              takeNeededResources,
+          IVidEffect**      ppNewEffect  
+    );
+
+  // 
+  // Introduce a media clip to Simple Video and return an EVidSource
+  // value for that clip
+  //
+  HRESULT CreateClipSource(
+    [in]  IUnknown*           pClip,
+    [out] EVidSource*         pNewSourceId
+    );
+
+  //
+  // Remove a clip source definition
+  //
+  HRESULT DeleteClipSource(
+    [in]  EVidSource          whichSource
+    );
+
+  //
+  // Create a new framestore source, if sufficient memory is available
+  //
+  HRESULT CreateFramestoreSource(
+    [out] EVidSource*             pNewSourceId,
+    [out] IVidFramestoreSource**  ppNewSource
+    );
+
+  //
+  //  Delete a framestore source
+  //
+  HRESULT DeleteFramestoreSource(
+    [in]  EVidSource          whichSource
+    );
+
+  //
+  // Select a video source onto a bus
+  //
+  HRESULT SelectBusSource(
+    [in]  STrnTimeType*       pTime,
+    [in]  EVidBus             whichBus,
+    [in]  EVidSource          whichSource
+    );
+
+  //
+  // Exchange sources on a pair of busses (cut between busses)
+  //
+  HRESULT CutBusses(
+    [in]  STrnTimeType*       pTime,
+    [in]  EVidBus             whichBus1,
+    [in]  EVidBus             whichBus2
+    );
+
+  //
+  // Determine which video source is selected onto a particular bus
+  //
+  HRESULT QueryBusSource(
+    [in]  EVidBus             whichBus,
+    [out] EVidSource*         pWhichSource
+    );
+
+  //
+  // Selects what will be displayed on the preview output from the switcher
+  //
+  HRESULT SetPreviewSource(
+    [in]  STrnTimeType*       pTime,
+    [in]  EVidBus             whichBus
+	);
+
+  //
+  // Set the mixer mode
+  //
+  HRESULT SetMixerMode(
+    [in]  STrnTimeType*       pTime,
+    [in]  DWORD               whichMode     // use EVidMixerMode for values
+  );
+
+  //
+  // Return the current mixer mode
+  //
+  HRESULT QueryMixerMode(
+    [out] EVidMixerMode*      pMode
+  );
+
+  //
+  // Load chroma key table
+  //
+  HRESULT LoadKeyerTable(
+    [in]  unsigned            tableIdx,     // which table to load
+    [in]  void*               pTable,       // pointer to the key table
+    [in]  DWORD               dwTableSize   // number of bytes in the table
+  );
+
+  //
+  // Select which keyer table is in use
+  //
+  HRESULT SelectKeyerTable(
+    [in]  STrnTimeType*       pTime,
+    [in]  unsigned            index
+  );
+
+  //
+  // Break the advise connection previously established with Advise().
+  //
+  HRESULT UnAdvise2(
+    [in]  IVidAdviseSink2*   pAdv
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      IVidSimpleVideo2
+//
+//  Purpose:    Interface for an idealized Program/Preview effects system.
+//
+//  Interface:
+//
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e42f-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IVidSimpleVideo2 : IVidSimpleVideo
+{
+  // 
+  // Return the "bus" which is currently visible on the Preview output
+  //
+  HRESULT QueryPreviewSource(
+    [out] EVidBus*  pWhichBus
+    );
+
+  //
+  // Definitions of system mode flags
+  //
+  typedef enum tagEVidSystemFlags
+  {
+    EVSFKeyOut  = 1         //  System is operating in key-out mode
+  } EVidSystemFlags;
+
+  //
+  // Modify the system mode
+  //
+  HRESULT SetSystemMode(
+    STrnTimeType* pTime,
+    DWORD         sysMode,    // states to set     use EVidSystemFlags for bits
+    DWORD         modesMask   // bits to effect    use EVidSystemFlags for bits
+    );
+
+  //
+  // Return the current system mode
+  //
+  HRESULT GetSystemMode(
+    DWORD*        pSysMode
+    );
+
+  //
+  // Given an EVidSource, return the corresponding "base" source
+  //   e.g.   VSPgmOut -> VSPgmOut
+  //          VSChanx  -> VSChan1
+  //          VSBlack  -> VSBlack
+  //          VSMattex -> VSMatte1
+  //          VSFramex -> VSFrame1
+  //          VSClipx  -> VSClip1
+  //
+  EVidSource ClassifySource(
+    EVidSource whichSource
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      IVidSimpleVideoAddOn
+//
+//  Purpose:    Defines the interface to a simple video Add-On
+//
+//  Interface:
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e40d-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IVidSimpleVideoAddOn : IUnknown
+{
+  HRESULT Connect(
+    ITrnConnection*   pTC,
+    ITrnVideoSystem*  pVS,
+    IVidSimpleVideo*  pSV,
+    ETrnVideoEncodingFormats fmt,
+    DWORD             listenSocket
+    );
+}
+
+/*===========================================================================*\
+||                                                                           ||
+||  Copyright 1995 by Play Incorporated                                      ||
+||  PLAY CONFIDENTIAL                                                        ||
+||                                                                           ||
+||  All Specifications subject to change.                                    ||
+||                                                                           ||
+||  FILE:           PICONS.IDL                                               ||
+||                                                                           ||
+||  DESCRIPTION:    Interface description for operations dealing with picons ||
+||                                                                           ||
+||  INTERFACES:     ITrnPiconFactory                                         ||
+||                                                                           ||
+||  MODIFICATIONS:  10/21/96    T.Sprague       created                      ||
+\*===========================================================================*/
+
+[
+  local,
+  object,
+  pointer_default(unique),
+  uuid(8335e496-ab3b-11ce-8468-0000b468276b)
+]    
+interface ITrnPiconFactory : IUnknown
+{
+  // This must be called before any loading/grabbing calls will work.
+  HRESULT Initialize( IVidSimpleVideo *pSVid );
+
+  // This is here to have it let go its pointer to simplevideo.
+  HRESULT UnInitialize( void );
+
+  // these will return E_NOTIMPL until there's more than one set
+  // of standard frames.
+  HRESULT QueryNumFrameSets( LONG *plNum );
+  HRESULT QuerySetDescription( LONG lSet, LPSTR buffer, LONG cbBuffer );
+
+  //
+  // Load the standard circle-triangle framestores into program
+  // and preview.
+  // The time parameter will be when the VSFrame1 and VSFrame2 
+  // get selected onto program and preview.  (NULL means ASAP)
+  //
+  // The "set" variable is there for future expansion, to choose
+  // a different set of standard framestores.
+  HRESULT LoadStandardFrames( STrnTimeType *pTime, LONG set );
+
+  // This frees any internal buffers and sets flags internally to
+  // show that the object has no picon.
+  HRESULT ClearPicon();
+
+  // This schedules the grab, and if the pTime is NULL or its 
+  // track is _ASAP, _NEXTVBL, or _ABSOLUTE, the second parameter
+  // selects whether or not it will be synchronous.
+  // This routine returns S_OK to indicate success and that the frame
+  // is done transferring (synchronous).  If the grab happened
+  // asynchronously, it will return S_FALSE.  If anything bad happened
+  // it will return some kind of failure, probably an error from 
+  // IVidSimpleVideo or the videonet driver.
+  HRESULT GrabPicon( STrnTimeType *pTime, BOOL bSynchronous );
+
+  // This routine AddRef's an internal bitmap and passes it out.
+  // It will return failure if the object hasn't started grabbing a picon. 
+  // (or if the picon has been cleared)
+  // If the above routine returned S_FALSE, it means that the grab
+  // was asynchronous and that this routine should be called until it
+  // returns S_OK (got the picon) or E_FAIL to indicate that some other problem
+  // happened during the transfer of the frame.
+  // If the grab is still in progress, it will return S_FALSE and
+  // set your pointer to NULL.
+  HRESULT GetPicon( IGXIntBitmap **ppBitmap );
+}
+// End of SimpleVid.Idl

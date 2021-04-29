@@ -1,0 +1,47 @@
+
+
+//+---------------------------------------------------------------------------
+//
+//	Play Cursor API
+//	Copyright (C) Play Incorporated, 1995,1996 - confidential
+//
+//
+//	File:	Cursor.IDL
+//
+//----------------------------------------------------------------------------
+
+import "oleidl.idl";
+
+
+typedef enum _EPlayCursor
+{
+	Pointer,
+	Wait,
+	SizeAll,
+	SizeEW,
+	SizeNS,
+	DragCopy,
+	DragMove,
+	DragShortcut,
+	DragNo,
+	Text,
+	ClipRoll,
+	HyperLink
+} EPlayCursor;
+
+
+[
+	local,
+	object,
+	uuid(8335e45c-ab3b-11ce-8468-0000b468276b),
+	pointer_default(unique)
+]
+interface IPlayCursor: IUnknown
+{
+	HRESULT SetCursor(
+		[in] EPlayCursor cursor,
+		[out] EPlayCursor* pPrevCorsor);
+
+	HCURSOR GetHCursor(
+		[in] EPlayCursor cursor);
+}

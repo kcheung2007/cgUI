@@ -1,0 +1,595 @@
+/*==================================================================
+
+	Copyright 1999 by Play Incorporated
+	PLAY CONFIDENTIAL
+
+	All Specifications subject to change.
+	
+	FILE:           TLImportExport.idl 
+	
+	DESCRIPTION:    Interface description for objects to import and
+					export Timelines.
+
+	MODIFICATIONS:  1/18/99     mdwang-helmke       created draft
+					3/4/99      Benoit              changes
+					6/24/99		Tommy Ocel			final version
+===================================================================*/
+import "objidl.idl";
+import "plylst.idl";
+
+interface ITrnPlayList;		
+interface IPlayTimeLine; 
+
+interface IPlayTLImpExp;
+interface IPlayTLIEGroupEnum;
+interface IPlayTLIETrackEnum;
+interface IPlayTLIEEventEnum;
+interface IPlayTLIEGroup;
+interface IPlayTLIETrack;
+interface IPlayTLIEEvent;
+
+//+------------------------------------------------------------------
+//  Class:      IPlayTLImpExp 
+//
+//  Purpose:    Clients request a IPlayTLImpExp to deal with Timeline
+//              purpose: create enums, and basic for editing timeline
+//		Can get the following interfaces with exported functions:
+//		IPlayTLIEGroupEnum, that enumerates the groups in the timeline
+//		IPlayTLIETrackEnum, that enumerates the tracks in the timeline
+//+------------------------------------------------------------------
+/*
+ * TO DO:
+ *		- Color Correction
+ *		- 
+ *		- Implementation
+ */
+[
+  object,
+  uuid(8335e745-ab3b-11ce-8468-0000b468276b),
+  local
+]
+
+interface IPlayTLImpExp : IUnknown
+{
+
+// clear the timeline of the entire content
+// before loading something inside
+	HRESULT ClearTimeline(void);
+
+// get the total time (EndTime of lastevent)
+// in frame
+	DWORD GetTimelineLength(void); 
+
+/*
+typedef 
+enum tagETimeCodeMode
+    {	TCMNonDropFrame	= 0,
+	TCMDropFrame	= 1,
+	TCMPAL	= 2,
+	TCMFilm	= 3
+    }	ETimeCodeMode;
+*/
+// used to establish the timecode at which the timeline starts
+	HRESULT SetTimelineTimeInfo(
+		[in] DWORD dwStartTime,
+		[in] DWORD dwEndTime,
+		[in] DWORD dwTimeMode
+	);
+
+// check if the timeline can be assembled by trinity (no action performed)
+//	HRESULT CheckTimeline(void);
+
+// Get the video tracks
+	HRESULT GetVideoTrack(
+		[in] DWORD dwVideoTrack,
+		[out] IPlayTLIETrack **ppTrack
+	);
+
+// group type enum:
+typedef enum
+{
+	CG_Unknown = -1,
+	CG_601 = 0,
+	CG_Effect, // or DSK
+	CG_FrameStore,
+	CG_GPI, // 1 to 4
+	CG_LinearClip,
+	CG_Live,
+	CG_Matte,
+	CG_MediaClip,
+	CG_Transition, // or FX : internal types 
+} CG_TYPE;
+
+// event and track type enum (internal track type)
+typedef enum  
+{
+	CE_Unknown = -1,
+	CE_Video = 0, // media, still, live, 
+	CE_Audio1,    // audio track 1
+	CE_Audio2,    // audio track 2
+	CE_Audio3,    // audio track 3
+	CE_Audio4,    // audio track 4
+	CE_AudioLevel,// audio level or an audio track
+	CE_AudioPan,  // audio pan
+	CE_Alpha,     // 
+	CE_DSK,       // Effects and DSK
+	CE_FX,        // Fx and transtions
+	CE_GPI1,      // GPI1 event
+	CE_GPI2,      // GPI2 event
+	CE_GPI3,      // GPI3 event
+	CE_GPI4,      // GPI4 event
+} CE_TYPE; 
+
+typedef struct
+{
+	DWORD dwStartTime;		// time in time line
+	DWORD dwLength;			// length of the clip/effect
+	DWORD dwSourceStartTime;// position in source
+} EVENTINFO;
+
+// Group information to be used to add new timeline events and retrieve existing event information.
+// GroupEvents array of event infos for start times and lengths will always use GroupEvents[0] entry for video, 
+// and GroupEvents[1] thru GroupEvents[dwNumGroupEvents - 1] for audio tracks.  
+typedef struct
+{
+	DWORD dwSize;			// version tracker
+	CG_TYPE Type;			// type of the group
+	DWORD dwNumGroupEvents;	// number of entries in EVENTINFO array below ( equal to 1 (video) + num aud tracks ) 
+	EVENTINFO ** GroupEvents;// array of EVENTINFO pointers
+	DWORD dwOptions;		// wipe number, flags, audio tracks..., 
+	DWORD dwVideoTrackA;	// video track for all but effects, GPI number for GPI events, Source track for effects
+	DWORD dwVideoTrackB;	// Dest track for effects
+	COLORREF dwColor;		// Matte color
+	wchar_t ReelFileName[255]; // filename for 601 and stills, reel name for linear clips
+	DWORD dwGPIAction;		// GPI action (on/Off ...)
+	DWORD dwGPIChannel;		// GPI Channel (1..4)
+	DWORD dwWipeNumber;		// Wipe code
+} GROUPINFO;
+
+// creates a group
+// the fields of CreateGroupInfo are used to create a group
+// of type iGroupType. 
+// the CreateGroupInfo structure will be extended in the future to represent 
+// the new groups and addons.
+
+	HRESULT CreateGroup(
+		[in] int iGroupType, 
+		[in] GROUPINFO *pCreateGroupInfo,
+		[out] IPlayTLIEGroup **ppGroup
+	);
+
+// helpfull fonctions
+	HRESULT CreateMatte(
+		[in] DWORD dwStart,
+		[in] DWORD dwLength,
+		[in] DWORD dwRGBColor,
+		[in] DWORD dwVideoTrack,
+		[out] IPlayTLIEGroup **ppGroup
+	);
+	HRESULT CreateLinearClip(
+		[in] DWORD dwNumGroupEvents,
+		[in] EVENTINFO ** GroupEvents,
+		[in] DWORD dwComponents,					// Video, Audio ch's 1-4 bit flags
+		[string,in] const OLECHAR *pszReelName,
+		[in] DWORD dwVideoTrack,
+		[out] IPlayTLIEGroup **ppGroup
+	);
+	HRESULT CreateFrameStore(
+		[in] DWORD dwStart,
+		[in] DWORD dwLength,
+		[in] DWORD dwVideoTrack,
+		[string,in] const OLECHAR *pszFileName, 
+		[out] IPlayTLIEGroup **ppGroup
+	);
+	HRESULT CreateDissolve(
+		[in]	DWORD dwStart,
+		[in]	DWORD dwLength,
+		[in]	DWORD dwSourceTrack, 
+		[in]	DWORD dwDestTrack,   
+		[out]	IPlayTLIEGroup **ppGroup
+	);
+	HRESULT CreateWipe( 
+		[in] DWORD dwStart,
+		[in] DWORD dwLength,
+		[in] DWORD dwSourceTrack, 
+		[in] DWORD dwDestTrack,
+		[in] DWORD dwWipeType,
+		[out] IPlayTLIEGroup **ppGroup
+	);
+	HRESULT Create601(
+		[in] DWORD dwStart,
+		[in] DWORD dwLength,
+		[in] DWORD dwVideoTrack,
+		[string,in] const OLECHAR *pszFileName,
+		[out] IPlayTLIEGroup **ppGroup
+	);
+	HRESULT CreateLive(
+		[in] DWORD dwStart,
+		[in] DWORD dwLength,
+		[in] DWORD dwSource,
+		[out] IPlayTLIEGroup **ppGroup
+	);
+	HRESULT CreateGPI(
+		[in] DWORD dwStart,
+		[in] DWORD dwLength,
+		[in] DWORD dwGPIPort, //1 to 4
+		[in] DWORD dwGPIAction, 
+		[out] IPlayTLIEGroup **ppGroup
+	);
+
+	// Purpose:	Returns an enumeration interface to tracks on the 
+	//			current timeline.
+	// Returns:	S_OK on success.
+	//			E_OUTOFMEMORY if enumerator cannot be created
+	HRESULT GetEnumTracks(
+		[out]	IPlayTLIETrackEnum **ppIEnum
+	);
+
+	// Purpose:	Returns an enumeration interface to groups on the 
+	//			current timeline.
+	// Returns:	S_OK on success.
+	//			E_OUTOFMEMORY if enumerator cannot be created
+	HRESULT GetEnumGroups(
+		[out]	IPlayTLIEGroupEnum **ppIEnum
+	);
+}
+
+
+//+------------------------------------------------------------------
+//  Class:      IPlayTLIETrackEnum 
+//
+//  Purpose:    Clients uses this to enumerates preditor tracks
+//              Should be removed
+//
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e749-ab3b-11ce-8468-0000b468276b),
+  local
+]
+
+interface IPlayTLIETrackEnum : IUnknown
+{
+	HRESULT Next(
+		[in] ULONG celt,
+        [out] IPlayTLIETrack **rgelt,
+        [out] ULONG *pceltFetched
+	);
+    // skip the next celt elements in the list.  return S_FALSE
+    // if skip would move beyond end of list
+	// E_FAIL if enumerator has not been initialized
+	HRESULT Skip(
+		[in] ULONG celt
+	);
+
+    // reset enumeration to beginning of list
+	HRESULT Reset(void);
+
+    // produce a copy of this enumeration.  E_OUTOFMEMORY if
+    // unable to allocate space
+	HRESULT Clone(
+		[out] IPlayTLIETrackEnum **ppenum
+	);
+}
+
+//+------------------------------------------------------------------
+//  Class:      IPlayTLIEGroupEnum 
+//
+//  Purpose:    Clients request a IPlayTLIEInterface to deal with Timeline
+//              purpose: create enums, and basic for editing timeline
+//
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e747-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IPlayTLIEGroupEnum : IUnknown
+{
+	HRESULT Next(
+		[in] ULONG celt,
+        [out] IPlayTLIEGroup **rgelt,
+        [out] ULONG *pceltFetched
+	);
+    // skip the next celt elements in the list.  return S_FALSE
+    // if skip would move beyond end of list
+	// E_FAIL if enumerator has not been initialized
+	HRESULT Skip(
+		[in] ULONG celt
+	);
+
+    // reset enumeration to beginning of list
+	HRESULT Reset(void);
+
+    // produce a copy of this enumeration.  E_OUTOFMEMORY if
+    // unable to allocate space
+	HRESULT Clone(
+		[out] IPlayTLIEGroupEnum **ppenum
+	);
+}
+
+
+//+------------------------------------------------------------------
+//  Class:      IPlayTLIEEventEnum 
+//
+//  Purpose:    Clients use this to enumerate events (in a track or in a group)
+//				If the object comes from a group it will iterates the group
+//				events, else it comes from a track and iterate the tracks
+//              events.
+//
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e74b-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IPlayTLIEEventEnum : IUnknown
+{
+	HRESULT Next(
+		[in] ULONG celt,
+        [out] IPlayTLIEEvent **rgelt,
+        [out] ULONG *pceltFetched
+	);
+    // skip the next celt elements in the list.  return S_FALSE
+    // if skip would move beyond end of list
+	// E_FAIL if enumerator has not been initialized
+	HRESULT Skip(
+		[in] ULONG celt
+	);
+
+    // reset enumeration to beginning of list
+	HRESULT Reset(void);
+
+    // produce a copy of this enumeration.  E_OUTOFMEMORY if
+    // unable to allocate space
+	HRESULT Clone(
+		[out] IPlayTLIEEventEnum **ppenum
+	);
+}
+
+//+------------------------------------------------------------------
+//  Class:      IPlayTLIEGroup 
+//
+//  Purpose:    Clients request a IPlayTLIEInterface to deal with Timeline
+//              purpose: create enums, and basic for editing timeline
+//              also implements IPlayTLIEEventEnum
+//		Can get the following interfaces with exported functions:
+//		IPlayTLIEEventEnum, that enumerates the events in the group
+//
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e746-ab3b-11ce-8468-0000b468276b),
+  local
+]
+
+
+interface IPlayTLIEGroup : IUnknown
+{
+	// What kind of clip?
+	CG_TYPE GetType(void);
+
+	// Delete the entire group (and events)
+	HRESULT Delete(void);
+
+	// get start and end time in timeline
+	DWORD GetStartTime(void);
+	DWORD GetEndTime(void);
+
+	// get start and end time in source (when revelant)
+	DWORD GetSourceStartTime(void);
+	DWORD GetSourceEndTime(void);
+
+	// the length (ALL IN FRAMES)
+	DWORD GetLength(void);
+
+	// add a event to this group
+	//  fails if an event of this type exists
+	//  fails if the event overlaps with other already present in the timeline
+	HRESULT AddEvent(
+		[in] CE_TYPE eventType,
+		[in] DWORD dwStart,
+		[in] DWORD dwLength,
+		[in] DWORD dwSourceStart,
+		[in] DWORD dwInfo
+	);
+
+	// returns the video event (the one in a video track)
+	// return S_OK, E_FAIL, and S_FALSE (if no video)
+	HRESULT GetVideoEvent(IPlayTLIEEvent **ppEvent);
+
+	// move functions just move all the events
+	HRESULT Move(
+		[in] long dwDeltaFrame
+	);
+	// move to a specific position 
+	HRESULT MoveTo(
+		[in] DWORD dwFrame
+	);
+	// move the event on the source
+	HRESULT MoveSource(
+		[in] long dwDeltaFrames
+	);
+	// move the event on the source to a specific position
+	HRESULT MoveSourceTo(
+		[in] DWORD dwFrame
+	);
+
+	// move to another video track
+	// valid only for group having video tracks
+	HRESULT ChangeVideoTrack(
+		[in] DWORD dwVideoTrack
+	); 
+
+	// change the track and move in the time
+	HRESULT ChangeVideoTrackAndMove(
+		[in] DWORD dwVideoTrack,
+		[in] long dwDeltaFrames
+	);
+	// idem but to a specific position
+	HRESULT ChangeVideoTrackAndMoveTo(
+		[in] DWORD dwVideoTrack,
+		[in] DWORD dwFrames
+	);
+
+	// get the audio levels for channel x
+	// valid only if audio is present
+	HRESULT GetAudioLevel(
+		[in] DWORD dwAudioChannel,
+		[out] ITrnPlayList **ppList
+	);
+
+	// get the audio pans for channel x
+	// valid only if audio is present
+	HRESULT GetAudioPan(
+		[in] DWORD dwAudioChannel,
+		[out] ITrnPlayList **ppList
+	);
+
+	// set the audio levels for channel x
+	// valid only if audio is present
+	HRESULT SetAudioLevel(
+		[in] DWORD dwAudioChannel,
+		[out] ITrnPlayList **ppList
+	);
+
+	// set the audio pans for channel x
+	// valid only if audio is present
+	HRESULT SetAudioPan(
+		[in] DWORD dwAudioChannel,
+		[out] ITrnPlayList **ppList
+	);
+
+	// get the group info structure of this group
+	HRESULT QueryGroupInfo(
+		[out] GROUPINFO *pQueryGroupInfo
+	);
+
+	// split a group at time dwTime
+	// the current group ends at dwTime
+	// creates a new group having the same caracs 
+	//  but starting at dwTime
+	HRESULT Split(
+		[in] DWORD dwTime,
+		[out] IPlayTLIEGroup **ppGroup
+	);
+
+	// merge two groups into one (if possible)
+	// if succeed then pGroup is Delete(), but not released
+	// and should not be used any more
+	HRESULT Merge(
+		[in] IPlayTLIEGroup *pGroup
+	);
+
+	// Purpose:	Returns an enumeration interface to events on the 
+	//			current timeline.
+	// Returns:	S_OK on success.
+	//			E_OUTOFMEMORY if enumerator cannot be created
+	HRESULT GetEnumEvents(
+		[out]	IPlayTLIEEventEnum **ppIEnum
+	);
+
+}
+
+//+------------------------------------------------------------------
+//  Class:      IPlayTLIETrack 
+//
+//  Purpose:    Clients request a IPlayTLIEInterface to deal with Timeline
+//              purpose: create enums, and basic for editing timeline
+//		Can get the following interfaces with exported functions:
+//		IPlayTLIEEventEnum, that enumerates the events in the group
+//
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e748-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IPlayTLIETrack : IUnknown
+{
+	DWORD GetLength(void);
+	CE_TYPE GetType(void); // video, audio1, ...., gpi4 
+
+	// Purpose:	Returns an enumeration interface to events on the 
+	//			current timeline.
+	// Returns:	S_OK on success.
+	//			E_OUTOFMEMORY if enumerator cannot be created
+	HRESULT GetEnumEvents(
+		[out]	IPlayTLIEEventEnum **ppIEnum
+	);
+
+}
+//+------------------------------------------------------------------
+//  Class:      IPlayTLIEEvent 
+//
+//  Purpose:    Clients request a IPlayTLIEInterface to deal with Timeline
+//              purpose: create enums, and basic for editing timeline
+//              can query ITrnPlayList (if it's a AudioPan ou AudioLevel event)
+//
+//+------------------------------------------------------------------
+[
+  object,
+  uuid(8335e74a-ab3b-11ce-8468-0000b468276b),
+  local
+]
+
+interface IPlayTLIEEvent : IUnknown
+{
+	// get the starting position 
+	DWORD GetStartTime(void);
+	// get end position
+	DWORD GetEndTime(void);
+	// get length
+	DWORD GetLength(void);
+
+	// get start position on source
+	DWORD GetSourceStartTime(void);
+	// get end position on source
+	DWORD GetSourceEndTime(void);
+
+	// move this event to frame dwTime
+	DWORD MoveTo(
+		[in] DWORD dwTime
+	);
+
+	// move this event of dwShifTime frames
+	DWORD Move(
+		[in] long dwShiftTime
+	);
+	
+	// get the track containig this event
+	HRESULT GetTrack(
+		[out] IPlayTLIETrack **ppTrack
+	);
+
+	// get the group containing this event
+	HRESULT GetGroup(
+		[out] IPlayTLIEGroup **ppGroup
+	);
+
+	// what kind of event (as GetTrack()->GetType())
+	CE_TYPE GetType(void);
+	
+	// get the audio levels (valid only with an audio event)
+	HRESULT GetAudioLevel(
+		[out] ITrnPlayList **ppList
+	);
+
+	// get the audio pans (valid only with an audio event)
+	HRESULT GetAudioPan(
+		[out] ITrnPlayList **ppList
+	);
+
+	// Set the audio levels (valid only with an audio event)
+	HRESULT SetAudioLevel(
+		[in] ITrnPlayList *ppList
+	);
+
+	// Set the audio pans (valid only with an audio event)
+	HRESULT SetAudioPan(
+		[in] ITrnPlayList *ppList
+	);
+}
+
+
+// end TLImportExport.idl

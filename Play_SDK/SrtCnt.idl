@@ -1,0 +1,107 @@
+/*===========================================================================*\
+||                                                                           ||
+||  Copyright 1995 by Play Incorporated                                      ||
+||  PLAY CONFIDENTIAL                                                        ||
+||                                                                           ||
+||  All Specifications subject to change.                                    ||
+||                                                                           ||
+||  FILE:           SRTCNT.IDL                                               ||
+||                                                                           ||
+||  DESCRIPTION:    Interface description for a generic sorted group of      ||
+||                  IUnknowns                                                ||
+||                                                                           ||
+||  INTERFACES:     ISortedContainer                                         ||
+||                  IContainedObject                                         ||
+||                                                                           ||
+||  MODIFICATIONS:  9/20/96     T.Sprague       created                      ||
+||                  2/20/98     T.Sprague       added IContainedObject       ||
+\*===========================================================================*/
+
+
+interface IEnumUnknown;
+
+[
+    local,
+    object,
+    uuid(8335e629-ab3b-11ce-8468-0000b468276b)
+]    
+interface ISortedContainer : IUnknown
+{
+    import "unknwn.idl";
+    import "wtypes.idl";
+
+    // add an object to the list.
+    // Will return S_FALSE if the object doesn't 
+    // support the IPersistStream interface,
+    // indicating that if this list is saved, the object
+    // won't be persisted.
+    // If an object already exists at the given position,
+    // it and the ones after it will be moved down one.
+    // Pass -1 to add to the end of the list.
+    HRESULT AddObject( [in] IUnknown *pObject, [in] signed long lPosition );
+
+    // Remove an object from the list.
+    // Pass an IUnknown *, and the position is ignored.
+    // If the IUnknown* == NULL, the object in given position
+    // will be removed.
+    HRESULT RemoveObject( [in] IUnknown *pObject, [in] signed long lPosition );
+
+    // Query how many objects are in the list.
+    // The number is just returned, since the function
+    // can't fail.
+    DWORD QueryNumObjects( void );
+
+    // Get a pointer to the object with the given index.
+    // The object will be AddRef'd before returned.
+    // A NULL return means no object exists at that index.
+    IUnknown *GetObject( long index );
+
+    // Get an enumerator for the objects in the list.
+    HRESULT EnumMembers( IEnumUnknown **ppEnumUnk );
+
+    // A sorting function that works identically to the
+    // CRT qsort routine.  
+    // i.e. the compare function returns:
+    //      < 0 if elem1 less than elem2
+    //       0  if elem1 equivalent to elem2
+    //      > 0 if elem1 greater than elem2
+    HRESULT Sort( int ( *compare )(IUnknown *elem1, IUnknown *elem2 ) );
+}
+
+[
+    local,
+    object,
+    uuid(8335e62f-ab3b-11ce-8468-0000b468276b)
+]    
+interface IContainedObject : IUnknown
+{
+    // Failure indicates refusal to exist inside the given container.
+    // presumably, contained objects are always addref'd by their
+    // container, but never addref their container.
+    // Objects shouldn't be added to the same container more than once.
+    HRESULT OnAddToContainer( IUnknown *pUnk );
+
+    // return value unused, it's information for the contained object only.
+    // If the object is holding an un-reference-counted pointer to this container,
+    // that pointer is no longer valid after this call.  (That's
+    // why objects shouldn't be added to the same container more than once.)
+    HRESULT OnRemoveFromContainer( IUnknown *pUnk );
+
+    // so that one could ask an object for its container.
+    // If this fails, the object either has no container at that
+    // index or it didn't keep a pointer to any of its containers.
+    HRESULT GetContainer( DWORD dwIndex, IUnknown **pUnk );
+
+    // move outward as possible from contained object to container
+    // until the queryinterface succeeds, or the object has no container.
+    // It will do some kind of search back through all containers
+    // probably depth-first search.
+    HRESULT QueryOuterInterface( REFIID riid, void** ppv );
+
+    // Query all of this object's containers for the given interface.
+    // dwSkip is how many successful QI's to skip before passing back
+    // the returned interface.  This one does NOT recurse to containers
+    // of containers.
+    HRESULT QueryContainerInterfaces( DWORD dwSkip, REFIID riid, void **ppv );
+}
+

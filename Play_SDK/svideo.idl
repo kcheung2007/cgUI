@@ -1,0 +1,616 @@
+//+---------------------------------------------------------------------------
+//
+//  Simple Video API
+//  Copyright (C) Play Incorporated, 1995
+//
+//  PRELIMINARY - ALL SPECIFICATIONS SUBJECT TO CHANGE
+//  PLAY CONFIDENTIAL - DO NOT DISTRIBUTE
+//
+//  File:       video.idl
+//
+//  Contents:   definition for all Simple Video API interfaces
+//
+//  History:    June 29,      1995   cpdaniel  created
+//              February 13,  1996   cpdaniel  last modified
+//
+//----------------------------------------------------------------------------
+//
+//  The Simple Video API provides a hardware independent programming interface
+//  which supports the creation of many special and general purpose video
+//  production tools.  The API presents a general purpose effects/switcher
+//  system model which supports most common video production needs.  The
+//  API also integrates hardware independent control of VTR and NLE systems
+//  for creation of editing systems.
+//
+//----------------------------------------------------------------------------
+
+import "wtypes.idl";
+import "unknwn.idl";
+import "objidl.idl";
+import "trnity.idl";
+import "autoct.idl";
+import "tfxfile.idl";
+
+
+cpp_quote("#define E_TOOMANYEFFECTS         0xE8020001")
+cpp_quote("#define E_INVALIDSECTION         0xE8020002")
+cpp_quote("#define E_INVALIDBUS             0xE8020003")
+cpp_quote("#define E_INVALIDSOURCE          0xE8020004")
+cpp_quote("#define E_INVALIDMODE            0xE8020005")
+cpp_quote("#define E_MISSINGDATA            0xE8020006")
+cpp_quote("#define E_TOOMANYSOUNDS          0xE8020007")
+
+
+//+---------------------------------------------------------------------------
+// Forward declarations
+//----------------------------------------------------------------------------
+interface IVidInput;
+interface IVidSystem;
+interface IVidAdviseSink;
+interface IVidTrinity;
+
+//+---------------------------------------------------------------------------
+//  Class:      IVidInput
+//
+//  Purpose:    Defines the interface for an abstract video input
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3e6-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IVidInput : IUnknown
+{
+  typedef enum tagEVidVIColorParams
+  {
+    VICBrightness,
+    VICContrast,
+    VICSaturation,
+    VICTint,
+    VICGamma,
+    VICColor
+  } EVidVIColorParams;
+
+  DWORD QuerySlot();
+
+  HRESULT SetParameter(
+    [in] STrnTimeType*      pTime,
+    [in] EVidVIColorParams  whichParam,
+    [in] LONG               value);
+
+  HRESULT ResetToDefault(
+    [in] STrnTimeType*      pTime,
+    [in] EVidVIColorParams  whichParam);
+
+  HRESULT ResetAllDefaults(
+    [in] STrnTimeType*      pTime);
+
+  HRESULT GetCurrentValue(
+    [in]  EVidVIColorParams whichParam,
+    [out] LONG*             pValue);
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      IVidAdviseSink
+//
+//  Purpose:    IVidAdviseSink is implemented by IVidSystem clients to
+//              receive notifications of various events within the video
+//              system.
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3e3-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IVidAdviseSink : IUnknown
+{
+  HRESULT OnEffectLoad(
+    [in] DWORD      effectId,
+    [in] HRESULT    status
+    );
+
+  HRESULT OnAutoEnd(
+    );
+
+  HRESULT OnBusChange(
+    );
+
+  HRESULT OnFrameStoreComplete(
+    [in] DWORD      cookie,
+    [in] HRESULT    status
+    );
+}
+
+
+//+---------------------------------------------------------------------------
+//  Class:      IVidSystem
+//
+//  Purpose:    Interface for an idealized Program/Preview effects system.
+//
+//  Interface:
+//
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e3e4-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IVidSystem : IUnknown
+{
+  typedef enum tagEVidSource
+  {
+    VSBlack = 0,
+    VSChan1,
+    VSChan2,
+    VSChan3,
+    VSChan4,
+    VSChan5,
+    VSChan6,
+    VSChan7,
+    VSChan8,
+    VSPgmOut,       // program output (system recursive)
+    // ...
+    VSMatte = 100,
+    VSMatte2,
+    // ...
+    VSAlphaBuffer = 200,
+    VSAlphaBuffer2,
+    // ...
+    VSGraphicBuffer = 300,
+    VSGraphicBuffer2,
+    // ...
+    VSMixEffects = 400
+    // ...
+  } EVidSource;
+
+  typedef enum tagEVidBus
+  {
+    VBProgram = 0,
+    VBPreview,
+    VBKey,
+    VBDSK,
+    VBMEA,
+    VBMEB,
+    VBMEC,
+    VBMED,
+    VBMEE,
+    VBMEF,
+    VBMEG,
+    VBMEH
+  } EVidBus;
+
+  typedef enum tagEVidSwitcherSection
+  {
+    SSMain = 0,
+    SSMixEffects1
+  } EVidSwitcherSection;
+
+  typedef enum tagEVidAutoModes
+  {
+    AMMix           = 1,    // dissolve
+    AMDownstreamKey = 2,
+    AMEffect        = 4     // warp/wipe
+  } EVidAutoModes;
+
+  typedef enum tagEVidKeyerMode
+  {
+    KMOff = 0,
+    KMAlphaStream,          // alpha bus
+    KMAlphaStore,           // switcher buffer
+    KMLumaKey,
+    KMChromaKey,
+    KMRecursiveKey,
+    KMAntiColor,
+    KMAntiColorAdd
+  } EVidKeyerMode;
+
+
+  //
+  // Return a pointer to the automation controller for this video system
+  //
+  HRESULT QueryController(
+    [out] ITrnAutomationController**  ppController
+    );
+
+  //
+  // Return an iterator which will access all the video sources, in slot
+  // order.  The returned objects will have the IVidInput interface.
+  //
+  HRESULT EnumVideoSources(
+    [out] IEnumUnknown**    ppEnum
+    );
+
+  //
+  // Establish the Advise connection with a client application.
+  //
+  HRESULT Advise(
+    [in]  IVidAdviseSink*   pAdv
+    );
+
+  //
+  // Break the advise connection previously established with Advise().
+  //
+  HRESULT UnAdvise(
+    );
+
+  //
+  // Load an effect, returning the effect id.
+  //
+  HRESULT LoadEffect(
+          EVidSwitcherSection whichSection,
+          ITrnEffectFile*     pTfxFile,
+          BOOL                bEnableOnLoad,
+    [out] DWORD*              effectId
+    );
+
+  //
+  // Unloads an effect with the specified id.
+  //
+  HRESULT UnloadEffect(
+    DWORD               effectId
+    );
+
+  //
+  // Enables an effect for use during the next auto transition
+  //
+  HRESULT EnableEffect(
+    DWORD               effectId
+    );
+
+  //
+  // Disables (but does not unload) an effect .
+  //
+  HRESULT DisableEffect(
+    DWORD               effectId
+    );
+
+  //
+  // Returns the length, in fields of the specified effect
+  //
+  HRESULT QueryEffectLength(
+    [in]  DWORD         effectId,
+    [out] DWORD*        pLength
+    );
+
+  //
+  // Returns the number of fields it takes for video to get from
+  // the specified input to the system output.  This is needed
+  // in order to position external video sources (such as VTRs)
+  // to the correct position.
+  //
+  HRESULT QueryPathDelay(
+    [in] EVidSwitcherSection whichSection,
+    [in] EVidBus             whichBus,
+    [in] EVidSource          whichSource,
+    [out] DWORD*             pdwDelayFields
+  );
+
+  //
+  //  Returns the auto transition time (in fields) for the current
+  //  modes & effects enabled on the specified switcher section.
+  //
+  HRESULT QueryAutoDuration(
+    [in] EVidSwitcherSection whichSection,
+    [out] DWORD*             pdwDurationFields
+    );
+
+  //
+  // Sets the auto-dissolve time, in fields
+  //
+  HRESULT SetAutoDissolveDuration(
+    DWORD               dwDuration
+    );
+
+  //
+  // Determine which video source is selected onto a particular bus
+  //
+  HRESULT QueryBusSource(
+    EVidSwitcherSection whichSection,
+    EVidBus             whichBus,
+    [out] EVidSource*   pwhichSource
+    );
+
+  //
+  // Select a video source onto a bus
+  //
+  HRESULT SelectBusSource(
+    STrnTimeType*       pTime,
+    EVidSwitcherSection whichSection,
+    EVidBus             whichBus,
+    EVidSource          whichSource
+    );
+
+  //
+  // Determine if a particular source may be selected onto a particular bus
+  //
+  HRESULT QueryLegalSource(
+    EVidSwitcherSection whichSection,
+    EVidBus             whichBus,
+    EVidSource          whichSource
+    );
+
+  //
+  // Determine which busses are supported by the available hardware.
+  // Output value is a DWORD, bits are numbered by EVidBus, high bits
+  // indicate legal busses.
+  //
+  HRESULT QueryLegalBusses(
+    EVidSwitcherSection whichSection,
+    [out] DWORD*        pLegalBusses
+    );
+
+  //
+  // Controls what the DoAuto or SetTBarPosition functions do
+  // the next time one is called.
+  //
+  HRESULT SetAutoMode(
+    EVidSwitcherSection whichSection,
+    DWORD mode);
+
+  //
+  // Determine which auto modes are legal for a switcher section
+  //
+  HRESULT QueryLegalAutoModes(
+    EVidSwitcherSection whichSection,
+    [out] DWORD*        pLegalModes   // use EVidAutoModes for bits
+    );
+
+  //
+  // Set T-bar position for a switcher section.
+  // Actual position of an effect or dissolve is calculated based
+  // on the length of the effect (in fields) and the relative position
+  // of the TBar specified by scale and position.  See also SetAutoMode
+  //
+  HRESULT SetTBarPosition(
+    EVidSwitcherSection whichSection,
+    DWORD               scale,      // total number of steps in TBar's travel
+    DWORD               position    // position within that range
+    );
+
+
+//
+// Query how many keyers per section
+// Assume keyers are in series.
+// Set keyer modes for whichSection, WhichKeyer
+//
+
+
+  //
+  // Determine which keyer modes are legal for a switcher section
+  //
+  HRESULT QueryLegalKeyerModes(
+    EVidSwitcherSection whichSection,
+    DWORD*              pLegalModes   // use IVidKeyerMode for bit numbers
+    );
+
+  //
+  // Query the current keyer mode for a switcher section
+  //
+  HRESULT QueryKeyerMode(
+    EVidSwitcherSection     whichSection,
+    [out] EVidKeyerMode*    pWhichMode
+    );
+
+  //
+  // Set the keyer mode for a switcher section
+  //
+  HRESULT SetKeyerMode(
+    STrnTimeType*       pTime,
+    EVidSwitcherSection whichSection,
+    EVidKeyerMode       whichMode
+    );
+
+  //
+  // Cut to the next source.  Terminate any transition in progress.
+  //
+  HRESULT DoCut(
+    STrnTimeType*       pTime,
+    EVidSwitcherSection whichSection
+    );
+
+  //
+  // Automatically transition to the next source.  Finish any transition
+  // which has been started manually (by T-bar).  See also SetAutoMode
+  //
+  HRESULT DoAuto(
+    STrnTimeType*       pTime,
+    EVidSwitcherSection whichSection
+    );
+
+  //
+  // Trigger the specified effect event.  This translates the effect-relative
+  // event number into a system-wide event number.
+  //
+  HRESULT TriggerEvent(
+    [in]    DWORD   EffectId,
+    [in]    DWORD   EventNum
+    );
+
+  //
+  // Set the chroma keyer options for a switcher section
+  //
+  HRESULT SetChromaKeyOptions(
+    EVidSwitcherSection whichSection,
+    ETrnChromaKeyMode   whichMode,
+    DWORD               color,      // Y<<16 + (R-Y)<<8 + (B-Y)
+    WORD                softness,
+    WORD                keyRange
+    );
+
+  //
+  // Set chroma key table
+  //
+  HRESULT SetChromaKeyTable(
+    [in]    EVidSwitcherSection whichSection,
+    [in]    void* pTable,       // pointer to the key table
+    [in]    DWORD dwTableSize   // number of bytes in the table
+    );
+
+  //
+  //  Set the color of a matte source
+  //
+  HRESULT SetMatteColor(
+    STrnTimeType*       pTime,
+    EVidSwitcherSection whichSection,
+    EVidSource          whichSource,
+    DWORD               color             // YUV
+    );
+
+  //
+  // Set Freeze/Strobe/Free-run mode for video source
+  //
+  HRESULT SetStrobe(
+    STrnTimeType*       pTime,
+    EVidSwitcherSection whichSection,
+    EVidSource          whichSource,
+    DWORD               strobeRate        // 0 = freeze, 1=freeRun, x=strobe
+    );
+
+  //
+  // Load a still store into a frozen video source
+  //
+  HRESULT LoadFrameStoreStream(
+    EVidSource          whichSource,
+    IStream*            pStream,
+    DWORD               cookie
+    );
+
+  HRESULT LoadFrameStoreFile(
+    EVidSource          whichSource,
+    HANDLE              hFile,
+    DWORD               cookie
+    );
+
+  HRESULT LoadFrameStoreMemory(
+    EVidSource          whichSource,
+    SPlayBitMap*        pFrameStore,
+    DWORD               cookie
+    );
+
+  HRESULT LoadFrameStoreFileMapping(
+    EVidSource          whichSource,
+    HANDLE              hFileMapping,
+    DWORD               offset,
+    DWORD               cookie
+    );
+
+  //
+  // All the save frame store functions convert a frozen source into
+  // a framestore source which can then be selected by specifying
+  // VSFrame1, VSFrame2, etc. in a call to SelectBusSource().
+  //
+  // NOTE: This function does NOT select the frame store source
+  //       onto any bus.  If the source is to be displayed on a bus,
+  //       a separate call to SelectBusSource() is required.
+  //
+  // sourceToFreeze : specifies which router source to freeze.
+  //
+  // sourceToSave   : specifies which of the framestore sources
+  //                  (VSFrame1, VSFrame2, ...) will be displaced
+  //                  by the image from the frozen source.
+  //
+  HRESULT SaveFrameStoreStream(
+    EVidSource          sourceToFreeze,
+    EVidSource          sourceToSave,
+    IStream*            pStream,
+    DWORD               cookie
+    );
+
+  HRESULT SaveFrameStoreFile(
+    EVidSource          sourceToFreeze,
+    EVidSource          sourceToSave,
+    HANDLE              hFile,
+    DWORD               cookie
+    );
+
+  HRESULT SaveFrameStoreMemory(
+    EVidSource          sourceToFreeze,
+    EVidSource          sourceToSave,
+    SPlayBitMap*        pFrameStore,
+    DWORD               bufferSize,     // size of destination buffer
+    DWORD               cookie
+    );
+
+  HRESULT SaveFrameStoreFileMapping(
+    EVidSource          sourceToFreeze,
+    EVidSource          sourceToSave,
+    HANDLE              hFileMapping,
+    DWORD               offset,
+    DWORD               bufferSize,     // size of destination buffer
+    DWORD               cookie
+    );
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      IVidTrinity
+//
+//  Purpose:    Trinity specific interface which exposes Trinity resource
+//              usage to Simple Video clients.
+//
+//  Interface:
+//
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e5d0-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IVidTrinity : IUnknown
+{
+  //
+  //  Determine which track the Auto function is using.
+  //
+  HRESULT QueryAutoTrack(
+    [out] DWORD*      pdwTrack
+    );
+
+  //
+  //  Determine which video processor is carrying a given logical source
+  //
+  HRESULT QueryVidPath(
+    EVidSwitcherSection whichSection,
+    EVidBus             whichBus,
+    EVidSource          whichSource,
+    [out] ITrnModule**  pModule
+    );
+
+  // !!! Other functions as needed
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      IVidsystemConfig
+//
+//  Interface:
+//
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e416-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface IVidSystemConfig : IUnknown
+{
+  typedef enum tagEVidSystemMode
+  {
+    VMInteractive,
+    VMEdit
+  } EVidSystemMode;
+
+  HRESULT SetSystemMode(EVidSystemMode mode);
+
+  HRESULT QuerySystemMode(EVidSystemMode* pMode);
+}

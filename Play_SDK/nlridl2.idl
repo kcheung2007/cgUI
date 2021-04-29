@@ -1,0 +1,250 @@
+//+---------------------------------------------------------------------------
+//
+//  Trinity Core API
+//  Copyright (C) Play Incorporated, 1995
+//
+//  PRELIMINARY - ALL SPECIFICATIONS SUBJECT TO CHANGE
+//  PLAY CONFIDENTIAL - DO NOT DISTRIBUTE
+//
+//  File:       nlridl.idl
+//
+//  Contents:   definition for core Trinity interfaces and types
+//
+//  History:    August 23, 1996 cpdaniel  split from trnity.idl
+//----------------------------------------------------------------------------
+//
+//  The Trinity core API provides comprehensive, low-level access to all
+//  Trinity hardware functionality.  The API is object oriented and extensible
+//  to handle new hardware modules as they become available.  Third party
+//  additions may be seamlessly made to support third party hardware modules
+//  which operate within the Trinity platform.
+//
+//----------------------------------------------------------------------------
+import "wtypes.idl";
+import "unknwn.idl";
+import "objidl.idl";
+import "autoct.idl";
+import "trnity.idl";
+import "simplevid.idl";
+import "nlridl.idl";
+
+//+---------------------------------------------------------------------------
+//  Forward declarations
+//----------------------------------------------------------------------------
+interface ITrnNonLinearRecorder2;
+interface ITrnMediaClip2;
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnNonLinearRecorder2
+//
+//  Purpose:    Defines the interface to a non-linear (i.e. hard disk) video
+//              record/playback device.
+//
+//  Interface:
+//----------------------------------------------------------------------------
+
+[
+  local,
+  object,
+  uuid(8335e406-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnNonLinearRecorder2 : IUnknown
+{
+  HRESULT QueryCapabilitiesEx(
+    STrnNLECapabilities *pECaps
+    );
+
+  HRESULT OpenClip(
+    [ in ] char *pClipUID,
+    [ in ] DWORD reserved,                  
+    [ out ] ITrnMediaClip2 **pClip
+    );
+
+  HRESULT CreateClip(
+    [ in ] char *pClipUID,
+    [ in ] DWORD createFlags,   // compression, etc...
+    [ in ] unsigned initialFramesRequested,
+    [ out] unsigned* initialFramesAllocated,
+    [ out] ITrnMediaClip2 **pClip
+    );
+
+	// returns enumeration of ITrnMediaClip2s.  index location in this
+	// Enumeration can be passed to DeleteClip to delete a particular
+	// instance
+	HRESULT EnumClipInstances(
+		[in] char *pClipUID,
+		[out] IEnumUnknown **pEnum
+    );
+
+  // this will fail (E_ACCESSDENIED) if any instances of the clip are open
+  // index used to differentiate between multiple instances on the same
+  // device
+  HRESULT DeleteClip(
+	  [in] char *pClipUID,
+	  [in] DWORD index
+    );
+
+	// these seem problematic for internal TM due to compression
+  HRESULT ReportMaximumSpace(
+	  [out] DWORD *fields
+    );
+
+  HRESULT ReportAvailableSpace(
+	  [out] DWORD *fields
+    );
+
+	// perform a software reset of the NLR
+  HRESULT Reset(void);
+
+    // save the clip file system to disk.  this would normally be
+    // done when this object is deleted and should be done at other
+    // strategic times in case of power failure.
+  HRESULT UpdateFileSystem(void);
+}
+
+//+---------------------------------------------------------------------------
+//  Class:      ITrnMediaClip2
+//
+//  Purpose:    Defines the interface to an open video clip on the NLE
+//              system hard disk.  An open clip can be played or recorded.
+//
+//  Interface:
+//----------------------------------------------------------------------------
+[
+  local,
+  object,
+  uuid(8335e407-ab3b-11ce-8468-0000b468276b),
+  pointer_default(unique)
+]
+interface ITrnMediaClip2 : IUnknown
+{
+  // Get information about clip contents
+  HRESULT QueryClipInfo(
+    STrnClipInfo  *pInfo);
+
+  // Return a single frame of the clip
+  //
+  // Legal combinations of source and dest rectangle:
+  //    both NULL - access entire frame
+  //    both non-NULL and equal size - access sub-frame
+  //    source non-NULL and dest NULL - access sub-frame
+  //
+  HRESULT ReadFrame(
+    DWORD               frameNumber,    // always even
+    STrnRect            *pSourceRect,   // rectangle within source frame
+    ETrnFrameAccessMode sourceMode,     // which lines of source to read
+    STrnRect            *pDestRect,     // rectangle within dest bitmap
+    SPlayBitMap          *pBitMap,
+    ETrnFrameAccessMode destMode);      // which lines of dest to write
+
+  // Update a single frame of the clip
+  //
+  // Legal combinations of source and dest rectangle:
+  //    both NULL - update entire frame
+  //    both non-NULL and equal size - update sub-frame
+  //    source NULL and dest non-NULL - update sub-frame
+  //
+  // NOTE: Frames or sub-frames written won't be sent to disk until
+  // a different frame is read from or written to.
+  HRESULT WriteFrame(
+    DWORD               frameNumber,    // always even
+    STrnRect            *pDestRect,     // rectangle within dest frame
+    ETrnFrameAccessMode destMode,       // which lines of dest to write
+    STrnRect            *pSourceRect,   // rectangle within source bitmap
+    SPlayBitMap          *pBitMap,
+    ETrnFrameAccessMode sourceMode);    // which lines of source to read
+
+  //
+  // Copy content from one clip to another.  This function is intended to be
+  // used as the basis for a clip management system which moves partial clips
+  // between storage systems to facilitate transitions between clips stored on
+  // the same media.
+  // NOTE that CopyFrom is not a positionable operation.  The track
+  // can be paused to cancel a copy but no attempt should be made to
+  // position or unpause a CopyFrom.
+  //
+  HRESULT CopyFrom(
+    [in] DWORD whichComponents,     // ETrnContentComponents
+    [in] ITrnMediaClip2*      pSourceClip,
+    [in] STrnPlayList*       pList     // which fields to copy
+    );
+
+  // 
+  // Write a number of whole frames in native format to a stream
+  //
+  HRESULT WriteToStream(
+    [in]  unsigned  startingOffset,   // in frames
+    [in]  unsigned  framesToWrite,
+    [in]  unsigned  granularity,
+    [in]  IStream*  pStream
+    );
+
+  //
+  // Read a number of whole frames in native format from a stream
+  //
+  HRESULT ReadFromStream(
+    [in]  unsigned  startingOffset,   // in frames
+    [in]  unsigned  framesToRead,
+    [in]  unsigned  granularity,
+    [in]  IStream* pStream
+    );
+
+  //
+  // Play all or a portion of a clip
+  //
+  HRESULT Play(
+    [in] const STrnTimeType *pTime,
+    [in] DWORD whichComponents,         // ETrnContentComponents
+    [in] STrnPlayList *pList);
+
+  //
+  // Record (append) onto a clip
+  // specify a start point within the clip and a duration.
+  // Note that Record is not a positionable operation.  The track
+  // record is on can be paused to cancel or stop a record but
+  // no attempt should be made to position a record.
+  //
+  HRESULT Record(
+    [in] const STrnTimeType *pTime,
+    [in] DWORD whichComponents,         // ETrnContentComponents
+    [in] DWORD offsetFromStart,         // how many fields from start of clip
+    [in] DWORD numFields,               // 0=infinite
+    [in] EVidSource sourceToRecord
+    );
+
+    // save clip information to disk.  this is normally done
+    // when this object is deleted but should be done at other
+    // strategic times in case of power failure.
+  HRESULT UpdateClip(void);
+
+	// return the UID for the clip used to ID the clip to the NLRManager
+  HRESULT QueryClipUID(
+	  [in] DWORD bufSize,
+	  [out] char *pUID
+    );
+
+	// return the NLR ID for this clip.  this id is highly transitory
+	// between sessions.  don't store it to disk and expect it to refer
+	// to the same device the next time the software is run.
+  HRESULT QueryNLRID( 
+    [out] DWORD *nlrID 
+    );
+
+	// have the clip delete itself.  don't do this if others have references
+	// to the clip.  only useful action after this is to release the
+	// single reference to the clip
+  HRESULT DeleteSelf(void);
+
+	// Get interface to some object
+	// Interfaces supported:
+	//		ITrnNonLinearRecorder
+	//		IPropertySet
+  HRESULT QueryInternalInterface( 
+    REFIID riid, 
+    long index, 
+    void **ppv 
+    );
+}
+
+// End of nlridl2.idl

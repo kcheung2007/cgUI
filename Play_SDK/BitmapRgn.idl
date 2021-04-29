@@ -1,0 +1,61 @@
+/*===========================================================================*\
+||                                                                           ||
+||  Copyright 1997 by Play Incorporated                                      ||
+||  PLAY CONFIDENTIAL                                                        ||
+||                                                                           ||
+||  All Specifications subject to change.                                    ||
+||                                                                           ||
+||  FILE:           BITMAPRGN.IDL                                            ||
+||                                                                           ||
+||  DESCRIPTION:    Interface description for an object that can create      ||
+||                  regions from bitmap data and load/save them.             ||
+||                                                                           ||
+||  INTERFACES:     IPlayCompressedBitmap                                    ||
+||                                                                           ||
+||  MODIFICATIONS:  9/19/97     T.Sprague       created                      ||
+||                                                                           ||
+\*===========================================================================*/
+
+import "gxlate.idl";
+import "unknwn.idl";
+import "wtypes.idl";
+
+[
+    local,
+    object,
+    uuid(8335e436-ab3b-11ce-8468-0000b468276b)
+]
+interface IPlayBitmapRegion : IUnknown
+{
+    // make region from bitmap data.  currently only 
+	// supports FTALPHA8.  
+	HRESULT UseBitmap( SPlayBitMap *pSPBM );
+    
+	// Make region from RGNDATA structure.  It's assumed to 
+	// be the right size for the header + nCount RECT structures.
+	// The object will make a copy of it to keep.
+	// (LPVOID is really LPRGNDATA)
+	HRESULT UseRegionData( LPVOID pRgnData );
+
+	// using whatever data it has (from being loaded, or from
+	// being given it by above functions), create a windows HRGN
+	// Caller should call DeleteObject() on it when done with it.
+	// (LPVOID is really a XFORM *)
+    HRESULT MakeRegion( LPVOID pXform, HRGN *phRgn );
+    
+	// using whatever data it has (from being loaded, or from
+	// being given it by above functions), create a windows HRGN
+	// The data will be stretched at the given x,y location in the
+	// bitmap to be whatever size is asked-for.
+	// Caller should call DeleteObject() on it when done with it.
+	// (LPVOID is really a XFORM *)
+	HRESULT MakeStretchedRegion( LPVOID pXform, long w, long h, long stretchX, long stretchY, HRGN *phRgn );
+
+	// Get a copy of the bounding rectangle for this region
+	// (LPVOID is really LPRECT)
+	HRESULT GetBoundingRect( LPVOID pRect );
+
+	// find out the size of the bitmap that created the region
+	HRESULT GetOriginalSize( long *plWidth, long *plHeight );
+
+}

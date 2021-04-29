@@ -1,0 +1,19 @@
+
+rate control: sequence initialization
+ initial global complexity measures (I,P,B): Xi=556522, Xp=208696, Xb=146087
+ reaction parameter: r=32000
+ initial virtual buffer fullness (I,P,B): d0i=10323, d0p=10323, d0b=14452
+ initial average activity: avg_act=400.0
+
+rate control: new group of pictures (GOP)
+ target number of bits for GOP: R=48000
+ number of P pictures in GOP: Np=1
+ number of B pictures in GOP: Nb=1
+
+Frame 0 (#0 in display order):
+ picture_type=I
+ temporal_reference=0
+ frame_pred_frame_dct=1
+ q_scale_type=0
+ intra_vlc_format=1
+ alternate_scan=1

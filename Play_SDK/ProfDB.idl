@@ -1,0 +1,103 @@
+/*==========================================================================*\
+||                                                                          ||
+||  FILE:       ProfDB.IDL                                                  ||
+||                                                                          ||
+||  DESCRIPTION:COM interfaces for talking to a 422 serial device database  ||
+||                                                                          ||
+||  Written by Todd Sprague                                                 ||
+||  (c) 1997 by Play Incorporated                                           ||
+||  PLAY CONFIDENTIAL                                                       ||
+||                                                                          ||
+||  INTERFACES:     I422DeviceProfileDatabaseManager                        ||
+||                  I422DeviceProfile                                       ||
+||                                                                          ||
+||  MODIFICATIONS:  7/25/97     Created                         T.Sprague   ||
+||                                                                          ||
+\*==========================================================================*/
+
+import "unknwn.idl";
+import "wtypes.idl";
+
+interface IStorage;
+
+[
+    local,
+    object,
+    uuid(8335e495-ab3b-11ce-8468-0000b468276b)
+]    
+interface I422DeviceProfile : IUnknown
+{
+	typedef struct tagS422DeviceProfileInfo
+	{
+		DWORD       dwID;
+		LONGLONG    llModes;
+		DWORD       dwFormats;
+		char        szDevname[260]; // this is MAX_PATH
+	} S422DeviceProfileInfo;
+
+    // load the device profile with the given ID from the given storage
+    HRESULT Load( IStorage *pStg, DWORD dwID );
+
+    // save this profile under the given storage
+    HRESULT Save( IStorage *pStg ); // save this profile in this storage
+
+    // make a copy of this profile
+    I422DeviceProfile *Clone(); 
+
+    HRESULT GetInfo( [in] long structSize, [out] S422DeviceProfileInfo *pStruct );
+
+	DWORD GetID();
+
+	HRESULT SetName( LPSTR pszName );
+
+	// this is for making new profiles from clones of old ones.  Don't change 
+	// IDs unless you know what you're doing.
+	HRESULT SetID( DWORD dwID );
+
+	HRESULT SetFormat( DWORD dwFormats );
+
+	HRESULT SetModes( LONGLONG llModes );
+
+}
+
+[
+    local,
+    object,
+    uuid(8335e494-ab3b-11ce-8468-0000b468276b)
+]    
+interface I422DeviceProfileDatabaseManager : IUnknown
+{
+    // save this database to this filename
+    // query how many profiles are in this database
+    DWORD QueryNumProfiles( );
+
+    // find the profile with the given index
+    I422DeviceProfile *FindProfileIndexed( DWORD dwIndex );
+
+    // find the profile with the given ID
+    I422DeviceProfile *FindProfile( DWORD dwID );
+
+    // if NULL, load database that will be used by this system
+    HRESULT Load( LPSTR pszFilename ); 
+
+    // save to original location if NULL
+    HRESULT Save( LPSTR pszFilename ); 
+
+    // this object will be the new owner of this profile
+    HRESULT AddProfile( I422DeviceProfile *pProfile );
+
+    // remove the profile with the given ID
+    HRESULT RemoveProfile( DWORD dwID );
+
+    // merge the given database into this one
+    HRESULT Merge( I422DeviceProfileDatabaseManager *pMergeFrom, long fReplace, DWORD *pdwNumMerged );
+
+    // return S_FALSE if this database has been changed but not saved.
+    HRESULT IsSaved();
+
+	// set dirty ("unsaved") flag to TRUE.  This should be done
+	// if someone gets a profile and alters it directly.
+	// Return value is meaningless
+	HRESULT SetDirty( );
+}
+

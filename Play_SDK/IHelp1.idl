@@ -1,0 +1,315 @@
+/*======================================================================================
+
+	PROJECT: Tia.dll 
+
+	FILE:	IHelp1.idl
+
+	Copyright (C) 1996, 1997, by Play Incorporated.
+
+	PRELIMINARY SPECIFICATION:  All specifications subject to change
+
+	SUMMARY:					Tia.dll is a COM in-process server which provides
+								assistance to users of either PlayUI1-based applications
+								or MS Windows-based applications.
+								
+								There are two different	COM objects for each system:
+
+								PlayUI1 uses CoHelpServer1 and its interface IHelpServer1.
+
+								MS-Windows apps use CoHelpServer2 and its interface
+								IHelpServer2.
+								
+								MS-Windows apps must also implement the	CHelpAdvise 
+								class defined in CHelpAdvise.h, and set a pointer to a 
+								CHelpAdvise object through the method IHelpServer2
+								::SetAdvise (which IHelpServer2 inherits from 
+								IHelpServer1).
+								
+								NOTE: PlayUI1 may also use the advise as additional
+								virtual methods are added to IHelpAdvise and CHelpAdvise.
+
+			-----------------------------------------------------------------
+
+	PLAYUI1	VERSION:			In the case of PlayUI1-based applications, the Trinity
+								application doesn't necessarily need to know anything
+								about this dll,	other than the fact that the application
+								can request a required help window through the playout,
+								and one will be generated when some arbitrary help key is
+								pressed. Another method of invoking a help window is through
+								the "New Help Window" option offered on PlayUI1's popup menu.
+
+								For slightly more sophisticated help invocations, PlayUI1
+								offers several interface methods. See the PlayUI1 inteface
+								specifications for information about these methods. One of 
+								these methods is a full mirror of the InvokeHelp method
+								described in this idl.  An application may use the full
+								method for invoking help to display error or other specific
+								methods. In this case, the application should use the
+								provided enumerations "EApplicationID" and "EInvocationType"
+								to specify the first two parameters of the help invocation.
+
+								Documentation about the nuances of invoking help directly
+								from an application is under development.
+								
+								A single COM object, COHelpServer1, is instantiated by 
+								PlayUI1.  In turn, the COHelpServer1 object aggregates 
+								IPlayUI1Window.
+
+	INTERFACES AND OBJECTS
+	FOR PLAYUI1 VERSION:
+
+		COHelpServer1			This is the help server object that playUI1 instantiates for
+								PlayUI1-based applications.
+
+		CLSID 	c500598c-ab3b-11ce-8468-0000b468276b  COHelpServer1
+
+		IHelpServer1			Sets the help context (What App is help working with?), and
+								provides a method for invoking help.
+
+		 IID	8335e603-ab3b-11ce-8468-0000b468276b  IHelpServer1
+
+		IPlayUI1Window			Used by PlayUI to create help window based upon
+								application-requested layout. See the PlayUI1 idl for the
+								PlayUI1 guids.
+
+			-----------------------------------------------------------------
+
+
+	MS-WINDOWS	VERSION:		In the case of MS Windows-based applications, the application
+								needs to know a little bit more about help, and in fact, the
+								application must create a parent window for the help system
+								to live in. The window must be a minimum of 244x244 pixels 
+								dimension. The application must perform the following steps
+								to invoke help:
+
+									1.	Either directly use CoCreateInstance to make an instance
+										of the CoHelpServer2 object, or get the class factory
+										CFHelpServer1 through CoGetClassObject
+										and then make an instance of the CoHelpServer2 object
+										by requesting the IID_IHelpServer2 interface when 
+										making the CFHelpServer1::CreateInstance call.
+
+		NOTE:(window size ref)		2.  Create a window that is at least 244x244 in size, and
+										then call the IHelpServer2::SetWindow method, specifying
+										the HWND to this window.
+
+									3.	Call IHelpServer2::InvokeHelp, observing the proper
+										parameter protocol.
+
+									4.	After help finishes, it sends an advise that it has
+										cleaned out the insides of the provided parent. The
+										app should do whatever is appropriate to close the 
+										parent or reuse it for something else.
+
+
+	MS-WINDOWS APP INTERFACES:
+
+		COHelpServer2			This is the help server object that a non-PlayUI1 application
+								instantiates.
+
+		CLSID c500599c-ab3b-11ce-8468-0000b468276b COHelpServer2
+								
+		IHelpServer2			Inherits all of the IHelpServer1 methods, and provides an
+								additional method for connecting the help object to an 
+								application-created and managed parent window.
+
+		CLSID 8335e602-ab3b-11ce-8468-0000b468276b  IHelpServer2
+
+
+			-----------------------------------------------------------------
+
+
+	ADVISE INTERFACE:
+
+		CLSID 8335e601-ab3b-11ce-8468-0000b468276b  IHelpAdvise								
+
+
+			-----------------------------------------------------------------
+		 
+
+	HISTORY
+
+		01-27-97				R. Hooper		Created
+		02-11-97				R. Hooper		began modifications for layouts.
+		02-13-97				R. Hooper		Finalized interface for alpha.
+		05-07-97				R. Hooper		Beta Modifications: 
+												Modified InvokeHelp method to use
+												EInvocationType in place of the
+												DWORD dwMessageType for the first 
+												parameter.  Created the enumeration
+												of EInvocationType.  Updated documentation.
+
+		06-12-97				R. Hooper		Added support for non-PlayUI1 applications
+												Through COHelpServer2 and IHelpServer2.
+												Also added SetAdvise to IHelpServer1, and
+												added an advise interface, IHelpAdvise, so 
+												that both PlayUI1 apps and Windows apps
+												can receive notification of help events.
+
+
+
+	Version 0.40 Beta
+
+	VERSION-SPECIFIC NOTES:
+
+		Be sure to update the minimum window size note within this document when required.
+
+========================================================================================*/
+
+import "unknwn.idl";
+import "objidl.idl";
+
+// Forward Declarations
+interface IHelpServer1;
+
+/*======================================================================================
+	INTERFACE:
+		
+		IHelpServer1			This is the interface to a successful instantiation
+								of the Tia	Server, and is for initializing the 
+								context of the application, for invoking help, and for
+								setting a pointer to an optional advise object.  (See
+								IHelpAdvise for more information).
+
+								If instantiation of the Tia Server was unsuccessful 
+								or not performed, the IHelpServer1 interface is not
+								available, and the Tia Subsystem should be aborted
+								cleanly so that the application may proceed without
+								help.
+								
+	METHODS:
+
+		InvokeHelp				Invokes help within a specified message context.
+
+========================================================================================*/
+[
+local,
+object,
+uuid(8335e603-ab3b-11ce-8468-0000b468276b),
+pointer_default(unique)
+]
+interface IHelpServer1 : IUnknown
+{
+
+/*--------------------------------------------------------------------------------------
+
+	METHOD:
+	
+		InvokeHelp				This method is how PlayUI1 invokes help in response to
+								some help event.
+								
+								Prior to any InvokeHelp call, the Help Server must 
+								load its lookup tables for HTML files based upon the
+								application context provided through the SetAppContext
+								method.
+
+																  
+	RETURN VALUES:				TBD, but basically S_OK, and errors.
+
+	PARAMETERS:	
+		
+		istInvocationType		The Sender ID defines the class of message which the
+								help system uses to	decide which object is the receiver
+								of this message, and ultimately, how the message should
+								be interpreted by the help system. For example, was the
+								sender: 
+
+									0. The F1 key trap
+									1. A context-sensitive help request
+									2. An error or warning handler
+									.
+									.
+									n. Something else TBD
+
+								The actual invokation types are documented by the 
+								enumeration EInvocationType.
+
+		lpstrMessage			Uniquely identifies a help message request for some
+								action within the context of this application. For
+								example:
+									
+									"General"	represents the basic entry-level or
+												overview help for an application.
+
+									"Switcher/Mixer T-Bar Control"
+												represents the context-sensitive
+												help for a specific control.
+
+									"Blasters are low on power"
+												represents a warning to the fire
+												control team to conserve their 
+												power by choosing their shots 
+												wisely.
+
+									.
+									.
+									"Perform 3rd-order network layer search without
+									backpropagation and throw out first 5 trys, on
+									dataset AB67D5."
+												represents some higher order
+												command message.
+
+								For Alpha, this parameter is "General".  For Beta,
+								these messages will vary.
+
+		pvExtraParms			If needed, a message may include a pointer to a 
+								datastructure cast to an LPVOID, to represent
+								additional parameters.  In the future, this may
+								need to be replaced by a VARIANT structure or such,
+								but for Trinity version 1.0 it is kept simple.  It 
+								is not anticipated that this parameter will be used
+								for Alpha or Beta, and as such should be NULL.  But
+								you never know.
+
+--------------------------------------------------------------------------------------*/
+typedef enum tagEApplicationID
+{
+	AppIDPanamation,
+	AppIDPFX,
+	AppIDSwitcher,
+	AppIDEditor,
+	AppIDMixer,
+	AppIDTitleWave,
+	AppIDTiaInternal,
+	AppIDSnappy,
+	AppIDTrinityInstall,
+	AppIDUndefined
+} EApplicationID;
+
+typedef enum tagEInvocationType
+{
+	ISTKeyboardGeneral,			// PlayUI1 kbdhook.  (help is invoked by pressing a key)
+								//		lpstrMessage=NULL
+	ISTBinHandler,				// PlayUI1 bin code traps .htm/.html picon double-click.
+								//		lpstrMessage=path and file name represented by picon.
+	ISTMenuGeneral,				// Popup menu general help option. lpstrMessage=NULL
+	ISTMenuContextSensitive,	// Any context sensitive menu.  lpstrMessages TBD.
+	ISTControlContextSensitive,	// For context sensitive controls. lpstrMessages TBD
+	ISTErrorApplication,		// Application generated error message. lpstrMessages TBD
+	ISTErrorHelpInternal,		// Tia generated error message. lpstrMessages TBD.
+	ISTEventTrigger,			// External event trigger, lpstrMessages TBD.
+	ISTUndefinedEvent			// Undefined event, used during interim before this 
+								// enumeration is expanded to include the specific event.
+} EInvocationType;
+
+	HRESULT InvokeHelp(
+				[in] EApplicationID appidApplicationID,
+				[in] EInvocationType istInvocationType,
+				[in] LPSTR lpstrMessage,
+				[in] LPVOID pvExtraParms);
+
+
+
+}
+
+typedef IHelpServer1* PIHelpServer1;
+
+
+
+
+
+
+
+
+
+

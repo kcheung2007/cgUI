@@ -1,0 +1,808 @@
+//
+//	TimeLine.idl
+//
+import "objidl.idl";
+import "spline.idl";
+import "gxlate.idl";
+import "plyctl.idl";
+
+interface IValidSegmentList2;
+cpp_quote( "interface IValidSegmentList2;" )
+
+//////////////////////////////////////////////////////////////////////////
+//							Interfaces found here.						//
+//////////////////////////////////////////////////////////////////////////
+interface IPlayTLAdviser;		// Callback class.
+interface IPlayTLManagerAdviser;// Adviser for PlayUI Window Manager.
+
+interface IPlayTLGroupManager;	// Group manager for the timeline.
+
+interface IPlayTLCommon;		// Common interface on all timeline objects.
+interface IPlayTimeLine;		// Most abstract view of timeline.
+
+interface IPlayTLTrack;			// Generic track that events can go in.
+interface IPlayTLValueTrack;	// Track that has a min/max value for valued events.
+
+interface IPlayTLEvent;			// Generic event.
+interface IPlayTLValueEvent;	// Event that has a value and no length. (Must go in value track.)
+
+interface IPlayTLView;			// The view of the timeline.
+
+interface IPlayTLFunctionItem;	// Undo/redo interface.
+interface IValidSegmenList;
+cpp_quote( "interface IValidSegmentList;" )
+
+[
+    local,
+    object,
+    uuid(8335e61e-ab3b-11ce-8468-0000b468276b)
+]    
+interface IPlayTLFunctionItem : IUnknown
+{
+    // "Do" whatever this item does, and return pointer to
+    // new item that will undo what this one did.  Also use the validsegmentlist *
+	// to invalidate the interval that was affected.
+    HRESULT Invoke( [out] IPlayTLFunctionItem **ppUndoItem, IValidSegmentList2 *pSegList );
+    
+    // get a name of this item so that "Undo clip delete" can be displayed.
+    // returns E_FAIL if it doesn't know its name, S_FALSE if the buffer isn't
+    // big enough (it copies what it can), S_OK otherwise.
+    HRESULT GetName( [out,string] LPSTR pszName, DWORD dwMaxChars );
+    
+    // for debugging, ask how much memory this object is taking up.
+    DWORD GetSize( void );
+
+}
+
+/////////////////////////////////
+///////////////////////// TimeLine Common interface ///////////////////////
+[
+	object,
+	uuid(8335e61b-ab3b-11ce-8468-0000b468276b),
+	local
+]
+interface IPlayTLCommon : IUnknown
+{
+	// Returns the unique ID associated with every object in a timeline.
+	DWORD		GetID(void);
+
+	// These functions get and set application data for an object.
+	// All return E_NOTIMPL still.
+	HRESULT __stdcall	GetAppData(LPVOID *ppData, DWORD *pNumBytes);
+	HRESULT __stdcall	SetAppData(LPVOID pData, DWORD numBytes);
+
+	// Get the IUnknown object that was supplied by the application. The object will be AddRef'd.
+	IUnknown *			GetAppObject(void);
+
+	// Set an IUnknown object to this timeline. The object will be AddRef'd and the object previously
+	// held (if any) will be Release'd.
+	HRESULT __stdcall	SetAppObject(IUnknown *pObject);
+}
+
+///////////////////////// Group interface ///////////////////////
+[
+	object,
+	uuid(8335e61c-ab3b-11ce-8468-0000b468276b),
+	local
+]
+interface IPlayTLGroup: IPlayTLCommon
+{
+	IPlayTLGroup *	GetNextGroup(void);
+	IPlayTLGroup *	GetPreviousGroup(void);
+	IPlayTLEvent *	GetRootMember(DWORD dwIndex);
+	DWORD			GetNumberRootMembers(void);
+
+	HRESULT AddMember(IPlayTLEvent *pEvent);
+
+	HRESULT RemoveMember(IPlayTLEvent *pEvent);
+	BOOL IntersectsInterval(DWORD dwIn, DWORD dwOut);
+
+	HRESULT ConnectEvents(IPlayTimeLine *timeline);
+
+	IGXIntBitmap * GetPicon(void);
+	HRESULT SetPicon(IGXIntBitmap *pPicon);
+
+	DWORD GetUserDWORD(void);
+	HRESULT SetUserDWORD(DWORD dwUser);
+
+	// Get the Timeline where this group belongs to - hpatel
+	IPlayTimeLine * GetTimeLine ();
+}
+
+///////////////////////// Group Private interface //////////////////////
+[
+	object,
+	uuid(8335e61d-ab3b-11ce-8468-0000b468276b),
+	local
+]
+interface IPlayTLGroupPrivate: IPlayTLGroup
+{
+	HRESULT __stdcall SetGroupID(DWORD dwID);
+	HRESULT __stdcall SetNextGroup(IPlayTLGroup *pNextGroup);
+	HRESULT __stdcall SetPreviousGroup(IPlayTLGroup *pPrevGroup);
+}
+
+///////////////////////// TimeLine Interface /////////////////////////
+[
+  object,
+  uuid(8335e60f-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IPlayTimeLine : IUnknown
+{
+
+typedef enum tagETimeCodeMode
+{
+	TCMNonDropFrame=0,
+	TCMDropFrame=1,
+	TCMPAL=2,
+	TCMFilm=3
+} ETimeCodeMode;
+
+	// Used to add a track to a timeline. The track is AddRef'd upon insertion, so the client
+	// may Release their pointer. The second argument is used to specify the position of the track.
+	// (-1 means insert at the end). A unique ID is assigned to the track at this point, and
+	// GetTrackID() can be used to retrieve it.
+	// Return values:
+	//		S_OK			Track was added just peachy-keen with no problems.
+	//		E_FAIL			Track was not able to be added.
+	//		E_NOINTERFACE	Internal error...clients should never have this problem.
+	HRESULT __stdcall	AddTrack(IPlayTLTrack *pTrack, long nPos);
+
+	// Used to remove a track from a timeline. Which track you want to remove is specified by the
+	// unique ID that was created on insertion. If the first argument is NULL, the track is
+	// Release'd, otherwise it is _NOT_ Release'd, and is passed back in the first arg.
+	HRESULT __stdcall	RemoveTrack(IPlayTLTrack **pTrack, DWORD dwID);
+
+	// Used to get the adviser that was set for this timeline.
+	IPlayTLAdviser __stdcall *	GetAdviser(void);
+
+	// Used to set what adviser the timeline uses for significant events.
+	HRESULT __stdcall	SetAdviser(IPlayTLAdviser *pAdviser);
+
+	// Get number of sibling tracks. This will not count child tracks, just tracks on the same level.
+	long	__stdcall	GetNumberTracks(void);
+
+	// Used to get the first track that the timeline holds. From this track, you should be able to
+	// get to any other track that you want by using GetNextTrack, GetPreviousTrack, and GetChildTrack.
+	IPlayTLTrack *		GetTrack(void);
+
+	// Used to add a view to the timeline. This is primarily used by the PlayUI Window manager.
+	HRESULT __stdcall	AddView(IPlayTLView *ppView);
+
+	// This will remove a view from the timeline.
+	HRESULT __stdcall	RemoveView(IPlayTLView **ppView, DWORD dwViewID);
+
+	// Get the number of views the timeline has currently.
+	long	__stdcall	GetNumberViews(void);
+
+	// Returns the first view that we have.
+	IPlayTLView *		GetView(void);
+
+	// These functions get and set application data for an object.
+	// All return E_NOTIMPL still.
+	HRESULT __stdcall	GetAppData(LPVOID *ppData, DWORD *pNumBytes);
+	HRESULT __stdcall	SetAppData(LPVOID pData, DWORD numBytes);
+
+	// Get the IUnknown object that was supplied by the application. The object will be AddRef'd.
+	IUnknown *			GetAppObject(void);
+
+	// Set an IUnknown object to this timeline. The object will be AddRef'd and the object previously
+	// held (if any) will be Release'd.
+	HRESULT __stdcall	SetAppObject(IUnknown *pObject);
+
+	// Select the event given. If bMultiple is set to TRUE, the event will be added to a list of
+	// selected events. If bMultiple is FALSE, the event given will be the only selected event.
+	HRESULT __stdcall	SelectEvent(IPlayTLEvent *pEvent, BOOL bMultiple);
+
+	// Unselect the given event.
+	HRESULT __stdcall	UnselectEvent(IPlayTLEvent *pEvent);
+
+	// Unselect all events that are currently selected.
+	HRESULT __stdcall	UnselectAll(void);
+
+	// Returns an event from the selected list. The argument passed in is the previous selected
+	// event. If NULL is given, the first selected event is returned.
+	// For example, if E1, E2, E3, and E4 are selected events, passing E2 as an argument will cause
+	// the function to return E3. If NULL is passed, the function would return E1.
+	IPlayTLEvent * __stdcall	GetSelectedEvent(IPlayTLEvent *prevEvent);
+
+	// Will update the view(s) of the track given between the start and end times given.
+	HRESULT __stdcall	UpdateTrack(IPlayTLTrack *pTrack, DWORD startTime, DWORD endTime);
+
+	// Sets the time that the position bar will appear at in all views.
+	HRESULT __stdcall	SetPositionBarTime(DWORD dwTime);
+
+	// Returns the time that the position bar appears at in all views.
+	DWORD	__stdcall	GetPositionBarTime(void);
+
+	DWORD	__stdcall	CreateGroup(IPlayTLEvent *pEvent);
+	HRESULT __stdcall	DeleteGroup(DWORD dwId);
+
+	IPlayTLGroup	* GetGroup(DWORD dwId);
+	IPlayTLGroup	* GetFirstGroup(void);
+	DWORD GetNumberGroups(void);
+	IPlayTLCommon	* GetItem(DWORD dwId);
+
+	DWORD GenerateID(void);
+
+	BOOL	IsSelected(IPlayTLEvent *pEvent);
+
+	HRESULT SetQuietMode(BOOL bQuiet);
+	BOOL GetQuietMode(void);
+
+	IPlayTLTrack *	GetLastTrack(void);
+
+	// Flag is either ADD_BEFORE or ADD_AFTER
+	HRESULT	AddTrack2(IPlayTLTrack *pTrack, IPlayTLTrack *pOther, DWORD dwFlag);
+
+	IPlayTLEvent * FindEventID(DWORD dwID);
+
+	void ConnectEvents(IPlayTLTrack *pTrack);
+
+	HRESULT Save(IStorage *pStg);
+
+	IPlayTLTrack * FindTrackUserDWORD(DWORD dwUserDWORD);
+
+	HRESULT SetInitialZoom(DWORD dwStartTime, DWORD dwEndTime);
+
+	HRESULT ChangeLabel(IPlayTLTrack *pTrack);
+
+	void RemoveTrackFromDB(IPlayTLTrack *pTrack);
+
+	HRESULT SetRippleMode(BOOL bOn);
+	BOOL GetRippleMode(void);
+
+	// Clients probably don't need this. Tells the views that a new track was
+	// inserted after another one.
+	void TellViews(IPlayTLTrack *pPrevious, IPlayTLTrack *pNewTrack);
+
+	HRESULT SetPicon(IGXIntBitmap *pPicon);
+	IGXIntBitmap *GetPicon(void);
+
+	HRESULT SetTimeLineOffset(DWORD dwTime);
+	DWORD GetTimeLineOffset(void);
+
+	HRESULT SetRollMode(BOOL bOn);
+	BOOL GetRollMode(void);
+
+	HRESULT SetFieldMode(BOOL bOn);
+	BOOL GetFieldMode(void);
+
+	HRESULT ForceUnselect(IPlayTLEvent *pEvent);
+
+	// These will not update currently showing views. New views that are
+	// opened, however, will use these times. SetInitialZoom(start, end) will update
+	// currently showing views, plus any additional views opened.
+	HRESULT SetStartTime(DWORD dwStartTime);
+	HRESULT SetEndTime(DWORD dwEndTime);
+
+	HRESULT SetTimeCodeMode( ETimeCodeMode eMode );
+	ETimeCodeMode GetTimeCodeMode( );
+
+	// return TRUE if it's a real event and it's currently 
+	// part of a view's moving list.
+	BOOL IsMoving( IPlayTLEvent *pEvent );
+
+    // what mask to use when displaying this timeline's damage area
+    HRESULT SetValidSegmentMask( DWORD dwMask );
+    DWORD   GetValidSegmentMask( );
+}
+
+///////////////////////// Track Interface /////////////////////////
+[
+  object,
+  uuid(8335e610-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IPlayTLTrack : IPlayTLCommon
+{
+	// Used to add an event to a track. ValueEvents can only be added to ValueTracks, and
+	// DurationEvents ("normal" events) can only be added to DurationTracks("normal" tracks).
+	// Events cannot overlap on a track, and are sorted by start times. Upon insertion, the
+	// event is AddRef'd.
+	// Returns:
+	//	S_OK			Everything was neato-fine.
+	//	E_FAIL			The event could not be added for some reason.
+	//	E_NOINTERFACE	Internal error...client shouldn't ever see this.
+	HRESULT __stdcall	AddEvent(IPlayTLEvent  *pEvent);
+
+	// Used to remove events from a track. The event is specified by the time given in the
+	// second argument. If ppEvent is NULL, the event is Release'd, otherwise, it is passed
+	// back.
+	HRESULT __stdcall	RemoveEvent(IPlayTLEvent **ppEvent, DWORD dwTime);
+	HRESULT __stdcall	MoveEvent(IPlayTLEvent *pEvent, long timeDiff);
+
+	// Used to find events. The event returned is the event at the specified time. If no
+	// event is at that time, NULL is returned.
+	IPlayTLEvent *		GetEvent(DWORD dwTime);
+
+	// Finds the next closest event to the time given. This will only look _forward_ from
+	// the time specified. If there is no next event, NULL is returned.
+	IPlayTLEvent *		GetClosestEvent(DWORD dwTime);
+
+	// Returns the last event on the track. If there are no events, NULL is returned.
+	IPlayTLEvent *		GetLastEvent(void);
+
+	// Used to find how much free time surrounds the time given in the first parameter.
+	// The function returns the length of free time, while the second and third parameters
+	// will hold the beginning and ending free times, respectively. (I think a technical
+	// writer needs to write my comments....)
+	DWORD	__stdcall	GetFreeTime(DWORD dwTime, DWORD *startFree, DWORD *endFree);
+
+	// Used to add a child track. This works similar to AddTrack in the timeline interface.
+	HRESULT __stdcall	AddChildTrack(IPlayTLTrack *pChild, long nPos);
+
+	// Used to remove a child track from the track. This works similar to RemoveTrack in
+	// the timeline interface.
+	HRESULT __stdcall	RemoveChildTrack(IPlayTLTrack **ppChild, DWORD dwID);
+
+	// Returns the first child track of this track, or NULL if we don't have a child.
+	IPlayTLTrack *		GetChildTrack(void);
+
+	// Returns the parent of this track if we are a child, or NULL if we're an orphan (no parent).
+	IPlayTLTrack *		GetParentTrack(void);
+
+	// Returns the next track we're connected to. This is a sibling track, NOT child track.
+	IPlayTLTrack *		GetNextTrack(void);
+
+	// Returns the previous track we're connected to. This is a sibling track, NOT parent track.
+	IPlayTLTrack *		GetPreviousTrack(void);
+
+	// Returns the timeline we're part of.
+	IPlayTimeLine *		GetTimeLine(void);
+
+	// Gets the label used for this track, returned in the first argument. numBytes is how many bytes
+	// the allocated space is that we can write into.
+	HRESULT __stdcall	GetLabel(LPSTR pszLabel, DWORD numBytes);
+
+	// Sets the label used for this track.
+	HRESULT __stdcall	SetLabel(LPSTR pszLabel);
+
+	// Get type of track this is.
+	// Returns:
+	//	DURATION_TRACK
+	//	VALUE_TRACK
+	DWORD	__stdcall	GetTrackType(void);
+
+	// Used to check and see if the event supplied would collide with another event when added.
+	// Returns TRUE if it would collide, FALSE otherwise.
+	BOOL	__stdcall	EventsCollide(IPlayTLEvent *pEvent);
+
+	// Sets a user DWORD to this track. This DWORD is saved with the track.
+	HRESULT __stdcall	SetUserDWORD(DWORD dwUserDWORD);
+
+	// Returns the user DWORD assigned to this track.
+	DWORD	__stdcall	GetUserDWORD(void);
+
+	HRESULT Delete(void);
+
+	HRESULT SetRippleMode(BOOL bOn);
+	BOOL	GetRippleMode(void);
+	HRESULT ToggleRippleMode(void);
+
+	// Type is INTERPOLATE_LINE or INTERPOLATE_SPLINE.
+	// Use this if the event is already in a track and you want to change its type.
+	HRESULT SetEventInterpolateType(IPlayTLEvent *pEvent, DWORD dwType);
+
+	// Sets the default track height. There is a minimum default that you cannot be
+	// smaller than.
+	HRESULT SetDefaultTrackHeight(long lHeight);
+	long GetDefaultTrackHeight(void);
+
+	// This function will create the duplicate Track of itself and return the pointer to the duplicate
+	// Track.  It will Also make a copy of all of it's events ( hpatel )
+	IPlayTLTrack * __stdcall Clone (void);
+
+	// Clone all the Events between start and end time with cloning the Track
+	IPlayTLTrack * __stdcall ClonePartial ( long lStartTime, long lEndTime );
+
+}
+
+///////////////////////// Value Track Interface /////////////////////////
+[
+  object,
+  uuid(8335e611-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IPlayTLValueTrack : IUnknown
+{
+	// Used to get the max value that can be present for this track.
+	double	__stdcall	GetMaxValue(void);
+
+	// Used to get the min value that can be present for this track.
+	double	__stdcall	GetMinValue(void);
+
+	// Used to set the max value for this track.
+	HRESULT __stdcall	SetMaxValue(double dMax);
+
+	// Used to set the min value for this track.
+	HRESULT __stdcall	SetMinValue(double dMax);
+
+	// Used to get the value at the time supplied. Right now this assumes a linear
+	// interpolation among events.
+	HRESULT __stdcall	GetValue(DWORD dwTime, double *value);
+
+	HRESULT ChangeValueAtTime(DWORD dwTime, double newValue);
+
+	HRESULT				MoveEventInSpline(DWORD dwOldTime, DWORD dwNewTime, double value);
+
+	HRESULT __stdcall	CalcCurrentMinMax(); // recalc current min/max of track
+	double	__stdcall	GetCurrentMaxValue(void);
+	double	__stdcall	GetCurrentMinValue(void);
+	HRESULT __stdcall	QuietChangeValueAtTime(DWORD dwTime, double newValue, BOOL RecalcScale);
+}
+
+///////////////////////// Event Interface /////////////////////////
+[
+  object,
+  uuid(8335e612-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IPlayTLEvent : IPlayTLCommon
+{
+
+	// Used to get the start time of an event.
+	DWORD   __stdcall	GetStartTime(void);
+
+	// Used to set the start time of an event. This may change the end time.
+	HRESULT __stdcall	SetStartTime(DWORD dwTime);
+
+	// Used to get the end time of an event.
+	DWORD	__stdcall	GetEndTime(void);
+
+	// Used to set the end time of and event. This may change the length.
+	HRESULT	__stdcall	SetEndTime(DWORD dwTime);
+
+	// Used to get the length of an event.
+	DWORD	__stdcall	GetLength(void);
+
+	// Used to set the length of an event. This may change the end time.
+	HRESULT __stdcall	SetLength(DWORD dwTime);
+
+	// Returns the type of event.
+	// Returns:
+	//	VALUE_EVENT
+	//	DURATION EVENT
+	DWORD	__stdcall	GetEventType(void);
+
+	// Sets the color of an event.
+	HRESULT __stdcall	SetColor(DWORD dwColor);
+	// Returns the color of an event.
+	DWORD	__stdcall	GetColor(void);
+
+	// Get which track we belong to, or NULL if we don't belong to a track yet.
+	IPlayTLTrack *		GetTrack(void);
+
+	// Get the next event that we're attached to.
+	IPlayTLEvent *		GetNextEvent(void);
+	// Get the previous event that we're attached to.
+	IPlayTLEvent *		GetPreviousEvent(void);
+
+	// Sets a user DWORD to this event. This DWORD is saved with the event.
+	HRESULT __stdcall	SetUserDWORD(DWORD dwUserDWORD);
+
+	// Returns the user DWORD assigned to this event.
+	DWORD	__stdcall	GetUserDWORD(void);
+
+	// Returns the parent event for this event. This will be NULL if the event is not a child.
+	IPlayTLEvent *		GetParentEvent(void);
+
+	// Returns a child event corresponding to the index given.
+	IPlayTLEvent *		GetChildEvent(long lIndex);
+
+	// Returns the first event in the next level down. Same as GetChildEvent with an argument
+	// +1 to the current level.
+	IPlayTLEvent *		GetFirstEventNextLevel(void);
+
+	// Similar to GetFirstEventNextLevel except it is the first event one level up.
+	IPlayTLEvent *		GetFirstEventPreviousLevel(void);
+
+	// Returns the next event that is also a child of the parent event.
+	IPlayTLEvent *		GetNextEventSameLevel(void);
+
+	// Returns the previous event that is also a child of the same parent.
+	IPlayTLEvent *		GetPreviousEventSameLevel(void);
+
+	// Returns what level of child we are. (The index in GetChildEvent or SetChildEvent)
+	long				GetChildLevel(void);
+
+	// Sets a child event to this event. The index is what level of child we are. The tracks to insert
+	// children into must already exist! Also, we cannot add a child event to an event that is not
+	// in a track. (The parent event must already be in a track to have a child, in other words.)
+	// If SetChildEvent is called with an index of 3, for example, there must be a third child
+	// track already created and attatched to the parent event's track.
+	// dwFlag is not used as of yet.
+	HRESULT __stdcall	SetChildEvent(IPlayTLEvent *pChildEvent, long lIndex, DWORD dwFlag);
+
+	DWORD				GetGroupID(void);
+	IPlayTLEvent *		GetPreviousGroupMember(void);
+	IPlayTLEvent *		GetNextGroupMember(void);
+
+	DWORD				GetSourceIn(void);
+	HRESULT				SetSourceIn(DWORD dwTime);
+
+	// Returns the first child event that we know about.
+	IPlayTLEvent *		GetFirstChildEvent(void);
+
+	void				DieChildrenDie(BOOL bDoYouMeanIt);
+
+	HRESULT				SetGroup(DWORD dwGroupID);
+
+	HRESULT				SetPicon(IGXIntBitmap *picture);
+	IGXIntBitmap	*	GetPicon(void);
+
+	BOOL				GetClipRoll(void);
+	HRESULT				SetClipRoll(BOOL bOn);
+
+	HRESULT				EnableStartHandle(BOOL bOn);
+	HRESULT				EnableEndHandle(BOOL bOn);
+	BOOL				IsStartHandleEnabled(void);
+	BOOL				IsEndHandleEnabled(void);
+
+    HRESULT             SetLabel( LPSTR pszLabel );
+    HRESULT             GetLabel( LPSTR pszLabel, DWORD cbBuffer );
+
+	// This function will create the duplicate event of itself and return the pointer to the duplicate
+	// event.  It will also copy all of it's children but not it's parent event. ( hpatel )
+	IPlayTLEvent * __stdcall Clone (void);
+}
+
+///////////////////////// Value Event Interface /////////////////////////
+[
+  object,
+  uuid(8335e613-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IPlayTLValueEvent : IUnknown
+{
+	// Sets the current value for a value event. This must be between the min and max
+	// value for the value track.
+	HRESULT __stdcall SetValue(double dValue);
+
+	// Returns the current value for the event.
+	double	__stdcall GetValue(void);
+
+	// The type is defined in tl_user.h.	(INTERPOLATE_LINE or INTERPOLATE_SPLINE)
+	HRESULT __stdcall SetInterpolateType(DWORD dwType);
+	DWORD	__stdcall GetInterpolateType(void);
+	HRESULT __stdcall QuietSetValue(double dValue, BOOL RecalcScale);
+	HRESULT __stdcall GetSplinePoints ( SSplinePoint * ppSpline );
+
+}
+
+///////////////////////////////
+[
+  object,
+  uuid(8335e614-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IPlayTLView : IUnknown
+{
+	// Returns the timeline we're attached to, or NULL if we're just hanging out.
+	IPlayTimeLine * GetTimeLine(void);
+
+	// Hmm...should probably be private. Don't use this function. 
+	// Use the TimeLine interfaces AddView()/RemoveView() instead.
+	HRESULT __stdcall SetTimeLine(IPlayTimeLine *pLine);
+
+	// Gets the next view that's showing the same timeline.
+	IPlayTLView	*	GetNextView(void);
+
+	// Gets the previous view that's showing the same timeline.
+	IPlayTLView *	GetPreviousView(void);
+
+	// Returns the view ID that is created upon our creation.
+	DWORD			GetID(void);
+
+	// Updates the given track between the start and end times given.
+	HRESULT __stdcall	UpdateTrackTimes(IPlayTLTrack *pTrack, DWORD start, DWORD end);
+
+	// Moves the position bar to the time specified.
+	void	 __stdcall	PositionBar(DWORD dwTime, BOOL drawTime);
+
+	HRESULT __stdcall	Die(void);
+	HRESULT __stdcall	RemoveMyself(void);
+
+	HRESULT SetStartTime(DWORD dwStartTime);
+	HRESULT SetEndTime(DWORD dwEndTime);
+
+	void ChangeLabel(IPlayTLTrack *pTrack);
+
+	void DrawTimebar(void);
+
+	void SetTimeOffset(DWORD dwOffset);
+	DWORD GetTimeOffset(void);
+
+	HRESULT SetFieldMode(BOOL bOn);
+	BOOL GetFieldMode(void);
+
+	DWORD GetStartTime();
+	DWORD GetEndTime();
+
+	BOOL IsMoving( IPlayTLEvent *pEvent );
+
+    HRESULT SetStartAndEndTimes( DWORD dwStartTime, DWORD dwEndTime );
+	HRESULT ScrollView ( DWORD dwStartTime, DWORD dwEndTime );
+
+    HRESULT UpdateAllTracks( void );
+
+    HRESULT OpenTrack( IPlayTLTrack *pTrack );
+    HRESULT CloseTrack( IPlayTLTrack *pTrack );
+
+}
+////////////////////////////////////////////////////////////////////////////////
+// The rest of these are all private.
+////////////////////////////////////////////////////////////////////////////////
+[
+	object,
+	uuid(8335e615-ab3b-11ce-8468-0000b468276b),
+	local
+]
+interface IPlayTLViewPrivate:	IUnknown
+{
+	HRESULT __stdcall	SetManagerAdviser(IPlayTLManagerAdviser *pAdviser);
+	IPlayTLManagerAdviser * __stdcall GetManagerAdviser(void);
+
+	// This will add a new track into what the view sees.
+	// (Called by IPlayTimeLine::AddTrack)
+	HRESULT __stdcall	NewTrack(IPlayTLTrack *prevTrack, IPlayTLTrack *pTrack);
+	HRESULT __stdcall	DeleteTrack(IPlayTLTrack *pTrack);
+	HRESULT __stdcall SetNextView(IPlayTLView *pView);
+	HRESULT __stdcall SetPreviousView(IPlayTLView *pView);
+}
+
+[
+  object,
+  uuid(8335e616-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IPlayTLTrackPrivate: IPlayTLTrack
+{
+	// These are all private and should have their own interface, I think.
+	HRESULT	__stdcall	SetParentTrack(IPlayTLTrack *pParent);
+	HRESULT __stdcall	SetNextTrack(IPlayTLTrack *pTrack);
+	HRESULT __stdcall	SetPreviousTrack(IPlayTLTrack *pTrack);
+	HRESULT __stdcall	SetTimeLine(IPlayTimeLine *pTimeLine);
+
+	HRESULT __stdcall	SetID(DWORD dwId);
+}
+
+[
+  object,
+  uuid(8335e617-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IPlayTLEventPrivate : IPlayTLEvent
+{
+	// These are all private and should be in their own interface.
+	HRESULT __stdcall	SetNextEvent(IPlayTLEvent *pEvent);
+	HRESULT __stdcall	SetPreviousEvent(IPlayTLEvent *pEvent);
+	HRESULT __stdcall	SetTrack(IPlayTLTrack *pTrack);
+
+	HRESULT __stdcall	SetParentEvent(IPlayTLEvent *pParentEvent);
+	HRESULT __stdcall	SetFirstEventNextLevel(IPlayTLEvent *pFirstEvent);
+	HRESULT __stdcall	SetFirstEventPreviousLevel(IPlayTLEvent *pFirstEvent);
+	HRESULT __stdcall	SetNextEventSameLevel(IPlayTLEvent *pNextEvent);
+	HRESULT __stdcall	SetPreviousEventSameLevel(IPlayTLEvent *pPrevEvent);
+	HRESULT __stdcall	SetChildLevel(long lLevel);
+	HRESULT __stdcall	SetFirstChildEvent(IPlayTLEvent *pChildEvent);
+
+	HRESULT __stdcall	SetNextGroupMember(IPlayTLEvent *pEvent);
+	HRESULT __stdcall	SetPreviousGroupMember(IPlayTLEvent *pEvent);
+	HRESULT __stdcall	SetGroupID(DWORD dwGroupID);
+
+	HRESULT __stdcall	SetID(DWORD dwId);
+
+	HRESULT __stdcall	HookUpLinks(IPlayTimeLine *pTimeLine);
+}
+
+interface IPlayPopup2;
+[
+  object,
+  uuid(8335e60d-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IPlayTLAdviser : IUnknown
+{
+	// Most "Pre" advises can cancel the action by sending an E_FAIL back as a response.
+	// All "Post" advises inform you that the event has already occurred.
+
+	HRESULT __stdcall	OnEventSelect(IPlayTimeLine *pTimeLine, IPlayTLEvent *pEvent);
+	HRESULT __stdcall	OnEventDeSelect(IPlayTimeLine *pTimeLine, IPlayTLEvent *pEvent);
+
+	HRESULT __stdcall	OnPreEventAdd(IPlayTimeLine *pTimeLine, IPlayTLTrack *pTrack, IPlayTLEvent *pEvent);
+	HRESULT __stdcall	OnPostEventAdd(IPlayTimeLine *pTimeLine, IPlayTLTrack *pTrack, IPlayTLEvent *pEvent);
+
+	HRESULT __stdcall	OnPreEventRemove(IPlayTimeLine *pTimeLine, IPlayTLTrack *pTrack, IPlayTLEvent *pEvent);
+	HRESULT __stdcall	OnPostEventRemove(IPlayTimeLine *pTimeLine, IPlayTLTrack *pTrack, IPlayTLEvent *pEvent);
+
+	HRESULT __stdcall	OnFileDrop(IPlayTimeLine *pTimeLine, IPlayTLTrack *pTrack, DWORD dwTime, LPSTR pFileName);
+
+	HRESULT __stdcall	OnPreEventMove(IPlayTimeLine *pTimeLine, IPlayTLTrack *pTrack, IPlayTLEvent *pEvent, 
+										DWORD dwNewStartTime, BOOL bRipple, DWORD dwFirstTime);
+	HRESULT __stdcall	OnEventMoving(IPlayTimeLine *pTimeLine, IPlayTLTrack *pTrack, IPlayTLEvent *pEvent, 
+										DWORD dwNewStartTime, BOOL bRipple, DWORD dwFirstTime);
+	HRESULT __stdcall	OnPostEventMove(IPlayTimeLine *pTimeLine, IPlayTLTrack *pTrack, IPlayTLEvent *pEvent, 
+										DWORD dwNewStartTime, BOOL bRipple, DWORD dwFirstTime);
+
+	HRESULT __stdcall	OnPrePositionBarMove(IPlayTimeLine *pTimeLine, DWORD dwCurrentTime);
+	HRESULT __stdcall	OnPositionBarMoving(IPlayTimeLine *pTimeLine, DWORD dwCurrentTime);
+	HRESULT __stdcall	OnPostPositionBarMove(IPlayTimeLine *pTimeLine, DWORD dwCurrentTime);
+
+	HRESULT __stdcall	OnPreEventSizeStart(IPlayTimeLine *pTimeLine, IPlayTLTrack *pTrack, IPlayTLEvent *pEvent, DWORD dwNewStartTime);
+	HRESULT __stdcall	OnPreEventSizeEnd(IPlayTimeLine *pTimeLine, IPlayTLTrack *pTrack, IPlayTLEvent *pEvent, DWORD dwNewEndTime);
+	HRESULT __stdcall	OnPostEventSize(IPlayTimeLine *pTimeLine, IPlayTLTrack *pTrack, IPlayTLEvent *pEvent, DWORD dwNewLength);
+
+	HRESULT __stdcall	OnPopupMenu(IPlayPopup *pPopup, IPlayTimeLine *pTimeLine, IPlayTLTrack *pTrack, IPlayTLEvent *pEvent, DWORD dwTime);
+
+	IPlayTLTrack * OnEventSwitchTrack(IPlayTimeLine *pTimeLine, IPlayTLTrack *pNewTrack, IPlayTLEvent *pEvent);
+
+	HRESULT __stdcall	OnPreSetSourceIn(IPlayTimeLine *pTimeLine, IPlayTLEvent *pEvent, DWORD dwNewSourceIn);
+	HRESULT __stdcall	OnPostSetSourceIn(IPlayTimeLine *pTimeLine, IPlayTLEvent *pEvent, DWORD dwNewSourceIn);
+
+	HRESULT OnPreEventValueChange(IPlayTimeLine *pTimeLine, IPlayTLTrack *pTrack, IPlayTLEvent *pEvent,
+								  double dwNewValue );
+	HRESULT OnEventValueChanging(IPlayTimeLine *pTimeLine, IPlayTLTrack *pTrack, IPlayTLEvent *pEvent,
+								 double dwNewValue );
+	HRESULT OnPostEventValueChange(IPlayTimeLine *pTimeLine, IPlayTLTrack *pTrack, IPlayTLEvent *pEvent,
+								   double dwNewValue ); 
+    HRESULT OnEventValueDisplay(IPlayTimeLine *pTimeLine, IPlayTLTrack *pTrack, IPlayTLEvent *pEvent,
+								 double dNewValue, LPSTR pszOutput, long numBytes);
+
+	// this message is sent when a event or track is pasted on the Timeline
+	HRESULT __stdcall	OnPaste ( IPlayTimeLine * pTimeLine, IPlayTLTrack * pTrack, IPlayTLEvent * pEvent );
+
+}
+
+[
+  object,
+  uuid(8335e620-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IPlayTLAdviser2 : IPlayTLAdviser
+{
+	HRESULT OnPostEventSwitchTrack(IPlayTimeLine *pTimeLine, IPlayTLTrack *pNewTrack, IPlayTLTrack *pOldTrack, IPlayTLEvent *pEvent);
+}
+
+[
+  object,
+  uuid(8335e61f-ab3b-11ce-8468-0000b468276b),
+  local
+]
+interface IPlayLButtonAdviseSink : IUnknown
+{
+	HRESULT OnLButtonDown( HWND hWnd, WPARAM wParam, LPARAM lParam );
+	HRESULT OnLButtonUp( HWND hWnd, WPARAM wParam, LPARAM lParam );
+}
+
+[
+	object,
+	uuid(8335e60e-ab3b-11ce-8468-0000b468276b),
+	local
+]
+interface IPlayTLManagerAdviser	:	IUnknown
+{
+	HRESULT __stdcall	OnPreLoad(IPlayTimeLine *pTimeLine, LPSTR pFilename, IStorage *pStg);
+	HRESULT __stdcall	OnPostLoad(IPlayTimeLine *pTimeLine, LPSTR pFilename, IStorage *pStg);
+
+	HRESULT __stdcall	OnPreViewRemoval(IPlayTimeLine *pTimeLine);
+	HRESULT __stdcall	OnPostViewRemoval(IPlayTimeLine *pTimeLine);
+
+	HRESULT __stdcall	OnPreSave(IPlayTimeLine *pTimeLine, IStorage *pStg);
+	HRESULT __stdcall	OnPostSave(IPlayTimeLine *pTimeLine, IStorage *pStg);
+}
+
+
+// Clone Interface for the AppObject - QI on the IUnknow data and then Call Clone to clone the 
+// Applicaton data
+[
+	object,
+	uuid(8335e644-ab3b-11ce-8468-0000b468276b),
+	local
+]
+interface IPlayTLCloneAppObject : IUnknown
+{
+	// Clone function for cloning the IUnknown data set by the Application on Track, Event or Timeline
+	HRESULT __stdcall Clone ( IUnknown ** pUnknown );
+}

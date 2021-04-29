@@ -1,0 +1,327 @@
+page_version{9}
+page_type{still}
+page_exports_alpha{1}
+page_size{720 486}
+page_in_project{0}
+page_underline{4 4  192 64 48}
+page_effect_num{21}
+page_effect_speed{2}
+page_effect_hold{0 0 0 0}
+page_effect_clear{0}
+page_effect_end{0}
+page_effect_fade_in{0}
+page_effect_fade_out{0}
+page_effect_flash_rate{0}
+page_effect_reverse_dir{0}
+page_effect_DMTS{0x1befe95c759dcd0}
+page_effect_PageCreationTime{0x1befe95c588ed60}
+page_margins{48 437 76 643}
+page_grids{32 27 10 0 1 0 0 0}
+export_filename{}
+page_cursor_position{0 0 0 0 0 0 }
+page_tab{136}
+page_tab{200}
+page_tab{264}
+page_tab{328}
+page_tab{392}
+page_tab{456}
+page_tab{520}
+page_tab{584}
+word_wrap{0}
+page_underline_color{192 64 48}
+line_spacing{21}
+line_justify{left}
+
+
+new_layer{0} **************************************************
+new_block{ 1  575.000000 389.000000  0 1   0  0.000000 0.000000  4  72.000000 48.000000  647.000000 48.000000  647.000000 437.000000  72.000000 437.000000  }
+cap_height{28.000000 38.000000}
+width_scale{1.000000}
+height_scale{1.000000}
+rot{0.000000}
+italic{0.000000}
+weight{400.000000}
+flash{0.000000}
+font_name{Arial}
+charset{0}
+priority{0}
+h_shift{0.000000}
+v_shift{0.000000}
+underline{off{}}
+char_spacing{0.000000}
+face{on{}}
+bevel{off{}}
+outline{on{} size{2} softness{0}}
+shadow{on{} size{6} dir{3} softness{0}}
+cast{on{} size{16} dir{3} softness{7}}
+char_selected{0}
+tw_field_tag{0}
+face_color{ spread{ rgbp{229 229 229 0.000000} rot{0} }}
+face_trans{100}
+outline_color{ spread{ rgbp{0 0 0 0.000000} rot{0} }}
+outline_trans{100}
+shadow_color{ spread{ rgbp{0 0 0 0.000000} rot{0} }}
+shadow_trans{100}
+cast_color{ spread{ rgbp{0 0 0 0.000000} rot{0} }}
+cast_trans{100}
+new_line{ new_para{1 1 1 0.000000 35.000000 0.000000} ascent{29.953125} baseline{35.000000} descent{2.109375} x_off{0.000000} justify{free} ln_spc{21.000000} excl_cursor{0} excl_txflow{0} locked{0} time_stamp_mode{0} csw{0.000000}baseline_info { 0  0.000000 0.000000 0.000000  0.000000 0.000000 0.000000  0.000000  0 } }
+line_effect { 0  0 0 }
+new_line{ new_para{1 1 1 153.312500 396.000000 0.000000} ascent{17.000000} baseline{396.000000} descent{0.000000} x_off{153.312500} justify{free} ln_spc{0.000000} excl_cursor{0} excl_txflow{0} locked{0} time_stamp_mode{0} csw{156.727188}baseline_info { 0  0.000000 0.000000 0.000000  0.000000 0.000000 0.000000  0.000000  0 } }
+line_effect { 0  0 0 }
+cap_height{17.000000 22.781250}
+width_scale{0.902606}
+height_scale{0.843750}
+flash{99.000000}
+font_name{Geometric 212 Heavy BT}
+charset{1}
+priority{59}
+char_spacing{16.000000}
+shadow{off{}}
+cast{on{} size{5} dir{3} softness{7}}
+face_color{ spread{ rgbp{255 255 255 0.000000} rot{0} }}
+outline_color{ spread{ rgbp{0 0 0 0.000000} rot{0} }}
+cast_color{ spread{ rgbp{0 0 0 0.000000} rot{0} }}
+cast_trans{60}
+text{(}
+
+text{0}
+
+charset{0}
+text{6}
+
+text{6}
+
+text{2}
+
+char_spacing{40.000000}
+text{)}
+
+char_spacing{16.000000}
+text{8}
+
+text{0}
+
+text{7}
+
+char_spacing{40.000000}
+text{0}
+
+char_spacing{16.000000}
+text{4}
+
+text{9}
+
+text{3}
+
+new_line{ new_para{1 1 1 -4.000000 38.500000 0.000000} ascent{12.500000} baseline{38.500000} descent{-0.421875} x_off{-4.000000} justify{free} ln_spc{21.000000} excl_cursor{0} excl_txflow{0} locked{0} time_stamp_mode{0} csw{240.322891}baseline_info { 0  0.000000 0.000000 0.000000  0.000000 0.000000 0.000000  0.000000  0 } }
+line_effect { 0  0 0 }
+cap_height{12.500000 16.875000}
+charset{1}
+text{K}
+
+text{e}
+
+text{i}
+
+text{n}
+
+text{e}
+
+text{ }
+
+text{A}
+
+text{b}
+
+text{n}
+
+text{a}
+
+text{h}
+
+text{m}
+
+text{e}
+
+text{v}
+
+text{e}
+
+text{r}
+
+text{p}
+
+text{f}
+
+text{l}
+
+text{i}
+
+text{c}
+
+text{h}
+
+text{t}
+
+text{u}
+
+text{n}
+
+text{g}
+
+new_line{ new_para{1 1 1 -5.000000 15.000000 0.000000} ascent{12.500000} baseline{15.000000} descent{-0.421875} x_off{-5.000000} justify{free} ln_spc{21.000000} excl_cursor{0} excl_txflow{0} locked{0} time_stamp_mode{0} csw{77.476074}baseline_info { 0  0.000000 0.000000 0.000000  0.000000 0.000000 0.000000  0.000000  0 } }
+line_effect { 0  0 0 }
+text{K}
+
+text{e}
+
+text{i}
+
+text{n}
+
+text{ }
+
+text{C}
+
+text{l}
+
+text{u}
+
+text{b}
+
+new_line{ new_para{1 1 1 449.000000 475.000000 0.000000} ascent{8.800000} baseline{475.000000} descent{-0.168751} x_off{449.000000} justify{free} ln_spc{21.000000} excl_cursor{0} excl_txflow{0} locked{0} time_stamp_mode{0} csw{108.257805}baseline_info { 0  0.000000 0.000000 0.000000  0.000000 0.000000 0.000000  0.000000  0 } }
+line_effect { 0  0 0 }
+cap_height{8.800000 11.812500}
+width_scale{1.328034}
+charset{0}
+text{D}
+
+text{M}
+
+text{ }
+
+text{0}
+
+text{,}
+
+text{2}
+
+text{4}
+
+text{/}
+
+text{m}
+
+text{i}
+
+text{n}
+
+text{.}
+
+new_line{ new_para{1 1 1 88.794174 458.000000 0.000000} ascent{38.000000} baseline{458.000000} descent{3.375000} x_off{88.794174} justify{free} ln_spc{0.000000} excl_cursor{0} excl_txflow{0} locked{0} time_stamp_mode{0} csw{404.604431}baseline_info { 0  0.000000 0.000000 0.000000  0.000000 0.000000 0.000000  0.000000  0 } }
+line_effect { 0  0 0 }
+cap_height{38.000000 50.759987}
+width_scale{1.135901}
+weight{700.000000}
+charset{1}
+priority{64}
+char_spacing{12.000000}
+text{0}
+
+text{1}
+
+text{8}
+
+char_spacing{28.000000}
+text{0}
+
+char_spacing{27.000000}
+text{/}
+
+char_spacing{12.000000}
+text{5}
+
+charset{0}
+text{3}
+
+char_spacing{40.000000}
+text{2}
+
+char_spacing{12.000000}
+text{3}
+
+char_spacing{40.000000}
+text{2}
+
+char_spacing{12.000000}
+text{3}
+
+text{5}
+
+new_line{ new_para{1 1 1 414.500000 396.000000 0.000000} ascent{17.000000} baseline{396.000000} descent{0.000000} x_off{414.500000} justify{free} ln_spc{0.000000} excl_cursor{0} excl_txflow{0} locked{0} time_stamp_mode{0} csw{139.586441}baseline_info { 0  0.000000 0.000000 0.000000  0.000000 0.000000 0.000000  0.000000  0 } }
+line_effect { 0  0 0 }
+cap_height{17.000000 22.781250}
+width_scale{0.895092}
+charset{1}
+char_spacing{16.000000}
+text{(}
+
+text{0}
+
+text{7}
+
+text{1}
+
+char_spacing{40.000000}
+text{)}
+
+char_spacing{16.000000}
+text{3}
+
+text{1}
+
+char_spacing{40.000000}
+text{3}
+
+char_spacing{16.000000}
+text{6}
+
+text{0}
+
+text{0}
+
+text{0}
+
+
+
+new_layer{1} **************************************************
+new_block{ 1  575.000000 389.000000  0 1   0  0.000000 0.000000  4  72.000000 48.000000  647.000000 48.000000  647.000000 437.000000  72.000000 437.000000  }
+cap_height{28.000000 38.000000}
+width_scale{1.000000}
+height_scale{1.000000}
+rot{0.000000}
+italic{0.000000}
+weight{400.000000}
+flash{0.000000}
+font_name{Arial}
+charset{0}
+priority{0}
+h_shift{0.000000}
+v_shift{0.000000}
+underline{off{}}
+char_spacing{0.000000}
+face{on{}}
+bevel{off{}}
+outline{on{} size{2} softness{0}}
+shadow{on{} size{6} dir{3} softness{0}}
+cast{on{} size{16} dir{3} softness{7}}
+char_selected{0}
+tw_field_tag{0}
+face_color{ spread{ rgbp{229 229 229 0.000000} rot{0} }}
+face_trans{100}
+outline_color{ spread{ rgbp{0 0 0 0.000000} rot{0} }}
+outline_trans{100}
+shadow_color{ spread{ rgbp{0 0 0 0.000000} rot{0} }}
+shadow_trans{100}
+cast_color{ spread{ rgbp{0 0 0 0.000000} rot{0} }}
+cast_trans{100}

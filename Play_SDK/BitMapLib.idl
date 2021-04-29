@@ -1,0 +1,83 @@
+/*===========================================================================*\
+||                                                                           ||
+||  Copyright 1997 by Play Incorporated                                      ||
+||  PLAY CONFIDENTIAL                                                        ||
+||                                                                           ||
+||  All Specifications subject to change.                                    ||
+||                                                                           ||
+||  FILE:           BITMAPLIB.IDL                                            ||
+||                                                                           ||
+||  DESCRIPTION:    Interface description for the holder of an arbitrary # of||
+||                  Bitmaps.                                                 ||
+||                                                                           ||
+||  INTERFACES:     IPlayBitmapLibrary                                       ||
+||                                                                           ||
+||  MODIFICATIONS:  9/12/97     T.Sprague       created                      ||
+||                                                                           ||
+\*===========================================================================*/
+
+import "unknwn.idl";
+import "wtypes.idl";
+import "gxlate.idl";
+import "pcbitmap.idl";
+
+[
+    local,
+    object,
+    uuid(8335e434-ab3b-11ce-8468-0000b468276b)
+]
+interface IPlayBitmapLibrary : IUnknown
+{
+
+	// this function will add the bitmap to the library if it 
+	// isn't in the list already.  If it's already there, it's 
+	// just AddRef'd and returned.
+	// This function will only return FTRGB8 or FTRGBA8 or FTAlpha8 frame types.
+	// If the original bitmaps are other formats, it will translate them 
+	// when the library is loaded.
+	// The function will return IGXIntBitmap or IPlayCompressedBitmap, or E_FAIL.
+	// it will prefer the compressed one.
+	HRESULT GetBitmap( LPSTR pszFilename, IGXIntBitmap **ppBitmap, IPlayCompressedBitmap **ppPCBM );
+	
+	// These are for reference counting bitmaps in the library.
+	// ie, when the library is saved, it will only save the
+	// ones with a positive reference count.
+	// When the library is loaded, all objects will again have
+	// zero reference counts and must be addref'd again by their
+	// users before the library is saved again.
+	HRESULT AddRefBitmap( LPSTR pszFilename );
+	HRESULT ReleaseBitmap( LPSTR pszFilename );
+
+	// Get a new copy of this bitmap from the file, if it exists.
+	// Only works if the bitmap is already in the list, it 
+	// won't add it to the library.
+	HRESULT RefreshBitmap( LPSTR pszFilename );
+
+	// here, the sequence name is actually a directory name
+	// that if actually a sscanf format string for the files in
+	// the directory itself that describe the sequence. 
+	// Filenames in that directory can start with #0 or #1, and have as many as desired.
+	// However, when clients ask for a bitmap in the sequence, the sequence
+	// index always starts at 0
+	HRESULT GetSequenceBitmap( LPSTR pszDirName, LONG index, IPlayCompressedBitmap **ppPCBM );
+
+	// find out how many bitmaps are in the given sequence.
+	// If the sequence hasn't yet been loaded, this will cause that
+	// to happen.  If it fails, it means that the sequence didn't 
+	// exist AND that it couldn't be loaded.
+	HRESULT QuerySequenceLength( LPSTR pszDirName, LONG *pLength );
+
+	// These are for reference counting sequences in the library.
+	// ie, when the library is saved, it will only save the
+	// ones with a positive reference count.
+	// When the library is loaded, all objects will again have
+	// zero reference counts and must be addref'd again by their
+	// users before the library is saved again.
+	HRESULT AddRefSequence( LPSTR pszDirName );
+	HRESULT ReleaseSequence( LPSTR pszDirName );
+
+	// Get a new copy of this sequence from the directory, if it exists.
+	// Only works if the sequence is already in the list; it 
+	// won't add it to the library.
+	HRESULT RefreshSequence( LPSTR pszDirName );
+}

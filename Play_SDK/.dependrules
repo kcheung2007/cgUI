@@ -1,0 +1,2 @@
+.idl.h:\bimport\s*"(.*)"\s*;
+*.idl
